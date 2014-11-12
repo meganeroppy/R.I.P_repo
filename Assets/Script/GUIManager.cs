@@ -185,6 +185,11 @@ public class GUIManager : MonoBehaviour {
 				}
 			}
 			
+			//Display FPS
+			string fps = Application.targetFrameRate.ToString();
+			GUI.Box (new Rect (m_w * 0.9f, m_h * 0.9f, 40.0f, 20.0f), fps, style);
+			
+			
 			
 			//About HitPoint
 			int[] life = player.GetLifeInfo ();
