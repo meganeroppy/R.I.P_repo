@@ -18,7 +18,7 @@ public class Player : Walker {
 	
 	//Script
 	GameManager gameManager;
-
+	
 	// Use this for initialization
 	protected override void Start () {
 	}
@@ -78,7 +78,7 @@ public class Player : Walker {
 		}
 	}
 
-	void OnTriggerEnter2D(Collider2D col){
+	protected override void OnTriggerEnter2D(Collider2D col){
 		if (col.gameObject.tag == "Item") {
 			Item item = col.gameObject.GetComponent<Item> ();
 			switch (item.GetItemType ()) {

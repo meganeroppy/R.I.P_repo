@@ -3,12 +3,13 @@ using System.Collections;
 
 public class GhostKiller : DeadZone {
 
-	protected override void OnTriggerEnter2D (Collider2D col)
+	protected void OnCollisionEnter2D (Collision2D col)
 	{
 		if (col.gameObject.tag == "Player" && !GameManager.Miss()) {
-			if(col.GetComponent<Player>().CheckIsLiving()){
+			if(col.gameObject.GetComponent<Player>().CheckIsLiving()){
 				return;
 			}
-			col.SendMessage("Miss");
-		}	}
+			col.gameObject.SendMessage("Miss");
+		}	
+	}
 }

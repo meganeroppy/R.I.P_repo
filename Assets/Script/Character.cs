@@ -78,7 +78,7 @@ public class Character : StageObject {
 		//
 		
 		if(gameObject.tag == "Player"){
-			Debug.Log(grounded);
+			//Debug.Log(grounded);
 		}
 
 		//RaycastHit2D hit = Physics2D.Raycast (new Vector2 (pos.x, pos.y), -Vector2.up, 0.01f);

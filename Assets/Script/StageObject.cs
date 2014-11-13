@@ -44,6 +44,7 @@ public class StageObject : MonoBehaviour {
 		invincible = false;
 		sound = GameObject.Find ("GameManager").GetComponent<SoundManager>();
 		m_collider = GetComponent<Collider2D> ();
+		
 	}
 	
 	protected virtual bool init(GameObject caller){
@@ -104,6 +105,11 @@ public class StageObject : MonoBehaviour {
 				current_spirit += val;
 			}
 		}
+	}
+	
+	protected virtual void OnTriggerEnter2D(Collider2D col){
+		if(col.tag == "Ground")
+			Destroy(this.gameObject);
 	}
 	
 }

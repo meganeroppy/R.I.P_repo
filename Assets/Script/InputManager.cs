@@ -113,6 +113,7 @@ public class InputManager : MonoBehaviour {
 			
 			if (Input.GetKeyDown (KeyCode.P) || Input.GetKeyDown(KeyCode.Joystick4Button6)) {
 				GameManager.Pause();
+				
 			}
 			
 			break;//End of case "Main"

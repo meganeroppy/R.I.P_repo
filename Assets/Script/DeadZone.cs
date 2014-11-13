@@ -14,7 +14,7 @@ public class DeadZone : StageObject {
 	protected override void Update () {
 	}
 
-	protected virtual void OnTriggerEnter2D(Collider2D col){
+	protected override void OnTriggerEnter2D(Collider2D col){
 		if (col.gameObject.tag == "Player" && !GameManager.Miss()) {
 			col.SendMessage("Miss");
 		}

@@ -13,7 +13,7 @@ public class Needle : Monument {
 		attack_power = 10.0f;
 	}
 
-	protected void OnTriggerEnter2D(Collider2D col){
+	protected override void OnTriggerEnter2D(Collider2D col){
 		if (col.gameObject.tag == "Player") {
 			Crash(col.gameObject);
 		}

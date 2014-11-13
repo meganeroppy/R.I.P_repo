@@ -48,7 +48,7 @@ public class Flyer : Character {
 				}
 		}
 
-	protected virtual void OnTriggerEnter2D(Collider2D col){
+	protected override void OnTriggerEnter2D(Collider2D col){
 		if (col.gameObject.tag == "Player") {
 			Crash(col.gameObject);
 		}
