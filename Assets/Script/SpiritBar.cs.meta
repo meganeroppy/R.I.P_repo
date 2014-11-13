@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 50d3f4a540b5840298c0b123500a7fec
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - spiritBarPrefab: {fileID: 100000, guid: 9ef5ccc1b033c43d8924e16abd0f3ba8, type: 2}
+  - spiritbarFramePrefab: {fileID: 100000, guid: 5b1ac74c4da5142ada99ae9aaa777b27,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 

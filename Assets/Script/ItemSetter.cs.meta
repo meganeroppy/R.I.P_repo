@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: da2906d9d9da54d5e9d92b52249c65d7
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - effectPoint_destroy: {fileID: 100000, guid: 1a42c874e51a74d8b8654a85757ea5f0,
+      type: 2}
+  - goodItem: {fileID: 100000, guid: 8c944a972623f4174866fcbf27bf536f, type: 2}
+  - badItem: {fileID: 100000, guid: ccd94ebda2ba9405f9b2332e794cbafb, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
