@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//editted in Windows
-
 public class BulletShooter : Generator {
 
 	public float SHOOT_INTERVAL = 0.1f;

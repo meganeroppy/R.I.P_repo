@@ -51,6 +51,11 @@ public class GameManager : MonoBehaviour {
 	
 	private Player player;
 	
+	void Awake(){
+		Debug.Log("Awake()");
+		Application.targetFrameRate = 30;
+	}
+	
 	// Use this for initialization
 	void Start () {
 		ReassignScripts();
