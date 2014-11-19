@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Bullet : StageObject {
+public class AutoBullet : StageObject {
 
 	private Vector3 m_direction;
 	private GameObject m_target;
