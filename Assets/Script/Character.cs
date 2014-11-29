@@ -107,8 +107,8 @@ public class Character : StageObject {
 				current_status = STATUS.WALK;
 			}else{
 				if(!grounded){
-					current_status = STATUS.JUMP_DOWN;
 					transform.parent = null;
+					current_status = rigidbody2D.velocity.y <= 0.0f ? STATUS.JUMP_DOWN : STATUS.JUMP_UP;
 				}
 			}
 			break;
@@ -145,8 +145,8 @@ public class Character : StageObject {
 				current_status = STATUS.IDLE;
 			}else{
 				if(!grounded){
-					current_status = STATUS.JUMP_DOWN;
 					transform.parent = null;
+					current_status = rigidbody2D.velocity.y <= 0.0f ? STATUS.JUMP_DOWN : STATUS.JUMP_UP;
 
 				}
 				transform.position += new Vector3(horizontal_move_speed * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
@@ -319,6 +319,22 @@ public class Character : StageObject {
 			break;
 		default:
 			break;
+		}
+	}
+	
+	//Face to the oppsite side
+	protected override void Flip(){
+		if(current_status == STATUS.DYING){
+			return;
+		}
+		
+		SIDE side = this.current_side;
+		if (side == SIDE.RIGHT) {
+			transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+			current_side = SIDE.LEFT;
+		} else {
+			transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+			current_side = SIDE.RIGHT;
 		}
 	}
 
