@@ -53,6 +53,8 @@ public class GameManager : MonoBehaviour {
 	
 	void Awake(){
 		Application.targetFrameRate = 30;
+		if (SystemInfo.operatingSystem.Contains ("Vita")) {
+		}
 	}
 	
 	// Use this for initialization
@@ -274,4 +276,5 @@ public class GameManager : MonoBehaviour {
 			mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<MainCamera>();
 		}
 	}
+
 }

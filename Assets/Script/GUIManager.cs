@@ -189,6 +189,9 @@ public class GUIManager : MonoBehaviour {
 			
 			
 			//About HitPoint
+			if(player == null){
+				player = GameObject.FindWithTag("Player").GetComponent<Player> ();
+			}
 			int[] life = player.GetLifeInfo ();
 			for (int i = 0; i < life[0]; i++) {
 				if(i < life[1]){
