@@ -312,7 +312,6 @@ public class Character : StageObject {
 	
 	//Face to the oppsite side
 	protected override void Flip(){
-		Debug.Log("Character::Flip()");
 		if(current_status == STATUS.DYING){
 			return;
 		}
