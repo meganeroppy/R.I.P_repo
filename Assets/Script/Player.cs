@@ -3,6 +3,7 @@ using System.Collections;
 
 
 public class Player : Walker {
+	int cnt = 0;
 
 	private bool living;
 
@@ -63,6 +64,8 @@ public class Player : Walker {
 	}
 
 	protected override void Update(){
+		cnt = cnt < 1024 ? cnt+1 : 0;
+
 		base.Update ();
 		if (current_status == STATUS.GHOST) {
 			current_spirit -= losing_rate * Time.deltaTime ;	
@@ -232,6 +235,10 @@ public class Player : Walker {
 		}
 		
 		init ();
+	}
+
+	void OnGUI(){
+		GUI.Box(new Rect(100, 100, 100, 100), cnt.ToString() + " / OS: " + SystemInfo.operatingSystem.ToString(), GUIStyle.none);
 	}
 
 }
