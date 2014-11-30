@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//editted in Windows
-
 public class BulletShooter : Generator {
 
 	public float SHOOT_INTERVAL = 0.1f;
@@ -48,13 +46,13 @@ public class BulletShooter : Generator {
 		Instantiate (child, new Vector3(pos.x + offset.x, pos.y + offset.y, pos.z), transform.rotation);
 	} 
 	
-	private void OnTriggerEnter2D(Collider2D col){
+	protected override void OnTriggerEnter2D(Collider2D col){
 		if(col.gameObject.tag == "Player"){
 			Debug.Log("TARGET FIND!");
 		}
 	}
 	
-	private void OnTriggerExit2D(Collider2D col){
+	protected void OnTriggerExit2D(Collider2D col){
 		if(col.gameObject.tag == "Player"){
 			Debug.Log("TARGET LOST!");
 		}
