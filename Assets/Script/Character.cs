@@ -241,18 +241,6 @@ public class Character : StageObject {
 	}
 */
 
-	public void UpdateWalkSpeed(float speed){
-
-		horizontal_move_speed = speed;
-		if (horizontal_move_speed > 0.0f) {
-			Flip (SIDE.RIGHT);
-			current_side = SIDE.RIGHT;
-		} else if (horizontal_move_speed < 0.0f) {
-			Flip(SIDE.LEFT);
-			current_side = SIDE.LEFT;
-		}
-	}
-
 	//For Ghost
 	public void UpdateMoveSpeed(Vector2 speed){
 		move_speed = speed;
@@ -324,6 +312,7 @@ public class Character : StageObject {
 	
 	//Face to the oppsite side
 	protected override void Flip(){
+		Debug.Log("Character::Flip()");
 		if(current_status == STATUS.DYING){
 			return;
 		}

@@ -52,7 +52,6 @@ public class GameManager : MonoBehaviour {
 	private Player player;
 	
 	void Awake(){
-		Debug.Log("Awake()");
 		Application.targetFrameRate = 30;
 	}
 	

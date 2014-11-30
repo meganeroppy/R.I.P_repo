@@ -58,7 +58,7 @@ public class StageObject : MonoBehaviour {
 
 	protected virtual void Update(){}
 
-	protected void Flip(SIDE side){
+	protected virtual void Flip(SIDE side){
 		if (side == SIDE.RIGHT) {
 			transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
 			current_side = SIDE.RIGHT;

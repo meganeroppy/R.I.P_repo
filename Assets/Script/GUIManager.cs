@@ -45,11 +45,6 @@ public class GUIManager : MonoBehaviour {
 		case "Tutorial":
 		case "Test01":
 			
-			
-			player = GameObject.FindWithTag("Player").GetComponent<Player> ();
-			grounded = player.grounded;
-			status = player.GetStatus();
-
 			//About LifePoint
 			m_basePos_lifePoint = new Vector2 (m_w * 0.01f, m_h * 0.01f);
 			m_scale_lifePoint = m_w * 0.03f;
@@ -81,7 +76,9 @@ public class GUIManager : MonoBehaviour {
 		case "Main":
 		case "Tutorial":
 		case "Test01":
-			
+			if(player == null){
+				player = GameObject.FindWithTag("Player").GetComponent<Player> ();
+			}
 			grounded = player.grounded;
 			status = player.GetStatus();
 			break;//End of case "Main"

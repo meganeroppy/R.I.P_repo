@@ -30,7 +30,7 @@ public class Player : Walker {
 	
 	protected override bool init(){
 		layer_ground = 1 << LayerMask.NameToLayer ("Ground");
-		Debug.Log(layer_ground);
+//		Debug.Log(layer_ground);
 		
 		if(transform.parent != null){
 			transform.parent = null;
@@ -75,6 +75,17 @@ public class Player : Walker {
 			if(current_spirit < MAX_SPIRIT){
 				current_spirit += gaining_rate * Time.deltaTime;
 			}
+		}
+	}
+	
+	public void UpdateWalkSpeed(float speed){
+		horizontal_move_speed = speed;
+		if (horizontal_move_speed > 0.0f) {
+			Flip (SIDE.RIGHT);
+			current_side = SIDE.RIGHT;
+		} else if (horizontal_move_speed < 0.0f) {
+			Flip(SIDE.LEFT);
+			current_side = SIDE.LEFT;
 		}
 	}
 
@@ -123,9 +134,9 @@ public class Player : Walker {
 		DieAndBecomeGhost ();
 	}
 	
-	protected override void Flip ()
+	protected override void Flip (SIDE side)
 	{
-		if(current_status == STATUS.DAMAGE)
+		if(current_status == STATUS.DAMAGE || current_status == STATUS.DYING)
 			return;
 			
 		base.Flip ();
