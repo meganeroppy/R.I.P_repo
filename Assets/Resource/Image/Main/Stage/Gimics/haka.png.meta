@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: 9b24502be6e1747e6a6d6e03b977fb8e
+guid: 821f3a7c7d394475dbb9c59a8dce80f0
 TextureImporter:
   fileIDToRecycleName:
-    21300000: groundx4
+    21300000: haka
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -23,7 +23,7 @@ TextureImporter:
   generateCubemap: 0
   seamlessCubemap: 0
   textureFormat: -1
-  maxTextureSize: 1024
+  maxTextureSize: 512
   textureSettings:
     filterMode: -1
     aniso: 1
@@ -35,7 +35,7 @@ TextureImporter:
   spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
+  alignment: 7
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
@@ -44,7 +44,7 @@ TextureImporter:
   buildTargetSettings:
   - buildTarget: Standalone
     maxTextureSize: 1024
-    textureFormat: -3
+    textureFormat: -1
     compressionQuality: 50
   spriteSheet:
     sprites: []
