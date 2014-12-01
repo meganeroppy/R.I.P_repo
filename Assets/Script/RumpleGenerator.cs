@@ -3,7 +3,12 @@ using System.Collections;
 
 public class RumpleGenerator : Generator {
 	protected override void Start(){
-		base.Start ();
+		//base.Start ();	//Maybe it had better not to use the base Start(), but it could work well again later. 
+		if(transform.parent != null){
+			offset = transform.position - transform.parent.transform.position;
+		}
+		m_isWorking = true;
+
 		GENERATE_INTERVAL = 3.0f;
 	}
 

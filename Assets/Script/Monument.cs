@@ -18,7 +18,6 @@ public class Monument : StageObject {
 		}else{
 			Vector3 newPos = new Vector3(hit.point.x, hit.point.y, transform.position.z);
 			transform.position = newPos;
-
 		}
 	}
 
