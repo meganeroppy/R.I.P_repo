@@ -16,7 +16,7 @@ public class Player : Walker {
 	private float default_spirit;
 
 	Collider2D[] m_colliders;
-	
+	bool debugedDamage = false;
 	//Script
 	GameManager gameManager;
 	
@@ -67,7 +67,7 @@ public class Player : Walker {
 		cnt = cnt < 1024 ? cnt+1 : 0;
 
 		base.Update ();
-		if (current_status == STATUS.GHOST) {
+		if (current_status == STATUS.GHOST || debugedDamage) {
 			current_spirit -= losing_rate * Time.deltaTime ;	
 			Color color = new Color(1.0f, 1.0f, 1.0f, current_spirit / MAX_SPIRIT );
 			renderer.material.color = color;
@@ -79,6 +79,9 @@ public class Player : Walker {
 				current_spirit += gaining_rate * Time.deltaTime;
 			}
 		}
+		
+		//current_status = Input.GetKey(KeyCode.O) ? STATUS.GHOST : STATUS.IDLE;
+
 	}
 	
 	public void UpdateWalkSpeed(float speed){

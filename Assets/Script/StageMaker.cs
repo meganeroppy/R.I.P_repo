@@ -9,7 +9,7 @@ public class StageMaker : MonoBehaviour {
 	private const float PIECE_SCALE = 3.20f;
 	
 	//system
-	public TextAsset csv; 
+	public TextAsset[] csv; 
 	
 	public GameObject[] stagePiece;
 	public GameObject[] stageObject;
@@ -18,13 +18,20 @@ public class StageMaker : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {		
-		//Set size of stage pieces;
+	}
 	
-//		CSVReader.DebugOutputGrid( CSVReader.SplitCsvGrid(csv.text) ); 
-		 string[,] pieces = CSVReader.SplitCsvGrid(csv.text);
-		 
-		 Vector2 stage_size = GetStageSize(pieces);
-		 
+	protected virtual bool Init(){
+		return Init (0);
+	}
+	
+	protected virtual bool Init(int mapIdx){
+		//Set size of stage pieces;
+		
+		//		CSVReader.DebugOutputGrid( CSVReader.SplitCsvGrid(csv.text) ); 
+		string[,] pieces = CSVReader.SplitCsvGrid(csv[mapIdx].text);
+		
+		Vector2 stage_size = GetStageSize(pieces);
+		
 		
 		for(int hIdx = 0; hIdx < stage_size.y ; hIdx++){
 			for(int wIdx = 0; wIdx < stage_size.x ;wIdx++){
@@ -32,14 +39,11 @@ public class StageMaker : MonoBehaviour {
 				
 				CreateStagePiece(p_code, new Vector3(wIdx * PIECE_SCALE, stage_size.y - (hIdx * PIECE_SCALE), 0.0f));
 				//Analyze code
-			
+				
 				//Instantiate(stg, new Vector3(wIdx * PIECE_SCALE, stage_size.y - ( hIdx * PIECE_SCALE), 0.0f), transform.rotation);
 				//stg.transform.parent = this.transform;
 			}
 		}
-	}	
-	
-	protected virtual bool init(){
 		return true;
 	}
 
@@ -73,12 +77,14 @@ public class StageMaker : MonoBehaviour {
 		}
 				
 		//Convert into int value
+		//int iP_code = int.Parse(p_code, System.Globalization.NumberStyles.HexNumber);
 		int iP_code = int.Parse(p_code);
 		
 		GameObject stg;
 		
 		int v_key = iP_code % 10;
-		iP_code = Mathf.RoundToInt(iP_code * 0.1f);
+		iP_code /= 10;
+		iP_code = Mathf.RoundToInt(iP_code);
 		
 		//Stage Visual
 		if(v_key != 0){
@@ -96,7 +102,8 @@ public class StageMaker : MonoBehaviour {
 		
 		//Stage Object
 		int o_key = iP_code % 10;
-		iP_code = Mathf.RoundToInt(iP_code * 0.1f);
+		iP_code /= 10;
+		iP_code = Mathf.RoundToInt(iP_code);
 		
 		if(o_key != 0){
 			pos.z -= 2.0f;

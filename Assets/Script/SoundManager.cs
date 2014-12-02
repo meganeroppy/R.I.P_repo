@@ -16,9 +16,10 @@ public class SoundManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		switch(Application.loadedLevelName){
-			case "Main":
+		case "Main":
 		case "Tutorial":
 		case "Test01":
+		case "Test02":
 			
 				SetBGM(System.DateTime.Now.Hour);
 				audio.Play();

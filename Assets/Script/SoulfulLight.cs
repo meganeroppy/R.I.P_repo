@@ -7,6 +7,9 @@ public class SoulfulLight : Monument {
 	public GameObject effect_good;
 	private GameObject target;
 	private float HEAL_RANGE = 2.0f;
+	public Sprite lamp_turnOff;
+	public Sprite lamp_turnOn;
+	private float timeToTurnOn = 0.0f;
 
 	protected override void Start(){
 		base.Start();
@@ -34,6 +37,17 @@ public class SoulfulLight : Monument {
 			}
 		}
 		
+		if(Random.Range(0.0f, 100.0f) < 1.0f && timeToTurnOn < 0.0f){
+			GetComponent<SpriteRenderer>().sprite = lamp_turnOff;
+			timeToTurnOn = Random.Range(0.05f, 0.3f);
+		}
+		
+		if(timeToTurnOn >= 0.0f){
+			timeToTurnOn -= Time.deltaTime;
+			if(timeToTurnOn < 0.0f){
+				GetComponent<SpriteRenderer>().sprite = lamp_turnOn;
+			}
+		}	
 	}
 	private void Heal(GameObject target){		
 		target.gameObject.SendMessage("GainSpirit", 0.25f);

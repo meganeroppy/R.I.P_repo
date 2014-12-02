@@ -1,6 +1,10 @@
 fileFormatVersion: 2
 guid: e10f409d5dfbc4d848c5922212ce27c0
 TextureImporter:
+  fileIDToRecycleName:
+    21300000: chara_neco_damage_0
+    21300002: chara_neco_damage_1
+    21300004: chara_neco_damage_2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0

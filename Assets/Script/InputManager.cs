@@ -47,8 +47,8 @@ public class InputManager : MonoBehaviour {
 					}
 					break;
 			case  GameManager.SELECTION_TITLE.MAIN:
-			case  GameManager.SELECTION_TITLE.TUTORIAL:
-			case  GameManager.SELECTION_TITLE.TESTSTAGE:
+			case  GameManager.SELECTION_TITLE.TESTSTAGE1:
+			case  GameManager.SELECTION_TITLE.TESTSTAGE2:
 			case  GameManager.SELECTION_TITLE.OPTION:
 				if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton9)){
 					GameManager.AcceptInput(GameManager.BUTTON.RIGHT);
@@ -74,7 +74,8 @@ public class InputManager : MonoBehaviour {
 		case "Main":
 		case "Tutorial":
 		case "Test01":
-		
+		case "Test02":
+			
 			if(m_player == null && !GameManager.Miss()){
 				GameObject obj = GameObject.FindWithTag ("Player");
 				if(obj == null){

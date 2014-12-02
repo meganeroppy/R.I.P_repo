@@ -44,12 +44,12 @@ public class GUIManager : MonoBehaviour {
 		case "Main":
 		case "Tutorial":
 		case "Test01":
-			
+		case "Test02":
 			//About LifePoint
 			m_basePos_lifePoint = new Vector2 (m_w * 0.01f, m_h * 0.01f);
 			m_scale_lifePoint = m_w * 0.03f;
 			m_interval_life = m_w * 0.03f;
-
+			
 		/*
 		//About spiritBar
 		m_basePos_spiritBar = new Vector2 (m_w * 0.01f, m_h * 0.08f);
@@ -76,6 +76,8 @@ public class GUIManager : MonoBehaviour {
 		case "Main":
 		case "Tutorial":
 		case "Test01":
+		case "Test02":
+			
 			if(player == null){
 				player = GameObject.FindWithTag("Player").GetComponent<Player> ();
 			}
@@ -121,31 +123,31 @@ public class GUIManager : MonoBehaviour {
 				style.normal.textColor = Color.yellow;
 				GUI.Box(new Rect((m_w * 0.2f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Main", style);
 				style.normal.textColor = Color.gray;
-				GUI.Box(new Rect((m_w * 0.4f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Tutorial", style);
-				GUI.Box(new Rect((m_w * 0.6f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage", style);
+				GUI.Box(new Rect((m_w * 0.4f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage1", style);
+				GUI.Box(new Rect((m_w * 0.6f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage2", style);
 				GUI.Box(new Rect((m_w * 0.8f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Option", style);
 				
 				break;
-			case "TUTORIAL":
+			case "TESTSTAGE1":
 				GUI.Box(new Rect((m_w * 0.2f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Main", style);
 				style.normal.textColor = Color.yellow;
-				GUI.Box(new Rect((m_w * 0.4f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Tutorial", style);
+				GUI.Box(new Rect((m_w * 0.4f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage1", style);
 				style.normal.textColor = Color.gray;
-				GUI.Box(new Rect((m_w * 0.6f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage", style);
+				GUI.Box(new Rect((m_w * 0.6f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage2", style);
 				GUI.Box(new Rect((m_w * 0.8f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Option", style);
 				break;
-			case "TESTSTAGE":
+			case "TESTSTAGE2":
 				GUI.Box(new Rect((m_w * 0.2f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Main", style);
-				GUI.Box(new Rect((m_w * 0.4f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Tutorial", style);
+				GUI.Box(new Rect((m_w * 0.4f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage1", style);
 				style.normal.textColor = Color.yellow;
-				GUI.Box(new Rect((m_w * 0.6f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage", style);
+				GUI.Box(new Rect((m_w * 0.6f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage2", style);
 				style.normal.textColor = Color.gray;
 				GUI.Box(new Rect((m_w * 0.8f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Option", style);
 				break;
 			case "OPTION":
 				GUI.Box(new Rect((m_w * 0.2f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Main", style);
-				GUI.Box(new Rect((m_w * 0.4f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Tutorial", style);
-				GUI.Box(new Rect((m_w * 0.6f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage", style);
+				GUI.Box(new Rect((m_w * 0.4f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage1", style);
+				GUI.Box(new Rect((m_w * 0.6f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage2", style);
 				style.normal.textColor = Color.yellow;
 				GUI.Box(new Rect((m_w * 0.8f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Option", style);
 				break;
@@ -157,6 +159,7 @@ public class GUIManager : MonoBehaviour {
 		case "Main":
 		case "Tutorial":
 		case "Test01":
+		case "Test02":
 			
 			style.normal.textColor = Color.yellow;
 			

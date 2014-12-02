@@ -74,7 +74,7 @@ public class Character : StageObject {
 		//grounded = Physics2D.Linecast (transform.position + transform.up * 1, transform.position - transform.up * 0.1f);
 
 		//
-		grounded = Physics2D.Linecast(pos, new Vector3(pos.x, pos.y - 0.01f, pos.z));
+		grounded = Physics2D.Linecast(pos, new Vector3(pos.x, pos.y - 0.8f, pos.z));
 		//
 		
 		if(gameObject.tag == "Player"){

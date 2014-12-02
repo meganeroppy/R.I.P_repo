@@ -1,6 +1,9 @@
 fileFormatVersion: 2
 guid: 3de4a5a79f0c9425b9b7dfcce20b2a54
 TextureImporter:
+  fileIDToRecycleName:
+    21300000: tamasii_bar02_0
+    21300002: tamasii_bar02_1
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0

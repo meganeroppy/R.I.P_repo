@@ -24,8 +24,8 @@ public class GameManager : MonoBehaviour {
 	public enum SELECTION_TITLE{
 		WAITFORKEY,
 		MAIN,
-		TUTORIAL,
-		TESTSTAGE,
+		TESTSTAGE1,
+		TESTSTAGE2,
 		OPTION,
 		QUIT
 	}
@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour {
 	public static int player_life;
 	private const int DEFAULT_LIFE = 1;
 	private bool playerIsBorn = false;
+	private bool StageMakingHasBeenExecuted =false;
 	
 	//Scripts
 	private static SpiritBar spiritBar;
@@ -73,8 +74,11 @@ public class GameManager : MonoBehaviour {
 				spiritBar.enabled = false;
 				break;//End of case Title
 			case "Main":
+			StageMakingHasBeenExecuted = true;
+			break;
 			case "Tutorial":
-			case "Test01":
+		case "Test01":
+		case "Test02":
 			player_life = DEFAULT_LIFE;
 			
 			//spiritBar.enabled = false;
@@ -90,6 +94,12 @@ public class GameManager : MonoBehaviour {
 	
 	public void Update(){
 		if(Application.loadedLevelName.ToString() != "Title"){
+			if(!StageMakingHasBeenExecuted){
+				int stageIdx = Application.loadedLevelName == "Test01" ? 1 : 2 ;
+				GameObject.FindWithTag("StageMaker").GetComponent<StageMaker>().SendMessage("Init", stageIdx);
+				StageMakingHasBeenExecuted = true;
+			}
+		
 			if(!playerIsBorn && player == null){
 				player = GameObject.FindWithTag("Player").GetComponent<Player>();
 				player.SendMessage("init", this.gameObject);
@@ -149,10 +159,10 @@ public class GameManager : MonoBehaviour {
 			return "WAITFORKEY";
 		case SELECTION_TITLE.MAIN:
 			return "MAIN";
-		case SELECTION_TITLE.TUTORIAL:
-			return "TUTORIAL";
-		case SELECTION_TITLE.TESTSTAGE:
-			return "TESTSTAGE";
+		case SELECTION_TITLE.TESTSTAGE1:
+			return "TESTSTAGE1";
+		case SELECTION_TITLE.TESTSTAGE2:
+			return "TESTSTAGE2";
 		case SELECTION_TITLE.OPTION:
 			return "OPTION";
 		default:
@@ -180,11 +190,11 @@ public class GameManager : MonoBehaviour {
 		case SELECTION_TITLE.MAIN:
 			GameStart("Main");
 			return;
-		case SELECTION_TITLE.TUTORIAL:
-			GameStart("Tutorial");
-			return;
-		case SELECTION_TITLE.TESTSTAGE:
+		case SELECTION_TITLE.TESTSTAGE1:
 			GameStart("Test01");
+			return;
+		case SELECTION_TITLE.TESTSTAGE2:
+			GameStart("Test02");
 			return;
 		case SELECTION_TITLE.OPTION:
 			return;
@@ -199,16 +209,16 @@ public class GameManager : MonoBehaviour {
 			current_selection_title = SELECTION_TITLE.MAIN;			
 			return;
 		case SELECTION_TITLE.MAIN:
-			current_selection_title = dir ? SELECTION_TITLE.TUTORIAL : SELECTION_TITLE.OPTION;			
+			current_selection_title = dir ? SELECTION_TITLE.TESTSTAGE1 : SELECTION_TITLE.OPTION;			
 			return;
-		case SELECTION_TITLE.TUTORIAL:
-			current_selection_title = dir ? SELECTION_TITLE.TESTSTAGE : SELECTION_TITLE.MAIN;			
+		case SELECTION_TITLE.TESTSTAGE1:
+			current_selection_title = dir ? SELECTION_TITLE.TESTSTAGE2 : SELECTION_TITLE.MAIN;			
 			return;
-		case SELECTION_TITLE.TESTSTAGE:
-			current_selection_title = dir ? SELECTION_TITLE.OPTION : SELECTION_TITLE.TUTORIAL;			
+		case SELECTION_TITLE.TESTSTAGE2:
+			current_selection_title = dir ? SELECTION_TITLE.OPTION : SELECTION_TITLE.TESTSTAGE1;			
 				return;
 		case SELECTION_TITLE.OPTION:
-			current_selection_title = dir ? SELECTION_TITLE.MAIN : SELECTION_TITLE.TESTSTAGE;			
+			current_selection_title = dir ? SELECTION_TITLE.MAIN : SELECTION_TITLE.TESTSTAGE2;			
 			return;
 		default:
 			return;
