@@ -12,18 +12,18 @@ public class SpiritBar_Canvas : MonoBehaviour
 	
 	//Player 
 	private Player player;
-	private RectTransform m_rect;
+	//private RectTransform m_rect;
 	
 	// Use this for initialization
 	void Start () {
 		if(Application.loadedLevelName == "Title"){
 			return;
 		}
-		m_rect = this.GetComponent<RectTransform>();
+	//	m_rect = this.GetComponent<RectTransform>();
 		
-		m_rect.position = pos;
-		m_rect.sizeDelta = size;
-		m_rect.pivot = new Vector2(0.0f, 0.5f);
+	//	m_rect.position = pos;
+	//	m_rect.sizeDelta = size;
+	//	m_rect.pivot = new Vector2(0.0f, 0.5f);
 	}
 	
 	// Update is called once per frame
@@ -35,10 +35,10 @@ public class SpiritBar_Canvas : MonoBehaviour
 				
 		float[] spirit = player.GetSpiritInfo ();
 		float value_percent = spirit[1] / spirit[0];
-		m_rect.position = pos;
-		m_rect.sizeDelta = size;
-		m_rect.pivot = new Vector2(0.0f, 0.5f);
-		m_rect.transform.localScale = new Vector3(value_percent, 1, 1);
+	//	m_rect.position = pos;
+	//	m_rect.sizeDelta = size;
+	//	m_rect.pivot = new Vector2(0.0f, 0.5f);
+	//	m_rect.transform.localScale = new Vector3(value_percent, 1, 1);
 		
 	}
 }

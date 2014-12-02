@@ -15,11 +15,11 @@ public class SpiritBarFrame_canvas : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-		RectTransform rect = this.GetComponent<RectTransform>();
+//		RectTransform rect = this.GetComponent<RectTransform>();
 		
-		rect.position = pos;
-		rect.sizeDelta = size;
-		rect.pivot = new Vector2(0.0f, 0.5f);
+//		rect.position = pos;
+//		rect.sizeDelta = size;
+//		rect.pivot = new Vector2(0.0f, 0.5f);
 		
 	}
 }

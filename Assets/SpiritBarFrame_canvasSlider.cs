@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+//using UnityEngine.UI;
 using System.Collections;
 
 public class SpiritBarFrame_canvasSlider : MonoBehaviour {
@@ -13,7 +13,7 @@ public class SpiritBarFrame_canvasSlider : MonoBehaviour {
 	
 	//Player 
 	private Player player;
-	private Slider slider;
+//	private Slider slider;
 	
 	// Use this for initialization
 	void Start () {
@@ -32,12 +32,12 @@ public class SpiritBarFrame_canvasSlider : MonoBehaviour {
 		
 		float[] spirit = player.GetSpiritInfo ();
 		float value_percent = spirit[1] / spirit[0];
-		slider = this.GetComponent<Slider>();
+//		slider = this.GetComponent<Slider>();
 		
 		//slider.position = pos;
 		//slider.sizeDelta = size;
 		//slider.pivot = new Vector2(0.0f, 0.5f);
-		slider.value = value_percent;
+//		slider.value = value_percent;
 		
 	}
 }

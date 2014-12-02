@@ -8,7 +8,7 @@ public class BulletShooter : Generator {
 
 	protected override void Start(){
 		base.Start ();
-		m_isWorking = false;
+		m_isWorking = true;
 	}
 	
 	// Update is called once per frame
