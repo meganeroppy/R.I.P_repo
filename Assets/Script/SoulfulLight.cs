@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class SoulfulLight : Monument {
-	public float gain_rate = 0.25f;
+	public float donate_rate = 24.0f;
 
 	public GameObject effect_good;
 	private GameObject target;
@@ -30,11 +30,11 @@ public class SoulfulLight : Monument {
 		Vector3 distance = targetPos - pos;
 
 		if( Mathf.Abs( distance.x) < HEAL_RANGE && Mathf.Abs( distance.y ) < HEAL_RANGE){
-			if(Mathf.Floor( Time.frameCount * Time.deltaTime * 1000) % 1 == 0 ){					
+			//if(Mathf.Floor( Time.frameCount * Time.deltaTime * 1000) % 1 == 0 ){					
 				if(target != null){
-					Heal(target);
+					DonateSpirit(target);
 				}
-			}
+			//}
 		}
 		
 		if(Random.Range(0.0f, 100.0f) < 1.0f && timeToTurnOn < 0.0f){
@@ -49,8 +49,8 @@ public class SoulfulLight : Monument {
 			}
 		}	
 	}
-	private void Heal(GameObject target){		
-		target.gameObject.SendMessage("GainSpirit", 0.25f);
+	private void DonateSpirit(GameObject target){		
+		target.gameObject.SendMessage("GainSpirit", donate_rate * Time.deltaTime);
 		//Vector3 tarGetpos = transform.position;
 		//Instantiate(effect_good, pos + offset, transform.rotation );
 	}

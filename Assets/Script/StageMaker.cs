@@ -13,6 +13,7 @@ public class StageMaker : MonoBehaviour {
 	
 	public GameObject[] stagePiece;
 	public GameObject[] stageObject;
+	public GameObject bgSet;
 	
 	private float[] obj_ZOrder = {-2,-2,-5,-5, 0};
 	
@@ -20,14 +21,15 @@ public class StageMaker : MonoBehaviour {
 	void Start () {		
 	}
 	
+	/*
 	protected virtual bool Init(){
 		return Init (0);
 	}
+	*/
 	
 	protected virtual bool Init(int mapIdx){
 		//Set size of stage pieces;
-		
-		//		CSVReader.DebugOutputGrid( CSVReader.SplitCsvGrid(csv.text) ); 
+		//	CSVReader.DebugOutputGrid( CSVReader.SplitCsvGrid(csv.text) ); 
 		string[,] pieces = CSVReader.SplitCsvGrid(csv[mapIdx].text);
 		
 		Vector2 stage_size = GetStageSize(pieces);
@@ -44,13 +46,12 @@ public class StageMaker : MonoBehaviour {
 				//stg.transform.parent = this.transform;
 			}
 		}
+		
+		//After all stage parts are made, BGParts will be set.
+		Instantiate(bgSet, Vector3.zero, transform.rotation);
+		
 		return true;
 	}
-
-	// Update is called once per frame
-	void Update () {
-	}
-	
 	
 	
 	private void AddFunction(int key, GameObject target){

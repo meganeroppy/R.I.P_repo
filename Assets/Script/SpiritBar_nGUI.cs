@@ -16,7 +16,7 @@ public class SpiritBar_nGUI : MonoBehaviour {
 		// Update is called once per frame
 		void Update () {
 		if(!activated){
-		//	return;
+			return;
 		}
 		
 		

@@ -15,6 +15,7 @@ public class SonicBoom : AttackZone {
 
 	// Use this for initialization
 	protected override void Start () {
+	
 		base.Start ();
 		m_pasted_time_from_born = 0.0f;
 	}

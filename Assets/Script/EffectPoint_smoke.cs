@@ -4,7 +4,7 @@ using System.Collections;
 public class EffectPoint_smoke : EffectPoint {
 	
 	protected override void Start () {
-		LIFE_TIME = 2.0f;
+		LIFE_TIME = 1.0f;
 		DENSITY = new Vector2 (2.0f, 2.0f);
 	}
 	// Update is called once per frame

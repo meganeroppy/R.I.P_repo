@@ -9,7 +9,7 @@ public class Player : Walker {
 
 	private Vector3 default_pos;
 	private float losing_rate = 20.0f;
-	private float gaining_rate = 0.25f;
+	private float gaining_rate = 0.4f;
 
 	public GameObject flash;
 

@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour {
 		
 		switch(Application.loadedLevelName.ToString()){
 			case "Title":
-
+			EnableUI();
 				current_selection_title = SELECTION_TITLE.WAITFORKEY;
 				break;//End of case Title
 			case "Main":
@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour {
 	public void Update(){
 		if(Application.loadedLevelName.ToString() != "Title"){
 			if(Application.loadedLevelName.Contains("Test") && !StageMakingHasBeenExecuted){
-				int stageIdx = Application.loadedLevelName == "Test01" ? 1 : 2 ;
+				int stageIdx = Application.loadedLevelName == "Test01" ? 0 : 1 ;
 				GameObject.FindWithTag("StageMaker").GetComponent<StageMaker>().SendMessage("Init", stageIdx);
 				StageMakingHasBeenExecuted = true;
 			}
@@ -141,10 +141,13 @@ public class GameManager : MonoBehaviour {
 	
 	public void EnableUI(){
 		ReassignScripts();
-				
+		
 		soundManager.enabled = true;
 		inputManager.enabled = true;
 		guiManager.enabled = true;
+		if(Application.loadedLevelName != ("Title")){
+			GameObject.FindWithTag("UI").GetComponent<SpiritBar_nGUI>().SendMessage("Activate");
+		}
 	
 	}
 	//For Title screen

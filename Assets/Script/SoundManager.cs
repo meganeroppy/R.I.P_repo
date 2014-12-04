@@ -22,6 +22,7 @@ public class SoundManager : MonoBehaviour {
 		case "Test02":
 			
 				SetBGM(System.DateTime.Now.Hour);
+				audio.loop = true;
 				audio.Play();
 			break;
 			case "Title":
