@@ -17,14 +17,6 @@ public class GUIManager : MonoBehaviour {
 	private float m_interval_life;
 	public Texture2D[] icon_heart = new Texture2D[2];
 	
-/*
-	//About spiritBar
-	public Texture2D spiritBar_frame;
-	public Texture2D spiritBar;
-	private Vector2 m_basePos_spiritBar;
-	private Vector2 m_scale_spiritBarFrame;
-*/		
-
 	//Player 
 	private Player player;
 
@@ -32,7 +24,7 @@ public class GUIManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+	
 		m_w = Screen.width;
 		m_h = Screen.height;
 
@@ -49,13 +41,7 @@ public class GUIManager : MonoBehaviour {
 			m_basePos_lifePoint = new Vector2 (m_w * 0.01f, m_h * 0.01f);
 			m_scale_lifePoint = m_w * 0.03f;
 			m_interval_life = m_w * 0.03f;
-			
-		/*
-		//About spiritBar
-		m_basePos_spiritBar = new Vector2 (m_w * 0.01f, m_h * 0.08f);
-		m_scale_spiritBarFrame.y = m_h * 0.3f;
-		m_scale_spiritBarFrame.x = m_w * 0.3f;
-		*/		
+
 			break;
 			//End of case "Main"/////////////////////////
 			////////////////////////////////////////////
@@ -205,19 +191,6 @@ public class GUIManager : MonoBehaviour {
 			}
 			//End of About HitPoint
 			
-			/*
-					//About spiritBar
-					float[] spirit = player.GetSpiritInfo ();
-					float value_percent = spirit[1] / spirit[0];
-					float scaleX = m_scale_spiritBarFrame.x * value_percent;
-			
-					GUI.Box (new Rect (m_basePos_spiritBar.x, m_basePos_spiritBar.y, m_scale_spiritBarFrame.x, m_scale_spiritBarFrame.y), spiritBar, GUIStyle.none);
-			
-					//spiritBar frame
-					GUI.Box (new Rect (m_basePos_spiritBar.x, m_basePos_spiritBar.y, m_scale_spiritBarFrame.x, m_scale_spiritBarFrame.y), spiritBar_frame, GUIStyle.none);
-			
-					//End of About spiritBar
-			*/
 			break;
 //End of case "Main"/////////////////////////
 ////////////////////////////////////////////

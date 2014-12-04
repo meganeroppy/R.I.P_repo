@@ -99,18 +99,12 @@ public class InputManager : MonoBehaviour {
 				m_player.SendMessage("Jump");		
 			}
 			
-			if( m_player.GetStatus() == STATUS.GHOST){
-				float speedX = Input.GetAxis ("Horizontal");
-				float speedY = Input.GetAxis ("Vertical");
-				Vector2 speed = new Vector2(speedX, speedY);
-				
-				m_player.SendMessage ("UpdateMoveSpeed", speed);
-			}else{
-				float speed = Input.GetAxis ("Horizontal");
-				//Debug.Log("move! : speed" + speed.ToString());
-				
-				m_player.SendMessage ("UpdateWalkSpeed", speed);
-			}
+			float speedX = Input.GetAxis ("Horizontal");
+			float speedY = Input.GetAxis ("Vertical");
+			Vector2 speed = new Vector2(speedX, speedY);
+			
+			m_player.SendMessage ("UpdateMoveSpeed", speed);
+
 			
 			if (Input.GetKeyDown (KeyCode.P) || Input.GetKeyDown(KeyCode.Joystick4Button6)) {
 				GameManager.Pause();

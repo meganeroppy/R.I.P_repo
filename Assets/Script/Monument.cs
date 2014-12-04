@@ -24,7 +24,10 @@ public class Monument : StageObject {
 	protected override void ApplyHealthDamage(int value){
 		base.ApplyHealthDamage(value);
 		if (current_health <= 0) {
-			Instantiate(effectPoint_destroy, transform.position, transform.rotation);
+			Vector3 pos = transform.position;
+			Vector2 colCenter = GetComponent<CircleCollider2D>().center;
+			Vector3 CenterPos = new Vector3(pos.x + colCenter.x, pos.y + colCenter.y, pos.z - 1.0f);
+			Instantiate(effectPoint_destroy, CenterPos, transform.rotation);
 			StartCoroutine(WaitAndExecute(0.9f, true));
 			m_collider.enabled = false;
 		} else {

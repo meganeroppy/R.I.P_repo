@@ -44,7 +44,7 @@ public class Player : Walker {
 		current_status = STATUS.IDLE;
 		Flip(SIDE.RIGHT);
 		jump_force = JUMP_FORCE_BASE;
-		horizontal_move_speed = 0.0f;
+		move_speed.x = 0.0f;
 		if(rigidbody2D.IsSleeping()){
 			rigidbody2D.Sleep();
 		}
@@ -64,8 +64,6 @@ public class Player : Walker {
 	}
 
 	protected override void Update(){
-		cnt = cnt < 1024 ? cnt+1 : 0;
-
 		base.Update ();
 		if (current_status == STATUS.GHOST || debugedDamage) {
 			current_spirit -= losing_rate * Time.deltaTime ;	
@@ -79,20 +77,9 @@ public class Player : Walker {
 				current_spirit += gaining_rate * Time.deltaTime;
 			}
 		}
-		
+
 		//current_status = Input.GetKey(KeyCode.O) ? STATUS.GHOST : STATUS.IDLE;
 
-	}
-	
-	public void UpdateWalkSpeed(float speed){
-		horizontal_move_speed = speed;
-		if (horizontal_move_speed > 0.0f) {
-			Flip (SIDE.RIGHT);
-			current_side = SIDE.RIGHT;
-		} else if (horizontal_move_speed < 0.0f) {
-			Flip(SIDE.LEFT);
-			current_side = SIDE.LEFT;
-		}
 	}
 
 	protected override void OnTriggerEnter2D(Collider2D col){
@@ -145,7 +132,7 @@ public class Player : Walker {
 		if(current_status == STATUS.DAMAGE || current_status == STATUS.DYING)
 			return;
 			
-		base.Flip ();
+		base.Flip (side);
 	}
 
 	
@@ -241,7 +228,8 @@ public class Player : Walker {
 	}
 
 	void OnGUI(){
-		GUI.Box(new Rect(100, 100, 100, 100), cnt.ToString() + " / OS: " + SystemInfo.operatingSystem.ToString(), GUIStyle.none);
+		cnt = cnt < 1024 ? cnt+1 : 0;
+//		GUI.Box(new Rect(100, 100, 100, 100), cnt.ToString() + " / OS: " + SystemInfo.operatingSystem.ToString(), GUIStyle.none);
 	}
 
 }

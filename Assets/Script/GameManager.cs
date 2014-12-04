@@ -44,7 +44,6 @@ public class GameManager : MonoBehaviour {
 	private bool StageMakingHasBeenExecuted =false;
 	
 	//Scripts
-	private static SpiritBar spiritBar;
 	private static SoundManager soundManager;
 	private static InputManager inputManager;
 	private static GUIManager guiManager;
@@ -54,8 +53,7 @@ public class GameManager : MonoBehaviour {
 	
 	void Awake(){
 		Application.targetFrameRate = 30;
-		if (SystemInfo.operatingSystem.Contains ("Vita")) {
-		}
+//		if (SystemInfo.operatingSystem.Contains ("Vita")){}; 
 	}
 	
 	// Use this for initialization
@@ -71,7 +69,6 @@ public class GameManager : MonoBehaviour {
 			case "Title":
 
 				current_selection_title = SELECTION_TITLE.WAITFORKEY;
-				spiritBar.enabled = false;
 				break;//End of case Title
 			case "Main":
 			StageMakingHasBeenExecuted = true;
@@ -81,7 +78,6 @@ public class GameManager : MonoBehaviour {
 		case "Test02":
 			player_life = DEFAULT_LIFE;
 			
-			//spiritBar.enabled = false;
 			//inputManager.enabled = false;
 			//guiManager.enabled = false;
 			
@@ -94,7 +90,7 @@ public class GameManager : MonoBehaviour {
 	
 	public void Update(){
 		if(Application.loadedLevelName.ToString() != "Title"){
-			if(!StageMakingHasBeenExecuted){
+			if(Application.loadedLevelName.Contains("Test") && !StageMakingHasBeenExecuted){
 				int stageIdx = Application.loadedLevelName == "Test01" ? 1 : 2 ;
 				GameObject.FindWithTag("StageMaker").GetComponent<StageMaker>().SendMessage("Init", stageIdx);
 				StageMakingHasBeenExecuted = true;
@@ -145,8 +141,7 @@ public class GameManager : MonoBehaviour {
 	
 	public void EnableUI(){
 		ReassignScripts();
-		
-		spiritBar.enabled = true;
+				
 		soundManager.enabled = true;
 		inputManager.enabled = true;
 		guiManager.enabled = true;
@@ -267,9 +262,7 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	private void ReassignScripts(){
-		if(spiritBar == null){
-			spiritBar = GetComponent<SpiritBar>();
-		}
+
 		if(soundManager == null){
 			soundManager = GetComponent<SoundManager>();
 		}

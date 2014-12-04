@@ -27,15 +27,16 @@ public class SanmaBlade : AttackZone {
 	private void ApplyParentAndExecute(StageObject master){
 		this.master = master;
 		
-		Flip(master.current_side);
-		/*
+		//Flip(master.current_side);
+		
 		//Judge whether player faces to right side or left side
 		if (transform.position.x >= master.transform.position.x) {
 			Flip(SIDE.RIGHT);
 		} else {
 			Flip(SIDE.LEFT);
 		}
-		*/
+		
+		
 		//Create a sonicboom
 		GameObject obj = Instantiate (sonicBoom, this.transform.position, this.transform.rotation) as GameObject;
 		obj.SendMessage ("Execute", current_side);
