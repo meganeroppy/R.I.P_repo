@@ -1,6 +1,11 @@
 fileFormatVersion: 2
 guid: 849102775dc914fca82d2549bec6f4bf
 TextureImporter:
+  fileIDToRecycleName:
+    21300000: kiran01_0
+    21300002: kiran01_1
+    21300004: kiran01_2
+    21300006: kiran01_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
