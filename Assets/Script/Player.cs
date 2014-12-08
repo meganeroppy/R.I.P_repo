@@ -30,8 +30,9 @@ public class Player : Walker {
 	}
 	
 	protected override bool init(){
-		layer_ground = 1 << LayerMask.NameToLayer ("Ground");
-//		Debug.Log(layer_ground);
+		//layer_ground = 1 << LayerMask.NameToLayer ("Ground");
+		layer_ground = 1 << 8;
+		//		Debug.Log(layer_ground);
 		
 		if(transform.parent != null){
 			transform.parent = null;
@@ -57,6 +58,10 @@ public class Player : Walker {
 		
 		manager.SendMessage("EnableUI");
 		GameObject.FindWithTag("MainCamera").GetComponent<MainCamera>().enabled = true;
+		
+		//Set Position relate to the game advances
+		//transform.position = GameManager.GetCurrentRespawnPosition();
+		
 		
 		default_pos = transform.position;
 	
@@ -206,7 +211,8 @@ public class Player : Walker {
 		base.GainSpirit(val);
 		if(Mathf.Floor( Time.frameCount * Time.deltaTime * 1000) % 20 == 0 ){					
 			Vector3 offset = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), -1);
-			Instantiate(flash, transform.position + offset, transform.rotation);
+			GameObject obj = Instantiate(flash, transform.position + offset, transform.rotation) as GameObject;
+			obj.transform.parent = transform;
 		}
 	}
 	
@@ -214,6 +220,7 @@ public class Player : Walker {
 		renderer.enabled = false;
 		gameManager.SendMessage("Miss", true);
 		this.enabled = false;
+		rigidbody2D.Sleep();
 	}
 	
 	public void Restart(){

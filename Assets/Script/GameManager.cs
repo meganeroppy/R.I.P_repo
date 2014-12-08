@@ -51,6 +51,9 @@ public class GameManager : MonoBehaviour {
 	
 	private Player player;
 	
+	private bool m_reachedCheckPoint = false; 
+	private static Vector3	m_respawnPos;
+	
 	void Awake(){
 		Application.targetFrameRate = 30;
 //		if (SystemInfo.operatingSystem.Contains ("Vita")){}; 
@@ -281,6 +284,14 @@ public class GameManager : MonoBehaviour {
 		if( mainCamera == null){
 			mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<MainCamera>();
 		}
+	}
+	
+	private static void ApplyRespawnPoint(Vector3 newPos){
+		m_respawnPos = newPos;
+	}
+	
+	public static Vector3 GetCurrentRespawnPosition(){
+		return m_respawnPos;
 	}
 
 }

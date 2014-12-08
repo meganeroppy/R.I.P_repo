@@ -6,21 +6,26 @@ public class Monument : StageObject {
 	public GameObject effectPoint_destroy;
 	protected Vector3 offset;
 	protected bool builtOnGround = true;
+	LayerMask layerMask;
 	
 
 	protected override void Start(){
+	layerMask = 1 << 8;
 		base.Start();
-		if(transform.parent != null){
-			offset = transform.position - transform.parent.transform.position;
-		}
+
 		if(builtOnGround){
-			RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, 25.0f);
+			RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, 100.0f, layerMask);
+			
 			if(hit.point.y - transform.position.y >= 100.0f){
 				return;
 			}else{
 				Vector3 newPos = new Vector3(hit.point.x, hit.point.y, transform.position.z);
 				transform.position = newPos;
 			}
+		}
+		
+		if(transform.parent != null){
+			offset = transform.position - transform.parent.transform.position;
 		}
 	}
 

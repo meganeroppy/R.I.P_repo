@@ -9,6 +9,7 @@ public class Needle : Monument {
 	private Vector2 blow_impact =  new Vector2(200.0f, 100.0f);
 	
 	protected override void Start(){
+		builtOnGround = false;
 		base.Start();
 		attack_power = 10.0f;
 	}

@@ -16,6 +16,10 @@ public class BG_near : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(target == null){
+			return;
+		}
+		
 		distanceFromOrigin = target.transform.position - bornPos;
 		Vector3 newPos = new Vector3(-distanceFromOrigin.x * moveRate, target.transform.position.y, 0.0f);
 		transform.position = newPos;

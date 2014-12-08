@@ -29,14 +29,18 @@ public class Character : StageObject {
 	protected float rigorState = 0.0f;
 	protected const float DYING_DELAY = 1.0f;
 	protected const float DISAPPEARING_DELAY = 2.0f;
+	
+	
+	public float val = 1.0f;
 
 	protected Player m_target; 
 
 	[HideInInspector]
 	public bool grounded;
 
-	public int layer_ground;
-
+	//public int layer_ground;
+	protected LayerMask layer_ground;
+	
 	protected const float MOVE_SPEED_BASE = 8.5f;
 	protected Vector2 move_speed;
 
@@ -56,7 +60,8 @@ public class Character : StageObject {
 	protected override void Start () {
 		base.Start ();
 
-		layer_ground =  1 << LayerMask.NameToLayer ("Ground");
+		//layer_ground =  1 << LayerMask.NameToLayer ("Ground");
+		layer_ground =  1 << 8;
 		current_side = SIDE.LEFT;
 		current_status = STATUS.IDLE;
 		move_speed.x = 0.0f;
@@ -72,7 +77,10 @@ public class Character : StageObject {
 		//grounded = Physics2D.Linecast (transform.position + transform.up * 1, transform.position - transform.up * 0.1f);
 
 		//
-		grounded = Physics2D.Linecast(pos, new Vector3(pos.x, pos.y - 0.8f, pos.z));
+		//grounded = Physics2D.Linecast(pos, new Vector3(pos.x, pos.y - 0.8f, pos.z));
+		grounded = Physics2D.Raycast(transform.position, -Vector2.up, val, layer_ground) 
+		?  true : Physics2D.Raycast(transform.position + new Vector3(0.5f,0.0f,0.0f), -Vector2.up, val, layer_ground)
+				? true : Physics2D.Raycast(transform.position + new Vector3(-0.5f,0.0f,0.0f), -Vector2.up, val, layer_ground);
 		//
 		
 		if(gameObject.tag == "Player"){
