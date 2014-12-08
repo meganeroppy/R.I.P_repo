@@ -4,6 +4,7 @@ using System.Collections;
 public class CheckPoint : MonoBehaviour {
 
 	private bool marked = false; 
+	public GameObject label_checkPoint;
 	
 	// Use this for initialization
 	void Start () {
@@ -29,9 +30,11 @@ public class CheckPoint : MonoBehaviour {
 		}
 		
 		if(col.tag.Equals("Player")){
-			Debug.Log("CheckPoint!");
 			marked = true;
-			GameObject.Find("GameManager").SendMessage("ApplyRespawnPoint", this.transform.position);
+			Instantiate(label_checkPoint, transform.position, transform.rotation);
+			GameObject manager = GameObject.Find("GameManager") as GameObject;
+			manager.GetComponent<GameManager>().SendMessage("ApplyRespawnPoint", this.transform.position);
+			manager.GetComponent<SoundManager>().SendMessage("PlaySE", "GetItem");
 		}
 	}
 		

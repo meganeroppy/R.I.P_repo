@@ -34,6 +34,7 @@ public class SoulfulLight : Monument {
 				if(target != null){
 					DonateSpirit(target);
 				}
+				
 			//}
 		}
 		
@@ -47,11 +48,28 @@ public class SoulfulLight : Monument {
 			if(timeToTurnOn < 0.0f){
 				GetComponent<SpriteRenderer>().sprite = lamp_turnOn;
 			}
-		}	
+		}
+		
+		if(Mathf.Floor( Time.frameCount ) % Random.Range(50, 70) == 0 ){					
+			Vector3 offset = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(0.0f, 2.0f), 1);
+			GameObject obj = Instantiate(effect_good, transform.position + offset, transform.rotation) as GameObject;
+			obj.transform.parent = transform;
+			//Vector3 tarGetpos = transform.position;
+			//Instantiate(effect_good, pos + offset, transform.rotation );
+		}
+		
 	}
 	private void DonateSpirit(GameObject target){		
 		target.gameObject.SendMessage("GainSpirit", donate_rate * Time.deltaTime);
+		
+		//Make Effects
+	//	if(Mathf.Floor( Time.frameCount * Time.deltaTime * 1000) % 10 == 0 ){					
+		if(Mathf.Floor( Time.frameCount ) % 5 == 0 ){					
+				Vector3 offset = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(0.0f, 2.0f), 1);
+			GameObject obj = Instantiate(effect_good, target.transform.position + offset, transform.rotation) as GameObject;
+			obj.transform.parent = target.transform;
 		//Vector3 tarGetpos = transform.position;
 		//Instantiate(effect_good, pos + offset, transform.rotation );
+		}
 	}
 }

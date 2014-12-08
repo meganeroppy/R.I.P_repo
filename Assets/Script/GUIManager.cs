@@ -11,11 +11,17 @@ public class GUIManager : MonoBehaviour {
 	protected float m_w;
 	protected float m_h;
 
-	//About Life Point
+	//About health Point
+	private Vector2 m_basePos_healthPoint;
+	private float m_scale_healthPoint;
+	private float m_interval_health;
+	public Texture2D[] icon_heart = new Texture2D[2];
+	
+	//About life Point
 	private Vector2 m_basePos_lifePoint;
 	private float m_scale_lifePoint;
 	private float m_interval_life;
-	public Texture2D[] icon_heart = new Texture2D[2];
+	public Texture2D icon_life;
 	
 	//Player 
 	private Player player;
@@ -37,11 +43,17 @@ public class GUIManager : MonoBehaviour {
 		case "Tutorial":
 		case "Test01":
 		case "Test02":
-			//About LifePoint
-			m_basePos_lifePoint = new Vector2 (m_w * 0.01f, m_h * 0.01f);
+
+			//About lifePoint
+			m_basePos_lifePoint = new Vector2 (m_w * 0.01f, m_h * 0.08f);
 			m_scale_lifePoint = m_w * 0.03f;
 			m_interval_life = m_w * 0.03f;
-
+			
+			//About healthPoint
+			m_basePos_healthPoint = new Vector2 (m_w * 0.01f, m_h * 0.15f);
+			m_scale_healthPoint = m_w * 0.03f;
+			m_interval_health = m_w * 0.03f;
+			
 			break;
 			//End of case "Main"/////////////////////////
 			////////////////////////////////////////////
@@ -155,6 +167,9 @@ public class GUIManager : MonoBehaviour {
 				
 				GUI.Box (new Rect (base_pos.x, base_pos.y, 20, 20), "GROUND :" + grounded.ToString(), style);
 				GUI.Box (new Rect (base_pos.x, base_pos.y + 20, 20, 20), "status :" + status.ToString(), style);
+				//Display FPS
+				string fps = Application.targetFrameRate.ToString();
+				GUI.Box (new Rect (m_w * 0.9f, m_h * 0.9f, 40.0f, 20.0f), fps, style);
 			}
 			//End of For Debug
 			style.fontSize = 25;
@@ -171,25 +186,29 @@ public class GUIManager : MonoBehaviour {
 				}
 			}
 			
-			//Display FPS
-			string fps = Application.targetFrameRate.ToString();
-			GUI.Box (new Rect (m_w * 0.9f, m_h * 0.9f, 40.0f, 20.0f), fps, style);
-			
-			
 			
 			//About HitPoint
 			if(player == null){
 				player = GameObject.FindWithTag("Player").GetComponent<Player> ();
 			}
-			int[] life = player.GetLifeInfo ();
-			for (int i = 0; i < life[0]; i++) {
-				if(i < life[1]){
-					GUI.Box (new Rect (m_basePos_lifePoint.x + (m_interval_life * i), m_basePos_lifePoint.y, m_scale_lifePoint, m_scale_lifePoint), icon_heart [1], GUIStyle.none);
+			int[] health = player.GetLifeInfo ();
+			for (int i = 0; i < health[0]; i++) {
+				if(i < health[1]){
+					GUI.Box (new Rect (m_basePos_healthPoint.x + (m_interval_health * i), m_basePos_healthPoint.y, m_scale_healthPoint, m_scale_healthPoint), icon_heart [1], GUIStyle.none);
 				}else{
-					GUI.Box (new Rect (m_basePos_lifePoint.x + (m_interval_life * i), m_basePos_lifePoint.y, m_scale_lifePoint, m_scale_lifePoint), icon_heart [0], GUIStyle.none);
+					GUI.Box (new Rect (m_basePos_healthPoint.x + (m_interval_health * i), m_basePos_healthPoint.y, m_scale_healthPoint, m_scale_healthPoint), icon_heart [0], GUIStyle.none);
 				}
 			}
 			//End of About HitPoint
+			
+			//About LifePoint
+			int life = GameManager.player_life;
+			for (int i = 0; i < life; i++) {
+				if(i < life){
+					GUI.Box (new Rect (m_basePos_lifePoint.x + (m_interval_life * i), m_basePos_lifePoint.y, m_scale_lifePoint, m_scale_lifePoint), icon_life, GUIStyle.none);
+				}
+			}
+			//End of About LifePoint
 			
 			break;
 //End of case "Main"/////////////////////////

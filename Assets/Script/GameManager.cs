@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour {
 	private static bool inMissingDirection;
 	
 	public static int player_life;
-	private const int DEFAULT_LIFE = 1;
+	private const int DEFAULT_LIFE = 4;
 	private bool playerIsBorn = false;
 	private bool StageMakingHasBeenExecuted =false;
 	
@@ -51,7 +51,6 @@ public class GameManager : MonoBehaviour {
 	
 	private Player player;
 	
-	private bool m_reachedCheckPoint = false; 
 	private static Vector3	m_respawnPos;
 	
 	void Awake(){
@@ -134,7 +133,7 @@ public class GameManager : MonoBehaviour {
 	private void Restart(){
 		GameObject obj = GameObject.FindWithTag("Player");
 		obj.GetComponent<Player>().enabled = true;
-		obj.SendMessage("Restart");
+		obj.SendMessage("Restart", m_respawnPos);
 		inMissingDirection = false;
 	}
 
@@ -286,8 +285,9 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 	
-	private static void ApplyRespawnPoint(Vector3 newPos){
+	private void ApplyRespawnPoint(Vector3 newPos){
 		m_respawnPos = newPos;
+//		Debug.Log("ApplyNewRespawnPos : " + m_respawnPos.ToString());
 	}
 	
 	public static Vector3 GetCurrentRespawnPosition(){

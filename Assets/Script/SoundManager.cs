@@ -36,6 +36,10 @@ public class SoundManager : MonoBehaviour {
 	void Update () {
 	
 	}
+	
+	public void PlaySE(string clip){
+		PlaySE(clip, 1.0f);
+	}
 
 	public void PlaySE(string clip, float volume){
 		switch (clip) {

@@ -21,7 +21,7 @@ public class EffectPoint : MonoBehaviour {
 	// Update is called once per frame
 	protected virtual void Update () {
 
-		if (Mathf.Floor( Time.frameCount * Time.deltaTime * 100) % FREQUENCY == 0.0f) {
+		if (Mathf.Floor( Time.frameCount) % FREQUENCY == 0.0f) {
 			Vector3 pos = transform.position;
 			Quaternion rot = transform.rotation;
 

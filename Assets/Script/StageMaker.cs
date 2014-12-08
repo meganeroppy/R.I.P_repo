@@ -13,7 +13,8 @@ public class StageMaker : MonoBehaviour {
 	
 	public GameObject[] stagePiece;
 	public GameObject[] stageObject;
-	public string[] stageFunction;
+	public GameObject[] stageFunction;
+//	public string[] stageFunction;
 	//	 [] stageFunction;
 //	 MonoBehaviour[] stageFunction;
 	
@@ -100,7 +101,6 @@ public class StageMaker : MonoBehaviour {
 			GameObject obj = Instantiate(stageObject[o_key-1], pos, this.transform.rotation) as GameObject;
 			obj.transform.Translate(0.0f, 0.0f, obj_ZOrder[o_key-1]);
 			obj.transform.parent = stg.transform;
-			//obj.transform.localScale = new Vector3(scale, scale, scale);
 		}
 		
 		//Stage Function//////
@@ -113,7 +113,17 @@ public class StageMaker : MonoBehaviour {
 	
 	private void AddFunction(int f_key, GameObject target){
 		
-	
+		if(f_key != 0){
+			GameObject obj = Instantiate(stageFunction[f_key-1], target.transform.position, this.transform.rotation) as GameObject;
+			obj.transform.parent = target.transform;
+			if(target.GetComponent<Collider>() == null){
+				BoxCollider2D col = obj.AddComponent<BoxCollider2D>();
+				col.isTrigger = true;
+				col.size = new Vector2( PIECE_SCALE, PIECE_SCALE);
+			}
+		}
+		
+	/*
 		//if(key == 3){
 		target.gameObject.AddComponent(stageFunction[f_key-1]);
 			if(target.GetComponent<Collider>() == null){
@@ -122,7 +132,7 @@ public class StageMaker : MonoBehaviour {
 				col.size = new Vector2( PIECE_SCALE, PIECE_SCALE);
 			} 
 		///}
-		
+	*/	
 	}
 	
 	//Check and return the stage width & height loaded

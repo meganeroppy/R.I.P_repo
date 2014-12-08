@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PoisonSmog : Flyer {
+public class Effect_Spirit : Effect {
 	private float opacity;
 	private SpriteRenderer spriteRenderer;
 
 	// Use this for initialization
 	protected override void Start () {
-		base.Start ();
 		spriteRenderer = GetComponent<SpriteRenderer> ();
 		opacity = 0.9f;
 		transform.Rotate(0.0f, 0.0f, 180.0f);

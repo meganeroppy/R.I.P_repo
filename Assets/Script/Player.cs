@@ -3,15 +3,11 @@ using System.Collections;
 
 
 public class Player : Walker {
-	int cnt = 0;
-
 	private bool living;
 
-	private Vector3 default_pos;
+	//private Vector3 default_pos;
 	private float losing_rate = 20.0f;
 	private float gaining_rate = 0.4f;
-
-	public GameObject flash;
 
 	private float default_spirit;
 
@@ -62,8 +58,7 @@ public class Player : Walker {
 		//Set Position relate to the game advances
 		//transform.position = GameManager.GetCurrentRespawnPosition();
 		
-		
-		default_pos = transform.position;
+		manager.SendMessage("ApplyRespawnPoint", transform.position + new Vector3(0.0f, -3.0f, 0.0f));
 	
 		return true;
 	}
@@ -209,11 +204,6 @@ public class Player : Walker {
 
 	protected override void GainSpirit(float val){
 		base.GainSpirit(val);
-		if(Mathf.Floor( Time.frameCount * Time.deltaTime * 1000) % 20 == 0 ){					
-			Vector3 offset = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), -1);
-			GameObject obj = Instantiate(flash, transform.position + offset, transform.rotation) as GameObject;
-			obj.transform.parent = transform;
-		}
 	}
 	
 	public void Miss(){
@@ -223,8 +213,9 @@ public class Player : Walker {
 		rigidbody2D.Sleep();
 	}
 	
-	public void Restart(){
-		transform.position = default_pos;
+	public void Restart(Vector3 respawnPos){
+		float offsetY = 3.0f;
+		transform.position = new Vector3(respawnPos.x, respawnPos.y + offsetY, transform.position.z);
 		renderer.enabled = true;
 		rigidbody2D.gravityScale = DEFAULT_GRAVITY_SCALE;
 		foreach (Collider2D col in m_colliders) {
@@ -233,10 +224,5 @@ public class Player : Walker {
 		
 		init ();
 	}
-
-	void OnGUI(){
-		cnt = cnt < 1024 ? cnt+1 : 0;
-//		GUI.Box(new Rect(100, 100, 100, 100), cnt.ToString() + " / OS: " + SystemInfo.operatingSystem.ToString(), GUIStyle.none);
-	}
-
+	
 }
