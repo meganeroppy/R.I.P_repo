@@ -39,12 +39,11 @@ public class GameManager : MonoBehaviour {
 	private static bool inMissingDirection;
 	
 	public static int player_life;
-	private const int DEFAULT_LIFE = 1;
+	private const int DEFAULT_LIFE = 4;
 	private bool playerIsBorn = false;
 	private bool StageMakingHasBeenExecuted =false;
 	
 	//Scripts
-	private static SpiritBar spiritBar;
 	private static SoundManager soundManager;
 	private static InputManager inputManager;
 	private static GUIManager guiManager;
@@ -52,10 +51,11 @@ public class GameManager : MonoBehaviour {
 	
 	private Player player;
 	
+	private static Vector3	m_respawnPos;
+	
 	void Awake(){
 		Application.targetFrameRate = 30;
-		if (SystemInfo.operatingSystem.Contains ("Vita")) {
-		}
+//		if (SystemInfo.operatingSystem.Contains ("Vita")){}; 
 	}
 	
 	// Use this for initialization
@@ -69,9 +69,8 @@ public class GameManager : MonoBehaviour {
 		
 		switch(Application.loadedLevelName.ToString()){
 			case "Title":
-
+			EnableUI();
 				current_selection_title = SELECTION_TITLE.WAITFORKEY;
-				spiritBar.enabled = false;
 				break;//End of case Title
 			case "Main":
 			StageMakingHasBeenExecuted = true;
@@ -81,7 +80,6 @@ public class GameManager : MonoBehaviour {
 		case "Test02":
 			player_life = DEFAULT_LIFE;
 			
-			//spiritBar.enabled = false;
 			//inputManager.enabled = false;
 			//guiManager.enabled = false;
 			
@@ -94,8 +92,8 @@ public class GameManager : MonoBehaviour {
 	
 	public void Update(){
 		if(Application.loadedLevelName.ToString() != "Title"){
-			if(!StageMakingHasBeenExecuted){
-				int stageIdx = Application.loadedLevelName == "Test01" ? 1 : 2 ;
+			if(Application.loadedLevelName.Contains("Test") && !StageMakingHasBeenExecuted){
+				int stageIdx = Application.loadedLevelName == "Test01" ? 0 : 1 ;
 				GameObject.FindWithTag("StageMaker").GetComponent<StageMaker>().SendMessage("Init", stageIdx);
 				StageMakingHasBeenExecuted = true;
 			}
@@ -135,7 +133,7 @@ public class GameManager : MonoBehaviour {
 	private void Restart(){
 		GameObject obj = GameObject.FindWithTag("Player");
 		obj.GetComponent<Player>().enabled = true;
-		obj.SendMessage("Restart");
+		obj.SendMessage("Restart", m_respawnPos);
 		inMissingDirection = false;
 	}
 
@@ -146,10 +144,12 @@ public class GameManager : MonoBehaviour {
 	public void EnableUI(){
 		ReassignScripts();
 		
-		spiritBar.enabled = true;
 		soundManager.enabled = true;
 		inputManager.enabled = true;
 		guiManager.enabled = true;
+		if(Application.loadedLevelName != ("Title")){
+			GameObject.FindWithTag("UI").GetComponent<SpiritBar_nGUI>().SendMessage("Activate");
+		}
 	
 	}
 	//For Title screen
@@ -267,9 +267,7 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	private void ReassignScripts(){
-		if(spiritBar == null){
-			spiritBar = GetComponent<SpiritBar>();
-		}
+
 		if(soundManager == null){
 			soundManager = GetComponent<SoundManager>();
 		}
@@ -285,6 +283,15 @@ public class GameManager : MonoBehaviour {
 		if( mainCamera == null){
 			mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<MainCamera>();
 		}
+	}
+	
+	private void ApplyRespawnPoint(Vector3 newPos){
+		m_respawnPos = newPos;
+//		Debug.Log("ApplyNewRespawnPos : " + m_respawnPos.ToString());
+	}
+	
+	public static Vector3 GetCurrentRespawnPosition(){
+		return m_respawnPos;
 	}
 
 }

@@ -3,15 +3,11 @@ using System.Collections;
 
 
 public class Player : Walker {
-	int cnt = 0;
-
 	private bool living;
 
-	private Vector3 default_pos;
+	//private Vector3 default_pos;
 	private float losing_rate = 20.0f;
-	private float gaining_rate = 0.25f;
-
-	public GameObject flash;
+	private float gaining_rate = 0.4f;
 
 	private float default_spirit;
 
@@ -30,8 +26,9 @@ public class Player : Walker {
 	}
 	
 	protected override bool init(){
-		layer_ground = 1 << LayerMask.NameToLayer ("Ground");
-//		Debug.Log(layer_ground);
+		//layer_ground = 1 << LayerMask.NameToLayer ("Ground");
+		layer_ground = 1 << 8;
+		//		Debug.Log(layer_ground);
 		
 		if(transform.parent != null){
 			transform.parent = null;
@@ -44,7 +41,7 @@ public class Player : Walker {
 		current_status = STATUS.IDLE;
 		Flip(SIDE.RIGHT);
 		jump_force = JUMP_FORCE_BASE;
-		horizontal_move_speed = 0.0f;
+		move_speed.x = 0.0f;
 		if(rigidbody2D.IsSleeping()){
 			rigidbody2D.Sleep();
 		}
@@ -58,14 +55,15 @@ public class Player : Walker {
 		manager.SendMessage("EnableUI");
 		GameObject.FindWithTag("MainCamera").GetComponent<MainCamera>().enabled = true;
 		
-		default_pos = transform.position;
+		//Set Position relate to the game advances
+		//transform.position = GameManager.GetCurrentRespawnPosition();
+		
+		manager.SendMessage("ApplyRespawnPoint", transform.position + new Vector3(0.0f, -3.0f, 0.0f));
 	
 		return true;
 	}
 
 	protected override void Update(){
-		cnt = cnt < 1024 ? cnt+1 : 0;
-
 		base.Update ();
 		if (current_status == STATUS.GHOST || debugedDamage) {
 			current_spirit -= losing_rate * Time.deltaTime ;	
@@ -79,20 +77,9 @@ public class Player : Walker {
 				current_spirit += gaining_rate * Time.deltaTime;
 			}
 		}
-		
+
 		//current_status = Input.GetKey(KeyCode.O) ? STATUS.GHOST : STATUS.IDLE;
 
-	}
-	
-	public void UpdateWalkSpeed(float speed){
-		horizontal_move_speed = speed;
-		if (horizontal_move_speed > 0.0f) {
-			Flip (SIDE.RIGHT);
-			current_side = SIDE.RIGHT;
-		} else if (horizontal_move_speed < 0.0f) {
-			Flip(SIDE.LEFT);
-			current_side = SIDE.LEFT;
-		}
 	}
 
 	protected override void OnTriggerEnter2D(Collider2D col){
@@ -145,7 +132,7 @@ public class Player : Walker {
 		if(current_status == STATUS.DAMAGE || current_status == STATUS.DYING)
 			return;
 			
-		base.Flip ();
+		base.Flip (side);
 	}
 
 	
@@ -217,20 +204,18 @@ public class Player : Walker {
 
 	protected override void GainSpirit(float val){
 		base.GainSpirit(val);
-		if(Mathf.Floor( Time.frameCount * Time.deltaTime * 1000) % 20 == 0 ){					
-			Vector3 offset = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), -1);
-			Instantiate(flash, transform.position + offset, transform.rotation);
-		}
 	}
 	
 	public void Miss(){
 		renderer.enabled = false;
 		gameManager.SendMessage("Miss", true);
 		this.enabled = false;
+		rigidbody2D.Sleep();
 	}
 	
-	public void Restart(){
-		transform.position = default_pos;
+	public void Restart(Vector3 respawnPos){
+		float offsetY = 3.0f;
+		transform.position = new Vector3(respawnPos.x, respawnPos.y + offsetY, transform.position.z);
 		renderer.enabled = true;
 		rigidbody2D.gravityScale = DEFAULT_GRAVITY_SCALE;
 		foreach (Collider2D col in m_colliders) {
@@ -239,9 +224,5 @@ public class Player : Walker {
 		
 		init ();
 	}
-
-	void OnGUI(){
-		GUI.Box(new Rect(100, 100, 100, 100), cnt.ToString() + " / OS: " + SystemInfo.operatingSystem.ToString(), GUIStyle.none);
-	}
-
+	
 }

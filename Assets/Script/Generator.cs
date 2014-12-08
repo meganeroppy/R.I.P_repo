@@ -11,6 +11,7 @@ public class Generator : Monument {
 	protected float offset_range = 2.0f;
 
 	protected override void Start(){
+		builtOnGround = false;
 		base.Start ();
 		m_isWorking = true;
 	}

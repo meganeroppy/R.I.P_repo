@@ -25,7 +25,7 @@ public class Flyer : Character {
 						if (rigorState <= 0) {
 								current_status = STATUS.IDLE;
 						}
-						transform.position += new Vector3 (horizontal_move_speed * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
+						transform.position += new Vector3 (move_speed.x * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
 						break;
 				case STATUS.DAMAGE:
 						rigorState -= 1.0f * Time.deltaTime;

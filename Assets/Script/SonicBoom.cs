@@ -15,6 +15,7 @@ public class SonicBoom : AttackZone {
 
 	// Use this for initialization
 	protected override void Start () {
+	
 		base.Start ();
 		m_pasted_time_from_born = 0.0f;
 	}
@@ -29,9 +30,9 @@ public class SonicBoom : AttackZone {
 	protected override void Crash(GameObject other){
 		base.Crash(other);
 		Vector3 pos = transform.position;
-		Vector3 otherPos = other.transform.position;
+		//Vector3 otherPos = other.transform.position;
 		
-		Instantiate(effect_slush, new Vector3(otherPos.x, otherPos.y, pos.z + 1.0f), transform.rotation);
+		Instantiate(effect_slush, new Vector3(pos.x, pos.y, pos.z + 1.0f), transform.rotation);
 	}
 
 	// Update is called once per frame

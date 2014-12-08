@@ -31,8 +31,7 @@ public class StageObject : MonoBehaviour {
 		RIGHT,
 		LEFT
 	}
-	[HideInInspector]
-	public SIDE current_side;
+	protected SIDE current_side;
 
 	//Script
 	protected SoundManager sound;
@@ -111,5 +110,7 @@ public class StageObject : MonoBehaviour {
 		if(col.tag == "Ground")
 			Destroy(this.gameObject);
 	}
+	
+	
 	
 }

@@ -13,21 +13,27 @@ public class StageMaker : MonoBehaviour {
 	
 	public GameObject[] stagePiece;
 	public GameObject[] stageObject;
+	public GameObject[] stageFunction;
+//	public string[] stageFunction;
+	//	 [] stageFunction;
+//	 MonoBehaviour[] stageFunction;
 	
+	public GameObject bgSet;
 	private float[] obj_ZOrder = {-2,-2,-5,-5, 0};
 	
 	// Use this for initialization
 	void Start () {		
 	}
 	
+	/*
 	protected virtual bool Init(){
 		return Init (0);
 	}
+	*/
 	
 	protected virtual bool Init(int mapIdx){
 		//Set size of stage pieces;
-		
-		//		CSVReader.DebugOutputGrid( CSVReader.SplitCsvGrid(csv.text) ); 
+		//	CSVReader.DebugOutputGrid( CSVReader.SplitCsvGrid(csv.text) ); 
 		string[,] pieces = CSVReader.SplitCsvGrid(csv[mapIdx].text);
 		
 		Vector2 stage_size = GetStageSize(pieces);
@@ -44,26 +50,11 @@ public class StageMaker : MonoBehaviour {
 				//stg.transform.parent = this.transform;
 			}
 		}
+		
+		//After all stage parts are made, BGParts will be set.
+		Instantiate(bgSet, Vector3.zero, transform.rotation);
+		
 		return true;
-	}
-
-	// Update is called once per frame
-	void Update () {
-	}
-	
-	
-	
-	private void AddFunction(int key, GameObject target){
-		if(key == 3){
-			//Goal
-			target.gameObject.AddComponent<Goal>();
-			if(target.GetComponent<Collider>() == null){
-				BoxCollider2D col = target.AddComponent<BoxCollider2D>();
-				col.isTrigger = true;
-				col.size = new Vector2( PIECE_SCALE, PIECE_SCALE);
-			} 
-		}
-	
 	}
 	
 	private void CreateStagePiece(string p_code, Vector3 pos){
@@ -86,7 +77,7 @@ public class StageMaker : MonoBehaviour {
 		iP_code /= 10;
 		iP_code = Mathf.RoundToInt(iP_code);
 		
-		//Stage Visual
+		//Stage Visual///////////
 		if(v_key != 0){
 			stg = Instantiate(stagePiece[v_key-1], pos, this.transform.rotation) as GameObject;
 			
@@ -100,7 +91,7 @@ public class StageMaker : MonoBehaviour {
 		float scale = PIECE_SCALE / DEFAULT_PIECE_SCALE;
 		stg.transform.localScale = new Vector3(scale, scale, scale);
 		
-		//Stage Object
+		//Stage Object/////////
 		int o_key = iP_code % 10;
 		iP_code /= 10;
 		iP_code = Mathf.RoundToInt(iP_code);
@@ -110,16 +101,38 @@ public class StageMaker : MonoBehaviour {
 			GameObject obj = Instantiate(stageObject[o_key-1], pos, this.transform.rotation) as GameObject;
 			obj.transform.Translate(0.0f, 0.0f, obj_ZOrder[o_key-1]);
 			obj.transform.parent = stg.transform;
-			//obj.transform.localScale = new Vector3(scale, scale, scale);
 		}
 		
-		//Stage Function
+		//Stage Function//////
 		int f_key = iP_code;
 		
 		if(f_key != 0){
 			AddFunction(f_key, stg);
+		}	
+	}
+	
+	private void AddFunction(int f_key, GameObject target){
+		
+		if(f_key != 0){
+			GameObject obj = Instantiate(stageFunction[f_key-1], target.transform.position, this.transform.rotation) as GameObject;
+			obj.transform.parent = target.transform;
+			if(target.GetComponent<Collider>() == null){
+				BoxCollider2D col = obj.AddComponent<BoxCollider2D>();
+				col.isTrigger = true;
+				col.size = new Vector2( PIECE_SCALE, PIECE_SCALE);
+			}
 		}
 		
+	/*
+		//if(key == 3){
+		target.gameObject.AddComponent(stageFunction[f_key-1]);
+			if(target.GetComponent<Collider>() == null){
+				BoxCollider2D col = target.AddComponent<BoxCollider2D>();
+				col.isTrigger = true;
+				col.size = new Vector2( PIECE_SCALE, PIECE_SCALE);
+			} 
+		///}
+	*/	
 	}
 	
 	//Check and return the stage width & height loaded

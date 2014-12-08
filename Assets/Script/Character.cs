@@ -23,23 +23,26 @@ public class Character : StageObject {
 	protected Vector2 JUMP_FORCE_BASE = new Vector2 (0.0f, 600.0f);
 	protected Vector2 jump_force;
 	protected const float WALK_SPEED_BASE = 8.5f;
-	protected float horizontal_move_speed;
 	protected float attack_power;
 	protected const float ATTACK_DURATION = 0.4f;
 	protected const float DAMAGE_DURATION = 1.0f;
 	protected float rigorState = 0.0f;
 	protected const float DYING_DELAY = 1.0f;
 	protected const float DISAPPEARING_DELAY = 2.0f;
+	
+	
+	public float val = 1.0f;
 
 	protected Player m_target; 
 
 	[HideInInspector]
 	public bool grounded;
 
-	public int layer_ground;
-
+	//public int layer_ground;
+	protected LayerMask layer_ground;
+	
 	protected const float MOVE_SPEED_BASE = 8.5f;
-	Vector2 move_speed;
+	protected Vector2 move_speed;
 
 	//Animator
 	protected Animator anim;
@@ -57,11 +60,11 @@ public class Character : StageObject {
 	protected override void Start () {
 		base.Start ();
 
-		layer_ground =  1 << LayerMask.NameToLayer ("Ground");
+		//layer_ground =  1 << LayerMask.NameToLayer ("Ground");
+		layer_ground =  1 << 8;
 		current_side = SIDE.LEFT;
 		current_status = STATUS.IDLE;
-		//jump_force = JUMP_FORCE_BASE;
-		horizontal_move_speed = 0.0f;
+		move_speed.x = 0.0f;
 		move_speed = new Vector2 (0.0f, 0.0f);
 		if (!GameManager.GameOver()){
 			m_target = GameObject.FindWithTag ("Player").GetComponent<Player> ();
@@ -74,7 +77,10 @@ public class Character : StageObject {
 		//grounded = Physics2D.Linecast (transform.position + transform.up * 1, transform.position - transform.up * 0.1f);
 
 		//
-		grounded = Physics2D.Linecast(pos, new Vector3(pos.x, pos.y - 0.8f, pos.z));
+		//grounded = Physics2D.Linecast(pos, new Vector3(pos.x, pos.y - 0.8f, pos.z));
+		grounded = Physics2D.Raycast(transform.position, -Vector2.up, val, layer_ground) 
+		?  true : Physics2D.Raycast(transform.position + new Vector3(0.5f,0.0f,0.0f), -Vector2.up, val, layer_ground)
+				? true : Physics2D.Raycast(transform.position + new Vector3(-0.5f,0.0f,0.0f), -Vector2.up, val, layer_ground);
 		//
 		
 		if(gameObject.tag == "Player"){
@@ -97,13 +103,13 @@ public class Character : StageObject {
 		anim.SetBool("b_grounded", grounded);
 		anim.SetBool("b_input", Input.GetAxis("Horizontal") != 0);
 
-		//Debug.Log ("cur_st = " + current_status.ToString() + " / speed = " + horizontal_move_speed.ToString());
+		//Debug.Log ("cur_st = " + current_status.ToString() + " / speed = " + move_speed.x.ToString());
 		//Debug.Log ("grounded = " + grounded.ToString());
 
 		switch (current_status) {
 		case STATUS.IDLE:
 			renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
-			if(Mathf.Abs(horizontal_move_speed) > 0.05f){
+			if(Mathf.Abs(move_speed.x) > 0.05f){
 				current_status = STATUS.WALK;
 			}else{
 				if(!grounded){
@@ -114,8 +120,8 @@ public class Character : StageObject {
 			break;
 		case STATUS.JUMP_UP:
 			if(grounded){
-				if(Mathf.Abs( horizontal_move_speed ) < 0.05f){
-					horizontal_move_speed = 0.0f;
+				if(Mathf.Abs( move_speed.x ) < 0.05f){
+					move_speed.x = 0.0f;
 					current_status = STATUS.IDLE;
 				}else{
 					current_status = STATUS.WALK;
@@ -123,25 +129,25 @@ public class Character : StageObject {
 			}else if(rigidbody2D.velocity.y <= 0.0f){
 				current_status = STATUS.JUMP_DOWN;
 			}
-			transform.position += new Vector3(horizontal_move_speed * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
+			transform.position += new Vector3(move_speed.x * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
 			
 			break;
 		case STATUS.JUMP_DOWN:
 			if(grounded){
-				if(Mathf.Abs( horizontal_move_speed ) < 0.05f){
-					horizontal_move_speed = 0.0f;
+				if(Mathf.Abs( move_speed.x ) < 0.05f){
+					move_speed.x = 0.0f;
 					current_status = STATUS.IDLE;
 				}else{
 					current_status = STATUS.WALK;
 				}
 			}
 			
-			transform.position += new Vector3(horizontal_move_speed * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
+			transform.position += new Vector3(move_speed.x * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
 			
 			break;
 		case STATUS.WALK:
-			if(Mathf.Abs( horizontal_move_speed ) < 0.05f){
-				horizontal_move_speed = 0.0f;
+			if(Mathf.Abs( move_speed.x ) < 0.05f){
+				move_speed.x = 0.0f;
 				current_status = STATUS.IDLE;
 			}else{
 				if(!grounded){
@@ -149,7 +155,7 @@ public class Character : StageObject {
 					current_status = rigidbody2D.velocity.y <= 0.0f ? STATUS.JUMP_DOWN : STATUS.JUMP_UP;
 
 				}
-				transform.position += new Vector3(horizontal_move_speed * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
+				transform.position += new Vector3(move_speed.x * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
 			}
 			break;
 		case STATUS.ATTACK:
@@ -158,7 +164,7 @@ public class Character : StageObject {
 				current_status = STATUS.IDLE;
 			}
 			if(!grounded){
-			transform.position += new Vector3(horizontal_move_speed * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
+			transform.position += new Vector3(move_speed.x * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
 			}
 			break;
 		case STATUS.DAMAGE:
@@ -232,7 +238,7 @@ public class Character : StageObject {
 	/*
 	protected void OnCollisionEnter2D(Collision2D col){
 		if (current_status == STATUS.JUMP) {
-			if(Mathf.Abs(horizontal_move_speed) < 0.5f){
+			if(Mathf.Abs(move_speed.x) < 0.5f){
 				current_status = STATUS.IDLE;
 			}else{
 				current_status = STATUS.WALK;

@@ -1,6 +1,11 @@
 fileFormatVersion: 2
 guid: 849102775dc914fca82d2549bec6f4bf
 TextureImporter:
+  fileIDToRecycleName:
+    21300000: kiran01_0
+    21300002: kiran01_1
+    21300004: kiran01_2
+    21300006: kiran01_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -21,7 +26,7 @@ TextureImporter:
   generateCubemap: 0
   seamlessCubemap: 0
   textureFormat: -1
-  maxTextureSize: 1024
+  maxTextureSize: 512
   textureSettings:
     filterMode: -1
     aniso: 1
@@ -36,7 +41,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 150
+  spritePixelsToUnits: 100
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []

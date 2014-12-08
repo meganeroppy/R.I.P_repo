@@ -23,14 +23,14 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: .25
     normalMapFilter: 0
-  isReadable: 0
+  isReadable: 1
   grayScaleToAlpha: 0
   generateCubemap: 0
   seamlessCubemap: 0
-  textureFormat: -1
-  maxTextureSize: 1024
+  textureFormat: 5
+  maxTextureSize: 4096
   textureSettings:
-    filterMode: -1
+    filterMode: 0
     aniso: 1
     mipBias: -1
     wrapMode: 1
@@ -52,9 +52,9 @@ TextureImporter:
     - name: chara_neco_attacks2_0
       rect:
         serializedVersion: 2
-        x: 3
+        x: 5
         y: 3
-        width: 381
+        width: 379
         height: 321
       alignment: 9
       pivot: {x: .699999988, y: 0}
@@ -62,9 +62,9 @@ TextureImporter:
     - name: chara_neco_attacks2_1
       rect:
         serializedVersion: 2
-        x: 420
+        x: 422
         y: 3
-        width: 381
+        width: 379
         height: 321
       alignment: 9
       pivot: {x: .699999988, y: 0}
@@ -72,9 +72,9 @@ TextureImporter:
     - name: chara_neco_attacks2_2
       rect:
         serializedVersion: 2
-        x: 836
+        x: 838
         y: 3
-        width: 381
+        width: 379
         height: 321
       alignment: 9
       pivot: {x: .699999988, y: 0}
@@ -82,9 +82,9 @@ TextureImporter:
     - name: chara_neco_attacks2_3
       rect:
         serializedVersion: 2
-        x: 1254
+        x: 1256
         y: 3
-        width: 381
+        width: 379
         height: 321
       alignment: 9
       pivot: {x: .699999988, y: 0}
@@ -92,9 +92,9 @@ TextureImporter:
     - name: chara_neco_attacks2_4
       rect:
         serializedVersion: 2
-        x: 1671
+        x: 1673
         y: 3
-        width: 381
+        width: 379
         height: 321
       alignment: 9
       pivot: {x: .699999988, y: 0}
@@ -102,9 +102,9 @@ TextureImporter:
     - name: chara_neco_attacks2_5
       rect:
         serializedVersion: 2
-        x: 2088
+        x: 2090
         y: 3
-        width: 381
+        width: 379
         height: 321
       alignment: 9
       pivot: {x: .699999988, y: 0}

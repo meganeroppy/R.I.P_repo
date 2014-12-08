@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: cd4e29f81eeea49dc8e501341a8620d0
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - label_checkPoint: {fileID: 100000, guid: ed977414f3b594f63b8ed231e52e4f6b, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 

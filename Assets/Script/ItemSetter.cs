@@ -25,6 +25,7 @@ public class ItemSetter : Monument {
 	public GameObject badItem;	
 
 	protected override void Start(){
+		builtOnGround = false;
 		base.Start();
 
 		SpriteRenderer sRenderer = GetComponent<SpriteRenderer>();

@@ -22,6 +22,7 @@ public class SoundManager : MonoBehaviour {
 		case "Test02":
 			
 				SetBGM(System.DateTime.Now.Hour);
+				audio.loop = true;
 				audio.Play();
 			break;
 			case "Title":
@@ -34,6 +35,10 @@ public class SoundManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+	
+	public void PlaySE(string clip){
+		PlaySE(clip, 1.0f);
 	}
 
 	public void PlaySE(string clip, float volume){
