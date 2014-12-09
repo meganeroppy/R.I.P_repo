@@ -151,6 +151,8 @@ public class Player : Walker {
 		if(transform.parent != null){
 			transform.parent = null;
 		}
+		
+		GameManager.InformBecomeGhost(true);
 	}
 
 	protected override void ApplyHealthDamage(int value){
@@ -181,6 +183,8 @@ public class Player : Walker {
 		Instantiate (effect_transformation, transform.position, transform.rotation);
 
 		current_health = MAX_HEALTH;
+		
+		GameManager.InformBecomeGhost(false);
 	}
 
 	public int[] GetLifeInfo(){

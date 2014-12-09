@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour {
 	private static bool cleared;
 	private static bool gameover;
 	private static bool inMissingDirection;
+	static bool IsGhost = false;
 	
 	public static int player_life;
 	private const int DEFAULT_LIFE = 4;
@@ -293,5 +294,11 @@ public class GameManager : MonoBehaviour {
 	public static Vector3 GetCurrentRespawnPosition(){
 		return m_respawnPos;
 	}
-
+	
+	public static bool CheckCurrentPlayerIsGhost(){
+		return IsGhost;
+	}
+	public static void InformBecomeGhost(bool ghost){
+		IsGhost = ghost;
+	}
 }
