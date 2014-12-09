@@ -3,30 +3,31 @@ using System.Collections;
 
 public class GhostKiller : DeadZone {
 
-	protected Color32 m_colorVal;
 	protected Color32 m_defaultColor;
 	
 	protected override void Start ()
 	{
 		base.Start();
 		//GetComponent<SpriteRenderer>().color = new Color32(188,43,169,255);
-		spriteRenderer.color = new Color32(188,43,169,255);
-		m_colorVal = spriteRenderer.color;
-		m_defaultColor = m_colorVal;
+		spriteRenderer.color = new Color32(0,0,0,255);
+		m_defaultColor = new Color32(188,43,169,255);
 		m_awake = false;
 	}
 	
 	protected override void Update ()
 	{
 		if(!GameManager.CheckCurrentPlayerIsGhost()){
-			m_awake = false;
-			SetAsDefault();
+			if(m_awake){
+				SetAsDefault();
+				m_awake = false;
+			}
 			return;
 		}else{
 			m_awake = true;
 		}
 		
-		spriteRenderer.color = m_colorVal;
+		Color newColor = new Color(m_colorVal_r / 255, m_colorVal_g / 255, m_colorVal_b / 255, 255);
+		spriteRenderer.color = newColor;
 		
 		Vector3 scale = skull.transform.localScale;
 		skull.transform.localScale = new Vector3(m_defaultScale * m_scale, m_defaultScale * m_scale, scale.z);
@@ -45,21 +46,21 @@ public class GhostKiller : DeadZone {
 		}
 		
 		if(m_colorIncrease){
-			if(m_colorVal.Equals(m_defaultColor)){
+			if(newColor.Equals(m_defaultColor)){
 				m_colorIncrease = false;
 			}else{
-				m_colorVal_r += (Time.deltaTime * 255) * (188/255);
-				m_colorVal_g += (Time.deltaTime * 255) * (43/255);
-				m_colorVal_b += (Time.deltaTime * 255) * (169/255);
+				m_colorVal_r += (Time.deltaTime);// * (188/255));
+				m_colorVal_g += (Time.deltaTime);// * (43/255));
+				m_colorVal_b += (Time.deltaTime);// * (169/255));
 			}
 			
 		}else{
-			if(m_colorVal.Equals(Color.black)){
+			if(newColor.Equals(Color.black)){
 				m_colorIncrease = true;
 			}else{
-				m_colorVal_r -= (Time.deltaTime * 255) * (188/255);
-				m_colorVal_g -= (Time.deltaTime * 255) * (43/255);
-				m_colorVal_b -= (Time.deltaTime * 255) * (169/255);	
+				m_colorVal_r -= (Time.deltaTime * (188/255));
+				m_colorVal_g -= (Time.deltaTime * (43/255));
+				m_colorVal_b -= (Time.deltaTime * (169/255));
 			}
 		}
 	}
@@ -79,7 +80,9 @@ public class GhostKiller : DeadZone {
 	private void SetAsDefault(){
 		m_scale  = m_scale !=  m_defaultScale ? m_defaultScale : m_scale;
 		m_alpha = m_alpha != 1.0f ? 1.0f : m_alpha;
-		skull.transform.localScale = new Vector3(m_defaultScale, m_defaultScale, transform.localScale.z);
+		skull.transform.localScale = new Vector3(m_scale, m_scale, transform.localScale.z);
+		Color newColor = new Color(0, 0, 0, m_alpha);
+		skull.GetComponent<SpriteRenderer>().color = newColor;
 		
 	}
 }

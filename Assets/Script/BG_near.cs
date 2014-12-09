@@ -8,6 +8,7 @@ public class BG_near : MonoBehaviour {
 	private Vector3 bornPos;
 	private Vector3 distanceFromOrigin;
 	private GameObject target;
+	private float OffsetY = 5.0f;
 	
 	void Start(){
 		target = GameObject.FindWithTag("Player");
@@ -21,7 +22,7 @@ public class BG_near : MonoBehaviour {
 		}
 		
 		distanceFromOrigin = target.transform.position - bornPos;
-		Vector3 newPos = new Vector3(-distanceFromOrigin.x * moveRate, target.transform.position.y, 0.0f);
+		Vector3 newPos = new Vector3(-distanceFromOrigin.x * moveRate, target.transform.position.y + OffsetY, 0.0f);
 		transform.position = newPos;
 	}
 }

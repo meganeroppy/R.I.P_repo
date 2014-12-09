@@ -12,7 +12,7 @@ public class Rumple : Flyer {
 	}
 	private ACTION_PETTERN cur_action_pettern = ACTION_PETTERN.A;
 
-	private float flying_move_speed = 0.3f;
+	private float flying_move_speed = 2.5f;
 	private float returning_speed = 5.0f;
 	private bool m_isReturning = false;
 
@@ -100,7 +100,7 @@ public class Rumple : Flyer {
 			break;//End of STATUS.IDLE
 
 		case STATUS.ATTACK:
-			Vector2 dir = m_target.transform.position - transform.position;
+			Vector2 dir = (m_target.transform.position - transform.position).normalized ;
 			dir = dir * flying_move_speed * Time.deltaTime;
 			
 			//Debug.Log(dir);

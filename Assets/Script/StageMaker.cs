@@ -19,7 +19,7 @@ public class StageMaker : MonoBehaviour {
 //	 MonoBehaviour[] stageFunction;
 	
 	public GameObject bgSet;
-	private float[] obj_ZOrder = {-2,-2,-5,-5, 0};
+	private float[] obj_ZOrder = {-2,-2,-5,-5, 0,-2};
 	
 	// Use this for initialization
 	void Start () {		

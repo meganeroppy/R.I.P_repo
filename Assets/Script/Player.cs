@@ -60,6 +60,9 @@ public class Player : Walker {
 		
 		manager.SendMessage("ApplyRespawnPoint", transform.position + new Vector3(0.0f, -3.0f, 0.0f));
 	
+		GameManager.InformBecomeGhost(false);
+		
+	
 		return true;
 	}
 
