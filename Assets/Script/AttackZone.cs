@@ -36,7 +36,7 @@ public abstract class AttackZone : StageObject {
 			if(col.gameObject.tag == "Monument" || col.gameObject.tag == "Enemy"){
 				Crash(col.gameObject);
 			}
-			if(col.gameObject.tag == "Item"){
+			if(col.gameObject.tag == "Item" || col.gameObject.tag == "Effect" || col.gameObject.tag == "Bullet"){
 				return;
 			}
 			Destroy(this.gameObject);

@@ -30,7 +30,7 @@ public class Observer : MonoBehaviour {
 //		Debug.Log(screenToWorldPointPosition.ToString() + " : " + transform.position.ToString());
 		
 						
-		float angle =	Vector2.Angle (Vector2.up,screenToWorldPointPosition-transform.position);
+		float angle =  Vector2.Angle (Vector2.up,screenToWorldPointPosition-transform.position);
 		
 
 		if(screenToWorldPointPosition.x >= transform.position.x){

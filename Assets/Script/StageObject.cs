@@ -36,12 +36,16 @@ public class StageObject : MonoBehaviour {
 	//Script
 	protected SoundManager sound;
 	
+	protected virtual void Awake(){
+		sound = GameObject.Find ("GameManager").GetComponent<SoundManager>();
+		
+	}
+	
 	// Use this for initialization
 	protected virtual void Start () {
 		current_health = 1;
 	
 		invincible = false;
-		sound = GameObject.Find ("GameManager").GetComponent<SoundManager>();
 		m_collider = GetComponent<Collider2D> ();
 		
 	}

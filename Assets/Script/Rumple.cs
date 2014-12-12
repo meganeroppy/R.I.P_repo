@@ -15,7 +15,6 @@ public class Rumple : Flyer {
 	private float flying_move_speed = 2.5f;
 	private float returning_speed = 5.0f;
 	private bool m_isReturning = false;
-
 	
 
 	private float m_timer = 0.0f;

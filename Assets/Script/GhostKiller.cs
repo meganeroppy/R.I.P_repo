@@ -31,7 +31,7 @@ public class GhostKiller : DeadZone {
 		
 		Vector3 scale = skull.transform.localScale;
 		skull.transform.localScale = new Vector3(m_defaultScale * m_scale, m_defaultScale * m_scale, scale.z);
-		skull.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, m_alpha);
+		spriteRenderer_skull.color = new Color(1, 1, 1, m_alpha);
 		
 		if(!m_awake){
 			return;

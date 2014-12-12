@@ -15,6 +15,7 @@ public class DeadZone : StageObject {
 	
 	
 	protected SpriteRenderer spriteRenderer;
+	protected SpriteRenderer spriteRenderer_skull;
 	protected bool m_awake = true;
 	
 	
@@ -27,6 +28,7 @@ public class DeadZone : StageObject {
 		skull = Instantiate(skull, new Vector3 (pos.x, pos.y, pos.z - 1.0f), transform.rotation) as GameObject;
 		skull.transform.parent = transform;
 		m_defaultScale = skull.transform.localScale.x;
+		spriteRenderer_skull = skull.GetComponent<SpriteRenderer>();
 		
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		spriteRenderer.color = new Color(m_colorVal_r, m_colorVal_g, m_colorVal_b, 1);
@@ -39,7 +41,7 @@ public class DeadZone : StageObject {
 	
 		Vector3 scale = skull.transform.localScale;
 		skull.transform.localScale = new Vector3(m_defaultScale * m_scale, m_defaultScale * m_scale, scale.z);
-		skull.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, m_alpha);
+		spriteRenderer_skull.color = new Color(1, 1, 1, m_alpha);
 	
 		if(!m_awake){
 			return;

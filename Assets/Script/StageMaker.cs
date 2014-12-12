@@ -99,7 +99,9 @@ public class StageMaker : MonoBehaviour {
 		if(o_key != 0){
 			pos.z -= 2.0f;
 			GameObject obj = Instantiate(stageObject[o_key-1], pos, this.transform.rotation) as GameObject;
-			obj.transform.Translate(0.0f, 0.0f, obj_ZOrder[o_key-1]);
+			//obj.transform.Translate(0.0f, 0.0f, obj_ZOrder[o_key-1]);
+			float zOrder = obj.tag == ("Monument") ? -2.0f : (obj.tag == ("Enemy") || obj.tag == "Player") ? -5.0f : 0.0f;
+			obj.transform.Translate(0.0f, 0.0f, zOrder);
 			obj.transform.parent = stg.transform;
 		}
 		

@@ -29,16 +29,12 @@ public class Character : StageObject {
 	protected float rigorState = 0.0f;
 	protected const float DYING_DELAY = 1.0f;
 	protected const float DISAPPEARING_DELAY = 2.0f;
-	
-	
-	public float val = 1.0f;
 
+	protected float rayRange = 0.01f;
 	protected Player m_target; 
 
 	[HideInInspector]
 	public bool grounded;
-
-	//public int layer_ground;
 	protected LayerMask layer_ground;
 	
 	protected const float MOVE_SPEED_BASE = 8.5f;
@@ -52,7 +48,8 @@ public class Character : StageObject {
 	public GameObject effect_transformation;
 	public GameObject effectPoint_destroy;
 	
-	void Awake(){
+	protected override void Awake(){
+		base.Awake();
 		anim = GetComponent<Animator> ();
 	}
 
@@ -66,45 +63,23 @@ public class Character : StageObject {
 		current_status = STATUS.IDLE;
 		move_speed.x = 0.0f;
 		move_speed = new Vector2 (0.0f, 0.0f);
-		if (!GameManager.GameOver()){
-			m_target = GameObject.FindWithTag ("Player").GetComponent<Player> ();
-		}
+
 	}
 
 	// Update is called once per frame
 	protected override void Update () {
-		Vector3 pos = transform.position;
-		//grounded = Physics2D.Linecast (transform.position + transform.up * 1, transform.position - transform.up * 0.1f);
-
-		//
-		//grounded = Physics2D.Linecast(pos, new Vector3(pos.x, pos.y - 0.8f, pos.z));
-		grounded = Physics2D.Raycast(transform.position, -Vector2.up, val, layer_ground) 
-		?  true : Physics2D.Raycast(transform.position + new Vector3(0.5f,0.0f,0.0f), -Vector2.up, val, layer_ground)
-				? true : Physics2D.Raycast(transform.position + new Vector3(-0.5f,0.0f,0.0f), -Vector2.up, val, layer_ground);
-		//
-		
-		if(gameObject.tag == "Player"){
-			//Debug.Log(grounded);
+	
+		if (!GameManager.GameOver() && m_target == null){
+			m_target = GameObject.FindWithTag ("Player").GetComponent<Player> ();
 		}
+	
+		Vector3 pos = transform.position;
 
-		//RaycastHit2D hit = Physics2D.Raycast (new Vector2 (pos.x, pos.y), -Vector2.up, 0.01f);
-		// if(hit.collider != null){
-		//grounded =  hit.transform.gameObject.layer == 8 ;
-		//grounded = hit.transform.gameObject.tag.Equals ("Ground") ? true : false;
-		//}
-		//Debug.Log (hit.transform.gameObject.layer);
-		anim.SetBool("b_jump_down", current_status == STATUS.JUMP_DOWN ? true : false);
- 		anim.SetBool("b_jump_up", current_status == STATUS.JUMP_UP ? true : false);
-		anim.SetBool("b_run", current_status == STATUS.WALK ? true : false);
-		anim.SetBool("b_idle", current_status == STATUS.IDLE ? true : false);
-		anim.SetBool("b_ghost", current_status == STATUS.GHOST ? true : false);
-		anim.SetBool("b_damaged", current_status == STATUS.DAMAGE ? true : false);
-		anim.SetBool("b_dying", current_status == STATUS.DYING ? true : false);
-		anim.SetBool("b_grounded", grounded);
-		anim.SetBool("b_input", Input.GetAxis("Horizontal") != 0);
+		grounded = Physics2D.Raycast(pos, -Vector2.up, rayRange, layer_ground) 
+			?  true : Physics2D.Raycast(pos + new Vector3(0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_ground)
+				? true : Physics2D.Raycast(pos + new Vector3(-0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_ground);
 
-		//Debug.Log ("cur_st = " + current_status.ToString() + " / speed = " + move_speed.x.ToString());
-		//Debug.Log ("grounded = " + grounded.ToString());
+
 
 		switch (current_status) {
 		case STATUS.IDLE:
@@ -199,21 +174,7 @@ public class Character : StageObject {
 			break;	
 		}
 	}
-	
-	//Added 20141101
-	/*
-	bool isGrounded = false;
-	LayerMask layer;
-	
-	protected override void LateUpdate(){
-		Vector2 pos = transform.position;
-		Vector2 groundCheck = new Vector2(pos.x, pos.y - 1.5f);
-		Vector2 groundArea = new Vector2(0.5f, 0.5f);
-		
-		isGrounded = Physics2D.OverlapArea(groundCheck - groundArea, groundCheck + groundArea);// OverLapAerea(Start Pos, End Pos);
-	
-	} 
-*/
+
 	protected bool CheckIsJumpable(){
 		if (current_status == STATUS.IDLE || current_status == STATUS.WALK) {
 			return true;
@@ -235,17 +196,7 @@ public class Character : StageObject {
 			anim.SetTrigger("t_attack");
 		}
 	}
-	/*
-	protected void OnCollisionEnter2D(Collision2D col){
-		if (current_status == STATUS.JUMP) {
-			if(Mathf.Abs(move_speed.x) < 0.5f){
-				current_status = STATUS.IDLE;
-			}else{
-				current_status = STATUS.WALK;
-			}
-		}
-	}
-*/
+
 
 	//For Ghost
 	public void UpdateMoveSpeed(Vector2 speed){
@@ -262,7 +213,7 @@ public class Character : StageObject {
 	protected void OnCollisionStay2D(Collision2D col){
 		if (col.gameObject.tag == "MovingFloor") {
 			transform.parent = col.transform;
-			} else {
+		} else {
 			transform.parent = null;		
 		}
 	}

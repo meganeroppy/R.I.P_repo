@@ -25,9 +25,6 @@ public class BulletShooter : Generator {
 		}
 	}
 	
-	
-	
-	
 	protected override void ApplyHealthDamage (int value)
 	{
 		base.ApplyHealthDamage (value);
