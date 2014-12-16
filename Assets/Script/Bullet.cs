@@ -12,7 +12,6 @@ public class Bullet : StageObject {
 	protected override void Start ()
 	{
 //		base.Start();
-	
 		m_direction = Vector3.zero;
 	}
 	
@@ -39,6 +38,12 @@ public class Bullet : StageObject {
 		if (col.gameObject.tag == "Player") {
 			Crash(col.gameObject);
 		}else if(col.gameObject.tag == "Ground"){
+			Die();
+		}
+	}
+	
+	protected virtual void OnCollisionEnter2D(Collision2D col){
+		if(col.gameObject.tag == "Ground"){
 			Die();
 		}
 	}

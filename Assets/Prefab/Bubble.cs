@@ -26,8 +26,13 @@ public class Bubble : Bullet {
 		}
 	}
 	
+	protected override void ApplyHealthDamage(int value){
+		Die();
+	}
+	
 	protected override void Die(){
 		dying = true;
+		rigidbody2D.velocity = Vector2.zero;
 		spriteRenderer.sprite = bubble_pic[2];
 		Destroy(this.gameObject, 0.25f);
 	}

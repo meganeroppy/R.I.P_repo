@@ -8,8 +8,8 @@ public class StageObject : MonoBehaviour {
 		SPIRIT,
 	};
 
-	protected bool invincible;
-	protected bool m_isMadeByGenerator = false;
+	protected float INVINCIBLE_DURATION = 1.5f; 
+	protected float invincible;
 
 	protected Collider2D m_collider;
 	
@@ -45,7 +45,7 @@ public class StageObject : MonoBehaviour {
 	protected virtual void Start () {
 		current_health = 1;
 	
-		invincible = false;
+		invincible = 0.0f;
 		m_collider = GetComponent<Collider2D> ();
 		
 	}
@@ -89,14 +89,14 @@ public class StageObject : MonoBehaviour {
 	protected virtual void ApplyHealthDamage(int value){
 		sound.PlaySE ("Damage", 1.0f);
 		current_health -= value;	
-		invincible = true;
+		invincible = INVINCIBLE_DURATION;
 		renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
 	}
 	
 	protected virtual void ApplySpiritDamage(float value){
 		sound.PlaySE ("Damage", 1.0f);
 		current_spirit = value >= current_spirit ? 0.0f : current_spirit -= value;
-		invincible = true;
+		invincible = INVINCIBLE_DURATION;
 		renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
 	}
 	

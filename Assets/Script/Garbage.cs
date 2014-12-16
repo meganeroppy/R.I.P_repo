@@ -6,6 +6,8 @@ public class Garbage : Character {
 	public GameObject bubble;
 	protected float offsetEularZ_bubble = -90.0f;
 	protected const float WARMINGUP = 1.5f;
+	protected const float THROW_INTERVAL = 0.1f;
+	protected const float DAMAGED_RIGOR = 0.1f;
 	protected float rigorTimer = 0.0f;
 	private bool m_awaking = false;
 	private const float AWAKE_RANGE = 10.24f;
@@ -18,10 +20,14 @@ public class Garbage : Character {
 	protected override void Start ()
 	{
 		base.Start ();
-		current_health = 16;
+		current_health = 4;
 	}
 
 	protected override void Update (){
+		if(current_status == STATUS.GONE){
+			return;
+		}
+	
 		base.Update();
 		if(m_awaking){
 			if(GameManager.CheckCurrentPlayerIsGhost()){
@@ -43,6 +49,7 @@ public class Garbage : Character {
 			if(rigorTimer <= 0.0f){
 				if(Mathf.Floor( Time.frameCount ) % Random.Range(30, 35) == 0){
 					ThrowGarbage();
+					rigorTimer = THROW_INTERVAL;
 				}
 			}else{
 				rigorTimer -= Time.deltaTime;
@@ -87,7 +94,7 @@ public class Garbage : Character {
 	protected virtual IEnumerator WaitAndExecute(float delay, bool dying){
 		yield return new WaitForSeconds (delay);
 		renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-		invincible = false;
+		invincible = 0.0f;
 		if (dying) {
 			Destroy (this.gameObject);
 		}

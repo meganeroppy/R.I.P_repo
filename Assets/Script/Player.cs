@@ -67,6 +67,7 @@ public class Player : Walker {
 	}
 
 	protected override void Update(){
+								
 		base.Update ();
 		if (current_status == STATUS.GHOST || debugedDamage) {
 			current_spirit -= losing_rate * Time.deltaTime ;	
@@ -159,6 +160,9 @@ public class Player : Walker {
 	}
 
 	protected override void ApplyHealthDamage(int value){
+		if(invincible >= 0.0f){
+			return;
+		}
 		base.ApplyHealthDamage (value);
 	}
 	
@@ -181,8 +185,11 @@ public class Player : Walker {
 		foreach (Collider2D col in m_colliders) {
 			col.isTrigger = false;
 		}
-		renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
+		
+		//renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
 		current_status = STATUS.IDLE;
+		invincible = INVINCIBLE_DURATION;
+		
 		Instantiate (effect_transformation, transform.position, transform.rotation);
 
 		current_health = MAX_HEALTH;

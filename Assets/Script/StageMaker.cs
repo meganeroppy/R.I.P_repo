@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class StageMaker : MonoBehaviour {
 
+
 	private const float DEFAULT_PIECE_SCALE = 5.12f;
 	private const float PIECE_SCALE = 3.20f;
 	
@@ -14,12 +15,14 @@ public class StageMaker : MonoBehaviour {
 	public GameObject[] stagePiece;
 	public GameObject[] stageObject;
 	public GameObject[] stageFunction;
+	
+	private int len_pCode = 0;
 //	public string[] stageFunction;
 	//	 [] stageFunction;
 //	 MonoBehaviour[] stageFunction;
 	
 	public GameObject bgSet;
-	private float[] obj_ZOrder = {-2,-2,-5,-5, 0,-2};
+	//private float[] obj_ZOrder = {-2,-2,-5,-5, 0,-2};
 	
 	// Use this for initialization
 	void Start () {		
@@ -41,7 +44,9 @@ public class StageMaker : MonoBehaviour {
 		
 		for(int hIdx = 0; hIdx < stage_size.y ; hIdx++){
 			for(int wIdx = 0; wIdx < stage_size.x ;wIdx++){
-				string p_code = pieces[wIdx, hIdx];			
+				string p_code = pieces[wIdx, hIdx];	
+				
+				
 				
 				CreateStagePiece(p_code, new Vector3(wIdx * PIECE_SCALE, stage_size.y - (hIdx * PIECE_SCALE), 0.0f));
 				//Analyze code
@@ -73,14 +78,14 @@ public class StageMaker : MonoBehaviour {
 		
 		GameObject stg;
 		
-		int v_key = iP_code % 10;
-		iP_code /= 10;
+		int v_key = iP_code % 100;
+		iP_code /= 100;
 		iP_code = Mathf.RoundToInt(iP_code);
 		
 		//Stage Visual///////////
 		if(v_key != 0){
-			stg = Instantiate(stagePiece[v_key-1], pos, this.transform.rotation) as GameObject;
-			
+			stg = Instantiate(stagePiece[v_key-1]) as GameObject;
+			stg.transform.position = pos;
 		}else{
 			stg = new GameObject("Empty");
 			stg.transform.position = pos;
@@ -89,7 +94,7 @@ public class StageMaker : MonoBehaviour {
 		stg.transform.parent = this.transform;
 		
 		float scale = PIECE_SCALE / DEFAULT_PIECE_SCALE;
-		stg.transform.localScale = new Vector3(scale, scale, scale);
+		stg.transform.localScale = new Vector3(stg.transform.localScale.x * scale, scale, scale);
 		
 		//Stage Object/////////
 		int o_key = iP_code % 10;

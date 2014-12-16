@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour {
 	}
 	
 
-	public static void  Pause(){
+	public static void  Pause(bool key){
 		if (!pausing) {
 			Time.timeScale = 0.0f;
 			pausing = true;
@@ -116,9 +116,11 @@ public class GameManager : MonoBehaviour {
 			Time.timeScale = 1.0f;	
 			pausing = false;
 		}
-		Debug.Log(player_life);
 	}
 
+	public static bool  Pause(){
+		return pausing;
+	}
 
 	
 	private IEnumerator  WaitAndExecute(float delay, string cmd){

@@ -76,6 +76,17 @@ public class InputManager : MonoBehaviour {
 		case "Test01":
 		case "Test02":
 			
+			if (Input.GetKeyDown (KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton7)) {
+				GameManager.Pause(true);
+				return;
+			}
+			
+			
+			if(GameManager.Pause()){
+				
+			}
+			
+			
 			if(m_player == null && !GameManager.Miss()){
 				GameObject obj = GameObject.FindWithTag ("Player");
 				if(obj == null){
@@ -99,15 +110,18 @@ public class InputManager : MonoBehaviour {
 				m_player.SendMessage("Jump");		
 			}
 			
-			float speedX = Input.GetAxis ("Horizontal");
-			float speedY = Input.GetAxis ("Vertical");
+			float speedX = Input.GetKeyDown( KeyCode.JoystickButton9 ) ? 1.0f : Input.GetKeyDown( KeyCode.JoystickButton11 ) ? -1.0f : Input.GetAxis ("Horizontal");
+			float speedY = Input.GetKeyDown( KeyCode.JoystickButton8 ) ? 1.0f : Input.GetKeyDown( KeyCode.JoystickButton10 ) ? -1.0f : Input.GetAxis ("Vertical");
+			
+			
+			
 			Vector2 speed = new Vector2(speedX, speedY);
 			
 			m_player.SendMessage ("UpdateMoveSpeed", speed);
 
 			
-			if (Input.GetKeyDown (KeyCode.P) || Input.GetKeyDown(KeyCode.Joystick4Button6)) {
-				GameManager.Pause();
+			if (Input.GetKeyDown (KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton7)) {
+				GameManager.Pause(true);
 				
 			}
 			

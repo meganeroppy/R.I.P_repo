@@ -34,7 +34,7 @@ public class Tree : Monument {
 	protected override IEnumerator WaitAndExecute(float delay, bool dying){
 		yield return new WaitForSeconds (delay);
 		renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-		invincible = false;
+		invincible = 0.0f;
 		if (dying) {
 			if (item != null) {
 				Vector3 pos = new Vector3(transform.position.x, transform.position.y + 2.5f, transform.position.z);

@@ -17,11 +17,13 @@ public class GUIManager : MonoBehaviour {
 	private float m_interval_health;
 	public Texture2D[] icon_heart = new Texture2D[2];
 	
+	
 	//About life Point
 	private Vector2 m_basePos_lifePoint;
 	private float m_scale_lifePoint;
 	private float m_interval_life;
 	public Texture2D icon_life;
+	public Texture2D[] number_life = new Texture2D[10];
 	
 	//Player 
 	private Player player;
@@ -202,12 +204,11 @@ public class GUIManager : MonoBehaviour {
 			//End of About HitPoint
 			
 			//About LifePoint
+			GUI.Box (new Rect (m_basePos_lifePoint.x, m_basePos_lifePoint.y, m_scale_lifePoint, m_scale_lifePoint), icon_life, GUIStyle.none);
+			
 			int life = GameManager.player_life;
-			for (int i = 0; i < life; i++) {
-				if(i < life){
-					GUI.Box (new Rect (m_basePos_lifePoint.x + (m_interval_life * i), m_basePos_lifePoint.y, m_scale_lifePoint, m_scale_lifePoint), icon_life, GUIStyle.none);
-				}
-			}
+			GUI.Box (new Rect (m_basePos_lifePoint.x + (m_interval_life), m_basePos_lifePoint.y, m_scale_lifePoint, m_scale_lifePoint), number_life[life], GUIStyle.none);
+			
 			//End of About LifePoint
 			
 			break;
