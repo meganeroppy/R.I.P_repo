@@ -110,8 +110,8 @@ public class InputManager : MonoBehaviour {
 				m_player.SendMessage("Jump");		
 			}
 			
-			float speedX = Input.GetKeyDown( KeyCode.JoystickButton9 ) ? 1.0f : Input.GetKeyDown( KeyCode.JoystickButton11 ) ? -1.0f : Input.GetAxis ("Horizontal");
-			float speedY = Input.GetKeyDown( KeyCode.JoystickButton8 ) ? 1.0f : Input.GetKeyDown( KeyCode.JoystickButton10 ) ? -1.0f : Input.GetAxis ("Vertical");
+			float speedX = Input.GetKey( KeyCode.JoystickButton9 ) ? 1.0f : Input.GetKey( KeyCode.JoystickButton11 ) ? -1.0f : Input.GetAxis ("Horizontal");
+			float speedY = Input.GetKey( KeyCode.JoystickButton8 ) ? 1.0f : Input.GetKey( KeyCode.JoystickButton10 ) ? -1.0f : Input.GetAxis ("Vertical");
 			
 			
 			
