@@ -2,16 +2,12 @@
 using System.Collections;
 
 public class GhostKiller : DeadZone {
-
-	protected Color32 m_defaultColor;
+	
+	private bool colorSwitchFlug = false;
 	
 	protected override void Start ()
 	{
 		base.Start();
-		//GetComponent<SpriteRenderer>().color = new Color32(188,43,169,255);
-		spriteRenderer.color = new Color32(0,0,0,255);
-		m_defaultColor = new Color32(188,43,169,255);
-		m_awake = false;
 	}
 	
 	protected override void Update ()
@@ -19,15 +15,19 @@ public class GhostKiller : DeadZone {
 		if(!GameManager.CheckCurrentPlayerIsGhost()){
 			if(m_awake){
 				SetAsDefault();
+				spriteRenderer.color = Color.magenta;
+				SwitchColor();
 				m_awake = false;
+				
 			}
 			return;
 		}else{
-			m_awake = true;
+			if(!m_awake){
+				m_awake = true;
+				colorSwitchFlug = true;
+			}
 		}
 		
-		Color newColor = new Color(m_colorVal_r / 255, m_colorVal_g / 255, m_colorVal_b / 255, 255);
-		spriteRenderer.color = newColor;
 		
 		Vector3 scale = skull.transform.localScale;
 		skull.transform.localScale = new Vector3(m_defaultScale * m_scale, m_defaultScale * m_scale, scale.z);
@@ -44,25 +44,11 @@ public class GhostKiller : DeadZone {
 			m_scale += Time.deltaTime * 1f;
 			m_alpha -= Time.deltaTime * 1f;
 		}
-		
-		if(m_colorIncrease){
-			if(newColor.Equals(m_defaultColor)){
-				m_colorIncrease = false;
-			}else{
-				m_colorVal_r += (Time.deltaTime);// * (188/255));
-				m_colorVal_g += (Time.deltaTime);// * (43/255));
-				m_colorVal_b += (Time.deltaTime);// * (169/255));
-			}
-			
-		}else{
-			if(newColor.Equals(Color.black)){
-				m_colorIncrease = true;
-			}else{
-				m_colorVal_r -= (Time.deltaTime * (188/255));
-				m_colorVal_g -= (Time.deltaTime * (43/255));
-				m_colorVal_b -= (Time.deltaTime * (169/255));
-			}
-		}
+
+		if(colorSwitchFlug){
+			colorSwitchFlug = false;
+			SwitchColor();
+		}		
 	}
 		
 		
@@ -83,6 +69,35 @@ public class GhostKiller : DeadZone {
 		skull.transform.localScale = new Vector3(m_scale, m_scale, transform.localScale.z);
 		Color newColor = new Color(0, 0, 0, m_alpha);
 		skull.GetComponent<SpriteRenderer>().color = newColor;
+	}
+	
+	
+	
+	private void SwitchColor(){
+		int colorFrom = 0;
+		int colorTo = 1;
+		string funcName = "ColorToMagenta";
 		
+		if(spriteRenderer.color == Color.magenta){
+			colorTo = 0;
+			colorFrom = 1;
+			funcName = "ColorToBlack";
+		}
+		
+		iTween.ValueTo(gameObject, iTween.Hash("from", colorFrom, "to", colorTo, "time", 0.5f, "onupdate", funcName));
+	}
+	
+	private void ColorToBlack(float val){
+		spriteRenderer.color = new Color(val, 0, val, 1);
+		if(spriteRenderer.color == Color.black){
+			colorSwitchFlug = true;
+		}
+	}
+	
+	private void ColorToMagenta(float val){
+		spriteRenderer.color = new Color(val, 0, val, 1);
+		if(spriteRenderer.color == Color.magenta ){
+			colorSwitchFlug = true;
+		}
 	}
 }

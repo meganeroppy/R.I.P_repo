@@ -76,7 +76,7 @@ public class Flyer : Character {
 			float dir =  target.transform.position.x > transform.position.x ? 1.0f : -1.0f;
 			//float dir = m_target.current_side == SIDE.LEFT ? -1.0f : 1.0f;
 
-			if (m_target.GetStatus() != STATUS.GHOST) {
+			if (m_target.GetStatus() != STATUS.GHOST_IDLE) {
 			m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
 			}
 		}

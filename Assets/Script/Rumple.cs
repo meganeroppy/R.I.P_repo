@@ -129,7 +129,7 @@ public class Rumple : Flyer {
 
 	protected override void OnTriggerEnter2D(Collider2D col){
 		if (col.gameObject.tag == "Player") {
-			//if(m_target.GetStatus() == STATUS.GHOST){
+			//if(m_target.GetStatus() == STATUS.GHOST_IDLE){
 			//	m_target.SendMessage("Disappear");
 			//}
 			Crash(col.gameObject);
@@ -171,7 +171,7 @@ public class Rumple : Flyer {
 			m_target = GameObject.Find("Player").GetComponent<Player>();	
 		}
 
-		if (m_target.GetStatus() == STATUS.GHOST) {
+		if (m_target.GetStatus() == STATUS.GHOST_IDLE) {
 			//current_status = STATUS.ATTACK;
 			return true;
 		}else{

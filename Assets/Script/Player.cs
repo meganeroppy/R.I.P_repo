@@ -8,11 +8,15 @@ public class Player : Walker {
 	//private Vector3 default_pos;
 	private float losing_rate = 20.0f;
 	private float gaining_rate = 0.4f;
+	
 
 	private float default_spirit;
 
 	Collider2D[] m_colliders;
 	bool debugedDamage = false;
+	
+	public GameObject Exorcised_soul;
+	
 	//Script
 	GameManager gameManager;
 	
@@ -69,7 +73,7 @@ public class Player : Walker {
 	protected override void Update(){
 								
 		base.Update ();
-		if (current_status == STATUS.GHOST || debugedDamage) {
+		if (current_status == STATUS.GHOST_IDLE || debugedDamage) {
 			current_spirit -= losing_rate * Time.deltaTime ;	
 			Color color = new Color(1.0f, 1.0f, 1.0f, current_spirit / MAX_SPIRIT );
 			renderer.material.color = color;
@@ -82,7 +86,7 @@ public class Player : Walker {
 			}
 		}
 
-		//current_status = Input.GetKey(KeyCode.O) ? STATUS.GHOST : STATUS.IDLE;
+		//current_status = Input.GetKey(KeyCode.O) ? STATUS.GHOST_IDLE : STATUS.IDLE;
 
 	}
 
@@ -121,7 +125,6 @@ public class Player : Walker {
 		}
 	}
 
-
 	protected override IEnumerator Die(){
 		current_status = STATUS.DAMAGE;
 		anim.SetTrigger("t_die");
@@ -149,7 +152,7 @@ public class Player : Walker {
 		}
 		
 		rigidbody2D.velocity = new Vector2 (0.0f, 0.0f);
-		current_status = STATUS.GHOST;
+		current_status = STATUS.GHOST_IDLE;
 		Instantiate (effect_transformation, transform.position, transform.rotation);
 		
 		if(transform.parent != null){
@@ -168,7 +171,7 @@ public class Player : Walker {
 	
 	protected override void Hit(int value){
 		base.Hit(value);
-		if(current_status == STATUS.GHOST){
+		if(current_status == STATUS.GHOST_IDLE){
 			ApplySpiritDamage(value * 25.0f);
 		}
 	}
@@ -176,7 +179,7 @@ public class Player : Walker {
 	protected override void Disappear(){
 		Instantiate(effect_transformation, transform.position, transform.rotation);
 		
-		Miss();
+		GetExorcised();
 	}
 
 	protected void Revive(){
@@ -220,11 +223,14 @@ public class Player : Walker {
 		base.GainSpirit(val);
 	}
 	
-	public void Miss(){
+	private void GetExorcised(){
 		renderer.enabled = false;
 		gameManager.SendMessage("Miss", true);
 		this.enabled = false;
 		rigidbody2D.Sleep();
+		
+		Instantiate(effect_transformation, transform.position + new Vector3(0.0f, 0.0f, -1.0f), transform.rotation);
+		Instantiate( Exorcised_soul, transform.position, transform.rotation);
 	}
 	
 	public void Restart(Vector3 respawnPos){

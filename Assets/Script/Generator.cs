@@ -24,12 +24,10 @@ public class Generator : Monument {
 				Generate();
 				generate_timer = 0.0f;
 			}
-			if(GameManager.GameOver()){
-
+			if(GameManager.GameOver() || GameManager.Pause()){
 				m_isWorking = false;
 			}
 		}
-
 	}
 
 	protected override void ApplyHealthDamage (int value)

@@ -14,6 +14,11 @@ public class Effect_Spirit : Effect {
 	
 	// Update is called once per frame
 	protected override void Update () {
+	
+		if(GameManager.Pause()){
+			return;
+		}
+	
 		opacity -= 0.8f * Time.deltaTime; 
 		spriteRenderer.color = new Color(1.0f, 1.0f, 1.0f, opacity);
 		if (opacity <= 0.0f) {

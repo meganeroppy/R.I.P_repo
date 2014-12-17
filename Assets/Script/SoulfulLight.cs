@@ -18,7 +18,7 @@ public class SoulfulLight : Monument {
 
 	protected override void Update(){
 
-		if(GameManager.GameOver() || GameManager.Miss()){
+		if(GameManager.GameOver() || GameManager.Miss() || GameManager.Pause()){
 			return;
 		}
 		
@@ -49,6 +49,8 @@ public class SoulfulLight : Monument {
 				GetComponent<SpriteRenderer>().sprite = lamp_turnOn;
 			}
 		}
+		
+		
 		
 		if(Mathf.Floor( Time.frameCount ) % Random.Range(50, 70) == 0 ){					
 			Vector3 offset = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(0.0f, 2.0f), 1);

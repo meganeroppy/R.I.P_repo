@@ -29,7 +29,7 @@ public class Needle : Monument {
 			m_target = other.GetComponent<Player> ();
 		}
 		
-		if (m_target.GetStatus() != STATUS.DYING && m_target.GetStatus() != STATUS.GHOST) {
+		if (m_target.GetStatus() != STATUS.DYING && m_target.GetStatus() != STATUS.GHOST_IDLE) {
 			m_target.SendMessage ("Hit", attack_power);
 			float dir = 1.0f;
 			if (this.gameObject.transform.position.x > m_target.transform.position.x) {

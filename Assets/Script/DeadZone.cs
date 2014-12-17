@@ -3,7 +3,6 @@ using System.Collections;
 
 public class DeadZone : StageObject {
 
-	//private GameManager gameManager;
 	public GameObject skull;
 	protected float m_scale = 1.0f;
 	protected float m_defaultScale;
@@ -13,13 +12,10 @@ public class DeadZone : StageObject {
 	protected float m_colorVal_b = 0.0f;
 	protected bool m_colorIncrease = true;
 	
-	
 	protected SpriteRenderer spriteRenderer;
 	protected SpriteRenderer spriteRenderer_skull;
 	protected bool m_awake = true;
 	
-	
-	//private GameObject skull;
 	
 	// Use this for initialization
 	protected override void Start () {
@@ -70,7 +66,9 @@ public class DeadZone : StageObject {
 
 	protected override void OnTriggerEnter2D(Collider2D col){
 		if (col.gameObject.tag == "Player" && !GameManager.Miss()) {
-			col.SendMessage("Miss");
-		}
+			col.SendMessage("GetExorcised");
+		}else if(col.gameObject.tag == "Enemy" || col.gameObject.tag == "Bullet"){
+			col.SendMessage("ApplyDamage", 9999.9f);
+		} 
 	}
 }

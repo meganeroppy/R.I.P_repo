@@ -25,6 +25,10 @@ public class GUIManager : MonoBehaviour {
 	public Texture2D icon_life;
 	public Texture2D[] number_life = new Texture2D[10];
 	
+	//About Annnounce
+	public Texture2D tex_Gameover;
+	public Texture2D tex_pause;
+	
 	//Player 
 	private Player player;
 
@@ -182,7 +186,8 @@ public class GUIManager : MonoBehaviour {
 			} else if (GameManager.Miss()) {
 				style.normal.textColor = UnityEngine.Color.red;
 				if( GameManager.GameOver()){
-					GUI.Box (new Rect (m_w * 0.05f, m_h * 0.8f, 40.0f, 20.0f), "GAMEOVER!", style);
+//					GUI.Box (new Rect (m_w * 0.05f, m_h * 0.8f, 40.0f, 20.0f), "GAMEOVER!!", style);
+					GUI.Box (new Rect (m_w * 0.00f, m_h * 0.0f, m_w, m_h), tex_Gameover, GUIStyle.none);
 				}else{
 					GUI.Box (new Rect (m_w * 0.05f, m_h * 0.8f, 40.0f, 20.0f), "MISSED!!", style);
 				}

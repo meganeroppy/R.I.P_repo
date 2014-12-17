@@ -10,7 +10,8 @@ public enum STATUS{
 	JUMP_DOWN,
 	DAMAGE,
 	DYING,
-	GHOST,
+	GHOST_IDLE,
+	GHOST_DAMAGE,
 	GONE
 }
 
@@ -171,7 +172,7 @@ public class Character : StageObject {
 			}
 			*/
 			break;
-		case STATUS.GHOST:
+		case STATUS.GHOST_IDLE:
 			transform.position += new Vector3(move_speed.x * MOVE_SPEED_BASE * Time.deltaTime * 0.5f, move_speed.y * MOVE_SPEED_BASE * Time.deltaTime * 0.5f, 0.0f);
 			break;
 		case STATUS.GONE:
@@ -190,7 +191,7 @@ public class Character : StageObject {
 	}
 
 	protected void Attack(){
-		if (/*grounded && */ current_status != STATUS.GHOST && current_status != STATUS.DAMAGE && current_health >= 1 ) {
+		if (/*grounded && */ current_status != STATUS.GHOST_IDLE && current_status != STATUS.DAMAGE && current_health >= 1 ) {
 			current_status = STATUS.ATTACK;
 			Vector3 pos = transform.position;
 			Vector3 offset = new Vector3(current_side == SIDE.RIGHT ? 1.7f : -1.7f, 1.5f, -1.0f);
@@ -230,7 +231,7 @@ public class Character : StageObject {
 	}
 
 	protected virtual void Hit(int value){
-		if (current_status != STATUS.DAMAGE && current_status != STATUS.DYING  && current_status != STATUS.GHOST) {
+		if (current_status != STATUS.DAMAGE && current_status != STATUS.DYING  && current_status != STATUS.GHOST_IDLE) {
 			ApplyHealthDamage(value);		
 		}
 	}

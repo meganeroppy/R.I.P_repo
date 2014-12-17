@@ -20,6 +20,10 @@ public class EffectPoint : MonoBehaviour {
 	
 	// Update is called once per frame
 	protected virtual void Update () {
+		
+		if(GameManager.Pause()){
+			return;
+		}
 
 		if (Mathf.Floor( Time.frameCount) % FREQUENCY == 0.0f) {
 			Vector3 pos = transform.position;
@@ -31,5 +35,7 @@ public class EffectPoint : MonoBehaviour {
 			obj.transform.parent = transform;
 
 		}
+
+		
 	}
 }
