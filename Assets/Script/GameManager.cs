@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour {
 	static bool IsGhost = false;
 	
 	public static int player_life;
-	private const int DEFAULT_LIFE = 4;
+	private const int DEFAULT_LIFE = 1;
 	private bool playerIsBorn = false;
 	private bool StageMakingHasBeenExecuted =false;
 	
@@ -146,7 +146,6 @@ public class GameManager : MonoBehaviour {
 	
 	public void EnableUI(){
 		ReassignScripts();
-		
 		soundManager.enabled = true;
 		inputManager.enabled = true;
 		guiManager.enabled = true;
@@ -255,7 +254,7 @@ public class GameManager : MonoBehaviour {
 			player_life--;
 			StartCoroutine (WaitAndExecute(2.0f, "Restart"));
 		}else{
-			StartCoroutine (WaitAndExecute(2.0f, "Title"));
+			StartCoroutine (WaitAndExecute(4.0f, "Title"));
 			gameover = true;
 		}
 	}

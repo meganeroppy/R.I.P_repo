@@ -22,6 +22,8 @@ public class Player : Walker {
 	
 	// Use this for initialization
 	protected override void Start () {
+		MAX_HEALTH = 5;
+		current_health = MAX_HEALTH;
 	}
 	
 	protected override bool init(GameObject caller){

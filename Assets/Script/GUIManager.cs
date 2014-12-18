@@ -187,12 +187,11 @@ public class GUIManager : MonoBehaviour {
 				style.normal.textColor = UnityEngine.Color.red;
 				if( GameManager.GameOver()){
 //					GUI.Box (new Rect (m_w * 0.05f, m_h * 0.8f, 40.0f, 20.0f), "GAMEOVER!!", style);
-					GUI.Box (new Rect (m_w * 0.00f, m_h * 0.0f, m_w, m_h), tex_Gameover, GUIStyle.none);
+					//GUI.Box (new Rect (m_w * 0.00f, m_h * 0.0f, m_w, m_h), tex_Gameover, GUIStyle.none);
 				}else{
 					GUI.Box (new Rect (m_w * 0.05f, m_h * 0.8f, 40.0f, 20.0f), "MISSED!!", style);
 				}
 			}
-			
 			
 			//About HitPoint
 			if(player == null){
@@ -209,10 +208,10 @@ public class GUIManager : MonoBehaviour {
 			//End of About HitPoint
 			
 			//About LifePoint
-			GUI.Box (new Rect (m_basePos_lifePoint.x, m_basePos_lifePoint.y, m_scale_lifePoint, m_scale_lifePoint), icon_life, GUIStyle.none);
+			//GUI.Box (new Rect (m_basePos_lifePoint.x, m_basePos_lifePoint.y, m_scale_lifePoint, m_scale_lifePoint), icon_life, GUIStyle.none);
 			
-			int life = GameManager.player_life;
-			GUI.Box (new Rect (m_basePos_lifePoint.x + (m_interval_life), m_basePos_lifePoint.y, m_scale_lifePoint, m_scale_lifePoint), number_life[life], GUIStyle.none);
+			//int life = GameManager.player_life;
+			//GUI.Box (new Rect (m_basePos_lifePoint.x + (m_interval_life), m_basePos_lifePoint.y, m_scale_lifePoint, m_scale_lifePoint), number_life[life], GUIStyle.none);
 			
 			//End of About LifePoint
 			
