@@ -56,7 +56,7 @@ public class GUIManager : MonoBehaviour {
 			m_interval_life = m_w * 0.03f;
 			
 			//About healthPoint
-			m_basePos_healthPoint = new Vector2 (m_w * 0.01f, m_h * 0.15f);
+			m_basePos_healthPoint = new Vector2 (m_w * 0.01f, m_h * 0.2f);
 			m_scale_healthPoint = m_w * 0.03f;
 			m_interval_health = m_w * 0.03f;
 			

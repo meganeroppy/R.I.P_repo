@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour {
 		SELECT,
 	}
 
-
 	//Title Selection
 	public enum SELECTION_TITLE{
 		WAITFORKEY,
@@ -40,9 +39,10 @@ public class GameManager : MonoBehaviour {
 	static bool IsGhost = false;
 	
 	public static int player_life;
-	private const int DEFAULT_LIFE = 1;
+	private const int DEFAULT_LIFE = 3;
+	public static int player_health;
 	private bool playerIsBorn = false;
-	private bool StageMakingHasBeenExecuted =false;
+	private bool StageMakingHasBeenExecuted = false;
 	
 	//Scripts
 	private static SoundManager soundManager;
@@ -149,8 +149,10 @@ public class GameManager : MonoBehaviour {
 		soundManager.enabled = true;
 		inputManager.enabled = true;
 		guiManager.enabled = true;
-		if(Application.loadedLevelName != ("Title")){
-			GameObject.FindWithTag("UI").GetComponent<SpiritBar_nGUI>().SendMessage("Activate");
+
+		GameObject[] obj = GameObject.FindGameObjectsWithTag("UI");
+		foreach(GameObject child in obj){
+			child.SendMessage("Activate");
 		}
 	
 	}
