@@ -43,7 +43,7 @@ public class InputManager : MonoBehaviour {
 			switch(GameManager.current_selection_title){
 				case  GameManager.SELECTION_TITLE.WAITFORKEY:
 					if(Input.anyKeyDown){
-						GameManager.AcceptInput(GameManager.BUTTON.START);
+						GameManager.AcceptInput("Title", GameManager.BUTTON.DECIDE);
 					}
 					break;
 			case  GameManager.SELECTION_TITLE.MAIN:
@@ -51,19 +51,19 @@ public class InputManager : MonoBehaviour {
 			case  GameManager.SELECTION_TITLE.TESTSTAGE2:
 			case  GameManager.SELECTION_TITLE.OPTION:
 				if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton9)){
-					GameManager.AcceptInput(GameManager.BUTTON.RIGHT);
+					GameManager.AcceptInput("Title", GameManager.BUTTON.RIGHT);
 				}
 				if(Input.GetKeyDown(KeyCode.LeftArrow) ||Input.GetKeyDown(KeyCode.JoystickButton11)){
-					GameManager.AcceptInput(GameManager.BUTTON.LEFT);
+					GameManager.AcceptInput("Title", GameManager.BUTTON.LEFT);
 				}
 				
 				if(Input.GetKeyDown(KeyCode.KeypadEnter) 
 				|| Input.GetKeyDown(KeyCode.Return) 
-			    || Input.GetKeyDown(KeyCode.JoystickButton1)
-		  	  || Input.GetKeyDown(KeyCode.JoystickButton2)
-			  || Input.GetKeyDown(KeyCode.JoystickButton3)
-			|| Input.GetKeyDown(KeyCode.JoystickButton7)){
-					GameManager.AcceptInput(GameManager.BUTTON.START);
+				|| Input.GetKeyDown(KeyCode.JoystickButton1)
+				|| Input.GetKeyDown(KeyCode.JoystickButton2)
+				|| Input.GetKeyDown(KeyCode.JoystickButton3)
+				||Input.GetKeyDown(KeyCode.JoystickButton7)){
+					GameManager.AcceptInput("Title", GameManager.BUTTON.DECIDE);
 				}	
 			break;
 				default:
@@ -76,14 +76,40 @@ public class InputManager : MonoBehaviour {
 		case "Test01":
 		case "Test02":
 			
-			if (Input.GetKeyDown (KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton7)) {
-				GameManager.Pause(true);
-				return;
-			}
+			if(!GameManager.Pause()){
+				if (Input.GetKeyDown (KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton7)) {
+					GameManager.Pause(true);
+					return;
+				}
+			}else{
+				///In The Pause Menu START////////
 			
 			
-			if(GameManager.Pause()){
+				if (Input.GetKeyDown (KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton7)) {
+					GameManager.Pause(false);
+					return;
+				}
 				
+				if(Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton10)){
+					GameManager.AcceptInput("Pause", GameManager.BUTTON.DOWN);
+				}
+				if(Input.GetKeyDown(KeyCode.UpArrow) ||Input.GetKeyDown(KeyCode.JoystickButton8)){
+					GameManager.AcceptInput("Pause", GameManager.BUTTON.UP);
+				}
+				
+				if(Input.GetKeyDown(KeyCode.KeypadEnter) //DECIDE
+				   || Input.GetKeyDown(KeyCode.Return) 
+				   || Input.GetKeyDown(KeyCode.JoystickButton1)
+				   || Input.GetKeyDown(KeyCode.JoystickButton2)
+				   || Input.GetKeyDown(KeyCode.JoystickButton3)
+				   ||Input.GetKeyDown(KeyCode.JoystickButton7)){
+					GameManager.AcceptInput("Pause", GameManager.BUTTON.DECIDE);
+				}	
+				if(Input.GetKeyDown(KeyCode.JoystickButton0)){
+					GameManager.AcceptInput("Pause", GameManager.BUTTON.CANCEL);
+				}
+				return;
+				///In The Pause Menu END////////
 			}
 			
 			
@@ -112,26 +138,23 @@ public class InputManager : MonoBehaviour {
 			
 			float speedX = Input.GetKey( KeyCode.JoystickButton9 ) ? 1.0f : Input.GetKey( KeyCode.JoystickButton11 ) ? -1.0f : Input.GetAxis ("Horizontal");
 			float speedY = Input.GetKey( KeyCode.JoystickButton8 ) ? 1.0f : Input.GetKey( KeyCode.JoystickButton10 ) ? -1.0f : Input.GetAxis ("Vertical");
-			
-			
-			
+						
 			Vector2 speed = new Vector2(speedX, speedY);
 			
 			m_player.SendMessage ("UpdateMoveSpeed", speed);
 
 			
-			if (Input.GetKeyDown (KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton7)) {
-				GameManager.Pause(true);
-				
-			}
-			
 			break;//End of case "Main"
 		default:
 			break;
 		}
-
-
-
+	}
+	
+	private IEnumerator Test(){
+		print("test");
+		if(Input.GetKeyDown(KeyCode.P)){
+			yield break;
+		}
 	}
 }
 

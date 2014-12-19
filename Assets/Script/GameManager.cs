@@ -9,12 +9,8 @@ public class GameManager : MonoBehaviour {
 		DOWN,
 		LEFT,
 		RIGHT,
-		ROUND,
-		CROSS,
-		SQUARE,
-		TRIANGLE,
-		T_LEFT,
-		T_RIGHT,
+		DECIDE,
+		CANCEL,
 		START,
 		SELECT,
 	}
@@ -31,8 +27,17 @@ public class GameManager : MonoBehaviour {
 	[HideInInspector]
 	public static SELECTION_TITLE current_selection_title;
 
+	//Pause Selection
+	public enum SELECTION_PAUSE{
+		RESUME,
+		RESTART,
+		QUIT
+	}
+	[HideInInspector]
+	public static SELECTION_PAUSE current_selection_pause;
+
 	//Status
-	static bool pausing;
+	private static bool pausing;
 	private static bool cleared;
 	private static bool gameover;
 	private static bool inMissingDirection;
@@ -63,28 +68,27 @@ public class GameManager : MonoBehaviour {
 	void Start () {
 		ReassignScripts();
 		
-		pausing = false;
+		Pause(false);
 		cleared = false;
 		gameover = false;
 		inMissingDirection = false;
 		
 		switch(Application.loadedLevelName.ToString()){
-			case "Title":
+		case "Title":
 			EnableUI();
-				current_selection_title = SELECTION_TITLE.WAITFORKEY;
-				break;//End of case Title
-			case "Main":
+			current_selection_title = SELECTION_TITLE.WAITFORKEY;
+			break;//End of case Title
+		case "Main":
 			StageMakingHasBeenExecuted = true;
-			break;
-			case "Tutorial":
+			goto case "Test02";
+		case "Tutorial":
 		case "Test01":
 		case "Test02":
 			player_life = DEFAULT_LIFE;
-			//inputManager.enabled = false;
-			//guiManager.enabled = false;
-				break;//End of case "Main"
-			default:
-				break;
+			current_selection_pause = SELECTION_PAUSE.RESUME;
+			break;//End of case "Main"
+		default:
+			break;
 		}
 	}
 	
@@ -102,12 +106,15 @@ public class GameManager : MonoBehaviour {
 				playerIsBorn = true;
 			}
 		}
+		
+		print(pausing);
 	}
 	
 
-	public static void  Pause(bool key){
-		if (!pausing) {
+	public static void Pause(bool key){
+		if (key) {
 			Time.timeScale = 0.0f;
+			
 			pausing = true;
 		} else {
 			Time.timeScale = 1.0f;	
@@ -135,8 +142,9 @@ public class GameManager : MonoBehaviour {
 		obj.GetComponent<Player>().enabled = true;
 		obj.SendMessage("Restart", m_respawnPos);
 		inMissingDirection = false;
+		Pause(false);
 	}
-
+	
 	public static void GameStart(string levelName){
 		Application.LoadLevel(levelName);
 	}
@@ -171,58 +179,117 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 	
-	public static void AcceptInput(BUTTON btn){
-		if(Application.loadedLevelName == "Title"){
-			if(btn == BUTTON.START){
-				PressDecisionKey();
+	public static int GetPauseStatus(){
+		return (int)current_selection_pause;
+	/*
+		switch(current_selection_pause){
+		case SELECTION_PAUSE.RESUME:
+			return "RESUME";
+		case SELECTION_PAUSE.RESTART:
+			return "RESTART";
+		case SELECTION_PAUSE.QUIT:
+			return "QUIT";
+		default:
+			return "ETC";
+		}
+		*/
+	}
+	
+	public static void AcceptInput(string situation, BUTTON btn){
+		if(situation == "Title"){
+			if(btn == BUTTON.DECIDE){
+				PressDecisionKey(situation);
 			}else if(btn == BUTTON.RIGHT){
-				PressSelectKey(true);
-			}else{
-				PressSelectKey(false);
+				PressSelectKey(situation, true);
+			}else if(btn == BUTTON.LEFT){
+				PressSelectKey(situation, false);
+			}
+		}else if(situation == "Pause"){
+			if(btn == BUTTON.DECIDE){
+				PressDecisionKey(situation);
+			}else if(btn == BUTTON.DOWN){
+				PressSelectKey(situation, true);
+			}else if(btn == BUTTON.UP){
+				PressSelectKey(situation, false);
 			}
 		}
 	}
 	
-	public static void PressDecisionKey(){
-		switch(current_selection_title){
-		case SELECTION_TITLE.WAITFORKEY:
-			current_selection_title = SELECTION_TITLE.MAIN;
-			return;
-		case SELECTION_TITLE.MAIN:
-			GameStart("Main");
-			return;
-		case SELECTION_TITLE.TESTSTAGE1:
-			GameStart("Test01");
-			return;
-		case SELECTION_TITLE.TESTSTAGE2:
-			GameStart("Test02");
-			return;
-		case SELECTION_TITLE.OPTION:
-			return;
-		default:
-			return;
+	public static void PressDecisionKey(string situation){
+	
+		if(situation == "Title"){
+		 switch(current_selection_title){
+			case SELECTION_TITLE.WAITFORKEY:
+				current_selection_title = SELECTION_TITLE.MAIN;
+				return;
+			case SELECTION_TITLE.MAIN:
+				GameStart("Main");
+				return;
+			case SELECTION_TITLE.TESTSTAGE1:
+				GameStart("Test01");
+				return;
+			case SELECTION_TITLE.TESTSTAGE2:
+				GameStart("Test02");
+				return;
+			case SELECTION_TITLE.OPTION:
+				return;
+			default:
+				return;
+			}
+		}else if(situation == "Pause"){
+			switch(current_selection_pause){
+			case SELECTION_PAUSE.RESUME:
+				Pause(false);
+				return;
+			case SELECTION_PAUSE.RESTART :
+				Pause(false);
+				GameStart(Application.loadedLevelName);
+				return;
+			case SELECTION_PAUSE.QUIT:
+				GameStart("Title");
+				return;
+			default:
+				return;
+			}
 		}
 	}
 	
-	public static void PressSelectKey(bool dir){
-		switch(current_selection_title){
-		case SELECTION_TITLE.WAITFORKEY:
-			current_selection_title = SELECTION_TITLE.MAIN;			
-			return;
-		case SELECTION_TITLE.MAIN:
-			current_selection_title = dir ? SELECTION_TITLE.TESTSTAGE1 : SELECTION_TITLE.OPTION;			
-			return;
-		case SELECTION_TITLE.TESTSTAGE1:
-			current_selection_title = dir ? SELECTION_TITLE.TESTSTAGE2 : SELECTION_TITLE.MAIN;			
-			return;
-		case SELECTION_TITLE.TESTSTAGE2:
-			current_selection_title = dir ? SELECTION_TITLE.OPTION : SELECTION_TITLE.TESTSTAGE1;			
+	public static void PressSelectKey(string situation, bool dir){
+		if(situation == "Title"){
+			switch(current_selection_title){
+			case SELECTION_TITLE.WAITFORKEY:
+				current_selection_title = SELECTION_TITLE.MAIN;			
 				return;
-		case SELECTION_TITLE.OPTION:
-			current_selection_title = dir ? SELECTION_TITLE.MAIN : SELECTION_TITLE.TESTSTAGE2;			
-			return;
-		default:
-			return;
+			case SELECTION_TITLE.MAIN:
+				current_selection_title = dir ? SELECTION_TITLE.TESTSTAGE1 : SELECTION_TITLE.OPTION;			
+				return;
+			case SELECTION_TITLE.TESTSTAGE1:
+				current_selection_title = dir ? SELECTION_TITLE.TESTSTAGE2 : SELECTION_TITLE.MAIN;			
+				return;
+			case SELECTION_TITLE.TESTSTAGE2:
+				current_selection_title = dir ? SELECTION_TITLE.OPTION : SELECTION_TITLE.TESTSTAGE1;			
+					return;
+			case SELECTION_TITLE.OPTION:
+				current_selection_title = dir ? SELECTION_TITLE.MAIN : SELECTION_TITLE.TESTSTAGE2;			
+				return;
+			default:
+				return;
+			}
+		}else if ( situation == "Pause"){
+			switch(current_selection_pause){
+			case SELECTION_PAUSE.RESUME:
+				current_selection_pause = dir ? SELECTION_PAUSE.RESTART : SELECTION_PAUSE.QUIT;			
+				return;
+			case SELECTION_PAUSE.RESTART:
+				current_selection_pause = dir ? SELECTION_PAUSE.QUIT : SELECTION_PAUSE.RESUME;			
+				return;
+			case SELECTION_PAUSE.QUIT:
+				current_selection_pause = dir ? SELECTION_PAUSE.RESUME : SELECTION_PAUSE.RESTART;			
+				return;
+
+			default:
+				return;
+			}
 		}
 	}
 	
