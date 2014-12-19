@@ -194,17 +194,17 @@ public class GUIManager : MonoBehaviour {
 			}
 			
 			//About HitPoint
-			if(player == null){
-				player = GameObject.FindWithTag("Player").GetComponent<Player> ();
-			}
-			int[] health = player.GetLifeInfo ();
-			for (int i = 0; i < health[0]; i++) {
-				if(i < health[1]){
-					GUI.Box (new Rect (m_basePos_healthPoint.x + (m_interval_health * i), m_basePos_healthPoint.y, m_scale_healthPoint, m_scale_healthPoint), icon_heart [1], GUIStyle.none);
-				}else{
-					GUI.Box (new Rect (m_basePos_healthPoint.x + (m_interval_health * i), m_basePos_healthPoint.y, m_scale_healthPoint, m_scale_healthPoint), icon_heart [0], GUIStyle.none);
-				}
-			}
+			//if(player == null){
+			//	player = GameObject.FindWithTag("Player").GetComponent<Player> ();
+			//}
+			//int[] health = player.GetLifeInfo ();
+			//for (int i = 0; i < health[0]; i++) {
+			//	if(i < health[1]){
+			//		GUI.Box (new Rect (m_basePos_healthPoint.x + (m_interval_health * i), m_basePos_healthPoint.y, m_scale_healthPoint, m_scale_healthPoint), icon_heart [1], GUIStyle.none);
+			//	}else{
+			//		GUI.Box (new Rect (m_basePos_healthPoint.x + (m_interval_health * i), m_basePos_healthPoint.y, m_scale_healthPoint, m_scale_healthPoint), icon_heart [0], GUIStyle.none);
+			//	}
+			//}
 			//End of About HitPoint
 			
 			//About LifePoint

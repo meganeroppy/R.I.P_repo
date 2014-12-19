@@ -15,15 +15,20 @@ public class Player : Walker {
 	Collider2D[] m_colliders;
 	bool debugedDamage = false;
 	
-	public GameObject Exorcised_soul;
+	public GameObject exorcised_soul;
 	
 	//Script
 	GameManager gameManager;
 	
 	// Use this for initialization
-	protected override void Start () {
+	protected override void Awake () {
+		base.Awake();
 		MAX_HEALTH = 5;
 		current_health = MAX_HEALTH;
+	}
+	
+	protected override void Start(){
+	
 	}
 	
 	protected override bool init(GameObject caller){
@@ -73,7 +78,6 @@ public class Player : Walker {
 	}
 
 	protected override void Update(){
-								
 		base.Update ();
 		if (current_status == STATUS.GHOST_IDLE || debugedDamage) {
 			current_spirit -= losing_rate * Time.deltaTime ;	
@@ -230,9 +234,11 @@ public class Player : Walker {
 		gameManager.SendMessage("Miss", true);
 		this.enabled = false;
 		rigidbody2D.Sleep();
+		current_health = 0;
+		current_spirit = 0.0f;
 		
 		Instantiate(effect_transformation, transform.position + new Vector3(0.0f, 0.0f, -1.0f), transform.rotation);
-		Instantiate( Exorcised_soul, transform.position, transform.rotation);
+		Instantiate( exorcised_soul, transform.position, transform.rotation);
 	}
 	
 	public void Restart(Vector3 respawnPos){
