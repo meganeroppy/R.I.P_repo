@@ -53,7 +53,7 @@ public class SoulfulLight : Monument {
 		
 		
 		if(Mathf.Floor( Time.frameCount ) % Random.Range(50, 70) == 0 ){					
-			Vector3 offset = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(0.0f, 2.0f), 1);
+			Vector3 offset = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(0.0f, 2.0f), -1);
 			GameObject obj = Instantiate(effect_good, transform.position + offset, transform.rotation) as GameObject;
 			obj.transform.localScale = new Vector3(0.5f,0.5f,0.5f);
 			obj.transform.parent = transform;

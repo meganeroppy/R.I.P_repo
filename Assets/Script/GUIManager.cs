@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class GUIManager : MonoBehaviour {
-
+/*
 	//System
 	protected bool grounded;
 	STATUS status;
@@ -33,12 +33,12 @@ public class GUIManager : MonoBehaviour {
 	private Player player;
 
 	public bool DEBUG_MODE = true;
-
+*/
 	// Use this for initialization
 	void Start () {
 	
-		m_w = Screen.width;
-		m_h = Screen.height;
+		//m_w = Screen.width;
+		//m_h = Screen.height;
 
 		switch(Application.loadedLevelName.ToString()){
 
@@ -49,7 +49,7 @@ public class GUIManager : MonoBehaviour {
 		case "Tutorial":
 		case "Test01":
 		case "Test02":
-
+/*
 			//About lifePoint
 			m_basePos_lifePoint = new Vector2 (m_w * 0.01f, m_h * 0.08f);
 			m_scale_lifePoint = m_w * 0.03f;
@@ -59,7 +59,7 @@ public class GUIManager : MonoBehaviour {
 			m_basePos_healthPoint = new Vector2 (m_w * 0.01f, m_h * 0.2f);
 			m_scale_healthPoint = m_w * 0.03f;
 			m_interval_health = m_w * 0.03f;
-			
+*/			
 			break;
 			//End of case "Main"/////////////////////////
 			////////////////////////////////////////////
@@ -71,7 +71,7 @@ public class GUIManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+/*
 		switch(Application.loadedLevelName.ToString()){
 			
 		case "Title":			
@@ -91,18 +91,18 @@ public class GUIManager : MonoBehaviour {
 		default:
 			break;
 		}
-
+*/
 	}
 
 	void OnGUI(){
 
-		GUIStyle style =  new GUIStyle();
+		//GUIStyle style =  new GUIStyle();
 
 		switch(Application.loadedLevelName.ToString()){
 			//Begin of case "Title"/////////////////////////
 			////////////////////////////////////////////
 		case "Title":
-
+/*
 			style.fontSize = 18;
 			style.normal.textColor = Color.gray;
 			style.alignment = TextAnchor.MiddleCenter;
@@ -156,15 +156,16 @@ public class GUIManager : MonoBehaviour {
 				GUI.Box(new Rect((m_w * 0.8f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Option", style);
 				break;
 			}
-			
+			*/
 			break;
+			
 			//End of case "Title"/////////////////////////
 			////////////////////////////////////////////
 		case "Main":
 		case "Tutorial":
 		case "Test01":
 		case "Test02":
-			
+		/*	
 			style.normal.textColor = Color.yellow;
 			
 			//For Debug
@@ -192,7 +193,7 @@ public class GUIManager : MonoBehaviour {
 					GUI.Box (new Rect (m_w * 0.05f, m_h * 0.8f, 40.0f, 20.0f), "MISSED!!", style);
 				}
 			}
-			
+		*/	
 			//About HitPoint
 			//if(player == null){
 			//	player = GameObject.FindWithTag("Player").GetComponent<Player> ();

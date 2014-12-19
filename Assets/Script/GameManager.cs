@@ -80,11 +80,8 @@ public class GameManager : MonoBehaviour {
 		case "Test01":
 		case "Test02":
 			player_life = DEFAULT_LIFE;
-			
 			//inputManager.enabled = false;
 			//guiManager.enabled = false;
-			
-
 				break;//End of case "Main"
 			default:
 				break;
@@ -148,7 +145,7 @@ public class GameManager : MonoBehaviour {
 		ReassignScripts();
 		soundManager.enabled = true;
 		inputManager.enabled = true;
-		guiManager.enabled = true;
+		//guiManager.enabled = true;
 
 		GameObject[] obj = GameObject.FindGameObjectsWithTag("UI");
 		foreach(GameObject child in obj){
