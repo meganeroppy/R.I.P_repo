@@ -39,11 +39,9 @@ public class PauseUI : UI {
 			if(!displaying){
 				displaying = true;
 				uiSprite.enabled = true;
-				//
-				StartCoroutine(UpdateWhilePause());
-				//
 				
-
+				StartCoroutine(UpdateWhilePause());
+				
 				//iTween.ValueTo(this.gameObject, iTween.Hash("from", 1, "to", 0.0f, "time", 1.5f, "onupdate", "UpdateOpacity"));
 			}
 			//uiSprite.alpha -= 0.025f;
@@ -56,6 +54,8 @@ public class PauseUI : UI {
 	}
 	
 	private IEnumerator UpdateWhilePause(){
+		
+		yield return 0;
 		
 		while(true){
 			if(displaying){

@@ -52,11 +52,11 @@ public class Rumple : Flyer {
 			}
 
 			if(cur_action_pettern == ACTION_PETTERN.B){
-				float val = (Mathf.Cos((Mathf.PI * 2) * (m_timer * 0.5f)) ) * 0.15f;
+				float val = (Mathf.Cos((Mathf.PI * 2) * (m_timer * 0.5f)) ) * 10.0f;
 				val *= m_randomNum;
 
 				Vector3 pos = transform.position;
-				transform.position = new Vector3(pos.x + val, pos.y + returning_speed * Time.deltaTime, pos.z);
+				transform.position = new Vector3(pos.x + ( val * Time.deltaTime) , pos.y + returning_speed * Time.deltaTime, pos.z);
 
 			}
 

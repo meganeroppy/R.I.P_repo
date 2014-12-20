@@ -114,7 +114,6 @@ public class GameManager : MonoBehaviour {
 	public static void Pause(bool key){
 		if (key) {
 			Time.timeScale = 0.0f;
-			
 			pausing = true;
 		} else {
 			Time.timeScale = 1.0f;	

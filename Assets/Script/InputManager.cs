@@ -84,7 +84,6 @@ public class InputManager : MonoBehaviour {
 			}else{
 				///In The Pause Menu START////////
 			
-			
 				if (Input.GetKeyDown (KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton7)) {
 					GameManager.Pause(false);
 					return;
