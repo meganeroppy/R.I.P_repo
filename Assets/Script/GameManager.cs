@@ -143,6 +143,10 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	public static void GameStart(string levelName){
+		GameObject[] obj = GameObject.FindGameObjectsWithTag("Loading");
+		foreach(GameObject child in obj){
+			child.SendMessage("Activate");
+		}
 		Application.LoadLevel(levelName);
 	}
 	
