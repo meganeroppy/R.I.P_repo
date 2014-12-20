@@ -64,7 +64,6 @@ public class TitleLabel : UI {
 				}else{
 					uiLabel.alpha = 0.5f;
 				}
-				break;
 				/*
 				for(int i = 0 ; i < NUMOFSELECTION ; i++){
 					
