@@ -1036,13 +1036,18 @@ public class NGUIEditorTools
 	/// Draw a distinctly different looking header label
 	/// </summary>
 
-	static public bool DrawHeader (string text, bool forceOn = false) { return DrawHeader(text, text, forceOn); }
+	static public bool DrawHeader (string text, bool forceOn) {
+		return DrawHeader(text, text, forceOn); 
+	}
 
+	static public bool DrawHeader (string text) {
+		return DrawHeader(text, text, false); 
+	}
 	/// <summary>
 	/// Draw a distinctly different looking header label
 	/// </summary>
 
-	static public bool DrawHeader (string text, string key, bool forceOn = false)
+	static public bool DrawHeader (string text, string key, bool forceOn)
 	{
 		bool state = EditorPrefs.GetBool(key, true);
 
@@ -1064,6 +1069,10 @@ public class NGUIEditorTools
 		GUI.backgroundColor = Color.white;
 		if (!forceOn && !state) GUILayout.Space(3f);
 		return state;
+	}
+
+	static public bool DrawHeader (string text, string key){
+		return DrawHeader (text, key, false);
 	}
 
 	/// <summary>

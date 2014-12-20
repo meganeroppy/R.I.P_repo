@@ -106,8 +106,6 @@ public class GameManager : MonoBehaviour {
 				playerIsBorn = true;
 			}
 		}
-		
-		print(pausing);
 	}
 	
 
