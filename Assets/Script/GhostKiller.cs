@@ -111,7 +111,6 @@ public class GhostKiller : DeadZone {
 		
 		spriteRenderer.color = new Color(val, 0, val, 1);
 		if(spriteRenderer.color == new Color(0, 0, 0, 1)){
-			print (spriteRenderer.color.ToString() + "switchToMagenta");
 			//colorSwitchFlug = true;
 		}
 	}
@@ -119,7 +118,6 @@ public class GhostKiller : DeadZone {
 	private void ColorToMagenta(float val){
 		spriteRenderer.color = new Color(val, 0, val, 1);
 		if(spriteRenderer.color == new Color(1,0,1,1) ){
-			print (spriteRenderer.color.ToString() + "switchToBlack");
 			//colorSwitchFlug = true;
 		}
 	}
