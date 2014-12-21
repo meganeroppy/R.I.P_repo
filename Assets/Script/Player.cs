@@ -6,8 +6,8 @@ public class Player : Walker {
 	private bool living;
 
 	//private Vector3 default_pos;
-	private float losing_rate = 20.0f;
-	private float gaining_rate = 0.4f;
+	private float losing_rate = 15.0f;
+	private float gaining_rate = 1.0f;
 	
 
 	private float default_spirit;

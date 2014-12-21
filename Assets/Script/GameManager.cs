@@ -332,7 +332,7 @@ public class GameManager : MonoBehaviour {
 	
 	public void GameClear(bool key){
 		cleared = true;
-		StartCoroutine (WaitAndExecute (2.0f, "Title"));
+		StartCoroutine (WaitAndExecute (4.0f, "Title"));
 	}
 	
 	private void ReassignScripts(){

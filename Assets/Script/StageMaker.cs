@@ -16,7 +16,7 @@ public class StageMaker : MonoBehaviour {
 	public GameObject[] stageObject;
 	public GameObject[] stageFunction;
 	
-	private int len_pCode = 0;
+//	private int len_pCode = 0;
 //	public string[] stageFunction;
 	//	 [] stageFunction;
 //	 MonoBehaviour[] stageFunction;

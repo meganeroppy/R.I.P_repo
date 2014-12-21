@@ -21,7 +21,6 @@ public class LoadingSet : UI {
 	}
 	
 	protected override void Activate(){
-		print("Activate");
 		uiSprite.enabled = true;
 		uiLabel.enabled = true;
 		StartCoroutine(AnimateLoadingLabel());
@@ -29,12 +28,11 @@ public class LoadingSet : UI {
 	}
 	
 	private IEnumerator AnimateLoadingLabel(){
-		int frame = 0;
+		int frame = 3;
 		while(true){
 			
 			int pastTime = (int)(Time.time - Time.realtimeSinceStartup);
 			if(pastTime % 750 == 0){
-				frame = frame >= 3 ? 0 : frame + 1;
 				
 				string dot = "";
 				for(int i = 0 ; i < frame ; i++){
@@ -42,6 +40,8 @@ public class LoadingSet : UI {
 				}
 				
 				uiLabel.text = "Loading" + dot;
+				
+				frame = frame >= 3 ? 0 : frame + 1;
 			}
 			
 			yield return 0;
