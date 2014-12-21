@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GhostKiller : DeadZone {
 	
-	private bool colorSwitchFlug = false;
+	//private bool colorSwitchFlug = false;
 	
 	protected override void Start ()
 	{
@@ -15,8 +15,8 @@ public class GhostKiller : DeadZone {
 		if(!GameManager.CheckCurrentPlayerIsGhost()){
 			if(m_awake){
 				SetAsDefault();
-				spriteRenderer.color = Color.magenta;
-				SwitchColor();
+				spriteRenderer.color = Color.black;
+				//SwitchColor();
 				m_awake = false;
 				
 			}
@@ -24,7 +24,9 @@ public class GhostKiller : DeadZone {
 		}else{
 			if(!m_awake){
 				m_awake = true;
-				colorSwitchFlug = true;
+				//colorSwitchFlug = true;
+				//
+				SwitchColor();
 			}
 		}
 		
@@ -45,14 +47,12 @@ public class GhostKiller : DeadZone {
 			m_alpha -= Time.deltaTime * 1f;
 		}
 
-		if(colorSwitchFlug){
-			colorSwitchFlug = false;
-			SwitchColor();
-		}		
+		//if(colorSwitchFlug){
+		//	colorSwitchFlug = false;
+		//	SwitchColor();
+		//}
 	}
 		
-		
-
 	protected void OnCollisionEnter2D (Collision2D col)
 	{
 		if (col.gameObject.tag == "Player" && !GameManager.Miss()) {
@@ -72,7 +72,7 @@ public class GhostKiller : DeadZone {
 	}
 	
 	
-	
+	/*
 	private void SwitchColor(){
 		int colorFrom = 0;
 		int colorTo = 1;
@@ -87,17 +87,40 @@ public class GhostKiller : DeadZone {
 		iTween.ValueTo(gameObject, iTween.Hash("from", colorFrom, "to", colorTo, "time", 0.5f, "onupdate", funcName));
 	}
 	
+	*/
+	
+	private void SwitchColor(){
+
+		int colorFrom = 0;
+		int colorTo = 1;
+		string funcName = "ColorToMagenta";
+		if(spriteRenderer.color == Color.magenta || !m_awake){
+			colorTo = 0;
+			colorFrom = 1;
+			funcName = "ColorToBlack";
+		}
+		
+		if(!m_awake){
+			iTween.ValueTo(gameObject, iTween.Hash("from", colorFrom, "to", colorTo, "time", 0.5f, "onupdate", funcName));
+		}else{
+			iTween.ValueTo(gameObject, iTween.Hash("from", colorFrom, "to", colorTo, "time", 0.5f, "onupdate", funcName, "oncomplete", "SwitchColor"));
+		}
+	}
+	
 	private void ColorToBlack(float val){
+		
 		spriteRenderer.color = new Color(val, 0, val, 1);
-		if(spriteRenderer.color == Color.black){
-			colorSwitchFlug = true;
+		if(spriteRenderer.color == new Color(0, 0, 0, 1)){
+			print (spriteRenderer.color.ToString() + "switchToMagenta");
+			//colorSwitchFlug = true;
 		}
 	}
 	
 	private void ColorToMagenta(float val){
 		spriteRenderer.color = new Color(val, 0, val, 1);
-		if(spriteRenderer.color == Color.magenta ){
-			colorSwitchFlug = true;
+		if(spriteRenderer.color == new Color(1,0,1,1) ){
+			print (spriteRenderer.color.ToString() + "switchToBlack");
+			//colorSwitchFlug = true;
 		}
 	}
 }

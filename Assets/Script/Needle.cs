@@ -6,7 +6,7 @@ public class Needle : Monument {
 	private Player m_target;
 	private float attack_power;
 
-	private Vector2 blow_impact =  new Vector2(200.0f, 100.0f);
+	private Vector2 blow_impact =  new Vector2(200.0f, 300.0f);
 	
 	protected override void Start(){
 		builtOnGround = false;
@@ -15,6 +15,12 @@ public class Needle : Monument {
 	}
 
 	protected override void OnTriggerEnter2D(Collider2D col){
+		if (col.gameObject.tag == "Player") {
+			Crash(col.gameObject);
+		}
+	}
+	
+	protected virtual void OnTriggerStay2D(Collider2D col){
 		if (col.gameObject.tag == "Player") {
 			Crash(col.gameObject);
 		}
@@ -36,6 +42,7 @@ public class Needle : Monument {
 				dir *= -1.0f;
 			}
 			m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
+			
 		}
 	}
 

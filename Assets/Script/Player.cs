@@ -101,14 +101,16 @@ public class Player : Walker {
 			Item item = col.gameObject.GetComponent<Item> ();
 			switch (item.GetItemType ()) {
 			case "DYING":
-					DieAndBecomeGhost ();
-					break;
+				DieAndBecomeGhost ();
+				break;
 			case "REVIVAL":
-					GainSpirit(25.0f);
+				GainSpirit(12.5f);
+				if(current_status == STATUS.GHOST_IDLE){
 					Revive ();
-					break;
+				}
+				break;
 			default:
-					break;
+				break;
 			}
 			col.gameObject.SendMessage("Remove");
 		}

@@ -31,7 +31,7 @@ public class CheckPoint : MonoBehaviour {
 		
 		if(col.tag.Equals("Player")){
 			marked = true;
-			Instantiate(label_checkPoint, transform.position, transform.rotation);
+			Instantiate(label_checkPoint, transform.position + new Vector3(0.0f, 0.0f, -1.0f), transform.rotation);
 			GameObject manager = GameObject.Find("GameManager") as GameObject;
 			manager.GetComponent<GameManager>().SendMessage("ApplyRespawnPoint", this.transform.position);
 			manager.GetComponent<SoundManager>().SendMessage("PlaySE", "GetItem");
