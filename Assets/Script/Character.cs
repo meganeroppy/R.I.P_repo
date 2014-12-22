@@ -58,7 +58,6 @@ public class Character : StageObject {
 	protected override void Start () {
 		base.Start ();
 
-		//layer_ground =  1 << LayerMask.NameToLayer ("Ground");
 		layer_ground =  1 << 8;
 		current_side = SIDE.LEFT;
 		current_status = STATUS.IDLE;
@@ -80,7 +79,6 @@ public class Character : StageObject {
 			?  true : Physics2D.Raycast(pos + new Vector3(0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_ground)
 				? true : Physics2D.Raycast(pos + new Vector3(-0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_ground);
 
-
 		if(invincible < 0.0f){
 			renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
 		}else{
@@ -89,7 +87,6 @@ public class Character : StageObject {
 
 		switch (current_status) {
 		case STATUS.IDLE:
-			//renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
 			if(Mathf.Abs(move_speed.x) > 0.05f){
 				current_status = STATUS.WALK;
 			}else{
@@ -121,6 +118,8 @@ public class Character : StageObject {
 				}else{
 					current_status = STATUS.WALK;
 				}
+			}else if(rigidbody2D.velocity.y > 0.0f){
+				current_status = STATUS.JUMP_UP;
 			}
 			
 			transform.position += new Vector3(move_speed.x * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
@@ -165,14 +164,11 @@ public class Character : StageObject {
 			}
 		break;	
 		case STATUS.DYING:
-			/*
-			rigorState -= 1.0f * Time.deltaTime;
-			if(rigorState <= 0.0f && grounded){
-				StartCoroutine (Die ());
-			}
-			*/
 			break;
 		case STATUS.GHOST_IDLE:
+			if(rigidbody2D.velocity != Vector2.zero){
+				rigidbody2D.velocity = Vector2.zero;
+			}
 			transform.position += new Vector3(move_speed.x * MOVE_SPEED_BASE * Time.deltaTime * 0.5f, move_speed.y * MOVE_SPEED_BASE * Time.deltaTime * 0.5f, 0.0f);
 			break;
 		case STATUS.GONE:
@@ -249,8 +245,9 @@ public class Character : StageObject {
 
 	protected virtual IEnumerator Die(){
 		current_status = STATUS.GONE;
-		renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
-
+		//renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
+		renderer.material.color = Color.white;
+		
 		yield return new  WaitForSeconds(DISAPPEARING_DELAY);
 		Instantiate(effectPoint_destroy, transform.position, transform.rotation);
 		

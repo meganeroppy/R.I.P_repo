@@ -135,6 +135,17 @@ public class InputManager : MonoBehaviour {
 				m_player.SendMessage("Jump");		
 			}
 			
+			if (Input.GetKeyDown (KeyCode.Z)
+			    || Input.GetKeyDown (KeyCode.Joystick1Button1)
+			    || Input.GetKeyDown (KeyCode.Joystick1Button2) 
+			    || Input.GetKeyDown (KeyCode.Joystick1Button3)
+			    ||Input.GetKeyDown (KeyCode.J) 
+			    || Input.GetKeyDown (KeyCode.X)
+			    || Input.GetKeyDown (KeyCode.Space)
+			    || Input.GetKeyDown(KeyCode.Joystick1Button0)) {
+				m_player.SendMessage("CancelMotion");		
+			}
+			
 			float speedX = Input.GetKey( KeyCode.JoystickButton9 ) ? 1.0f : Input.GetKey( KeyCode.JoystickButton11 ) ? -1.0f : Input.GetAxis ("Horizontal");
 			float speedY = Input.GetKey( KeyCode.JoystickButton8 ) ? 1.0f : Input.GetKey( KeyCode.JoystickButton10 ) ? -1.0f : Input.GetAxis ("Vertical");
 						

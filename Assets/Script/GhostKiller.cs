@@ -41,7 +41,6 @@ public class GhostKiller : DeadZone {
 			return;
 		}else{		
 			m_colorVal = Mathf.PingPong(Time.time * 1.5f, 1.0f);
-			print(Time.time);
 			spriteRenderer.color = Color.Lerp(Color.black, Color.magenta, m_colorVal);
 		}
 		

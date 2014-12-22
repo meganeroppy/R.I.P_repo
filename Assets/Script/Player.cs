@@ -116,13 +116,6 @@ public class Player : Walker {
 		}
 	}
 
-	/*
-	protected void OnCollisionExit2D(Collision2D col){
-		if (col.gameObject.tag == "MovingFloor") {
-			transform.parent = null;		
-		}
-	}
-*/
 	protected void Jump(){
 		if ( grounded && (current_status == STATUS.WALK || current_status == STATUS.IDLE )) {
 			rigidbody2D.AddForce (JUMP_FORCE_BASE);
@@ -139,7 +132,16 @@ public class Player : Walker {
 		renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
 		
 		yield return new  WaitForSeconds(DISAPPEARING_DELAY);
-		DieAndBecomeGhost ();
+		if(current_status != STATUS.GHOST_IDLE){
+			DieAndBecomeGhost ();
+		}
+	}
+	
+	protected void CancelMotion(){
+		if(current_health <= 0 && current_status != STATUS.GHOST_IDLE && current_status != STATUS.GHOST_DAMAGE){
+			DieAndBecomeGhost ();
+		}
+	
 	}
 	
 	protected override void Flip (SIDE side)
@@ -152,14 +154,15 @@ public class Player : Walker {
 
 	
 	protected void DieAndBecomeGhost(){
+		
 		living = false;
 		rigidbody2D.gravityScale = 0.0f;
+		rigidbody2D.velocity = Vector2.zero;
 		
 		foreach (Collider2D col in m_colliders) {
 			col.isTrigger = true;
 		}
 		
-		rigidbody2D.velocity = new Vector2 (0.0f, 0.0f);
 		current_status = STATUS.GHOST_IDLE;
 		Instantiate (effect_transformation, transform.position, transform.rotation);
 		
@@ -185,8 +188,6 @@ public class Player : Walker {
 	}
 	
 	protected override void Disappear(){
-		Instantiate(effect_transformation, transform.position, transform.rotation);
-		
 		GetExorcised();
 	}
 
