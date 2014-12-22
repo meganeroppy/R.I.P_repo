@@ -8,7 +8,7 @@ public class Cloud : MonoBehaviour {
 	protected float scale;
 	
 	protected float SPEED_MIN = 0.5f;
-	protected float SPEED_MAX = 3.5f;
+	protected float SPEED_MAX = 3.0f;
 	protected float SCALE_MIN = 1.0f;
 	protected float SCALE_MAX = 1.8f;
 	

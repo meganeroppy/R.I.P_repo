@@ -25,6 +25,13 @@ public class Needle : Monument {
 			Crash(col.gameObject);
 		}
 	}
+	
+	protected override void Update ()
+	{
+		base.Update ();
+		
+		Vector3 pos = transform.position;
+	}
 
 
 	protected void Crash(GameObject other){

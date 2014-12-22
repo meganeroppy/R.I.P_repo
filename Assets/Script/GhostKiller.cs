@@ -4,10 +4,12 @@ using System.Collections;
 public class GhostKiller : DeadZone {
 	
 	//private bool colorSwitchFlug = false;
+	private float m_colorVal;
 	
 	protected override void Start ()
 	{
 		base.Start();
+		m_colorVal = 0.0f;
 	}
 	
 	protected override void Update ()
@@ -26,7 +28,7 @@ public class GhostKiller : DeadZone {
 				m_awake = true;
 				//colorSwitchFlug = true;
 				//
-				SwitchColor();
+				//SwitchColor();
 			}
 		}
 		
@@ -37,6 +39,10 @@ public class GhostKiller : DeadZone {
 		
 		if(!m_awake){
 			return;
+		}else{		
+			m_colorVal = Mathf.PingPong(Time.time * 1.5f, 1.0f);
+			print(Time.time);
+			spriteRenderer.color = Color.Lerp(Color.black, Color.magenta, m_colorVal);
 		}
 		
 		if(m_scale > 2.0f){
@@ -46,6 +52,8 @@ public class GhostKiller : DeadZone {
 			m_scale += Time.deltaTime * 1f;
 			m_alpha -= Time.deltaTime * 1f;
 		}
+
+		
 
 		//if(colorSwitchFlug){
 		//	colorSwitchFlug = false;
@@ -101,14 +109,13 @@ public class GhostKiller : DeadZone {
 		}
 		
 		if(!m_awake){
-			iTween.ValueTo(gameObject, iTween.Hash("from", colorFrom, "to", colorTo, "time", 0.5f, "onupdate", funcName));
+			iTween.ValueTo(gameObject, iTween.Hash("from", colorFrom, "to", colorTo, "time", 1.0f, "onupdate", funcName));
 		}else{
-			iTween.ValueTo(gameObject, iTween.Hash("from", colorFrom, "to", colorTo, "time", 0.5f, "onupdate", funcName, "oncomplete", "SwitchColor"));
+			iTween.ValueTo(gameObject, iTween.Hash("from", colorFrom, "to", colorTo, "time", 1.0f, "onupdate", funcName, "oncomplete", "SwitchColor"));
 		}
 	}
 	
 	private void ColorToBlack(float val){
-		
 		spriteRenderer.color = new Color(val, 0, val, 1);
 		if(spriteRenderer.color == new Color(0, 0, 0, 1)){
 			//colorSwitchFlug = true;
