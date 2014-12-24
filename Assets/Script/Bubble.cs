@@ -8,7 +8,6 @@ public class Bubble : Bullet {
 	protected SpriteRenderer spriteRenderer;
 	public Sprite[] bubble_pic;
 	protected int current_frame = 0;
-	protected bool dying = false;
 	
 	protected override void Start ()
 	{

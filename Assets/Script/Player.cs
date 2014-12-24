@@ -66,14 +66,11 @@ public class Player : Walker {
 		manager.SendMessage("EnableUI");
 		GameObject.FindWithTag("MainCamera").GetComponent<MainCamera>().enabled = true;
 		
-		//Set Position relate to the game advances
-		//transform.position = GameManager.GetCurrentRespawnPosition();
-		
 		manager.SendMessage("ApplyRespawnPoint", transform.position + new Vector3(0.0f, -3.0f, 0.0f));
 	
 		GameManager.InformBecomeGhost(false);
+		invincible = false;
 		
-	
 		return true;
 	}
 
@@ -84,7 +81,7 @@ public class Player : Walker {
 			Color color = new Color(1.0f, 1.0f, 1.0f, current_spirit / MAX_SPIRIT );
 			renderer.material.color = color;
 			if (current_spirit <= 0.0f) {
-					Disappear();
+				Disappear();
 				}
 		}else{
 			if(current_spirit < MAX_SPIRIT){
@@ -174,7 +171,7 @@ public class Player : Walker {
 	}
 
 	protected override void ApplyHealthDamage(int value){
-		if(invincible >= 0.0f){
+		if(invincible){
 			return;
 		}
 		base.ApplyHealthDamage (value);
@@ -200,7 +197,8 @@ public class Player : Walker {
 		
 		//renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
 		current_status = STATUS.IDLE;
-		invincible = INVINCIBLE_DURATION;
+		timer_invincible = INVINCIBLE_DURATION;
+		invincible = true;
 		
 		Instantiate (effect_transformation, transform.position, transform.rotation);
 

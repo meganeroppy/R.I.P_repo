@@ -79,10 +79,17 @@ public class Character : StageObject {
 			?  true : Physics2D.Raycast(pos + new Vector3(0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_ground)
 				? true : Physics2D.Raycast(pos + new Vector3(-0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_ground);
 
-		if(invincible < 0.0f){
-			renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
+		if(!invincible){
+			if(renderer.material.color != Color.white){
+				renderer.material.color = Color.white;
+			}
 		}else{
-			invincible -= Time.deltaTime;
+			if(current_status != STATUS.DAMAGE){
+				timer_invincible -= Time.deltaTime;
+				if(timer_invincible <= 0.0f ){
+					invincible = false;
+				}
+			}
 		}
 
 		switch (current_status) {
@@ -159,7 +166,8 @@ public class Character : StageObject {
 					
 				}else{
 					current_status = STATUS.IDLE;
-					invincible = INVINCIBLE_DURATION;
+					//invincible = true;
+					//timer_invincible = INVINCIBLE_DURATION;
 				}
 			}
 		break;	

@@ -4,19 +4,25 @@ using System.Collections;
 public class Bullet : StageObject {
 	
 	protected float speed = 15.0f;
-	protected Vector3 m_direction;
+	protected Vector3 m_direction = Vector3.zero;
 	protected Vector2 blow_impact =  new Vector2(100.0f, 50.0f);
 	protected float attack_power = 1.0f;
 	protected float lifeTime = 2.0f;
+	protected bool executed = false;
+	protected bool dying = false;
 	
 	protected override void Start ()
 	{
 //		base.Start();
-		m_direction = Vector3.zero;
 	}
 	
-	protected override void Update(){		
-		if(m_direction != Vector3.zero){
+	protected override void Update(){
+	
+		if(!executed){
+			return;
+		}
+		
+		if(!dying){
 			Vector3 pos = transform.position;
 			transform.position = new Vector3(pos.x + m_direction.x * speed * Time.deltaTime, pos.y + m_direction.y * speed * Time.deltaTime, pos.z);
 		}
@@ -26,12 +32,13 @@ public class Bullet : StageObject {
 		}
 	}
 	
-	protected void SetDirectionAndExecute(Vector3 dir){
+	protected virtual void SetDirectionAndExecute(Vector3 dir){
 		m_direction = dir;
+		executed = true;
 	}
 	
-	protected void SetDirectionAndExecute(Vector2 dir){
-		m_direction = new Vector3 (dir.x, dir.y, 0.0f);
+	protected virtual void SetDirectionAndExecute(Vector2 dir){
+		SetDirectionAndExecute(new Vector3 (dir.x, dir.y, 0.0f));
 	}
 	
 	protected override void OnTriggerEnter2D(Collider2D col){

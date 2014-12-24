@@ -4,9 +4,11 @@ using System.Collections;
 public class Garbage : Character {
 
 	public GameObject bubble;
-	protected float offsetEularZ_bubble = -90.0f;
-	protected const float WARMINGUP = 1.5f;
-	protected const float THROW_INTERVAL = 0.1f;
+	protected float bubble_speed = 10.0f;
+	protected float eulerZ_bubbleTexture = -90.0f;
+	protected const float WARMINGUP = 1.0f;
+	protected const float THROW_INTERVAL = 0.2f;
+	protected int throwCount = 0;
 	protected const float DAMAGED_RIGOR = 0.1f;
 	protected float rigorTimer = 0.0f;
 	private bool m_awaking = false;
@@ -21,6 +23,7 @@ public class Garbage : Character {
 	{
 		base.Start ();
 		current_health = 4;
+		invincible = true;
 	}
 
 	protected override void Update (){
@@ -31,14 +34,12 @@ public class Garbage : Character {
 		base.Update();
 		if(m_awaking){
 			if(GameManager.CheckCurrentPlayerIsGhost()){
-				m_awaking = false;
-				anim.SetTrigger("t_hide");
+				Hide();
 				return;
 			}
 		
 			if(Mathf.Abs( transform.position.x - m_target.transform.position.x) >= AWAKE_RANGE){
-				m_awaking = false;
-				anim.SetTrigger("t_hide");
+				Hide();
 			}
 			
 			if(transform.position.x < m_target.transform.position.x){
@@ -47,10 +48,11 @@ public class Garbage : Character {
 				Flip(SIDE.LEFT);//Means Right
 			}
 			if(rigorTimer <= 0.0f){
-				if(Mathf.Floor( Time.frameCount ) % Random.Range(30, 35) == 0){
+//				if(Mathf.Floor( Time.frameCount ) % Random.Range(20, 25) == 0){
 					ThrowGarbage();
-					rigorTimer = THROW_INTERVAL;
-				}
+					throwCount++;
+				rigorTimer = throwCount % 9 == 0 ? THROW_INTERVAL * 12.0f : throwCount % 3 == 0 ? THROW_INTERVAL * 3.0f : THROW_INTERVAL;
+//				}
 			}else{
 				rigorTimer -= Time.deltaTime;
 			}
@@ -74,6 +76,12 @@ public class Garbage : Character {
 		//anim.SetBool("b_damaged", current_status == STATUS.DAMAGE ? true : false);
 	}
 	
+	private void Hide(){
+		m_awaking = false;
+		anim.SetTrigger("t_hide");
+		throwCount = 0;
+	}
+	
 	protected override void ApplyHealthDamage (int value)
 	{
 		if(!m_awaking){
@@ -94,7 +102,7 @@ public class Garbage : Character {
 	protected virtual IEnumerator WaitAndExecute(float delay, bool dying){
 		yield return new WaitForSeconds (delay);
 		renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-		invincible = 0.0f;
+		invincible = false;
 		if (dying) {
 			Destroy (this.gameObject);
 		}
@@ -105,16 +113,23 @@ public class Garbage : Character {
 		float offsetY = 2.0f;
 		
 		GameObject obj =  Instantiate(bubble, new Vector3(pos.x, pos.y + offsetY, pos.z), transform.rotation) as GameObject;
-		float speed = 500.0f;
-		Vector2 dir = (m_target.transform.position - obj.transform.position).normalized;
-		obj.rigidbody2D.AddForce(new Vector2 (dir.x * speed, dir.y * speed));
 		
-		float radian = Mathf.Atan2(dir.x, dir.y);
+		//Move Direction
+		Vector3 baseDir = (m_target.transform.position - obj.transform.position).normalized;
+		float radian = Mathf.Atan2(baseDir.y, baseDir.x);
+		float baseAngle = radian * Mathf.Rad2Deg;
+		float offsetAngle = Random.Range(-15.0f, 15.0f);
+		float fixedAngle = baseAngle + offsetAngle;
+		
+		Vector3 fixedDir = new Vector3(Mathf.Cos(Mathf.PI / 180 * fixedAngle) * bubble_speed * Time.deltaTime, Mathf.Sin(Mathf.PI / 180 * fixedAngle) * bubble_speed * Time.deltaTime, 0.0f); 
+				
+		obj.SendMessage("SetDirectionAndExecute", fixedDir);
+		//obj.rigidbody2D.AddForce(new Vector2 (baseDir.x * speed, baseDir.y * speed));
+		
+		//Rotation
+		radian = Mathf.Atan2(baseDir.x, baseDir.y);
 		float degree = radian * Mathf.Rad2Deg;
-		obj.transform.rotation = Quaternion.Euler(0.0f, 0.0f, -degree + offsetEularZ_bubble);
-		
-		
-		//obj.GetComponent<Bubble>().SendMessage("SetDirectionAndExecute", dir);
+		obj.transform.rotation = Quaternion.Euler(0.0f, 0.0f, -degree + eulerZ_bubbleTexture);
 	}
 	
 }

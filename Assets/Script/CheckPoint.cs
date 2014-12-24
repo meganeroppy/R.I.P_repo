@@ -1,26 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CheckPoint : MonoBehaviour {
+public class CheckPoint : Monument {
 
 	private bool marked = false; 
 	public GameObject label_checkPoint;
-	
-	// Use this for initialization
-	void Start () {
-	
+
+	protected override void Start ()
+	{
+		builtOnGround = true;
+		base.Start ();
 	}
+			
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-	
-	private void OnTriggerEnter2D(Collider2D col){
+	protected override void OnTriggerEnter2D(Collider2D col){
 		OnEnter2D(col.gameObject);
 	}
 	
-	private void OnCollisionEnter2D(Collision2D col){
+	protected void OnCollisionEnter2D(Collision2D col){
 		OnEnter2D(col.gameObject);
 	}
 	
@@ -31,7 +28,9 @@ public class CheckPoint : MonoBehaviour {
 		
 		if(col.tag.Equals("Player")){
 			marked = true;
-			Instantiate(label_checkPoint, transform.position + new Vector3(0.0f, 0.0f, -1.0f), transform.rotation);
+			Vector2 col_center = GetComponent<CircleCollider2D>().center;
+			GameObject obj = Instantiate(label_checkPoint, transform.position + new Vector3(col_center.x, col_center.y, -5.0f), transform.rotation) as GameObject;
+			obj.transform.parent = this.transform;
 			GameObject manager = GameObject.Find("GameManager") as GameObject;
 			manager.GetComponent<GameManager>().SendMessage("ApplyRespawnPoint", this.transform.position);
 			manager.GetComponent<SoundManager>().SendMessage("PlaySE", "GetItem");

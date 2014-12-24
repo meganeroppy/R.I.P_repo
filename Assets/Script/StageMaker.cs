@@ -76,21 +76,28 @@ public class StageMaker : MonoBehaviour {
 		//int iP_code = int.Parse(p_code, System.Globalization.NumberStyles.HexNumber);
 		int iP_code = int.Parse(p_code);
 		
-		GameObject stg;
 		
 		int v_key = iP_code % 100;
 		iP_code /= 100;
 		iP_code = Mathf.RoundToInt(iP_code);
 		
+		GameObject stg;
+		
+		
 		//Stage Visual///////////
 		if(v_key != 0){
-			stg = Instantiate(stagePiece[v_key-1]) as GameObject;
-			stg.transform.position = pos;
+		
+			if(v_key > stagePiece.Length){
+				stg = Instantiate(new GameObject("Empty")) as GameObject;
+				
+			}else{
+				stg = Instantiate(stagePiece[v_key-1]) as GameObject;
+			}
 		}else{
 			stg = new GameObject("Empty");
-			stg.transform.position = pos;
 		}
 		
+		stg.transform.position = pos;		
 		stg.transform.parent = this.transform;
 		
 		float scale = PIECE_SCALE / DEFAULT_PIECE_SCALE;
@@ -103,7 +110,13 @@ public class StageMaker : MonoBehaviour {
 		
 		if(o_key != 0){
 			pos.z -= 2.0f;
-			GameObject obj = Instantiate(stageObject[o_key-1], pos, this.transform.rotation) as GameObject;
+			
+			GameObject obj;
+			if(o_key > stageObject.Length){
+				obj = Instantiate(new GameObject("Empty"), pos, this.transform.rotation) as GameObject;
+			} else{
+				obj = Instantiate(stageObject[o_key-1], pos, this.transform.rotation) as GameObject;
+			}
 			//obj.transform.Translate(0.0f, 0.0f, obj_ZOrder[o_key-1]);
 			float zOrder = obj.tag == ("Monument") ? -2.0f : (obj.tag == ("Enemy") || obj.tag == "Player") ? -5.0f : 0.0f;
 			obj.transform.Translate(0.0f, 0.0f, zOrder);
@@ -121,7 +134,14 @@ public class StageMaker : MonoBehaviour {
 	private void AddFunction(int f_key, GameObject target){
 		
 		if(f_key != 0){
-			GameObject obj = Instantiate(stageFunction[f_key-1], target.transform.position, this.transform.rotation) as GameObject;
+			GameObject obj;
+			if(f_key > stageFunction.Length){
+				obj = Instantiate(new GameObject("Empty"), target.transform.position, this.transform.rotation) as GameObject;
+			}else{
+				obj = Instantiate(stageFunction[f_key-1], target.transform.position, this.transform.rotation) as GameObject;
+				
+			}
+		
 			obj.transform.parent = target.transform;
 			if(target.GetComponent<Collider>() == null){
 				BoxCollider2D col = obj.AddComponent<BoxCollider2D>();
@@ -165,4 +185,5 @@ public class StageMaker : MonoBehaviour {
 		
 		return new Vector2(width, height);
 	}
+	
 }
