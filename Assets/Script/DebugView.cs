@@ -33,7 +33,7 @@ public class DebugView : UI {
 		status = player.GetStatus();
 		
 		string fps = Application.targetFrameRate.ToString();
-		uiLabel.text = "ground : " + grounded.ToString() + "\nstatus : " + status.ToString() + "\nfps : " + fps.ToString() ;
+		uiLabel.text = "R Stick Vec: " + new Vector2( Input.GetAxis("Right Stick Horizontal"), Input.GetAxis("Right Stick Vertical") ).ToString() + "\nground : " + grounded.ToString() + "\nstatus : " + status.ToString() + "\nfps : " + fps.ToString() ;
 	}
 	
 	protected override void Activate (){
