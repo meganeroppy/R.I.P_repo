@@ -147,7 +147,7 @@ public class InputManager : MonoBehaviour {
 			}
 			
 			float analogInputX = Input.GetAxis ("Left Stick Horizontal") >= Mathf.Abs(0.05f) ? Input.GetAxis ("Left Stick Horizontal") : Input.GetAxis ("Horizontal");
-			float analogInputY = Input.GetAxis ("Left Stick Vertical") >= Mathf.Abs(0.05f) ? Input.GetAxis ("Left Stick Vertical") : Input.GetAxis ("Vertical");
+			float analogInputY = Input.GetAxis ("Left Stick Vertical") >= Mathf.Abs(0.05f) ? - Input.GetAxis ("Left Stick Vertical") : Input.GetAxis ("Vertical");
 			
 			float speedX = Input.GetKey( KeyCode.JoystickButton9 ) ? 1.0f : Input.GetKey( KeyCode.JoystickButton11 ) ? -1.0f : analogInputX;
 			float speedY = Input.GetKey( KeyCode.JoystickButton8 ) ? 1.0f : Input.GetKey( KeyCode.JoystickButton10 ) ? -1.0f : analogInputY;
