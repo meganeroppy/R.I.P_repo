@@ -233,6 +233,7 @@ public class GameManager : MonoBehaviour {
 				GameStart("Test02");
 				return;
 			case SELECTION_TITLE.OPTION:
+				GameStart("PSM Input");
 				return;
 			default:
 				return;
