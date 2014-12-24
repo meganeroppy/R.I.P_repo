@@ -4,10 +4,9 @@ using System.Collections;
 public class Garbage : Character {
 
 	public GameObject bubble;
-	protected float bubble_speed = 10.0f;
 	protected float eulerZ_bubbleTexture = -90.0f;
 	protected const float WARMINGUP = 1.0f;
-	protected const float THROW_INTERVAL = 0.2f;
+	protected const float THROW_INTERVAL = 0.6f;
 	protected int throwCount = 0;
 	protected const float DAMAGED_RIGOR = 0.1f;
 	protected float rigorTimer = 0.0f;
@@ -51,7 +50,7 @@ public class Garbage : Character {
 //				if(Mathf.Floor( Time.frameCount ) % Random.Range(20, 25) == 0){
 					ThrowGarbage();
 					throwCount++;
-				rigorTimer = throwCount % 9 == 0 ? THROW_INTERVAL * 12.0f : throwCount % 3 == 0 ? THROW_INTERVAL * 3.0f : THROW_INTERVAL;
+				rigorTimer = throwCount % 9 == 0 ? THROW_INTERVAL * 6.0f : throwCount % 3 == 0 ? THROW_INTERVAL * 3.0f : THROW_INTERVAL;
 //				}
 			}else{
 				rigorTimer -= Time.deltaTime;
@@ -121,13 +120,13 @@ public class Garbage : Character {
 		float offsetAngle = Random.Range(-15.0f, 15.0f);
 		float fixedAngle = baseAngle + offsetAngle;
 		
-		Vector3 fixedDir = new Vector3(Mathf.Cos(Mathf.PI / 180 * fixedAngle) * bubble_speed * Time.deltaTime, Mathf.Sin(Mathf.PI / 180 * fixedAngle) * bubble_speed * Time.deltaTime, 0.0f); 
-				
+		Vector3 fixedDir = new Vector3(Mathf.Cos(Mathf.PI / 180 * fixedAngle), Mathf.Sin(Mathf.PI / 180 * fixedAngle), 0.0f).normalized; 
+		
 		obj.SendMessage("SetDirectionAndExecute", fixedDir);
 		//obj.rigidbody2D.AddForce(new Vector2 (baseDir.x * speed, baseDir.y * speed));
 		
 		//Rotation
-		radian = Mathf.Atan2(baseDir.x, baseDir.y);
+		radian = Mathf.Atan2(fixedDir.x, fixedDir.y);
 		float degree = radian * Mathf.Rad2Deg;
 		obj.transform.rotation = Quaternion.Euler(0.0f, 0.0f, -degree + eulerZ_bubbleTexture);
 	}
