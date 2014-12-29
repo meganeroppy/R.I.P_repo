@@ -90,6 +90,10 @@ public class Character : StageObject {
 				}
 			}
 		}
+		
+		if(GameManager.GameClear()){
+			move_speed = Vector2.zero;
+		}
 
 		switch (current_status) {
 		case STATUS.IDLE:
@@ -156,7 +160,7 @@ public class Character : StageObject {
 		case STATUS.DAMAGE:
 			rigorState -= 1.0f * Time.deltaTime;
 			if(rigorState <= 0.0f){
-				if(current_health <= 0){
+				if(current_health <= 0 || current_spirit <= 0.0f){
 					if(grounded){
 						anim.SetTrigger("t_die");
 					}
@@ -235,15 +239,24 @@ public class Character : StageObject {
 		} 
 	}
 
-	protected virtual void Hit(int value){
-		if (current_status != STATUS.DAMAGE && current_status != STATUS.DYING  && current_status != STATUS.GHOST_IDLE) {
-			ApplyHealthDamage(value);		
-		}
-	}
-
 	protected override void ApplyHealthDamage(int value){
 		base.ApplyHealthDamage (value);
 		if (current_health <= 0) {
+			current_status = STATUS.DAMAGE;
+			rigorState = DYING_DELAY;
+		} else {
+			current_status = STATUS.DAMAGE;
+			rigorState = DAMAGE_DURATION;
+		}
+	}
+	
+	protected override void ApplySpiritDamage(float value){
+		if (current_status == STATUS.DAMAGE || current_status == STATUS.DYING  || current_status == STATUS.GHOST_IDLE) {
+			return;
+		}
+		
+		base.ApplySpiritDamage (value);
+		if (current_spirit <= 0) {
 			current_status = STATUS.DAMAGE;
 			rigorState = DYING_DELAY;
 		} else {

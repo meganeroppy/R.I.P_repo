@@ -12,6 +12,7 @@ public class Bubble : Bullet {
 	protected override void Start ()
 	{
 		base.Start ();
+		attack_power = 45.0f;
 		speed = 7.0f;
 		spriteRenderer = GetComponent<SpriteRenderer>();
 	}

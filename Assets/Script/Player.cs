@@ -24,7 +24,7 @@ public class Player : Walker {
 	// Use this for initialization
 	protected override void Awake () {
 		base.Awake();
-		MAX_HEALTH = 5;
+		MAX_HEALTH = 1;
 		current_health = MAX_HEALTH;
 	}
 	
@@ -78,15 +78,15 @@ public class Player : Walker {
 	protected override void Update(){
 		base.Update ();
 		if (current_status == STATUS.GHOST_IDLE || debugedDamage) {
-			current_spirit -= losing_rate * Time.deltaTime ;	
+			UpdateSpirit(-(losing_rate * Time.deltaTime));
 			Color color = new Color(1.0f, 1.0f, 1.0f, current_spirit / MAX_SPIRIT );
 			renderer.material.color = color;
 			if (current_spirit <= 0.0f) {
-				Disappear();
-				}
+				GetExorcised();
+			}
 		}else{
-			if(current_spirit < MAX_SPIRIT){
-				current_spirit += gaining_rate * Time.deltaTime;
+			if(current_spirit < MAX_SPIRIT && current_status != STATUS.DYING && current_status != STATUS.DAMAGE ){
+				UpdateSpirit( gaining_rate * Time.deltaTime );
 			}
 		}
 
@@ -130,12 +130,20 @@ public class Player : Walker {
 		renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
 		
 		yield return new  WaitForSeconds(DISAPPEARING_DELAY);
-		if(current_status != STATUS.GHOST_IDLE){
-			DieAndBecomeGhost ();
+		if(current_spirit <= 0.0f){
+			GetExorcised();
+		}else{
+			if(current_status != STATUS.GHOST_IDLE){
+				DieAndBecomeGhost ();
+			}
 		}
 	}
 	
 	protected void CancelMotion(){
+		if(current_spirit <= 0.0f){
+			return;
+		}
+	
 		if(current_health <= 0 && current_status != STATUS.GHOST_IDLE && current_status != STATUS.GHOST_DAMAGE){
 			DieAndBecomeGhost ();
 		}
@@ -193,15 +201,18 @@ public class Player : Walker {
 		base.ApplyHealthDamage (value);
 	}
 	
-	protected override void Hit(int value){
-		base.Hit(value);
-		if(current_status == STATUS.GHOST_IDLE){
-			ApplySpiritDamage(value * 25.0f);
+	protected override void ApplySpiritDamage(float val){
+		if(invincible){
+			return;
+		}
+		base.ApplySpiritDamage(val);
+		if(current_spirit <= 0.0f){
+			current_health = 0;
 		}
 	}
 	
-	protected override void Disappear(){
-		GetExorcised();
+	private void UpdateSpirit(float val){
+		current_spirit += val;
 	}
 
 	protected void Revive(){
@@ -243,7 +254,12 @@ public class Player : Walker {
 	}
 
 	protected override void GainSpirit(float val){
-		base.GainSpirit(val);
+		if(current_status != STATUS.DYING && current_status != STATUS.DAMAGE){
+			if(living){
+				val *= 0.5f;
+			}
+			base.GainSpirit(val);
+		}
 	}
 	
 	private void GetExorcised(){
@@ -254,8 +270,6 @@ public class Player : Walker {
 		rigidbody2D.Sleep();
 		current_health = 0;
 		current_spirit = 0.0f;
-		
-
 		
 		Instantiate(effect_transformation, transform.position + new Vector3(0.0f, 0.0f, -1.0f), transform.rotation);
 		Instantiate( exorcised_soul, transform.position, transform.rotation);

@@ -151,10 +151,11 @@ public class Rumple : Flyer {
 		m_isReturning = true;
 	}
 
-	protected override void Hit(int value){
-		if (current_status != STATUS.DYING) {
-			ApplyHealthDamage(value);		
+	protected override void ApplyHealthDamage (int value){
+		if (current_status == STATUS.DYING) {
+			return;
 		}
+		ApplyHealthDamage(value);
 	}
 
 	private bool CheckPlayerIsGhost(){

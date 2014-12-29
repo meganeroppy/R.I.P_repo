@@ -8,6 +8,10 @@ public class Walker : Character {
 		//anim.SetTrigger("t_damage");
 	}
 	
+	protected override void ApplySpiritDamage(float value){
+		base.ApplySpiritDamage (value);
+	}
+	
 	protected override void Update (){
 		base.Update();
 		

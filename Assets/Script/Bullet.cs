@@ -6,7 +6,7 @@ public class Bullet : StageObject {
 	protected float speed = 15.0f;
 	protected Vector3 m_direction = Vector3.zero;
 	protected Vector2 blow_impact =  new Vector2(100.0f, 50.0f);
-	protected float attack_power = 1.0f;
+	protected float attack_power = 50.0f;
 	protected float lifeTime = 2.0f;
 	protected bool executed = false;
 	protected bool dying = false;
@@ -67,7 +67,7 @@ public class Bullet : StageObject {
 		
 		
 		if (m_target.GetStatus() != STATUS.DYING && m_target.GetStatus() != STATUS.GHOST_IDLE) {
-			m_target.SendMessage ("Hit", attack_power);
+			m_target.SendMessage ("ApplySpiritDamage", attack_power);
 			float dir = 1.0f;
 			if (this.gameObject.transform.position.x > m_target.transform.position.x) {
 				dir *= -1.0f;

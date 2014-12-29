@@ -42,7 +42,7 @@ public class Needle : Monument {
 		}
 		
 		if (m_target.GetStatus() != STATUS.DYING && m_target.GetStatus() != STATUS.GHOST_IDLE) {
-			m_target.SendMessage ("Hit", attack_power);
+			m_target.SendMessage ("ApplyHealthDamage", attack_power);
 			float dir = 1.0f;
 			if (this.gameObject.transform.position.x > m_target.transform.position.x) {
 				dir *= -1.0f;
