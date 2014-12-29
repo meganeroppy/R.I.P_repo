@@ -45,7 +45,6 @@ public class Character : StageObject {
 	protected Animator anim;
 	
 	//GameObject
-	public GameObject attackZone;
 	public GameObject effect_transformation;
 	public GameObject effectPoint_destroy;
 	
@@ -194,9 +193,10 @@ public class Character : StageObject {
 		}
 	}
 
-	protected void Attack(){
+	protected virtual void Attack(){
 		if (/*grounded && */ current_status != STATUS.GHOST_IDLE && current_status != STATUS.DAMAGE && current_health >= 1 ) {
 			current_status = STATUS.ATTACK;
+			/*
 			Vector3 pos = transform.position;
 			Vector3 offset = new Vector3(current_side == SIDE.RIGHT ? 1.7f : -1.7f, 1.5f, -1.0f);
 
@@ -205,6 +205,7 @@ public class Character : StageObject {
 			sound.PlaySE("Attack", 1.0f);
 			rigorState = ATTACK_DURATION;
 			anim.SetTrigger("t_attack");
+*/
 		}
 	}
 

@@ -30,7 +30,6 @@ public class Needle : Monument {
 	{
 		base.Update ();
 		
-		Vector3 pos = transform.position;
 	}
 
 

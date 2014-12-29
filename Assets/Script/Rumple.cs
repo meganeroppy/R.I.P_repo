@@ -99,6 +99,12 @@ public class Rumple : Flyer {
 			break;//End of STATUS.IDLE
 
 		case STATUS.ATTACK:
+			if(GameManager.Miss()){
+				GoToHome();
+				return;
+			}
+		
+		
 			Vector2 dir = (m_target.transform.position - transform.position).normalized ;
 			dir = dir * flying_move_speed * Time.deltaTime;
 			
@@ -136,24 +142,9 @@ public class Rumple : Flyer {
 		}
 	}
 
-	protected override void ApplyHealthDamage(int value){
-		base.ApplyHealthDamage(value);
-		if (current_health <= 0) {
-			StartCoroutine(WaitAndExecute(0.9f, true));
-			m_collider.enabled = false;
-		} else {
-			StartCoroutine(WaitAndExecute(0.7f, false));
-		}
-	}
+
 	
-	protected virtual IEnumerator WaitAndExecute(float delay, bool dying){
-		yield return new WaitForSeconds (delay);
-		renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-		invincible = false;
-		if (dying) {
-			Destroy (this.gameObject);
-		}
-	}
+
 
 	private void GoToHome(){
 		m_collider.enabled = false;
@@ -168,7 +159,7 @@ public class Rumple : Flyer {
 
 	private bool CheckPlayerIsGhost(){
 		if (m_target == null) {
-			m_target = GameObject.Find("Player").GetComponent<Player>();	
+			m_target = GameObject.FindWithTag("Player").GetComponent<Player>();	
 		}
 
 		if (m_target.GetStatus() == STATUS.GHOST_IDLE) {

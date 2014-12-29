@@ -15,8 +15,8 @@ public class StageObject : MonoBehaviour {
 
 	protected Collider2D m_collider;
 	
-	protected int current_health;
-	protected float current_spirit;
+	protected int current_health = 1;
+	protected float current_spirit = 1.0f;
 	protected int MAX_HEALTH = 3;
 	protected float MAX_SPIRIT = 100.0f;
 	
@@ -44,7 +44,6 @@ public class StageObject : MonoBehaviour {
 	
 	// Use this for initialization
 	protected virtual void Start () {
-		current_health = 1;
 	
 		invincible = false;
 		m_collider = GetComponent<Collider2D> ();

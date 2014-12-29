@@ -75,6 +75,11 @@ public class InputManager : MonoBehaviour {
 		case "Tutorial":
 		case "Test01":
 		case "Test02":
+		
+			if(GameManager.GameClear()){
+				return;
+			}
+		
 			
 			if(!GameManager.Pause()){
 				if (Input.GetKeyDown (KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton7)) {
@@ -82,7 +87,7 @@ public class InputManager : MonoBehaviour {
 					return;
 				}
 			}else{
-				///In The Pause Menu START////////
+				///In The Pause Menu FROM THIS LINE////////
 			
 				if (Input.GetKeyDown (KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton7)) {
 					GameManager.Pause(false);
@@ -108,8 +113,10 @@ public class InputManager : MonoBehaviour {
 					GameManager.AcceptInput("Pause", GameManager.BUTTON.CANCEL);
 				}
 				return;
-				///In The Pause Menu END////////
+				///In The Pause Menu TO THIS LINE////////
 			}
+			
+			
 			
 			
 			if(m_player == null && !GameManager.Miss()){

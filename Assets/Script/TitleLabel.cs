@@ -3,7 +3,8 @@ using System.Collections;
 
 public class TitleLabel : UI {
 
-	protected UILabel uiLabel;
+	protected UILabel[] uiLabel = new UILabel[5];
+	string[] label = new string[5]{"PressAnyKeyToGetStarted", "Story", "Stage1", "Stage2", "Option"};
 	//public Transform panel;
 	//public Transform uiLabelPrefab;
 	//private const int NUMOFSELECTION = 4;
@@ -12,9 +13,12 @@ public class TitleLabel : UI {
 
 	protected override void Start ()
 	{
-		uiLabel = GetComponent<UILabel>();
 		activated = true;
-		uiLabel.enabled = true;
+		
+		for(int i = 0 ; i < uiLabel.Length ; i++){
+			uiLabel[i] = GameObject.Find(label[i]).GetComponent<UILabel>();
+			uiLabel[i].enabled = true;
+		}
 	}
 	
 	// Update is called once per frame
@@ -23,76 +27,48 @@ public class TitleLabel : UI {
 		if(!activated){
 			return;
 		}
-	
-		if(gameObject.name.Equals("PressAnyKeyToGetStarted")){
-			if(GameManager.GetTitleStatus().Equals("WAITFORKEY")){
-				uiLabel.alpha = 1.0f;
-			}else{
-				uiLabel.alpha = 0.0f;
-			}
-		}else{
-		
-			uiLabel.alpha = 0.0f;
+		switch(GameManager.GetTitleStatus()){
 			
-			switch(GameManager.GetTitleStatus()){
+			case "WAITFORKEY":
+			for(int i = 0 ; i < uiLabel.Length ; i++){
 				
+				uiLabel[i].alpha = i == 0 ? 1.0f : 0.0f;
+			}
+			
+				break;
 			case "MAIN":
-				if(gameObject.name.Equals("Stage0")){
-					uiLabel.alpha = 1.0f;
-				}else{
-					uiLabel.alpha = 0.5f;
-				}
-				break;
-			
-			case "TESTSTAGE1":
-				if(gameObject.name.Equals("Stage1")){
-					uiLabel.alpha = 1.0f;
-				}else{
-					uiLabel.alpha = 0.5f;
-				}
-				break;
-			case "TESTSTAGE2":
-				if(gameObject.name.Equals("Stage2")){
-					uiLabel.alpha = 1.0f;
-				}else{
-					uiLabel.alpha = 0.5f;
-				}
-				break;
-			case "OPTION":
-				if(gameObject.name.Equals("Option")){
-					uiLabel.alpha = 1.0f;
-				}else{
-					uiLabel.alpha = 0.5f;
-				}
-				/*
-				for(int i = 0 ; i < NUMOFSELECTION ; i++){
-					
-					uiLabel_selection[i].text = "SELECT";
-				}
-	*/
-				break;
-			default:
-			uiLabel.alpha = 0.0f;
-				break;
-				
+			for(int i = 0 ; i < uiLabel.Length ; i++){
+				uiLabel[i].alpha = i == 0 ? 0.0f :  i == 1 ? 1.0f : 0.5f;
 			}
+			break;
+			case "TESTSTAGE1":
+			for(int i = 0 ; i < uiLabel.Length ; i++){
+				uiLabel[i].alpha = i == 0 ? 0.0f :  i == 2 ? 1.0f : 0.5f;
+			}
+			break;
+			case "TESTSTAGE2":
+			for(int i = 0 ; i < uiLabel.Length ; i++){
+				uiLabel[i].alpha = i == 0 ? 0.0f :  i == 3 ? 1.0f : 0.5f;
+			}
+			break;
+			case "OPTION":
+			for(int i = 0 ; i < uiLabel.Length ; i++){
+				uiLabel[i].alpha = i == 0 ? 0.0f :  i == 4 ? 1.0f : 0.5f;
+			}
+			break;
+			default:
+			for(int i = 0 ; i < uiLabel.Length ; i++){
+				uiLabel[i].alpha = 0.0f;
+			}
+			break;
+				
+				
 		}
 	}
 	
 	protected override void Activate(){
 	
 		return;
-		/*
-		float interval = 75.0f;
-		for(int i = 0 ; i < NUMOFSELECTION ; i++){
-			label[i] = Instantiate(uiLabelPrefab) as GameObject;
-			label[i].transform.parent = panel;
-			label[i].transform.localPosition = transform.localPosition + new Vector3(i * interval, 0.0f, 0.0f);
-			label[i].transform.localScale = transform.localScale;
-			uiLabel_selection[i] = label[i].GetComponent<UILabel>();
-		}
-		
-		activated = true;
-	*/
+
 	}
 }

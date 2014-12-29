@@ -84,6 +84,9 @@ public class GameManager : MonoBehaviour {
 		case "Tutorial":
 		case "Test01":
 		case "Test02":
+		
+			SetLoadingSkin(true);
+			
 			player_life = DEFAULT_LIFE;
 			current_selection_pause = SELECTION_PAUSE.RESUME;
 			break;//End of case "Main"
@@ -98,6 +101,7 @@ public class GameManager : MonoBehaviour {
 				int stageIdx = Application.loadedLevelName == "Test01" ? 0 : 1 ;
 				GameObject.FindWithTag("StageMaker").GetComponent<StageMaker>().SendMessage("Init", stageIdx);
 				StageMakingHasBeenExecuted = true;
+				SetLoadingSkin(false);
 			}
 		
 			if(!playerIsBorn && player == null){
@@ -108,6 +112,20 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 	
+	private static void SetLoadingSkin(bool set){
+		GameObject[] obj = GameObject.FindGameObjectsWithTag("Loading");
+		
+		if(set){
+			foreach(GameObject child in obj){
+				child.SendMessage("Activate");
+			}
+			
+		}else{
+			foreach(GameObject child in obj){
+				child.SendMessage("Deactivate");
+			}
+		}
+	}
 
 	public static void Pause(bool key){
 		if (key) {
@@ -143,10 +161,7 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	public static void GameStart(string levelName){
-		GameObject[] obj = GameObject.FindGameObjectsWithTag("Loading");
-		foreach(GameObject child in obj){
-			child.SendMessage("Activate");
-		}
+		SetLoadingSkin(true);
 		Application.LoadLevel(levelName);
 	}
 	
@@ -154,7 +169,6 @@ public class GameManager : MonoBehaviour {
 		ReassignScripts();
 		soundManager.enabled = true;
 		inputManager.enabled = true;
-		//guiManager.enabled = true;
 
 		GameObject[] obj = GameObject.FindGameObjectsWithTag("UI");
 		foreach(GameObject child in obj){
@@ -224,7 +238,7 @@ public class GameManager : MonoBehaviour {
 				current_selection_title = SELECTION_TITLE.MAIN;
 				return;
 			case SELECTION_TITLE.MAIN:
-				GameStart("Main");
+				GameStart("Event01");
 				return;
 			case SELECTION_TITLE.TESTSTAGE1:
 				GameStart("Test01");

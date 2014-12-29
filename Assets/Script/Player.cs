@@ -15,6 +15,7 @@ public class Player : Walker {
 	Collider2D[] m_colliders;
 	bool debugedDamage = false;
 	
+	public GameObject attackZone;
 	public GameObject exorcised_soul;
 	
 	//Script
@@ -149,6 +150,21 @@ public class Player : Walker {
 		base.Flip (side);
 	}
 
+	protected override void Attack(){
+		
+		if (/*grounded && */ current_status != STATUS.GHOST_IDLE && current_status != STATUS.DAMAGE && current_health >= 1 ) {
+			current_status = STATUS.ATTACK;
+			
+			Vector3 pos = transform.position;
+			Vector3 offset = new Vector3(current_side == SIDE.RIGHT ? 1.7f : -1.7f, 1.5f, -1.0f);
+			
+			GameObject attack = Instantiate (attackZone, new Vector3 (pos.x + offset.x, pos.y + offset.y, pos.z + offset.z), transform.rotation) as GameObject;
+			attack.SendMessage("ApplyParentAndExecute", this);
+			sound.PlaySE("Attack", 1.0f);
+			rigorState = ATTACK_DURATION;
+			anim.SetTrigger("t_attack");
+		}
+	}
 	
 	protected void DieAndBecomeGhost(){
 		
@@ -233,10 +249,13 @@ public class Player : Walker {
 	private void GetExorcised(){
 		renderer.enabled = false;
 		gameManager.SendMessage("Miss", true);
+		
 		this.enabled = false;
 		rigidbody2D.Sleep();
 		current_health = 0;
 		current_spirit = 0.0f;
+		
+
 		
 		Instantiate(effect_transformation, transform.position + new Vector3(0.0f, 0.0f, -1.0f), transform.rotation);
 		Instantiate( exorcised_soul, transform.position, transform.rotation);
@@ -251,6 +270,7 @@ public class Player : Walker {
 			col.isTrigger = false;
 		}
 		
+		anim.SetTrigger("t_init");
 		init ();
 	}
 	

@@ -5,11 +5,15 @@ public class LoadingSet : UI {
 
 	protected UILabel uiLabel;
 	// Use this for initialization
-	protected override void Start () {
-		uiSprite = transform.FindChild("Offset_blackScreen").FindChild("BlackScreen").GetComponent<UISprite>();
+	protected void Awake () {
+		uiSprite = GameObject.Find("BlackScreen").GetComponent<UISprite>();
 		uiSprite.enabled = false;
-		uiLabel = transform.FindChild("Offset_loading").FindChild("Loading").GetComponent<UILabel>();
+		uiLabel = GameObject.Find("Loading").GetComponent<UILabel>();
 		uiLabel.enabled = false;
+		activated = false;
+	}
+	
+	protected override void Start () {
 	}
 	
 	// Update is called once per frame
@@ -25,6 +29,15 @@ public class LoadingSet : UI {
 		uiLabel.enabled = true;
 		StartCoroutine(AnimateLoadingLabel());
 		activated = true;
+	}
+	
+	protected  void Deactivate(){
+		if(!activated){
+			return;
+		}
+		uiSprite.enabled = false;
+		uiLabel.enabled = false;
+		activated = false;
 	}
 	
 	private IEnumerator AnimateLoadingLabel(){

@@ -12,7 +12,7 @@ public class Sakara : Flyer {
 		}
 	}
 	
-	protected virtual IEnumerator WaitAndExecute(float delay, bool dying){
+	protected override IEnumerator WaitAndExecute(float delay, bool dying){
 		yield return new WaitForSeconds (delay);
 		renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		invincible = false;
