@@ -3,6 +3,7 @@ using System.Collections;
 
 public class EventCharacter : MonoBehaviour {
 
+	protected float counter = 0.0f;
 	protected bool excited = false;
 	protected bool ghostFlug = false;
 	protected int cur_phase = 0;
@@ -19,7 +20,6 @@ public class EventCharacter : MonoBehaviour {
 	
 	// Use this for initialization
 	protected virtual void Update () {
-		anim.SetBool("b_ghost", ghostFlug);
 	}
 	
 	protected virtual void AdvancePhase(int phase){

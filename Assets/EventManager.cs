@@ -18,8 +18,7 @@ START ボタン	KeyCode.JoystickButton7 / Enter
 
 public class EventManager : MonoBehaviour
 {
-
-				
+	private float counter = 0.0f;
 		private int cur_phase = 0;
 		private const int numOfPhase = 8;
 		private bool ended = false;
@@ -30,11 +29,15 @@ public class EventManager : MonoBehaviour
 		private int[] wait = {1,1,2,1,2,2,5};
 		private UILabel label_pressButton;
 		private UISprite blackScreen;
-		private AudioSource audio;
-	
+		private AudioSource m_audio;
+
+	private void Awake(){
+		Application.targetFrameRate = 30;
+	}
+
 		private void Start (){
 		
-		audio = GetComponent<AudioSource>();
+		m_audio = GetComponent<AudioSource>();
 		
 		GameObject obj;
 		Vector3 pos = transform.position;
@@ -56,8 +59,9 @@ public class EventManager : MonoBehaviour
 		
 		//About UI
 		label_pressButton = GameObject.FindWithTag ("UI").GetComponent<UILabel> ();
-		blackScreen = GameObject.FindWithTag ("Loading").GetComponent<UISprite> ();
-		
+		blackScreen = GameObject.FindWithTag ("BlackScreen").GetComponent<UISprite> ();
+		blackScreen.enabled = true;
+
 		StartEvent();
 	}
 	
@@ -66,7 +70,7 @@ public class EventManager : MonoBehaviour
 		if (Input.GetKeyDown (KeyCode.S) || Input.GetKeyDown(KeyCode.JoystickButton6)) {
 			SkipEvent ();	
 		}
-		
+
 		if ( ended ) {
 			label_pressButton.alpha = 0.0f;
 		}else if (waiting > 0.0f) {
@@ -76,8 +80,11 @@ public class EventManager : MonoBehaviour
 			return;
 		} else {
 			label_pressButton.alpha = 1.0f;
-			if(Time.frameCount % 20.0f == 0.0f ){
+			if(  counter > 0.75f ){
+				counter = 0.0f;
 				label_pressButton.color = label_pressButton.color == Color.white ? Color.yellow : Color.white;
+			}else{
+				counter += Time.deltaTime;
 			}
 		}
 		
@@ -123,8 +130,9 @@ public class EventManager : MonoBehaviour
 		iTween.ValueTo (gameObject, iTween.Hash ("from", blackScreen.alpha, "to", 1, "time", 4.5f, "onupdate", "UpdateBlackScreenAlpha", "oncomplete", "LoadNextLevel"));	
 	}
 	
-	private void LoadNextLevel ()
-	{
+	private void LoadNextLevel (){
+	
+		GameObject.FindWithTag("Loading").SendMessage("Activate");
 		Application.LoadLevel ("Test02");
 	}
 	
@@ -139,7 +147,7 @@ public class EventManager : MonoBehaviour
 	}
 	
 	private void UpdateSoundVolume(float val){
-		audio.volume = val;
+		m_audio.volume = val;
 	}
 	
 }

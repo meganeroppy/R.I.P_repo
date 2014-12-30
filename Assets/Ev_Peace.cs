@@ -1,22 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Ev_Peace : EventCharacter {
+public class Ev_Peace : Ev_Cat {
 	protected override void Start () {
 		base.Start();
-		excited = true;
-		flipFlug = Random.Range(60, 180);
-		
+
 	}	
 	
 	protected override void Update(){
 		base.Update();
-		
-		if(excited){
-			if(Time.frameCount % flipFlug == 0.0f){
-				Flip();
-				flipFlug = Random.Range(60, 180);
-			}
-		}
+		anim.SetBool("b_ghost", ghostFlug);
 	}
 }

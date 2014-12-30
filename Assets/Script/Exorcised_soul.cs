@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Exorcised_soul : MonoBehaviour {
 
+	private float counter = 0.0f;
 	public Sprite[] pic = new Sprite[2];
 	private SpriteRenderer spriteRenderer;
 	private int current_frame = 0;
@@ -21,9 +22,13 @@ public class Exorcised_soul : MonoBehaviour {
 	
 		transform.Translate(0.0f, speed * Time.deltaTime, 0.0f);
 	
-		if(Mathf.Floor(Time.frameCount % 5)  == 0){
+		if (counter >= 0.1f) {
+			counter = 0.0f;
 			current_frame = current_frame == 0 ? 1 : 0;
-			spriteRenderer.sprite = pic[current_frame];
+			spriteRenderer.sprite = pic [current_frame];
+		} else {
+			counter += Time.deltaTime;
+
 		}
 		
 		

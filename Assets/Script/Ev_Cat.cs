@@ -7,7 +7,7 @@ public class Ev_Cat : EventCharacter {
 	protected override void Start () {
 		base.Start();
 		excited = true;
-		flipFlug = Random.Range(60, 180);
+		flipFlug = Random.Range(0.7f, 2.5f);
 		
 	}
 
@@ -15,9 +15,12 @@ public class Ev_Cat : EventCharacter {
 		base.Update();
 		
 		if(excited){
-			if(Time.frameCount % flipFlug == 0.0f){
+			if(counter > flipFlug){
+				counter = 0.0f;
 				Flip();
-				flipFlug = Random.Range(60, 180);
+				flipFlug = Random.Range(0.7f, 2.5f);
+			}else{
+				counter += Time.deltaTime;
 			}
 		}
 	}
