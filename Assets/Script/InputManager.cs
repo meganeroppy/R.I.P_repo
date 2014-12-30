@@ -46,7 +46,7 @@ public class InputManager : MonoBehaviour {
 						GameManager.AcceptInput("Title", GameManager.BUTTON.DECIDE);
 					}
 					break;
-			case  GameManager.SELECTION_TITLE.MAIN:
+			case  GameManager.SELECTION_TITLE.EVENT1:
 			case  GameManager.SELECTION_TITLE.TESTSTAGE1:
 			case  GameManager.SELECTION_TITLE.TESTSTAGE2:
 			case  GameManager.SELECTION_TITLE.OPTION:

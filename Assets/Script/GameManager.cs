@@ -3,6 +3,14 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
+	private string[] scenes = new string[5]{
+	"Title",
+	"Event01",
+	"Test01",
+	"Test02",
+	"Tutorial",
+	};
+
 	//Key Assign
 	public enum BUTTON{
 		UP = 0,
@@ -18,9 +26,10 @@ public class GameManager : MonoBehaviour {
 	//Title Selection
 	public enum SELECTION_TITLE{
 		WAITFORKEY,
-		MAIN,
+		EVENT1,
 		TESTSTAGE1,
 		TESTSTAGE2,
+		T,
 		OPTION,
 		QUIT
 	}
@@ -81,9 +90,9 @@ public class GameManager : MonoBehaviour {
 		case "Main":
 			StageMakingHasBeenExecuted = true;
 			goto case "Test02";
-		case "Tutorial":
 		case "Test01":
 		case "Test02":
+		case "Tutorial":
 		
 			SetLoadingSkin(true);
 			
@@ -96,7 +105,7 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	public void Update(){
-		if(Application.loadedLevelName.ToString() != "Title"){
+		if(Application.loadedLevelName.ToString() != scenes[0]){
 			if(Application.loadedLevelName.Contains("Test") && !StageMakingHasBeenExecuted){
 				int stageIdx = Application.loadedLevelName == "Test01" ? 0 : 1 ;
 				GameObject.FindWithTag("StageMaker").GetComponent<StageMaker>().SendMessage("Init", stageIdx);
@@ -148,7 +157,7 @@ public class GameManager : MonoBehaviour {
 		if(cmd == "Restart"){	
 			Restart();
 		}else if(cmd == "Title"){
-			Application.LoadLevel("Title");
+			Application.LoadLevel(scenes[0]);
 		}
 	}
 	
@@ -181,8 +190,8 @@ public class GameManager : MonoBehaviour {
 		switch(current_selection_title){
 		case SELECTION_TITLE.WAITFORKEY:
 			return "WAITFORKEY";
-		case SELECTION_TITLE.MAIN:
-			return "MAIN";
+		case SELECTION_TITLE.EVENT1:
+			return "EVENT1";
 		case SELECTION_TITLE.TESTSTAGE1:
 			return "TESTSTAGE1";
 		case SELECTION_TITLE.TESTSTAGE2:
@@ -235,9 +244,9 @@ public class GameManager : MonoBehaviour {
 		if(situation == "Title"){
 		 switch(current_selection_title){
 			case SELECTION_TITLE.WAITFORKEY:
-				current_selection_title = SELECTION_TITLE.MAIN;
+				current_selection_title = SELECTION_TITLE.EVENT1;
 				return;
-			case SELECTION_TITLE.MAIN:
+			case SELECTION_TITLE.EVENT1:
 				GameStart("Event01");
 				return;
 			case SELECTION_TITLE.TESTSTAGE1:
@@ -274,19 +283,19 @@ public class GameManager : MonoBehaviour {
 		if(situation == "Title"){
 			switch(current_selection_title){
 			case SELECTION_TITLE.WAITFORKEY:
-				current_selection_title = SELECTION_TITLE.MAIN;			
+				current_selection_title = SELECTION_TITLE.EVENT1;			
 				return;
-			case SELECTION_TITLE.MAIN:
+			case SELECTION_TITLE.EVENT1:
 				current_selection_title = dir ? SELECTION_TITLE.TESTSTAGE1 : SELECTION_TITLE.OPTION;			
 				return;
 			case SELECTION_TITLE.TESTSTAGE1:
-				current_selection_title = dir ? SELECTION_TITLE.TESTSTAGE2 : SELECTION_TITLE.MAIN;			
+				current_selection_title = dir ? SELECTION_TITLE.TESTSTAGE2 : SELECTION_TITLE.EVENT1;			
 				return;
 			case SELECTION_TITLE.TESTSTAGE2:
 				current_selection_title = dir ? SELECTION_TITLE.OPTION : SELECTION_TITLE.TESTSTAGE1;			
 					return;
 			case SELECTION_TITLE.OPTION:
-				current_selection_title = dir ? SELECTION_TITLE.MAIN : SELECTION_TITLE.TESTSTAGE2;			
+				current_selection_title = dir ? SELECTION_TITLE.EVENT1 : SELECTION_TITLE.TESTSTAGE2;			
 				return;
 			default:
 				return;

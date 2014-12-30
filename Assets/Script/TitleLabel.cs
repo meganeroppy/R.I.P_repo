@@ -36,7 +36,7 @@ public class TitleLabel : UI {
 			}
 			
 				break;
-			case "MAIN":
+			case "EVENT1":
 			for(int i = 0 ; i < uiLabel.Length ; i++){
 				uiLabel[i].alpha = i == 0 ? 0.0f :  i == 1 ? 1.0f : 0.5f;
 			}

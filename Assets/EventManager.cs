@@ -1,6 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+× ボタン	KeyCode.JoystickButton0 / Y 
+○ ボタン	KeyCode.JoystickButton1 / C
+□ ボタン	KeyCode.JoystickButton2 / Z
+△ ボタン	KeyCode.JoystickButton3 / V
+L ボタン	KeyCode.JoystickButton4 / B
+R ボタン	KeyCode.JoystickButton5 / N
+SELECT ボタン	KeyCode.JoystickButton6 / Space
+START ボタン	KeyCode.JoystickButton7 / Enter
+方向キー上	KeyCode.JoystickButton8 
+方向キー右	KeyCode.JoystickButton9
+方向キー下	KeyCode.JoystickButton10
+方向キー左	KeyCode.JoystickButton11
+*/
+
 public class EventManager : MonoBehaviour
 {
 
@@ -48,7 +63,7 @@ public class EventManager : MonoBehaviour
 	
 	private void Update ()
 	{
-		if (Input.GetKeyDown (KeyCode.S)) {
+		if (Input.GetKeyDown (KeyCode.S) || Input.GetKeyDown(KeyCode.JoystickButton6)) {
 			SkipEvent ();	
 		}
 		
@@ -66,7 +81,7 @@ public class EventManager : MonoBehaviour
 			}
 		}
 		
-		if (Input.GetKeyDown (KeyCode.Space)) {
+		if (Input.GetKeyDown (KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton0) ||  Input.GetKeyDown(KeyCode.JoystickButton1) ||Input.GetKeyDown(KeyCode.JoystickButton2) ||Input.GetKeyDown(KeyCode.JoystickButton3)) {
 			AdvanceEvent ();
 		}
 	}
