@@ -2,13 +2,15 @@
 using System.Collections;
 
 public class SpiritBar_nGUI : MonoBehaviour {
-
-						
-		//Player 
-		private Player player;
-		private bool activated = false;
-		private UISprite back;
-		private UISprite fore;
+	
+	private Player player;
+	private bool activated = false;
+	private UISprite back;
+	private UISprite fore;
+	private Color32 DEFAULT_COLOR = new Color32(58, 124, 157, 255);
+	private float colorDiff = 0.0f;
+	private Color tempColor;
+	
 		
 		// Use this for initialization
 	void Start () {
@@ -34,11 +36,32 @@ public class SpiritBar_nGUI : MonoBehaviour {
 		slider.sliderValue = value_percent;
 		
 		if(spirit[1] <= 0.0f){
-			back.color = Color .gray;
+			back.color = Color.gray;
 		}else{
-			back.color = Color .white;
-			
+			if(spirit[2] > 0){
+				float val = Mathf.PingPong(Time.time * 1.5f, 1.0f);
+				back.color = Color.Lerp(DEFAULT_COLOR, Color.white, val);
+			}else if(spirit[2] < 0){
+				float val = Mathf.PingPong(Time.time * 1.5f, 1.0f);
+				back.color = Color.Lerp(DEFAULT_COLOR, Color.red, val);	
+			}else{
+				if(back.color != DEFAULT_COLOR){
+					if(colorDiff <= 0.0f){
+						colorDiff = 1.0f;
+						tempColor = back.color;
+					}
+					colorDiff -= Time.deltaTime * 3.0f;
+					back.color = Color.Lerp(DEFAULT_COLOR, tempColor, colorDiff);	
+					
+				
+				}
+				
+				//back.color = DEFAULT_COLOR;
+				
+			}
 		}
+		
+		
 	}
 	
 	private void Activate(){

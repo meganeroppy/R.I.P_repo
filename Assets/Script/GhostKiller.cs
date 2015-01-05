@@ -18,6 +18,7 @@ public class GhostKiller : DeadZone {
 			if(m_awake){
 				SetAsDefault();
 				spriteRenderer.color = Color.black;
+				spriteRenderer_skull.color = new Color(1, 1, 1, 0);
 				//SwitchColor();
 				m_awake = false;
 				

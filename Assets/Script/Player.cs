@@ -5,10 +5,10 @@ using System.Collections;
 public class Player : Walker {
 	private bool living;
 
-	//private Vector3 default_pos;
 	private float losing_rate = 15.0f;
 	private float gaining_rate = 1.0f;
-	
+	private float gaining = 0.0f;
+	private float losing = 0.0f;
 
 	private float default_spirit;
 
@@ -81,6 +81,9 @@ public class Player : Walker {
 			UpdateSpirit(-(losing_rate * Time.deltaTime));
 			Color color = new Color(1.0f, 1.0f, 1.0f, current_spirit / MAX_SPIRIT );
 			renderer.material.color = color;
+			
+			losing = 0.1f;
+			
 			if (current_spirit <= 0.0f) {
 				GetExorcised();
 			}
@@ -90,8 +93,14 @@ public class Player : Walker {
 			}
 		}
 
-		//current_status = Input.GetKey(KeyCode.O) ? STATUS.GHOST_IDLE : STATUS.IDLE;
-
+		if(gaining > 0.0f){
+			gaining -= Time.deltaTime;
+		}
+		
+		if(losing > 0.0f){
+			losing -= Time.deltaTime;
+		}
+		
 	}
 
 	protected override void OnTriggerEnter2D(Collider2D col){
@@ -102,7 +111,7 @@ public class Player : Walker {
 				DieAndBecomeGhost ();
 				break;
 			case "REVIVAL":
-				GainSpirit(12.5f);
+				UpdateSpirit(12.5f);
 				if(current_status == STATUS.GHOST_IDLE){
 					Revive ();
 				}
@@ -211,9 +220,7 @@ public class Player : Walker {
 		}
 	}
 	
-	private void UpdateSpirit(float val){
-		current_spirit += val;
-	}
+
 
 	protected void Revive(){
 		living = true;
@@ -243,9 +250,10 @@ public class Player : Walker {
 
 	public float[] GetSpiritInfo(){
 
-		float[] spirit = {0.0f, 0.0f};
+		float[] spirit = {0.0f, 0.0f, 0.0f};
 		spirit[0] = MAX_SPIRIT;
 		spirit[1] = current_spirit;
+		spirit[2] = gaining > 0.0f ? 1 : losing > 0.0f ? -1 : 0 ;
 		return spirit;
 	}
 	
@@ -260,6 +268,11 @@ public class Player : Walker {
 			}
 			base.GainSpirit(val);
 		}
+		gaining = 0.1f;
+	}
+	
+	private void UpdateSpirit(float val){
+		current_spirit += val;
 	}
 	
 	private void GetExorcised(){
