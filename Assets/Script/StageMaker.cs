@@ -34,10 +34,10 @@ public class StageMaker : MonoBehaviour {
 	}
 	*/
 	
-	protected virtual bool Init(int mapIdx){
+	protected virtual bool Init(int stageIdx){
 		//Set size of stage pieces;
 		//	CSVReader.DebugOutputGrid( CSVReader.SplitCsvGrid(csv.text) ); 
-		string[,] pieces = CSVReader.SplitCsvGrid(csv[mapIdx].text);
+		string[,] pieces = CSVReader.SplitCsvGrid(csv[stageIdx].text);
 		
 		Vector2 stage_size = GetStageSize(pieces);
 		
@@ -104,8 +104,8 @@ public class StageMaker : MonoBehaviour {
 		stg.transform.localScale = new Vector3(stg.transform.localScale.x * scale, scale, scale);
 		
 		//Stage Object/////////
-		int o_key = iP_code % 10;
-		iP_code /= 10;
+		int o_key = iP_code % 100;
+		iP_code /= 100;
 		iP_code = Mathf.RoundToInt(iP_code);
 		
 		if(o_key != 0){
@@ -113,10 +113,13 @@ public class StageMaker : MonoBehaviour {
 			
 			GameObject obj;
 			if(o_key > stageObject.Length){
-				obj = Instantiate(new GameObject("Empty"), pos, this.transform.rotation) as GameObject;
+				obj = Instantiate(new GameObject("Empty")) as GameObject;
 			} else{
-				obj = Instantiate(stageObject[o_key-1], pos, this.transform.rotation) as GameObject;
+				obj = Instantiate(stageObject[o_key-1]) as GameObject;
 			}
+			
+			obj.transform.position = pos;
+			
 			//obj.transform.Translate(0.0f, 0.0f, obj_ZOrder[o_key-1]);
 			float zOrder = obj.tag == ("Monument") ? -2.0f : (obj.tag == ("Enemy") || obj.tag == "Player") ? -5.0f : 0.0f;
 			obj.transform.Translate(0.0f, 0.0f, zOrder);

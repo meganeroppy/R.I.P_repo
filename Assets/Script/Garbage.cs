@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Garbage : Character {
+public class Garbage : Enemy {
 
 	public GameObject bubble;
 	protected float eulerZ_bubbleTexture = -90.0f;
@@ -12,11 +12,6 @@ public class Garbage : Character {
 	protected float rigorTimer = 0.0f;
 	private bool m_awaking = false;
 	private const float AWAKE_RANGE = 10.24f;
-	
-	
-	protected override void Awake(){
-		base.Awake();
-	}
 	
 	protected override void Start ()
 	{
@@ -88,24 +83,9 @@ public class Garbage : Character {
 		}
 		base.ApplyHealthDamage (value);
 		anim.SetTrigger("t_damage");
-		if (current_health <= 0) {
-			Instantiate (effectPoint_destroy, transform.position, transform.rotation);
-			current_status = STATUS.GONE;
-			StartCoroutine(WaitAndExecute(0.9f, true));
-			m_collider.enabled = false;
-		} else {
-			StartCoroutine(WaitAndExecute(0.7f, false));
-		}
 	}
+
 	
-	protected virtual IEnumerator WaitAndExecute(float delay, bool dying){
-		yield return new WaitForSeconds (delay);
-		renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-		invincible = false;
-		if (dying) {
-			Destroy (this.gameObject);
-		}
-	}
 	private void ThrowGarbage(){
 		anim.SetTrigger("t_attack");
 		Vector3 pos = transform.position;

@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 
 	private string[] scenes = new string[5]{
-	"Title",
-	"Event01",
-	"Test01",
-	"Test02",
-	"Tutorial",
+		"Tutorial",	
+		"Test01",
+		"Test02",
+		"Title",
+		"Event01",
 	};
 
 	//Key Assign
@@ -29,7 +30,6 @@ public class GameManager : MonoBehaviour {
 		EVENT1,
 		TESTSTAGE1,
 		TESTSTAGE2,
-		T,
 		OPTION,
 		QUIT
 	}
@@ -92,31 +92,39 @@ public class GameManager : MonoBehaviour {
 			goto case "Test02";
 		case "Test01":
 		case "Test02":
-		case "Tutorial":
-		
-			SetLoadingSkin(true);
-			
 			player_life = DEFAULT_LIFE;
-			current_selection_pause = SELECTION_PAUSE.RESUME;
-			break;//End of case "Main"
+			goto default;
+		case "Tutorial":
+			player_life = 9999;
+			goto default;			
 		default:
+			SetLoadingSkin(true);
+			current_selection_pause = SELECTION_PAUSE.RESUME;
+			
 			break;
 		}
 	}
 	
 	public void Update(){
-		if(Application.loadedLevelName.ToString() != scenes[0]){
-			if(Application.loadedLevelName.Contains("Test") && !StageMakingHasBeenExecuted){
-				int stageIdx = Application.loadedLevelName == "Test01" ? 0 : 1 ;
+		if( !Application.loadedLevelName.ToString().Contains("Event") ){
+			if( (!Application.loadedLevelName.Contains("old") && !Application.loadedLevelName.Contains("Title")) && !StageMakingHasBeenExecuted ){
+				//int stageIdx = Application.loadedLevelName == "Test01" ? 0 : 1 ;
+				int stageIdx = 0;
+				while(Application.loadedLevelName != scenes[stageIdx]){
+					stageIdx++;
+				}
+				
 				GameObject.FindWithTag("StageMaker").GetComponent<StageMaker>().SendMessage("Init", stageIdx);
 				StageMakingHasBeenExecuted = true;
 				SetLoadingSkin(false);
 			}
 		
 			if(!playerIsBorn && player == null){
-				player = GameObject.FindWithTag("Player").GetComponent<Player>();
-				player.SendMessage("init", this.gameObject);
-				playerIsBorn = true;
+				if(GameObject.FindWithTag("Player")){
+					player = GameObject.FindWithTag("Player").GetComponent<Player>();
+					player.SendMessage("init", this.gameObject);
+					playerIsBorn = true;
+				}
 			}
 		}
 	}
@@ -156,8 +164,8 @@ public class GameManager : MonoBehaviour {
 		//Restart the same stage
 		if(cmd == "Restart"){	
 			Restart();
-		}else if(cmd == "Title"){
-			Application.LoadLevel(scenes[0]);
+		}else if(cmd == "GoToTitle"){
+			Application.LoadLevel("Title");
 		}
 	}
 	
@@ -345,7 +353,7 @@ public class GameManager : MonoBehaviour {
 			player_life--;
 			StartCoroutine (WaitAndExecute(2.0f, "Restart"));
 		}else{
-			StartCoroutine (WaitAndExecute(4.0f, "Title"));
+			StartCoroutine (WaitAndExecute(4.0f, "GoToTitle"));
 			gameover = true;
 		}
 	}
@@ -356,7 +364,7 @@ public class GameManager : MonoBehaviour {
 	
 	public void GameClear(bool key){
 		cleared = true;
-		StartCoroutine (WaitAndExecute (4.0f, "Title"));
+		StartCoroutine (WaitAndExecute (4.0f, "GoToTitle"));
 	}
 	
 	private void ReassignScripts(){

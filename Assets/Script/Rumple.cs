@@ -142,10 +142,6 @@ public class Rumple : Flyer {
 		}
 	}
 
-
-	
-
-
 	private void GoToHome(){
 		m_collider.enabled = false;
 		m_isReturning = true;
@@ -155,7 +151,7 @@ public class Rumple : Flyer {
 		if (current_status == STATUS.DYING) {
 			return;
 		}
-		ApplyHealthDamage(value);
+		base.ApplyHealthDamage(value);
 	}
 
 	private bool CheckPlayerIsGhost(){

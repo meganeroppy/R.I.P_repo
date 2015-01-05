@@ -30,7 +30,6 @@ public class SonicBoom : AttackZone {
 	protected override void Crash(GameObject other){
 		base.Crash(other);
 		Vector3 pos = transform.position;
-		//Vector3 otherPos = other.transform.position;
 		
 		Instantiate(effect_slush, new Vector3(pos.x, pos.y, pos.z + 1.0f), transform.rotation);
 	}

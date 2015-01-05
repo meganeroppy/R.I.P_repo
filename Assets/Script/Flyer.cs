@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Flyer : Character {
+public class Flyer : Enemy {
 	
-	protected int attack_Power = 1;
+	protected int attack_Power = 55;
 	private Vector2 blow_impact =  new Vector2(200.0f, 100.0f);
 	
 	// Use this for initialization
@@ -54,24 +54,6 @@ public class Flyer : Character {
 		}
 	}
 
-	protected override void ApplyHealthDamage(int value){
-		base.ApplyHealthDamage(value);
-		if (current_health <= 0) {
-			StartCoroutine(WaitAndExecute(0.9f, true));
-			m_collider.enabled = false;
-		} else {
-			StartCoroutine(WaitAndExecute(0.7f, false));
-		}
-	}
-	
-	protected virtual IEnumerator WaitAndExecute(float delay, bool dying){
-		yield return new WaitForSeconds (delay);
-		renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-		invincible = false;
-		if (dying) {
-			Destroy (this.gameObject);
-		}
-	}
 	
 	protected void Crash(GameObject target){
 		
@@ -82,7 +64,7 @@ public class Flyer : Character {
 		}
 
 		if (m_target.GetStatus() != STATUS.DYING) {
-			m_target.SendMessage ("Hit", attack_Power);
+			m_target.SendMessage ("ApplySpiritDamage", attack_Power);
 			
 			float dir =  target.transform.position.x > transform.position.x ? 1.0f : -1.0f;
 			//float dir = m_target.current_side == SIDE.LEFT ? -1.0f : 1.0f;

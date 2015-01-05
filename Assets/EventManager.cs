@@ -133,7 +133,7 @@ public class EventManager : MonoBehaviour
 	private void LoadNextLevel (){
 	
 		GameObject.FindWithTag("Loading").SendMessage("Activate");
-		Application.LoadLevel ("Test02");
+		Application.LoadLevel ("Tutorial");
 	}
 	
 	private void UpdateBlackScreenAlpha (float val)

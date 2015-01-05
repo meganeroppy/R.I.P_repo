@@ -8,7 +8,7 @@ public class LifeUI : UI {
 		if(!activated){
 			return;
 		}
-		string lifeStr = "stock_n" +  GameManager.player_life.ToString();
+		string lifeStr = GameManager.player_life == 9999 ? "stock_Infinity" : "stock_n" +  GameManager.player_life.ToString();
 		uiSprite.spriteName = lifeStr;
 	}
 }

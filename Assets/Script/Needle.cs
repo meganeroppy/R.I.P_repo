@@ -6,7 +6,7 @@ public class Needle : Monument {
 	private Player m_target;
 	private float attack_power;
 
-	private Vector2 blow_impact =  new Vector2(200.0f, 300.0f);
+	private Vector2 blow_impact =  new Vector2(40.0f, 300.0f);
 	
 	protected override void Start(){
 		builtOnGround = false;

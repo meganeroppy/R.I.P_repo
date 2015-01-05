@@ -32,7 +32,6 @@ public abstract class AttackZone : StageObject {
 
 	protected override void OnTriggerEnter2D(Collider2D col){
 		if (col.gameObject.tag != "Player" && col.gameObject.tag != "AttackZone") {
-			//Debug.Log(col.gameObject.name);
 			if(col.gameObject.tag == "Monument" || col.gameObject.tag == "Enemy"){
 				Crash(col.gameObject);
 			}
