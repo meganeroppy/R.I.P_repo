@@ -41,12 +41,12 @@ public class TitleLabel : UI {
 				uiLabel[i].alpha = i == 0 ? 0.0f :  i == 1 ? 1.0f : 0.5f;
 			}
 			break;
-			case "TESTSTAGE1":
+			case "STAGE1":
 			for(int i = 0 ; i < uiLabel.Length ; i++){
 				uiLabel[i].alpha = i == 0 ? 0.0f :  i == 2 ? 1.0f : 0.5f;
 			}
 			break;
-			case "TESTSTAGE2":
+			case "STAGE2":
 			for(int i = 0 ; i < uiLabel.Length ; i++){
 				uiLabel[i].alpha = i == 0 ? 0.0f :  i == 3 ? 1.0f : 0.5f;
 			}

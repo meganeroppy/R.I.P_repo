@@ -16,6 +16,10 @@ public class Label_CheckPoint : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+		if(GameManager.Pause()){
+			return;
+		}
+	
 		Vector3 pos = transform.position;
 		Vector3 newPos = new Vector3( pos.x, pos.y  + ( Mathf.PingPong(Time.time * 2.0f, 0.2f) - 0.1f), pos.z);
 		transform.position = newPos;

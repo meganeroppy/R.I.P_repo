@@ -12,7 +12,6 @@ public class StageObject : MonoBehaviour {
 	protected float timer_invincible = 0.0f;
 	protected bool invincible;
 	
-
 	protected Collider2D m_collider;
 	
 	protected int current_health = 1;
@@ -39,7 +38,6 @@ public class StageObject : MonoBehaviour {
 	
 	protected virtual void Awake(){
 		sound = GameObject.Find ("GameManager").GetComponent<SoundManager>();
-		
 	}
 	
 	// Use this for initialization
@@ -62,11 +60,13 @@ public class StageObject : MonoBehaviour {
 	protected virtual void Update(){}
 
 	protected virtual void Flip(SIDE side){
+		Vector3 scale = transform.localScale;
+		
 		if (side == SIDE.RIGHT) {
-			transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+			transform.localScale = new Vector3( -Mathf.Abs(scale.x), scale.y, scale.z);
 			current_side = SIDE.RIGHT;
 		} else {
-			transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+			transform.localScale = new Vector3( Mathf.Abs(scale.x), scale.y, scale.z);
 			current_side = SIDE.LEFT;
 		}
 	}
@@ -77,11 +77,13 @@ public class StageObject : MonoBehaviour {
 	//Face to the oppsite side
 	protected virtual void Flip(){
 		SIDE side = this.current_side;
+		Vector3 scale = transform.localScale;
+		
 		if (side == SIDE.RIGHT) {
-			transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+			transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
 			current_side = SIDE.LEFT;
 		} else {
-			transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+			transform.localScale = new Vector3(scale.x, scale.y, scale.z);
 			current_side = SIDE.RIGHT;
 		}
 	}

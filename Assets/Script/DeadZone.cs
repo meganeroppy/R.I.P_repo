@@ -68,7 +68,7 @@ public class DeadZone : StageObject {
 		if (col.gameObject.tag == "Player" && !GameManager.Miss()) {
 			col.SendMessage("GetExorcised");
 		}else if(col.gameObject.tag == "Enemy" || col.gameObject.tag == "Bullet"){
-			col.SendMessage("ApplyDamage", 9999.9f);
+			col.SendMessage("ApplyHealthDamage", 9999.9f);
 		} 
 	}
 }

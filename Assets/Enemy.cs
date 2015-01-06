@@ -3,6 +3,19 @@ using System.Collections;
 
 public class Enemy : Character {
 
+	protected Player m_target; 
+	protected CircleCollider2D[] m_targetCols;
+	
+	protected override void Update ()
+	{
+		if (!GameManager.GameOver() && m_target == null){
+			m_target = GameObject.FindWithTag ("Player").GetComponent<Player> ();
+			m_targetCols = m_target.GetComponents<CircleCollider2D>(); 
+		}
+		
+		base.Update ();
+	}
+
 	protected override void ApplyHealthDamage(int val){
 		if(current_status == STATUS.GONE){
 			return;

@@ -6,7 +6,7 @@ public class LoadingSet : UI {
 	protected UILabel uiLabel;
 	// Use this for initialization
 	protected void Awake () {
-		uiSprite = GameObject.Find("BlackScreen").GetComponent<UISprite>();
+		uiSprite = GameObject.Find("BlackScreen_l").GetComponent<UISprite>();
 		uiSprite.enabled = false;
 		uiLabel = GameObject.Find("Loading").GetComponent<UILabel>();
 		uiLabel.enabled = false;

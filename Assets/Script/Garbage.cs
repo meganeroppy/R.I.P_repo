@@ -88,13 +88,19 @@ public class Garbage : Enemy {
 	
 	private void ThrowGarbage(){
 		anim.SetTrigger("t_attack");
-		Vector3 pos = transform.position;
-		float offsetY = 2.0f;
 		
-		GameObject obj =  Instantiate(bubble, new Vector3(pos.x, pos.y + offsetY, pos.z), transform.rotation) as GameObject;
+		Vector3 pos = transform.position;
+		Vector3 myColsCenter = new Vector3( pos.x + (m_cols[0].center.x + m_cols[1].center.x)/2, pos.y + (m_cols[0].center.y + m_cols[1].center.y)/2, transform.position.z);
+		Vector3 targetPos = m_target.transform.position;
+		Vector3 targetColsCenter = new Vector3( targetPos.x + (m_targetCols[0].center.x + m_targetCols[1].center.x)/2, targetPos.y + (m_targetCols[0].center.y + m_targetCols[1].center.y)/2, m_target.transform.position.z);
+		
+		float offsetY = 1.0f;
+		
+		GameObject obj =  Instantiate(bubble, new Vector3(myColsCenter.x, myColsCenter.y + offsetY, myColsCenter.z), transform.rotation) as GameObject;
 		
 		//Move Direction
-		Vector3 baseDir = (m_target.transform.position - obj.transform.position).normalized;
+		//Vector3 baseDir = (m_target.transform.position - obj.transform.position).normalized;
+		Vector3 baseDir = (targetColsCenter - obj.transform.position).normalized;
 		float radian = Mathf.Atan2(baseDir.y, baseDir.x);
 		float baseAngle = radian * Mathf.Rad2Deg;
 		float offsetAngle = Random.Range(-15.0f, 15.0f);

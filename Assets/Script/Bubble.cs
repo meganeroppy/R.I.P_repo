@@ -30,6 +30,7 @@ public class Bubble : Bullet {
 			counter += Time.deltaTime;
 		}
 	}
+
 	
 	protected override void ApplyHealthDamage(int value){
 		Die();
@@ -37,7 +38,7 @@ public class Bubble : Bullet {
 	
 	protected override void Die(){
 		dying = true;
-		collider.enabled = false;
+		
 		rigidbody2D.velocity = Vector2.zero;
 		spriteRenderer.sprite = bubble_pic[2];
 		Destroy(this.gameObject, 0.25f);

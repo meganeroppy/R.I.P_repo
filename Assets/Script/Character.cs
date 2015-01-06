@@ -32,7 +32,6 @@ public class Character : StageObject {
 	protected const float DISAPPEARING_DELAY = 2.0f;
 
 	protected float rayRange = 0.01f;
-	protected Player m_target; 
 
 	[HideInInspector]
 	public bool grounded;
@@ -48,6 +47,9 @@ public class Character : StageObject {
 	public GameObject effect_transformation;
 	public GameObject effectPoint_destroy;
 	
+	protected CircleCollider2D[] m_cols;
+	
+	
 	protected override void Awake(){
 		base.Awake();
 		anim = GetComponent<Animator> ();
@@ -62,15 +64,13 @@ public class Character : StageObject {
 		current_status = STATUS.IDLE;
 		move_speed.x = 0.0f;
 		move_speed = new Vector2 (0.0f, 0.0f);
+		
+		m_cols = GetComponents<CircleCollider2D>();
 
 	}
 
 	// Update is called once per frame
 	protected override void Update () {
-	
-		if (!GameManager.GameOver() && m_target == null){
-			m_target = GameObject.FindWithTag ("Player").GetComponent<Player> ();
-		}
 	
 		Vector3 pos = transform.position;
 
@@ -299,14 +299,7 @@ public class Character : StageObject {
 			return;
 		}
 		
-		SIDE side = this.current_side;
-		if (side == SIDE.RIGHT) {
-			transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
-			current_side = SIDE.LEFT;
-		} else {
-			transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-			current_side = SIDE.RIGHT;
-		}
+		base.Flip();
 	}
 
 	public STATUS GetStatus(){

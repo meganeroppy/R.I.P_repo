@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Effect : MonoBehaviour {
+public class Effect : StageObject {
 
 	protected const float MAX_LIFETIME = 3.0f;
 	protected float timer = 0.0f;
@@ -16,7 +16,7 @@ public class Effect : MonoBehaviour {
 	
 	// Use this for initialization
 	
-	protected virtual void Start () {
+	protected override void Start () {
 		animator = GetComponent<Animator>();
 		if(TRACKING){
 			float posZ = transform.position.z;
@@ -27,7 +27,7 @@ public class Effect : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	protected virtual void Update () {
+	protected override void Update () {
 		timer += Time.deltaTime;
 		if(timer >= MAX_LIFETIME || finished){
 			Destroy(this.gameObject);

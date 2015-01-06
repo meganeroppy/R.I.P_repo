@@ -42,15 +42,13 @@ public class Bullet : StageObject {
 	}
 	
 	protected override void OnTriggerEnter2D(Collider2D col){
+		if(dying){
+			return;
+		}
+	
 		if (col.gameObject.tag == "Player") {
 			Crash(col.gameObject);
 		}else if(col.gameObject.tag == "Ground"){
-			Die();
-		}
-	}
-	
-	protected virtual void OnCollisionEnter2D(Collision2D col){
-		if(col.gameObject.tag == "Ground"){
 			Die();
 		}
 	}
@@ -64,7 +62,6 @@ public class Bullet : StageObject {
 		//Debug.Log("HIT" + Time.realtimeSinceStartup.ToString());
 		
 		Player  m_target = other.GetComponent<Player> ();
-		
 		
 		if (m_target.GetStatus() != STATUS.DYING && m_target.GetStatus() != STATUS.GHOST_IDLE) {
 			m_target.SendMessage ("ApplySpiritDamage", attack_power);

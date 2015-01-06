@@ -10,6 +10,7 @@ public class Effect_Spirit : Effect {
 		spriteRenderer = GetComponent<SpriteRenderer> ();
 		opacity = 0.9f;
 		transform.Rotate(0.0f, 0.0f, 180.0f);
+		Flip(SIDE.LEFT);
 	}
 	
 	// Update is called once per frame
@@ -17,6 +18,10 @@ public class Effect_Spirit : Effect {
 	
 		if(GameManager.Pause()){
 			return;
+		}
+		
+		if(transform.localScale.x < 0.0f){
+		//	Flip();
 		}
 	
 		opacity -= 0.8f * Time.deltaTime; 

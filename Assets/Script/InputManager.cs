@@ -28,7 +28,7 @@ public class InputManager : MonoBehaviour {
 			break;//End of case Title
 		case "Main":
 		case "Tutorial":
-		case "Test01":			
+		case "Stage01":			
 			break;//End of case "Main"
 		default:
 			break;
@@ -47,8 +47,8 @@ public class InputManager : MonoBehaviour {
 					}
 					break;
 			case  GameManager.SELECTION_TITLE.EVENT1:
-			case  GameManager.SELECTION_TITLE.TESTSTAGE1:
-			case  GameManager.SELECTION_TITLE.TESTSTAGE2:
+			case  GameManager.SELECTION_TITLE.STAGE1:
+			case  GameManager.SELECTION_TITLE.STAGE2:
 			case  GameManager.SELECTION_TITLE.OPTION:
 				if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton9)){
 					GameManager.AcceptInput("Title", GameManager.BUTTON.RIGHT);
@@ -73,10 +73,10 @@ public class InputManager : MonoBehaviour {
 			break;//End of case Title
 		case "Main":
 		case "Tutorial":
-		case "Test01":
-		case "Test02":
+		case "Stage01":
+		case "Stage02":
 		
-			if(GameManager.GameClear()){
+			if(GameManager.GameClear() || !GameManager.CompleteOpneingDirection()){
 				return;
 			}
 		
@@ -167,13 +167,6 @@ public class InputManager : MonoBehaviour {
 			break;//End of case "Main"
 		default:
 			break;
-		}
-	}
-	
-	private IEnumerator Test(){
-		print("test");
-		if(Input.GetKeyDown(KeyCode.P)){
-			yield break;
 		}
 	}
 }

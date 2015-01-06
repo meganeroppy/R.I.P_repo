@@ -6,10 +6,11 @@ public class GameManager : MonoBehaviour {
 
 	private string[] scenes = new string[5]{
 		"Tutorial",	
-		"Test01",
-		"Test02",
+		"Stage01",
+		"Stage02",
 		"Title",
 		"Event01",
+		
 	};
 
 	//Key Assign
@@ -28,8 +29,8 @@ public class GameManager : MonoBehaviour {
 	public enum SELECTION_TITLE{
 		WAITFORKEY,
 		EVENT1,
-		TESTSTAGE1,
-		TESTSTAGE2,
+		STAGE1,
+		STAGE2,
 		OPTION,
 		QUIT
 	}
@@ -50,6 +51,7 @@ public class GameManager : MonoBehaviour {
 	private static bool cleared;
 	private static bool gameover;
 	private static bool inMissingDirection;
+	private static bool openingDirectionIsCompleted; 
 	static bool IsGhost = false;
 	
 	public static int player_life;
@@ -57,6 +59,7 @@ public class GameManager : MonoBehaviour {
 	public static int player_health;
 	private bool playerIsBorn = false;
 	private bool StageMakingHasBeenExecuted = false;
+	private int m_sceneIdx = 0;
 	
 	//Scripts
 	private static SoundManager soundManager;
@@ -81,6 +84,7 @@ public class GameManager : MonoBehaviour {
 		cleared = false;
 		gameover = false;
 		inMissingDirection = false;
+		openingDirectionIsCompleted = false;
 		
 		switch(Application.loadedLevelName.ToString()){
 		case "Title":
@@ -89,9 +93,9 @@ public class GameManager : MonoBehaviour {
 			break;//End of case Title
 		case "Main":
 			StageMakingHasBeenExecuted = true;
-			goto case "Test02";
-		case "Test01":
-		case "Test02":
+			goto case "Stage02";
+		case "Stage01":
+		case "Stage02":
 			player_life = DEFAULT_LIFE;
 			goto default;
 		case "Tutorial":
@@ -108,13 +112,17 @@ public class GameManager : MonoBehaviour {
 	public void Update(){
 		if( !Application.loadedLevelName.ToString().Contains("Event") ){
 			if( (!Application.loadedLevelName.Contains("old") && !Application.loadedLevelName.Contains("Title")) && !StageMakingHasBeenExecuted ){
-				//int stageIdx = Application.loadedLevelName == "Test01" ? 0 : 1 ;
+				//int stageIdx = Application.loadedLevelName == "Stage01" ? 0 : 1 ;
 				int stageIdx = 0;
 				while(Application.loadedLevelName != scenes[stageIdx]){
 					stageIdx++;
 				}
 				
+				m_sceneIdx = stageIdx;
+				
 				GameObject.FindWithTag("StageMaker").GetComponent<StageMaker>().SendMessage("Init", stageIdx);
+				GameObject.FindWithTag("Opening").GetComponent<OpeningSet>().SendMessage("Activate");
+				
 				StageMakingHasBeenExecuted = true;
 				SetLoadingSkin(false);
 			}
@@ -143,6 +151,14 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 	}
+	
+	public static void CompleteOpneingDirection( bool key){
+		openingDirectionIsCompleted = key;
+	}
+	
+	public static bool CompleteOpneingDirection(){
+		return openingDirectionIsCompleted;
+	}
 
 	public static void Pause(bool key){
 		if (key) {
@@ -166,6 +182,9 @@ public class GameManager : MonoBehaviour {
 			Restart();
 		}else if(cmd == "GoToTitle"){
 			Application.LoadLevel("Title");
+		}else if(cmd == "GoToNext"){
+			m_sceneIdx++;
+			Application.LoadLevel(scenes[m_sceneIdx]);
 		}
 	}
 	
@@ -200,10 +219,10 @@ public class GameManager : MonoBehaviour {
 			return "WAITFORKEY";
 		case SELECTION_TITLE.EVENT1:
 			return "EVENT1";
-		case SELECTION_TITLE.TESTSTAGE1:
-			return "TESTSTAGE1";
-		case SELECTION_TITLE.TESTSTAGE2:
-			return "TESTSTAGE2";
+		case SELECTION_TITLE.STAGE1:
+			return "STAGE1";
+		case SELECTION_TITLE.STAGE2:
+			return "STAGE2";
 		case SELECTION_TITLE.OPTION:
 			return "OPTION";
 		default:
@@ -257,11 +276,11 @@ public class GameManager : MonoBehaviour {
 			case SELECTION_TITLE.EVENT1:
 				GameStart("Event01");
 				return;
-			case SELECTION_TITLE.TESTSTAGE1:
-				GameStart("Test01");
+			case SELECTION_TITLE.STAGE1:
+				GameStart("Stage01");
 				return;
-			case SELECTION_TITLE.TESTSTAGE2:
-				GameStart("Test02");
+			case SELECTION_TITLE.STAGE2:
+				GameStart("Stage02");
 				return;
 			case SELECTION_TITLE.OPTION:
 				//GameStart("PSM Input");
@@ -294,16 +313,16 @@ public class GameManager : MonoBehaviour {
 				current_selection_title = SELECTION_TITLE.EVENT1;			
 				return;
 			case SELECTION_TITLE.EVENT1:
-				current_selection_title = dir ? SELECTION_TITLE.TESTSTAGE1 : SELECTION_TITLE.OPTION;			
+				current_selection_title = dir ? SELECTION_TITLE.STAGE1 : SELECTION_TITLE.OPTION;			
 				return;
-			case SELECTION_TITLE.TESTSTAGE1:
-				current_selection_title = dir ? SELECTION_TITLE.TESTSTAGE2 : SELECTION_TITLE.EVENT1;			
+			case SELECTION_TITLE.STAGE1:
+				current_selection_title = dir ? SELECTION_TITLE.STAGE2 : SELECTION_TITLE.EVENT1;			
 				return;
-			case SELECTION_TITLE.TESTSTAGE2:
-				current_selection_title = dir ? SELECTION_TITLE.OPTION : SELECTION_TITLE.TESTSTAGE1;			
+			case SELECTION_TITLE.STAGE2:
+				current_selection_title = dir ? SELECTION_TITLE.OPTION : SELECTION_TITLE.STAGE1;			
 					return;
 			case SELECTION_TITLE.OPTION:
-				current_selection_title = dir ? SELECTION_TITLE.EVENT1 : SELECTION_TITLE.TESTSTAGE2;			
+				current_selection_title = dir ? SELECTION_TITLE.EVENT1 : SELECTION_TITLE.STAGE2;			
 				return;
 			default:
 				return;
@@ -363,8 +382,10 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	public void GameClear(bool key){
-		cleared = true;
-		StartCoroutine (WaitAndExecute (4.0f, "GoToTitle"));
+		if(!cleared){
+			cleared = true;
+			StartCoroutine (WaitAndExecute (4.0f, "GoToNext"));
+		}
 	}
 	
 	private void ReassignScripts(){

@@ -30,6 +30,7 @@ public class EventManager : MonoBehaviour
 		private UILabel label_pressButton;
 		private UISprite blackScreen;
 		private AudioSource m_audio;
+		private float fadeOutSpeed = 4.5f;
 
 	private void Awake(){
 		Application.targetFrameRate = 30;
@@ -115,6 +116,7 @@ public class EventManager : MonoBehaviour
 	
 	private void SkipEvent ()
 	{
+		fadeOutSpeed = 2.0f;
 		EndEvent ();
 	}
 	
@@ -127,7 +129,7 @@ public class EventManager : MonoBehaviour
 	{
 		ended = true;
 		
-		iTween.ValueTo (gameObject, iTween.Hash ("from", blackScreen.alpha, "to", 1, "time", 4.5f, "onupdate", "UpdateBlackScreenAlpha", "oncomplete", "LoadNextLevel"));	
+		iTween.ValueTo (gameObject, iTween.Hash ("from", blackScreen.alpha, "to", 1, "time", fadeOutSpeed, "onupdate", "UpdateBlackScreenAlpha", "oncomplete", "LoadNextLevel"));	
 	}
 	
 	private void LoadNextLevel (){

@@ -51,9 +51,7 @@ public class SpiritBar_nGUI : MonoBehaviour {
 						tempColor = back.color;
 					}
 					colorDiff -= Time.deltaTime * 3.0f;
-					back.color = Color.Lerp(DEFAULT_COLOR, tempColor, colorDiff);	
-					
-				
+					back.color = Color.Lerp(DEFAULT_COLOR, tempColor, colorDiff);
 				}
 				
 				//back.color = DEFAULT_COLOR;
