@@ -276,6 +276,11 @@ public class Player : Walker {
 	}
 	
 	private void GetExorcised(){
+		
+		if(GameManager.Miss()){
+			return;
+		}
+	
 		renderer.enabled = false;
 		gameManager.SendMessage("Miss", true);
 		

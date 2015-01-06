@@ -3,7 +3,7 @@ using System.Collections;
 
 public class OpeningSet : UI {
 
-	private const float DURATION = 2.0f;
+	private const float DURATION = 0.5f;
 	private float timer_screen = 0.0f; 
 	
 	protected UILabel uiLabel;
@@ -38,8 +38,8 @@ public class OpeningSet : UI {
 					FinishDirection();
 
 				}else{
-					uiSprite.alpha -= Time.deltaTime;
-					uiLabel.alpha -= Time.deltaTime;
+					uiSprite.alpha -= Time.deltaTime * 0.5f;
+					uiLabel.alpha -= Time.deltaTime * 0.5f;
 				}
 					
 			}else{

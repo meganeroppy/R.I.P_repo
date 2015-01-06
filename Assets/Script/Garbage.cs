@@ -103,7 +103,7 @@ public class Garbage : Enemy {
 		Vector3 baseDir = (targetColsCenter - obj.transform.position).normalized;
 		float radian = Mathf.Atan2(baseDir.y, baseDir.x);
 		float baseAngle = radian * Mathf.Rad2Deg;
-		float offsetAngle = Random.Range(-15.0f, 15.0f);
+		float offsetAngle = Random.Range(-10.0f, 10.0f);
 		float fixedAngle = baseAngle + offsetAngle;
 		
 		Vector3 fixedDir = new Vector3(Mathf.Cos(Mathf.PI / 180 * fixedAngle), Mathf.Sin(Mathf.PI / 180 * fixedAngle), 0.0f).normalized; 
