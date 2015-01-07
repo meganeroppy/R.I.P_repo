@@ -52,6 +52,10 @@ public class GameManager : MonoBehaviour {
 	private static bool gameover;
 	private static bool inMissingDirection;
 	private static bool openingDirectionIsCompleted; 
+	public static float DEFAULT_PIECE_SCALE = 5.12f;
+	public static float PIECE_SCALE = 3.20f;
+	
+	
 	static bool IsGhost = false;
 	
 	public static int player_life;
