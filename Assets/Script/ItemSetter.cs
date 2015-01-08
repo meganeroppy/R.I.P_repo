@@ -75,7 +75,8 @@ public class ItemSetter : Monument {
 			
 		}
 
-		GameObject item = Instantiate(selectedItem, this.transform.position, this.transform.rotation) as GameObject;
+		GameObject item = Instantiate(selectedItem) as GameObject;
+		item.transform.transform.position = transform.position + new Vector3(0.0f, 0.0f, -1.0f);
 		item.transform.parent = transform;			
 		
 	}

@@ -31,7 +31,7 @@ public class SonicBoom : AttackZone {
 		base.Crash(other);
 		Vector3 pos = transform.position;
 		
-		Instantiate(effect_slush, new Vector3(pos.x, pos.y, pos.z + 1.0f), transform.rotation);
+		Instantiate(effect_slush, new Vector3(pos.x, pos.y, pos.z), transform.rotation);
 	}
 
 	// Update is called once per frame

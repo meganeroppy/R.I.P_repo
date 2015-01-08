@@ -6,7 +6,7 @@ public class Needle : Monument {
 	private Player m_target;
 	private float attack_power;
 
-	private Vector2 blow_impact =  new Vector2(40.0f, 300.0f);
+	private Vector2 blow_impact =  new Vector2(200.0f, 300.0f);
 	
 	protected override void Start(){
 		builtOnGround = false;
@@ -47,6 +47,7 @@ public class Needle : Monument {
 			if (this.gameObject.transform.position.x > m_target.transform.position.x) {
 				dir *= -1.0f;
 			}
+			m_target.rigidbody2D.velocity = Vector2.zero;
 			m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
 			
 		}

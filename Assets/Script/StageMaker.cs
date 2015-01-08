@@ -141,7 +141,6 @@ public class StageMaker : MonoBehaviour {
 			}
 			
 			obj.transform.position = pos;
-
 			
 			if(o_rotKey != 0){
 				RotateItem(obj, o_rotKey);
@@ -150,7 +149,8 @@ public class StageMaker : MonoBehaviour {
 			//obj.transform.Translate(0.0f, 0.0f, obj_ZOrder[o_key-1]);
 			float zOrder = obj.tag == ("Monument") ? -2.0f : (obj.tag == ("Enemy") || obj.tag == "Player") ? -5.0f : 0.0f;
 			obj.transform.Translate(0.0f, 0.0f, zOrder);
-			obj.transform.parent = stg.transform;
+			//obj.transform.parent = stg.transform;
+			obj.transform.parent = transform;
 		}
 		
 		//Stage Function//////

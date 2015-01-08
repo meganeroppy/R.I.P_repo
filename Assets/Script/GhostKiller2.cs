@@ -60,6 +60,9 @@ public class GhostKiller2 : StageObject {
 	}
 
 	protected override void OnTriggerEnter2D(Collider2D col){
+		if(!m_awake){
+			return;
+		}
 		if (col.gameObject.tag == "Player" && !GameManager.Miss()) {
 			if(col.gameObject.GetComponent<Player>().CheckIsLiving()){
 				return;

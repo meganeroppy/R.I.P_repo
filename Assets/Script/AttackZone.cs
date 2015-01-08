@@ -29,16 +29,18 @@ public abstract class AttackZone : StageObject {
 
 
 	}
-
+   
 	protected override void OnTriggerEnter2D(Collider2D col){
 		if (col.gameObject.tag != "Player" && col.gameObject.tag != "AttackZone") {
 			if(col.gameObject.tag == "Enemy"){
 				Crash(col.gameObject);
+				Destroy(this.gameObject);
 			}
-			if(col.gameObject.tag == "Item" || col.gameObject.tag == "Effect" || col.gameObject.tag == "Monument" || col.gameObject.tag == "Bullet"){
+			if(col.gameObject.tag != "Ground"){
 				return;
+			}else{
+				Destroy(this.gameObject);
 			}
-			Destroy(this.gameObject);
 		}
 	}
 

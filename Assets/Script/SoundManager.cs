@@ -18,8 +18,8 @@ public class SoundManager : MonoBehaviour {
 		switch(Application.loadedLevelName){
 		case "Main":
 		case "Tutorial":
-		case "Test01":
-		case "Test02":
+		case "Stage01":
+		case "Stage02":
 			
 				SetBGM(System.DateTime.Now.Hour);
 				audio.loop = true;

@@ -69,6 +69,7 @@ public class Bullet : StageObject {
 			if (this.gameObject.transform.position.x > m_target.transform.position.x) {
 				dir *= -1.0f;
 			}
+			m_target.rigidbody2D.velocity = Vector2.zero;
 			m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
 		}
 	}

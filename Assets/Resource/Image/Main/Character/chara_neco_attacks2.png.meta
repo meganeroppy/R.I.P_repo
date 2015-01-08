@@ -55,8 +55,8 @@ TextureImporter:
         y: 53
         width: 387
         height: 327
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: .579999983, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: chara_neco_attacks2_1
       rect:
@@ -65,8 +65,8 @@ TextureImporter:
         y: 53
         width: 387
         height: 327
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: .579999983, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: chara_neco_attacks2_2
       rect:
@@ -75,8 +75,8 @@ TextureImporter:
         y: 53
         width: 387
         height: 327
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: .579999983, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: chara_neco_attacks2_3
       rect:
@@ -85,8 +85,8 @@ TextureImporter:
         y: 53
         width: 387
         height: 327
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: .579999983, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: chara_neco_attacks2_4
       rect:
@@ -95,8 +95,8 @@ TextureImporter:
         y: 53
         width: 387
         height: 327
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: .579999983, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
