@@ -10,13 +10,15 @@ public class RumpleGenerator : Generator {
 	protected override void Generate(){
 		
 		Vector2 offset;
-		offset.x = Random.Range (-offset_range, offset_range);
-		offset.y = Random.Range (-offset_range, offset_range);
+		//offset.x = Random.Range (-offset_range, offset_range);
+		offset.x = 0;
+		//offset.y = Random.Range (-offset_range, offset_range);
+		offset.y = 0;
 		
 		Vector3 pos = transform.position;
 		GameObject rumple = Instantiate (child, new Vector3 (pos.x + offset.x, pos.y + offset.y, pos.z), transform.rotation) as GameObject;
-		rumple.transform.parent = transform.parent;
-		rumple.SendMessage("SwitchPettern");
+		rumple.transform.parent = transform;
+		rumple.SendMessage("SetPettern", "B");
 	}
 
 }

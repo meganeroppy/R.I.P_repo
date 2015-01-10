@@ -14,25 +14,38 @@ public class Rumple : Flyer {
 
 	private float flying_move_speed = 2.5f;
 	private float returning_speed = 5.0f;
-	private bool m_isReturning = false;
+	//private bool m_isReturning = false;
+	//private Vector3 m_basePos;
 	
 
 	private float m_timer = 0.0f;
 	private const float LIMIT_TIME = 12.0f;
 
-	private float m_alpha = 1.0f;
+	//private float m_alpha = 1.0f;
 	private SpriteRenderer spriteRenderer;
+	public Sprite[] pic =  new Sprite[2];
 
 	private float m_randomNum = 0.0f;
+	
+	private EffectPoint_EvilSpirit effect;
 
 	protected override void Start(){
 		spriteRenderer = GetComponent<SpriteRenderer> ();
+		spriteRenderer.enabled = true;
+
+		effect = GetComponent<EffectPoint_EvilSpirit>();
+		effect.enabled = true;
+		m_visible = true;
+		
 		base.Start ();
-		current_health = 3;
+		current_health = 2;
 		current_status = STATUS.IDLE;
-		while (m_randomNum == 0.0f) {
+		
+		while (Mathf.Abs( m_randomNum) <= 0.2f) {
 			m_randomNum = Random.Range (-1.0f, 1.0f);
 		}
+		
+	//	m_basePos = transform.position;
 	}
 
 	protected override void Update(){
@@ -40,18 +53,45 @@ public class Rumple : Flyer {
 		if (GameManager.GameOver() || current_health <= 0) {
 			return;		
 		}
+		
+		if(!GameManager.CheckCurrentPlayerIsGhost()){
+			if(m_visible){
+				if(cur_action_pettern == ACTION_PETTERN.B){
+					m_visible = false;
+					spriteRenderer.enabled = false;
+					effect.enabled = false;
+				}
+			}
+		}else{
+			if(!m_visible){
+				GameObject obj = Instantiate( effect_transformation ) as GameObject;
+				obj.transform.position = transform.position + new Vector3(0,0,-1);
+				obj.transform.localScale = new Vector3(1.5f, 1.5f, 1.0f);
+				m_visible = true;
+				spriteRenderer.enabled = true;
+				effect.enabled = true;			
+				
+			}
+		}
+		
+		
 		switch (current_status) {
 				
 		case STATUS.IDLE:
 
-			m_timer += 1.0f * Time.deltaTime;
-
+			m_timer += Time.deltaTime;
+			/*
 			if (CheckPlayerIsGhost()) {
 				current_status = STATUS.ATTACK;
 				break;
 			}
+*/
 
-			if(cur_action_pettern == ACTION_PETTERN.B){
+			if(cur_action_pettern == ACTION_PETTERN.A){
+				Vector3 pos = transform.position;
+				Vector3 newPos = new Vector3( pos.x, pos.y  +  ( (Mathf.Sin (180 * (m_timer) * Mathf.Deg2Rad) * 0.01f) ), pos.z);
+				transform.position = newPos;
+			}else if(cur_action_pettern == ACTION_PETTERN.B){
 				float val = (Mathf.Cos((Mathf.PI * 2) * (m_timer * 0.5f)) ) * 10.0f;
 				val *= m_randomNum;
 
@@ -63,7 +103,7 @@ public class Rumple : Flyer {
 			//Look at Player
 			if(!GameManager.GameOver()){
 				if (m_target == null) {
-					m_target = GameObject.Find("Player").GetComponent<Player>();	
+					m_target = GameObject.FindWithTag("Player").GetComponent<Player>();	
 				}
 				if (transform.position.x > m_target.transform.position.x) {
 					if (transform.localScale.x < 0) {
@@ -77,6 +117,7 @@ public class Rumple : Flyer {
 			}
 
 			//Flying away
+			/*
 			if (m_isReturning) {
 				float val = (Mathf.Cos((Mathf.PI * 2) * (m_timer * 0.5f)) ) * 0.15f;
 				val *= m_randomNum;
@@ -95,6 +136,7 @@ public class Rumple : Flyer {
 					GoToHome();
 				}
 			}
+			*/
 
 			break;//End of STATUS.IDLE
 
@@ -103,7 +145,6 @@ public class Rumple : Flyer {
 				GoToHome();
 				return;
 			}
-		
 		
 			Vector2 dir = (m_target.transform.position - transform.position).normalized ;
 			dir = dir * flying_move_speed * Time.deltaTime;
@@ -124,7 +165,7 @@ public class Rumple : Flyer {
 
 		default:
 			if(CheckPlayerIsGhost()){
-				current_status = STATUS.ATTACK;
+			//	current_status = STATUS.ATTACK;
 			}else{
 				current_status = STATUS.IDLE;
 			}
@@ -134,17 +175,21 @@ public class Rumple : Flyer {
 	}
 
 	protected override void OnTriggerEnter2D(Collider2D col){
+		if(current_status == STATUS.GONE){
+			return;
+		}
+	
 		if (col.gameObject.tag == "Player") {
-			//if(m_target.GetStatus() == STATUS.GHOST_IDLE){
-			//	m_target.SendMessage("Disappear");
-			//}
+			if( cur_action_pettern == ACTION_PETTERN.B && col.gameObject.GetComponent<Player>().CheckIsLiving()){
+				return;
+			}
 			Crash(col.gameObject);
 		}
 	}
 
 	private void GoToHome(){
 		m_collider.enabled = false;
-		m_isReturning = true;
+//		m_isReturning = true;
 	}
 
 	protected override void ApplyHealthDamage (int value){
@@ -152,6 +197,9 @@ public class Rumple : Flyer {
 			return;
 		}
 		base.ApplyHealthDamage(value);
+		if(current_health <= 0){
+			spriteRenderer.sprite = pic[1];
+		}
 	}
 
 	private bool CheckPlayerIsGhost(){
@@ -168,11 +216,19 @@ public class Rumple : Flyer {
 		}
 	}
 
-	public void SwitchPettern(){
+	protected void SwitchPettern(){
 		if (cur_action_pettern == ACTION_PETTERN.A) {
 			cur_action_pettern = ACTION_PETTERN.B;
 		} else {
 			cur_action_pettern = ACTION_PETTERN.A;		
+		}
+	}
+	
+	protected void SetPettern(string cmd){
+		if (cmd == "A") {
+			cur_action_pettern = ACTION_PETTERN.A;
+		} else if(cmd == "B"){
+			cur_action_pettern = ACTION_PETTERN.B;		
 		}
 	}
 }

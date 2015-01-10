@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 1b6e964559f8d4026a2ca0650da933d5
+guid: ec345f090348649ae90195492f15e42f
 TextureImporter:
   fileIDToRecycleName:
-    21300000: electro_corner_0
-    21300002: electro_corner_1
-    21300004: electro_corner_2
-    21300006: electro_corner_3
+    21300000: electro_T_0
+    21300002: electro_T_1
+    21300004: electro_T_2
+    21300006: electro_T_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -47,7 +47,7 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: electro_corner_0
+    - name: electro_T_0
       rect:
         serializedVersion: 2
         x: 0
@@ -55,9 +55,9 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: electro_corner_1
+    - name: electro_T_1
       rect:
         serializedVersion: 2
         x: 512
@@ -65,9 +65,9 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: electro_corner_2
+    - name: electro_T_2
       rect:
         serializedVersion: 2
         x: 0
@@ -75,9 +75,9 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: electro_corner_3
+    - name: electro_T_3
       rect:
         serializedVersion: 2
         x: 512
@@ -85,7 +85,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

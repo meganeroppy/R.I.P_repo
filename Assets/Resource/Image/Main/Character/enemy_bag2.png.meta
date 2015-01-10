@@ -27,7 +27,7 @@ TextureImporter:
   textureFormat: -1
   maxTextureSize: 512
   textureSettings:
-    filterMode: 0
+    filterMode: 1
     aniso: 16
     mipBias: -1
     wrapMode: 1
@@ -40,7 +40,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 400
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
@@ -49,30 +49,20 @@ TextureImporter:
     - name: enemy_bag2_0
       rect:
         serializedVersion: 2
-        x: 36
-        y: 28
-        width: 615
-        height: 883
+        x: 0
+        y: 19
+        width: 706
+        height: 920
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: enemy_bag2_1
       rect:
         serializedVersion: 2
-        x: 862
-        y: 104
-        width: 4
-        height: 4
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: enemy_bag2_2
-      rect:
-        serializedVersion: 2
-        x: 759
-        y: 59
-        width: 624
-        height: 824
+        x: 706
+        y: 19
+        width: 706
+        height: 920
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

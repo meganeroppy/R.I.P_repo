@@ -2,16 +2,18 @@
 using System.Collections;
 
 public class SoundManager : MonoBehaviour {
-
+	public AudioClip bgm_asa;
+	public AudioClip bgm_hiru;
+	public AudioClip bgm_yoru;
+	
 	public AudioClip se_goal;
 	public AudioClip se_jump;
 	public AudioClip se_attack;
 	public AudioClip se_damage;
 	public AudioClip se_getItem;
-
-	public AudioClip bgm_asa;
-	public AudioClip bgm_hiru;
-	public AudioClip bgm_yoru;
+	
+	public AudioClip se_bubble_throw;
+	public AudioClip se_bubble_die;	
 	
 	// Use this for initialization
 	void Start () {
@@ -54,6 +56,12 @@ public class SoundManager : MonoBehaviour {
 			break;
 		case "GetItem" :
 			audio.PlayOneShot(se_getItem, volume);
+			break;
+		case "Bubble_throw" :
+			audio.PlayOneShot(se_bubble_throw, volume);
+			break;
+		case "Bubble_die" :
+			audio.PlayOneShot(se_bubble_die, volume);
 			break;
 		default:
 			break;

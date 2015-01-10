@@ -49,7 +49,6 @@ public class Character : StageObject {
 	
 	protected CircleCollider2D[] m_cols;
 	
-	
 	protected override void Awake(){
 		base.Awake();
 		anim = GetComponent<Animator> ();
@@ -101,7 +100,7 @@ public class Character : StageObject {
 				current_status = STATUS.WALK;
 			}else{
 				if(!grounded){
-					transform.parent = null;
+					//transform.parent = null;
 					current_status = rigidbody2D.velocity.y <= 0.0f ? STATUS.JUMP_DOWN : STATUS.JUMP_UP;
 				}
 			}
@@ -141,7 +140,7 @@ public class Character : StageObject {
 				current_status = STATUS.IDLE;
 			}else{
 				if(!grounded){
-					transform.parent = null;
+					//transform.parent = null;
 					current_status = rigidbody2D.velocity.y <= 0.0f ? STATUS.JUMP_DOWN : STATUS.JUMP_UP;
 
 				}
@@ -173,7 +172,8 @@ public class Character : StageObject {
 					//timer_invincible = INVINCIBLE_DURATION;
 				}
 			}
-		break;	
+		break;
+
 		case STATUS.DYING:
 			break;
 		case STATUS.GHOST_IDLE:
@@ -213,7 +213,6 @@ public class Character : StageObject {
 		}
 	}
 
-
 	//For Ghost
 	public void UpdateMoveSpeed(Vector2 speed){
 		move_speed = speed;
@@ -226,19 +225,6 @@ public class Character : StageObject {
 		}
 	}
 
-	protected void OnCollisionStay2D(Collision2D col){
-		if (col.gameObject.tag == "MovingFloor") {
-			transform.parent = col.transform;
-		} else {
-			transform.parent = null;		
-		}
-	}
-	protected void OnCollisionExit2D(Collision2D col){
-		if (col.gameObject.tag == "MovingFloor") {
-			transform.parent = null;		
-		} 
-	}
-
 	protected override void ApplyHealthDamage(int value){
 		base.ApplyHealthDamage (value);
 		if (current_health <= 0) {
@@ -249,18 +235,26 @@ public class Character : StageObject {
 			rigorState = DAMAGE_DURATION;
 		}
 	}
-	
+
 	protected override void ApplySpiritDamage(float value){
-		if (current_status == STATUS.DAMAGE || current_status == STATUS.DYING  || current_status == STATUS.GHOST_IDLE) {
+		if (current_status == STATUS.DAMAGE || current_status == STATUS.DYING ) {
 			return;
 		}
 		
 		base.ApplySpiritDamage (value);
 		if (current_spirit <= 0) {
-			current_status = STATUS.DAMAGE;
+			if(current_status == STATUS.GHOST_IDLE){
+				current_status = STATUS.GHOST_DAMAGE;
+			}else{
+				current_status = STATUS.DAMAGE;
+			}
 			rigorState = DYING_DELAY;
 		} else {
-			current_status = STATUS.DAMAGE;
+			if(current_status == STATUS.GHOST_IDLE){
+				current_status = STATUS.GHOST_DAMAGE;
+			}else{
+				current_status = STATUS.DAMAGE;
+			}
 			rigorState = DAMAGE_DURATION;
 		}
 	}

@@ -3,15 +3,10 @@ using System.Collections;
 
 public class Flyer : Enemy {
 	
-	protected int attack_Power = 55;
-	private Vector2 blow_impact =  new Vector2(200.0f, 100.0f);
-	
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
-		if (!GameManager.GameOver()){
-			m_target = GameObject.FindWithTag ("Player").GetComponent<Player> ();
-		}
+
 	}
 	
 	// Update is called once per frame
@@ -48,30 +43,4 @@ public class Flyer : Enemy {
 				}
 		}
 
-	protected override void OnTriggerEnter2D(Collider2D col){
-		if (col.gameObject.tag == "Player") {
-			Crash(col.gameObject);
-		}
-	}
-
-	
-	protected void Crash(GameObject target){
-		
-		//Debug.Log("HIT" + Time.realtimeSinceStartup.ToString());
-
-		if (m_target == null){
-			m_target = target.GetComponent<Player> ();
-		}
-
-		if (m_target.GetStatus() != STATUS.DYING) {
-			m_target.SendMessage ("ApplySpiritDamage", attack_Power);
-			
-			float dir =  target.transform.position.x > transform.position.x ? 1.0f : -1.0f;
-			//float dir = m_target.current_side == SIDE.LEFT ? -1.0f : 1.0f;
-
-			if (m_target.GetStatus() != STATUS.GHOST_IDLE) {
-			m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
-			}
-		}
-	}
 }

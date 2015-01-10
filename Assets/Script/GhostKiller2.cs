@@ -9,12 +9,17 @@ public class GhostKiller2 : StageObject {
 	protected float m_counter = 0.0f;
 	protected const float SPAN = 0.025f; 
 	protected SpriteRenderer spriteRenderer;
+	private Collider2D[] m_colliders;
+	private float attackPower = 30.0f;
 
 	protected override void Start () {
+		
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		spriteRenderer.sprite = m_pic[0];
 		float scale = GameManager.PIECE_SCALE / GameManager.DEFAULT_PIECE_SCALE;
 		transform.localScale = new Vector3(transform.localScale.x * scale, transform.localScale.x * scale, scale);
+		
+		m_colliders = GetComponents<Collider2D>();
 	}
 	
 	protected override void Update ()
@@ -24,12 +29,19 @@ public class GhostKiller2 : StageObject {
 			if(m_awake){
 				m_awake = false;
 				spriteRenderer.sprite = m_pic[3];
+				
+				foreach(Collider2D child in m_colliders){
+					child.isTrigger = true;
+				}
 			}
 			return;
 		}else{
 			if(!m_awake){
 				m_awake = true;
 				spriteRenderer.sprite = m_pic[0];
+				foreach(Collider2D child in m_colliders){
+					child.isTrigger = false;
+				}
 			}
 		}
 	
@@ -49,17 +61,7 @@ public class GhostKiller2 : StageObject {
 
 	}
 	
-	protected void OnCollisionEnter2D (Collision2D col)
-	{
-		if (col.gameObject.tag == "Player" && !GameManager.Miss()) {
-			if(col.gameObject.GetComponent<Player>().CheckIsLiving()){
-				return;
-			}
-			col.gameObject.SendMessage("Miss");
-		}	
-	}
-
-	protected override void OnTriggerEnter2D(Collider2D col){
+	protected void Crash(GameObject col){
 		if(!m_awake){
 			return;
 		}
@@ -67,9 +69,18 @@ public class GhostKiller2 : StageObject {
 			if(col.gameObject.GetComponent<Player>().CheckIsLiving()){
 				return;
 			}
-			col.SendMessage("GetExorcised");
+			col.SendMessage("ApplySpiritDamage", attackPower);
 		}else if(col.gameObject.tag == "Enemy" || col.gameObject.tag == "Bullet"){
-			col.SendMessage("ApplyHealthDamage", 9999.9f);
+			col.SendMessage("ApplyHealthDamage", attackPower);
 		} 
+	}
+	
+	protected void OnCollisionEnter2D (Collision2D col)
+	{
+		Crash(col.gameObject);
+	}
+
+	protected override void OnTriggerEnter2D(Collider2D col){
+		Crash(col.gameObject);
 	}
 }

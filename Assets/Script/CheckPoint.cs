@@ -5,10 +5,13 @@ public class CheckPoint : Monument {
 
 	private bool marked = false; 
 	public GameObject label_checkPoint;
+	protected SpriteRenderer spriteRenderer;
+	public Sprite[] pic = new Sprite[2];
 
 	protected override void Start ()
 	{
 		builtOnGround = true;
+		spriteRenderer = GetComponent<SpriteRenderer>();
 		base.Start ();
 	}
 			
@@ -28,6 +31,7 @@ public class CheckPoint : Monument {
 		
 		if(col.tag.Equals("Player")){
 			marked = true;
+			spriteRenderer.sprite = pic[1];
 			Vector2 col_center = GetComponent<CircleCollider2D>().center;
 			GameObject obj = Instantiate(label_checkPoint, transform.position + new Vector3(col_center.x, col_center.y + 0.5f, -0.5f), transform.rotation) as GameObject;
 			obj.transform.parent = this.transform;

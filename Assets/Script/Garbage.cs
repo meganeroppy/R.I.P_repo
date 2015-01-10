@@ -10,7 +10,6 @@ public class Garbage : Enemy {
 	protected int throwCount = 0;
 	protected const float DAMAGED_RIGOR = 0.1f;
 	protected float rigorTimer = 0.0f;
-	private bool m_awaking = false;
 	private const float AWAKE_RANGE = 10.24f;
 	
 	protected override void Start ()
@@ -57,7 +56,7 @@ public class Garbage : Enemy {
 				return;
 			}
 			
-			if(Mathf.Abs( transform.position.x - m_target.transform.position.x) < AWAKE_RANGE){
+			if(Mathf.Abs( transform.position.x - m_target.transform.position.x) < AWAKE_RANGE && grounded){
 				m_awaking = true;
 				rigorTimer = WARMINGUP;
 				anim.SetTrigger("t_showup");

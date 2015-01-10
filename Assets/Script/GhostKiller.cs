@@ -52,9 +52,7 @@ public class GhostKiller : DeadZone {
 			m_scale += Time.deltaTime * 1f;
 			m_alpha -= Time.deltaTime * 1f;
 		}
-
 		
-
 		//if(colorSwitchFlug){
 		//	colorSwitchFlug = false;
 		//	SwitchColor();

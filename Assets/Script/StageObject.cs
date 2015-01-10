@@ -11,6 +11,7 @@ public class StageObject : MonoBehaviour {
 	protected float INVINCIBLE_DURATION = 1.5f;
 	protected float timer_invincible = 0.0f;
 	protected bool invincible;
+	protected bool m_visible = true;
 	
 	protected Collider2D m_collider;
 	
@@ -89,7 +90,9 @@ public class StageObject : MonoBehaviour {
 	}
 
 	protected virtual void ApplyHealthDamage(int value){
-		sound.PlaySE ("Damage", 1.0f);
+		if(m_visible){
+			sound.PlaySE ("Damage", 1.0f);
+		}
 		current_health -= value;
 		invincible = true;
 		timer_invincible = INVINCIBLE_DURATION;
@@ -97,7 +100,9 @@ public class StageObject : MonoBehaviour {
 	}
 	
 	protected virtual void ApplySpiritDamage(float value){
-		sound.PlaySE ("Damage", 1.0f);
+		if(m_visible){
+			sound.PlaySE ("Damage", 1.0f);
+		}
 		current_spirit = value >= current_spirit ? 0.0f : current_spirit -= value;
 		invincible = true;
 		timer_invincible = INVINCIBLE_DURATION;	
@@ -115,6 +120,9 @@ public class StageObject : MonoBehaviour {
 	}
 	
 	protected virtual void OnTriggerEnter2D(Collider2D col){
+	}
+	
+	protected virtual void OnCollisionEnter2D(Collision2D col){
 	}
 	
 }

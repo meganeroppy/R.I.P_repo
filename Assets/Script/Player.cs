@@ -1,19 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
 public class Player : Walker {
 	private bool living;
 
 	private float losing_rate = 15.0f;
 	private float gaining_rate = 1.0f;
-	private float gaining = 0.0f;
-	private float losing = 0.0f;
+	private float gainingFlug = 0.0f;
+	private float losingFlug = 0.0f;
 
 	private float default_spirit;
 
 	Collider2D[] m_colliders;
-	bool debugedDamage = false;
 	
 	public GameObject attackZone;
 	public GameObject exorcised_soul;
@@ -77,12 +75,18 @@ public class Player : Walker {
 
 	protected override void Update(){
 		base.Update ();
-		if (current_status == STATUS.GHOST_IDLE || debugedDamage) {
+		if (current_status == STATUS.GHOST_IDLE || current_status == STATUS.GHOST_DAMAGE) {
+			if(current_status == STATUS.GHOST_DAMAGE){
+				rigorState -= Time.deltaTime;
+				if(rigorState <= 0.0f){
+					current_status = STATUS.GHOST_IDLE;
+				}
+			}
 			UpdateSpirit(-(losing_rate * Time.deltaTime));
 			Color color = new Color(1.0f, 1.0f, 1.0f, current_spirit / MAX_SPIRIT );
 			renderer.material.color = color;
 			
-			losing = 0.1f;
+			losingFlug = 0.1f;
 			
 			if (current_spirit <= 0.0f) {
 				GetExorcised();
@@ -93,12 +97,12 @@ public class Player : Walker {
 			}
 		}
 
-		if(gaining > 0.0f){
-			gaining -= Time.deltaTime;
+		if(gainingFlug > 0.0f){
+			gainingFlug -= Time.deltaTime;
 		}
 		
-		if(losing > 0.0f){
-			losing -= Time.deltaTime;
+		if(losingFlug > 0.0f){
+			losingFlug -= Time.deltaTime;
 		}
 		
 	}
@@ -253,7 +257,7 @@ public class Player : Walker {
 		float[] spirit = {0.0f, 0.0f, 0.0f};
 		spirit[0] = MAX_SPIRIT;
 		spirit[1] = current_spirit;
-		spirit[2] = gaining > 0.0f ? 1 : losing > 0.0f ? -1 : 0 ;
+		spirit[2] = gainingFlug > 0.0f ? 1 : losingFlug > 0.0f ? -1 : 0 ;
 		return spirit;
 	}
 	
@@ -268,7 +272,7 @@ public class Player : Walker {
 			}
 			base.GainSpirit(val);
 		}
-		gaining = 0.1f;
+		gainingFlug = 0.1f;
 	}
 	
 	private void UpdateSpirit(float val){
