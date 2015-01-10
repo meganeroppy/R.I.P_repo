@@ -70,12 +70,14 @@ public class GhostKiller2 : StageObject {
 				return;
 			}
 			col.SendMessage("ApplySpiritDamage", attackPower);
+			Vector2 knockBack = new Vector2(20.0f, 20.0f);
+			col.SendMessage("KnockBack", knockBack);
 		}else if(col.gameObject.tag == "Enemy" || col.gameObject.tag == "Bullet"){
 			col.SendMessage("ApplyHealthDamage", attackPower);
 		} 
 	}
 	
-	protected void OnCollisionEnter2D (Collision2D col)
+	protected override void OnCollisionEnter2D (Collision2D col)
 	{
 		Crash(col.gameObject);
 	}

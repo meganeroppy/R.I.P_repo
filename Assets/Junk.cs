@@ -42,9 +42,9 @@ public class Junk : Enemy {
 		
 		float speed = move_speed.x;
 		
-		RaycastHit2D curHit = Physics2D.Raycast(m_collider.bounds.center, -Vector2.up, 100, layer_ground );
+		RaycastHit2D curHit = Physics2D.Raycast(m_collider.transform.position, -Vector2.up, 100, layer_ground );
 		
-		RaycastHit2D nextHit = Physics2D.Raycast(m_collider.bounds.center + new Vector3( speed > 0.0f ? 1.0f : -1.0f , 0,0), -Vector2.up, 100, layer_ground );
+		RaycastHit2D nextHit = Physics2D.Raycast(m_collider.transform.position + new Vector3( speed > 0.0f ? 1.0f : -1.0f , 0,0), -Vector2.up, 100, layer_ground );
 		
 		
 		if( Mathf.Abs (curHit.transform.position.y - nextHit.transform.position.y ) < 5){

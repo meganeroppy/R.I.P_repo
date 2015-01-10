@@ -11,7 +11,8 @@ public class Player : Walker {
 
 	private float default_spirit;
 
-	Collider2D[] m_colliders;
+	protected Collider2D[] m_colliders;
+	protected float m_colTimer = 0.0f;
 	
 	public GameObject attackZone;
 	public GameObject exorcised_soul;
@@ -308,6 +309,13 @@ public class Player : Walker {
 		
 		anim.SetTrigger("t_init");
 		init ();
+	}
+
+	private void KnockBack(Vector2 val){
+		int dir = rigidbody2D.velocity.x > 0.0f ? -1 : 1;
+		rigidbody2D.velocity = Vector2.zero;
+		rigidbody2D.AddForce (new Vector2( val.x * dir, val.y));
+
 	}
 	
 }
