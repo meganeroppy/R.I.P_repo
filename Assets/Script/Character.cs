@@ -17,6 +17,8 @@ public enum STATUS{
 
 public class Character : StageObject {
 	
+	protected bool living = true;
+	
 	protected STATUS current_status;
 
 	protected float DEFAULT_GRAVITY_SCALE = 2.0f;
@@ -183,6 +185,11 @@ public class Character : StageObject {
 			transform.position += new Vector3(move_speed.x * MOVE_SPEED_BASE * Time.deltaTime * 0.5f, move_speed.y * MOVE_SPEED_BASE * Time.deltaTime * 0.5f, 0.0f);
 			break;
 		case STATUS.GONE:
+		
+			move_speed = Vector2.zero;
+			if(rigidbody2D)
+				rigidbody2D.velocity = Vector2.zero;
+			
 			break;
 		default:
 			break;	
@@ -294,6 +301,10 @@ public class Character : StageObject {
 		}
 		
 		base.Flip();
+	}
+
+	public virtual bool CheckIsLiving(){
+		return living;
 	}
 
 	public STATUS GetStatus(){

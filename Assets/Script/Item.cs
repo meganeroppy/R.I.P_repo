@@ -1,26 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Item : MonoBehaviour {
+public class Item : StageObject {
 
-	private SoundManager sound;
-
-	protected enum TYPE{
+	protected enum ITEM_TYPE{
 		GAIN_HEALTH,
 		GAIN_SPIRIT,
 		REVIVAL,
 		DYING,
 		CLEAR
 	}
-	protected TYPE item_type;
+	protected ITEM_TYPE item_type;
 
 	// Use this for initialization
-	protected virtual void Start () {
+	protected override void Start () {
 		sound = GameObject.Find ("GameManager").GetComponent<SoundManager> ();
 	}
 	
 	// Update is called once per frame
-	protected virtual void Update () {
+	protected override void Update () {
 	
 	}
 
@@ -30,15 +28,15 @@ public class Item : MonoBehaviour {
 	}
 
 	public virtual string GetItemType(){
-		if(item_type == TYPE.REVIVAL){
+		if(item_type == ITEM_TYPE.REVIVAL){
 			return "REVIVAL";
-		}else if(item_type == TYPE.DYING){
+		}else if(item_type == ITEM_TYPE.DYING){
 			return "DYING";
-		}else if(item_type == TYPE.GAIN_HEALTH){
+		}else if(item_type == ITEM_TYPE.GAIN_HEALTH){
 			return "GAIN_HEALTH";
-		}else if(item_type == TYPE.GAIN_SPIRIT){
+		}else if(item_type == ITEM_TYPE.GAIN_SPIRIT){
 			return "GAIN_SPIRIT";
-		}else if(item_type == TYPE.CLEAR){
+		}else if(item_type == ITEM_TYPE.CLEAR){
 			return "CLEAR";
 		} else{
 			return "ERROR";

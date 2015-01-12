@@ -5,8 +5,16 @@ public class Enemy : Character {
 
 	protected Player m_target; 
 	protected CircleCollider2D[] m_targetCols;
-	protected Vector2 blow_impact =  new Vector2(200.0f, 100.0f);
 	protected bool m_awaking = false;
+	protected float AWAKE_RANGE = 10.24f;
+	protected const float WARMINGUP = 1.0f;
+	protected Vector2 blow_impact =  new Vector2(200.0f, 100.0f);
+	
+	protected override void Start ()
+	{
+		base.Start ();
+		attack_power = 5.0f;
+	}
 	
 	protected override void Update ()
 	{
@@ -29,7 +37,8 @@ public class Enemy : Character {
 				Destroy(this.gameObject);
 			}else{
 				Instantiate (effectPoint_destroy, transform.position, transform.rotation);
-				rigidbody2D.Sleep();
+				if(rigidbody2D)
+					rigidbody2D.Sleep();
 				current_status = STATUS.GONE;
 				StartCoroutine(WaitAndExecute(0.9f, true));
 				m_collider.isTrigger = true;
@@ -39,23 +48,28 @@ public class Enemy : Character {
 		}
 	}
 	
-	protected virtual void Crash(GameObject target){
+	protected virtual void OnEnter(GameObject target){
 		
 		//Debug.Log("HIT" + Time.realtimeSinceStartup.ToString());
+		
 		
 		if (m_target == null){
 			m_target = target.GetComponent<Player> ();
 		}
 		
-		if (m_target.GetStatus() != STATUS.DYING) {
-			m_target.SendMessage ("ApplySpiritDamage", attack_power);
-			
-			float dir =  target.transform.position.x > transform.position.x ? 1.0f : -1.0f;
-			
-			if (m_target.GetStatus() != STATUS.GHOST_IDLE) {
-				m_target.rigidbody2D.velocity = Vector2.zero;
-				m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
-			}
+		STATUS status = (m_target.GetStatus());
+		
+		if(status == STATUS.GONE || status == STATUS.DYING){
+			return;
+		}
+		
+		m_target.SendMessage ("ApplySpiritDamage", attack_power);
+				
+		float dir =  target.transform.position.x > transform.position.x ? 1.0f : -1.0f;
+		
+		if (status != STATUS.GHOST_IDLE && status != STATUS.GHOST_DAMAGE) {
+			m_target.rigidbody2D.velocity = Vector2.zero;
+			m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
 		}
 	}
 	
@@ -64,7 +78,7 @@ public class Enemy : Character {
 		return;
 		}
 		if (col.gameObject.tag == "Player") {
-			Crash(col.gameObject);
+			OnEnter(col.gameObject);
 		}
 	}
 	
@@ -73,7 +87,17 @@ public class Enemy : Character {
 			return;
 		}
 		if (col.gameObject.tag == "Player") {
-			Crash(col.gameObject);
+			OnEnter(col.gameObject);
+		}
+	}
+	
+	protected virtual bool PlayerIsInRange(){
+		if(Mathf.Abs( transform.position.x - m_target.transform.position.x) < AWAKE_RANGE
+		   && Mathf.Abs( transform.position.y - m_target.transform.position.y) < AWAKE_RANGE
+		){
+			return true;
+		}else{
+			return false;
 		}
 	}
 	

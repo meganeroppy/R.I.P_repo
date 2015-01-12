@@ -31,8 +31,16 @@ public abstract class AttackZone : StageObject {
 	}
    
 	protected override void OnTriggerEnter2D(Collider2D col){
+	
 		if (col.gameObject.tag != "Player" && col.gameObject.tag != "AttackZone") {
 			if(col.gameObject.tag == "Enemy"){
+				
+				if(col.gameObject.name.Contains("Wraith")){
+					if(!col.gameObject.GetComponent<Wraith>().CheckIsLiving()){
+						return;
+					}
+				}
+				
 				Crash(col.gameObject);
 				Destroy(this.gameObject);
 			}

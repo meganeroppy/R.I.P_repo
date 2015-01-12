@@ -6,7 +6,7 @@ public class Bullet : StageObject {
 	protected float speed = 15.0f;
 	protected Vector3 m_direction = Vector3.zero;
 	protected Vector2 blow_impact =  new Vector2(100.0f, 50.0f);
-	protected float attack_power = 50.0f;
+	protected float attack_power = 5.0f;
 	protected float lifeTime = 2.0f;
 	protected bool executed = false;
 	protected bool dying = false;
@@ -39,6 +39,10 @@ public class Bullet : StageObject {
 	
 	protected virtual void SetDirectionAndExecute(Vector2 dir){
 		SetDirectionAndExecute(new Vector3 (dir.x, dir.y, 0.0f));
+	}
+	
+	protected virtual void SetAttackPower(float val){
+		attack_power = val;
 	}
 	
 	protected override void OnTriggerEnter2D(Collider2D col){

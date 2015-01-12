@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class Player : Walker {
-	private bool living;
 
 	private float losing_rate = 15.0f;
 	private float gaining_rate = 1.0f;
@@ -262,9 +261,7 @@ public class Player : Walker {
 		return spirit;
 	}
 	
-	public bool CheckIsLiving(){
-		return living;
-	}
+
 
 	protected override void GainSpirit(float val){
 		if(current_status != STATUS.DYING && current_status != STATUS.DAMAGE){
@@ -285,11 +282,14 @@ public class Player : Walker {
 		if(GameManager.Miss()){
 			return;
 		}
+		
+		current_status = STATUS.GONE;
 	
 		renderer.enabled = false;
 		gameManager.SendMessage("Miss", true);
 		
-		this.enabled = false;
+		move_speed = Vector2.zero;
+		rigidbody2D.velocity = Vector2.zero;
 		rigidbody2D.Sleep();
 		current_health = 0;
 		current_spirit = 0.0f;
@@ -312,7 +312,7 @@ public class Player : Walker {
 	}
 
 	private void KnockBack(Vector2 val){
-		int dir = rigidbody2D.velocity.x > 0.0f ? -1 : 1;
+		int dir = rigidbody2D.velocity.x > 0.0f ? 1 : -1;
 		rigidbody2D.velocity = Vector2.zero;
 		rigidbody2D.AddForce (new Vector2( val.x * dir, val.y));
 

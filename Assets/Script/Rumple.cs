@@ -12,7 +12,6 @@ public class Rumple : Flyer {
 	}
 	private ACTION_PETTERN cur_action_pettern = ACTION_PETTERN.A;
 
-	private float flying_move_speed = 2.5f;
 	private float returning_speed = 5.0f;
 	//private bool m_isReturning = false;
 	//private Vector3 m_basePos;
@@ -21,8 +20,6 @@ public class Rumple : Flyer {
 	private float m_timer = 0.0f;
 	private const float LIMIT_TIME = 12.0f;
 
-	//private float m_alpha = 1.0f;
-	private SpriteRenderer spriteRenderer;
 	public Sprite[] pic =  new Sprite[2];
 
 	private float m_randomNum = 0.0f;
@@ -40,6 +37,8 @@ public class Rumple : Flyer {
 		base.Start ();
 		current_health = 2;
 		current_status = STATUS.IDLE;
+		
+		attack_power = 12.0f;
 		
 		while (Mathf.Abs( m_randomNum) <= 0.2f) {
 			m_randomNum = Random.Range (-1.0f, 1.0f);
@@ -155,8 +154,8 @@ public class Rumple : Flyer {
 			while(Mathf.Abs(dir.x) < 0.3f || Mathf.Abs(dir.y) < 0.3f){
 			}
 			*/
-			
 			transform.Translate (new Vector3 (dir.x, dir.y, 0.0f));
+			
 			if(!CheckPlayerIsGhost()){
 				current_status = STATUS.IDLE;
 				GoToHome();
@@ -183,7 +182,7 @@ public class Rumple : Flyer {
 			if( cur_action_pettern == ACTION_PETTERN.B && col.gameObject.GetComponent<Player>().CheckIsLiving()){
 				return;
 			}
-			Crash(col.gameObject);
+			OnEnter (col.gameObject);
 		}
 	}
 
@@ -199,6 +198,7 @@ public class Rumple : Flyer {
 		base.ApplyHealthDamage(value);
 		if(current_health <= 0){
 			spriteRenderer.sprite = pic[1];
+			m_collider.enabled = false;
 		}
 	}
 

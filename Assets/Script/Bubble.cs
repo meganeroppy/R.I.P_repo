@@ -5,7 +5,6 @@ public class Bubble : Bullet {
 	
 
 	protected float offsetEularZ = -90.0f;
-	protected SpriteRenderer spriteRenderer;
 	public Sprite[] bubble_pic;
 	protected int current_frame = 0;
 	private float counter = 0.0f;
@@ -13,7 +12,6 @@ public class Bubble : Bullet {
 	protected override void Start ()
 	{
 		base.Start ();
-		attack_power = 45.0f;
 		speed = 7.0f;
 		spriteRenderer = GetComponent<SpriteRenderer>();
 	}

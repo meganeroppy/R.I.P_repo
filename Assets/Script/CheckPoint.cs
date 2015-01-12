@@ -5,7 +5,6 @@ public class CheckPoint : Monument {
 
 	private bool marked = false; 
 	public GameObject label_checkPoint;
-	protected SpriteRenderer spriteRenderer;
 	public Sprite[] pic = new Sprite[2];
 
 	protected override void Start ()
@@ -20,7 +19,7 @@ public class CheckPoint : Monument {
 		OnEnter2D(col.gameObject);
 	}
 	
-	protected void OnCollisionEnter2D(Collision2D col){
+	protected override void OnCollisionEnter2D(Collision2D col){
 		OnEnter2D(col.gameObject);
 	}
 	

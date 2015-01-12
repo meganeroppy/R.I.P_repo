@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Effect_aura : Effect {
 	private float opacity;
-	private SpriteRenderer spriteRenderer;
 
 	protected override void Start ()
 	{

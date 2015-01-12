@@ -15,10 +15,11 @@ public class ItemSetter : Monument {
 	//Status
 	protected bool isReadyToRespawn;
 	protected bool isChildRemoved;
-	protected float respawnDelay = 5.0f; 
+	protected float respawnInterval = 5.0f; 
 	protected const float NOTICE = 2.0f;
 	protected float respawnTimer;
 	protected float m_timer = 0;
+	protected float m_childAlpha = 0.0f;
 
 	//Property
 	protected bool SetonAwake = true;
@@ -26,6 +27,7 @@ public class ItemSetter : Monument {
 	//Game Object
 	public GameObject[] item = new GameObject[3];
 	public GameObject notifyingEffect;
+	protected GameObject child;
 
 	protected override void Start(){
 		builtOnGround = false;
@@ -39,7 +41,7 @@ public class ItemSetter : Monument {
 		}
 				
 		isReadyToRespawn = false;
-		respawnTimer = respawnDelay;
+		respawnTimer = respawnInterval;
 	}
 
 	protected override void Update(){
@@ -63,7 +65,7 @@ public class ItemSetter : Monument {
 				respawnTimer -= Time.deltaTime;
 				if(respawnTimer <= 0.0f){
 					isReadyToRespawn = true;
-					respawnTimer = respawnDelay;
+					respawnTimer = respawnInterval;
 				}else if(respawnTimer <= NOTICE){
 				
 					if (m_timer > 0.1f) {
@@ -80,12 +82,11 @@ public class ItemSetter : Monument {
 					}else{
 						m_timer += Time.deltaTime;
 					}
-					
 				}
+			}else{
+				UpdateChildrenAlpha();
 			}
 		}
-		
-
 		
 	}
 	
@@ -107,10 +108,19 @@ public class ItemSetter : Monument {
 			
 		}
 
-		GameObject obj = Instantiate(selectedItem) as GameObject;
-		obj.transform.transform.position = transform.position + new Vector3(0.0f, 0.0f, -1.0f);
-		obj.transform.parent = transform;
+		child = Instantiate(selectedItem) as GameObject;
+		child.transform.transform.position = transform.position + new Vector3(0.0f, 0.0f, -1.0f);
+		child.transform.parent = transform;
+		m_childAlpha = 0.0f;
+		child.SendMessage("SetAlpha", m_childAlpha);
 		
+	}
+
+	protected virtual void UpdateChildrenAlpha(){
+		if(m_childAlpha < 1.0f && child != null){
+			m_childAlpha += Time.deltaTime;
+			child.SendMessage("SetAlpha", m_childAlpha);
+		}
 	}
 
 }

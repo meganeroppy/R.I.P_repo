@@ -92,7 +92,7 @@ public class MovingFloor : StageObject {
 		}
 	}
 
-	protected void OnCollisionEnter2D(Collision2D col){
+	protected override void OnCollisionEnter2D(Collision2D col){
 		if (col.gameObject.tag == "Player") {
 			StartCoroutine(WaitAndExecute(1.0f));
 		}

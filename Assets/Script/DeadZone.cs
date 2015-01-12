@@ -12,7 +12,6 @@ public class DeadZone : StageObject {
 	protected float m_colorVal_b = 0.0f;
 	protected bool m_colorIncrease = true;
 	
-	protected SpriteRenderer spriteRenderer;
 	protected SpriteRenderer spriteRenderer_skull;
 	protected bool m_awake = true;
 	

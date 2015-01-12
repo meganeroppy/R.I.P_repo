@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Effect_Spirit : Effect {
 	private float opacity;
-	private SpriteRenderer spriteRenderer;
 
 	// Use this for initialization
 	protected override void Start () {

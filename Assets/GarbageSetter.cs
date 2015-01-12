@@ -5,7 +5,7 @@ public class GarbageSetter : ItemSetter {
 
 	protected override void Start ()
 	{
-		respawnDelay = 15.0f;
+		respawnInterval = 15.0f;
 		base.Start ();
 	}
 }

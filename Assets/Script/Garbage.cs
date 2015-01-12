@@ -5,17 +5,16 @@ public class Garbage : Enemy {
 
 	public GameObject bubble;
 	protected float eulerZ_bubbleTexture = -90.0f;
-	protected const float WARMINGUP = 1.0f;
-	protected const float THROW_INTERVAL = 0.6f;
-	protected int throwCount = 0;
+	private const float THROW_INTERVAL = 0.6f;
+	private int throwCount = 0;
 	protected const float DAMAGED_RIGOR = 0.1f;
 	protected float rigorTimer = 0.0f;
-	private const float AWAKE_RANGE = 10.24f;
 	
 	protected override void Start ()
 	{
 		base.Start ();
 		current_health = 4;
+		attack_power = 19.0f;
 		invincible = true;
 	}
 
@@ -56,7 +55,7 @@ public class Garbage : Enemy {
 				return;
 			}
 			
-			if(Mathf.Abs( transform.position.x - m_target.transform.position.x) < AWAKE_RANGE && grounded){
+			if(PlayerIsInRange() && grounded){
 				m_awaking = true;
 				rigorTimer = WARMINGUP;
 				anim.SetTrigger("t_showup");
@@ -107,6 +106,7 @@ public class Garbage : Enemy {
 		
 		Vector3 fixedDir = new Vector3(Mathf.Cos(Mathf.PI / 180 * fixedAngle), Mathf.Sin(Mathf.PI / 180 * fixedAngle), 0.0f).normalized; 
 		
+		obj.SendMessage("SetAttackPower", attack_power);
 		obj.SendMessage("SetDirectionAndExecute", fixedDir);
 		//obj.rigidbody2D.AddForce(new Vector2 (baseDir.x * speed, baseDir.y * speed));
 		

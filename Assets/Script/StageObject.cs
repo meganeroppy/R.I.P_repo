@@ -19,6 +19,7 @@ public class StageObject : MonoBehaviour {
 	protected float current_spirit = 1.0f;
 	protected int MAX_HEALTH = 3;
 	protected float MAX_SPIRIT = 100.0f;
+	protected SpriteRenderer spriteRenderer;
 	
 	[HideInInspector]
 	public enum TYPE{
@@ -46,6 +47,7 @@ public class StageObject : MonoBehaviour {
 	
 		invincible = false;
 		m_collider = GetComponent<Collider2D> ();
+		spriteRenderer = GetComponent<SpriteRenderer>();
 		
 	}
 	
@@ -123,6 +125,16 @@ public class StageObject : MonoBehaviour {
 	}
 	
 	protected virtual void OnCollisionEnter2D(Collision2D col){
+	}
+	
+	protected virtual void SetAlpha(float val){
+		if(spriteRenderer == null){
+			spriteRenderer = GetComponent<SpriteRenderer>();
+		}
+	
+		Color clr = spriteRenderer.color; 
+		Color newColor = new Color (clr.r, clr.g, clr.b, val);
+		spriteRenderer.color = newColor;
 	}
 	
 }

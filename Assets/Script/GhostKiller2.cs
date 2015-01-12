@@ -8,9 +8,10 @@ public class GhostKiller2 : StageObject {
 	protected int m_picIdx = 0;
 	protected float m_counter = 0.0f;
 	protected const float SPAN = 0.025f; 
-	protected SpriteRenderer spriteRenderer;
 	private Collider2D[] m_colliders;
 	private float attackPower = 30.0f;
+	protected Vector2 blow_impact =  new Vector2(50.0f, 50.0f);
+	
 
 	protected override void Start () {
 		
@@ -70,8 +71,12 @@ public class GhostKiller2 : StageObject {
 				return;
 			}
 			col.SendMessage("ApplySpiritDamage", attackPower);
-			Vector2 knockBack = new Vector2(20.0f, 20.0f);
-			col.SendMessage("KnockBack", knockBack);
+			float dirX =  col.transform.position.x > transform.position.x ? 1.0f : -1.0f;
+			float dirY =  col.transform.position.y > transform.position.y ? 1.0f : -1.0f;
+			
+			col.rigidbody2D.velocity = Vector2.zero;
+			col.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dirX, blow_impact.y * dirY));
+			
 		}else if(col.gameObject.tag == "Enemy" || col.gameObject.tag == "Bullet"){
 			col.SendMessage("ApplyHealthDamage", attackPower);
 		} 
@@ -85,4 +90,26 @@ public class GhostKiller2 : StageObject {
 	protected override void OnTriggerEnter2D(Collider2D col){
 		Crash(col.gameObject);
 	}
+	
+	protected virtual void OnTriggerStay2D(Collider2D col){
+		if(!m_awake){
+			return;
+		}
+		if (col.gameObject.tag == "Player" && !GameManager.Miss()) {
+			if(col.gameObject.GetComponent<Player>().CheckIsLiving()){
+				return;
+			}
+			col.SendMessage("ApplySpiritDamage", attackPower);
+			
+			float dirX =  col.transform.position.x > transform.position.x ? 1.0f : -1.0f;
+			float dirY =  col.transform.position.y > transform.position.y ? 1.0f : -1.0f;
+			
+			col.rigidbody2D.velocity = Vector2.zero;
+			col.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dirX, blow_impact.y * dirY));
+			
+		}else if(col.gameObject.tag == "Enemy" || col.gameObject.tag == "Bullet"){
+			col.SendMessage("ApplyHealthDamage", attackPower);
+		} 
+	}
+	
 }

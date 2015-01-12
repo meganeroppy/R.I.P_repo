@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Flyer : Enemy {
 	
+	protected float flying_move_speed = 2.5f;
+	
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
@@ -42,5 +44,47 @@ public class Flyer : Enemy {
 						break;	
 				}
 		}
-
+	protected override void OnEnter(GameObject target){
+		
+		if (m_target == null){
+			m_target = target.GetComponent<Player> ();
+		}
+		
+		STATUS status = (m_target.GetStatus());
+		
+		if(status == STATUS.GONE || status == STATUS.DYING){
+			return;
+		}
+		
+		m_target.SendMessage ("ApplySpiritDamage", attack_power);
+		
+		float dir =  target.transform.position.x > transform.position.x ? 1.0f : -1.0f;
+		
+		m_target.rigidbody2D.velocity = Vector2.zero;
+		m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
+	}
+	
+	protected virtual void OnTriggerStay2D(Collider2D col){
+		if(col.tag == "Player" && GameManager.CheckCurrentPlayerIsGhost()){
+		
+			if (m_target == null){
+				m_target = col.GetComponent<Player> ();
+			}
+			
+			STATUS status = (m_target.GetStatus());
+			
+			if(status == STATUS.GONE || status == STATUS.DYING){
+				return;
+			}
+			
+			m_target.SendMessage ("ApplySpiritDamage", attack_power);
+			
+			float dir =  col.transform.position.x > transform.position.x ? 1.0f : -1.0f;
+			
+			m_target.rigidbody2D.velocity = Vector2.zero;
+			m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
+			
+		}
+	}
+	
 }
