@@ -5,12 +5,6 @@ public class Flyer : Enemy {
 	
 	protected float flying_move_speed = 2.5f;
 	
-	// Use this for initialization
-	protected override void Start () {
-		base.Start ();
-
-	}
-	
 	// Update is called once per frame
 	protected override void Update () {
 				switch (current_status) {

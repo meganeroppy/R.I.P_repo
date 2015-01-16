@@ -20,6 +20,7 @@ START ボタン	KeyCode.JoystickButton7 / Enter
 public class InputManager : MonoBehaviour {
 	
 	private Player m_player;
+	private float charging = 0.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -116,9 +117,6 @@ public class InputManager : MonoBehaviour {
 				///In The Pause Menu TO THIS LINE////////
 			}
 			
-			
-			
-			
 			if(m_player == null && !GameManager.Miss()){
 				GameObject obj = GameObject.FindWithTag ("Player");
 				if(obj == null){
@@ -129,16 +127,30 @@ public class InputManager : MonoBehaviour {
 			}
 			
 			if (Input.GetKeyDown (KeyCode.Z)
-			|| Input.GetKeyDown (KeyCode.Joystick1Button1)
-			|| Input.GetKeyDown (KeyCode.Joystick1Button2) 
-			|| Input.GetKeyDown (KeyCode.Joystick1Button3) ) {
-				m_player.SendMessage("Attack");		
+			|| Input.GetKeyDown (KeyCode.Joystick1Button2) ) {
+				m_player.SendMessage("Attack", false);		
+			}
+			
+			//About Charging Input
+			if(Input.GetKey (KeyCode.Z)
+			   || Input.GetKey (KeyCode.Joystick1Button2) ) {
+				charging += Time.deltaTime;
+			//	print(charging);
+			}
+			if(Input.GetKeyUp (KeyCode.Z)
+			   || Input.GetKeyUp (KeyCode.Joystick1Button2) ) {
+				if(charging >= 0.8f){
+					m_player.SendMessage("Attack", true);			
+				}
+				charging = 0.0f;
 			}
 			
 			if (Input.GetKeyDown (KeyCode.J) 
 			|| Input.GetKeyDown (KeyCode.X)
 			 || Input.GetKeyDown (KeyCode.Space)
-			 || Input.GetKeyDown(KeyCode.Joystick1Button0)) {
+			    || Input.GetKeyDown(KeyCode.Joystick1Button0)
+			    || Input.GetKeyDown(KeyCode.Joystick1Button2)
+			    || Input.GetKeyDown(KeyCode.Joystick1Button3)) {
 				m_player.SendMessage("Jump");		
 			}
 			

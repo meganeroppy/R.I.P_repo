@@ -9,9 +9,10 @@ public class WraithSetter : ItemSetter {
 		base.Start();
 		
 	}
-	
+	/*
 	protected override void UpdateChildrenAlpha ()
 	{
 		return;
 	}
+	*/
 }

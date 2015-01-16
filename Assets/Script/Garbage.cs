@@ -8,12 +8,11 @@ public class Garbage : Enemy {
 	private const float THROW_INTERVAL = 0.6f;
 	private int throwCount = 0;
 	protected const float DAMAGED_RIGOR = 0.1f;
-	protected float rigorTimer = 0.0f;
 	
 	protected override void Start ()
 	{
 		base.Start ();
-		current_health = 4;
+		current_health = 3;
 		attack_power = 19.0f;
 		invincible = true;
 	}
@@ -39,12 +38,11 @@ public class Garbage : Enemy {
 			}else{
 				Flip(SIDE.LEFT);//Means Right
 			}
+			
 			if(rigorTimer <= 0.0f){
-//				if(Mathf.Floor( Time.frameCount ) % Random.Range(20, 25) == 0){
 					ThrowGarbage();
 					throwCount++;
 				rigorTimer = throwCount % 9 == 0 ? THROW_INTERVAL * 6.0f : throwCount % 3 == 0 ? THROW_INTERVAL * 3.0f : THROW_INTERVAL;
-//				}
 			}else{
 				rigorTimer -= Time.deltaTime;
 			}

@@ -137,4 +137,10 @@ public class StageObject : MonoBehaviour {
 		spriteRenderer.color = newColor;
 	}
 	
+	protected virtual void ApplyForce(Vector2 force){
+		if(rigidbody2D){
+			rigidbody2D.AddForce(force);
+		}
+	}
+	
 }

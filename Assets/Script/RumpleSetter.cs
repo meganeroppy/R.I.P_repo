@@ -7,5 +7,8 @@ public class RumpleSetter : ItemSetter {
 		base.Start();
 		
 	}
-
+	protected override void UpdateChildrenAlpha ()
+	{
+		return;
+	}
 }

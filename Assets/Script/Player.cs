@@ -14,7 +14,10 @@ public class Player : Walker {
 	protected float m_colTimer = 0.0f;
 	
 	public GameObject attackZone;
+	public GameObject sonicBoom;
 	public GameObject exorcised_soul;
+	private float m_attackTimer = 0.0f;
+	private const float ATTACK_INTERVAL = 0.3f;
 	
 	//Script
 	GameManager gameManager;
@@ -36,9 +39,7 @@ public class Player : Walker {
 	}
 	
 	protected override bool init(){
-		//layer_ground = 1 << LayerMask.NameToLayer ("Ground");
 		layer_ground = 1 << 8;
-		//		Debug.Log(layer_ground);
 		
 		if(transform.parent != null){
 			transform.parent = null;
@@ -49,6 +50,8 @@ public class Player : Walker {
 		current_spirit = default_spirit;
 		
 		current_status = STATUS.IDLE;
+		gameObject.layer = LayerMask.NameToLayer("Player");
+		
 		Flip(SIDE.RIGHT);
 		jump_force = JUMP_FORCE_BASE;
 		move_speed.x = 0.0f;
@@ -105,6 +108,9 @@ public class Player : Walker {
 			losingFlug -= Time.deltaTime;
 		}
 		
+		if(m_attackTimer > 0.0f){
+			m_attackTimer -= Time.deltaTime;
+		}
 	}
 
 	protected override void OnTriggerEnter2D(Collider2D col){
@@ -171,34 +177,51 @@ public class Player : Walker {
 		base.Flip (side);
 	}
 
-	protected override void Attack(){
+	private void Attack(bool chargedAttack){
+		if(m_attackTimer > 0.0f){
+			return;
+		}
 		
 		if (/*grounded && */ current_status != STATUS.GHOST_IDLE && current_status != STATUS.DAMAGE && current_health >= 1 ) {
 			current_status = STATUS.ATTACK;
 			
 			Vector3 pos = transform.position;
-			Vector3 offset = new Vector3(current_side == SIDE.RIGHT ? 1.7f : -1.7f, 1.5f, -1.0f);
+			Vector3 offset = new Vector3(current_side == SIDE.RIGHT ? 1.3f : -1.3f, 1.5f, -1.0f);
 			
-			GameObject attack = Instantiate (attackZone, new Vector3 (pos.x + offset.x, pos.y + offset.y, pos.z + offset.z), transform.rotation) as GameObject;
-			attack.SendMessage("ApplyParentAndExecute", this);
-			sound.PlaySE("Attack", 1.0f);
+			GameObject obj;
+			
+			obj = Instantiate (attackZone, new Vector3 (pos.x + offset.x, pos.y + offset.y, pos.z + offset.z), transform.rotation) as GameObject;
+			if(chargedAttack){
+				obj.SendMessage("SetAsCharged");
+				sound.PlaySE("Attack2", 1.0f);
+			}else{
+				sound.PlaySE("Attack", 1.0f);
+			}
+			obj.SendMessage("ApplyParentAndExecute", this);
+			
 			rigorState = ATTACK_DURATION;
 			anim.SetTrigger("t_attack");
+			
+			m_attackTimer = ATTACK_INTERVAL;
 		}
 	}
+	
+	
 	
 	protected void DieAndBecomeGhost(){
 		
 		living = false;
 		rigidbody2D.gravityScale = 0.0f;
 		rigidbody2D.velocity = Vector2.zero;
-		
+		/*
 		foreach (Collider2D col in m_colliders) {
 			col.isTrigger = true;
 		}
-		
+		*/
 		current_status = STATUS.GHOST_IDLE;
 		Instantiate (effect_transformation, transform.position, transform.rotation);
+		
+		gameObject.layer = LayerMask.NameToLayer("Ghost");
 		
 		if(transform.parent != null){
 			transform.parent = null;
@@ -229,12 +252,15 @@ public class Player : Walker {
 	protected void Revive(){
 		living = true;
 		rigidbody2D.gravityScale = DEFAULT_GRAVITY_SCALE;
+		/*
 		foreach (Collider2D col in m_colliders) {
 			col.isTrigger = false;
 		}
-		
+		*/
 		//renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
 		current_status = STATUS.IDLE;
+		gameObject.layer = LayerMask.NameToLayer("Player");
+		
 		timer_invincible = INVINCIBLE_DURATION;
 		invincible = true;
 		
@@ -303,19 +329,13 @@ public class Player : Walker {
 		transform.position = new Vector3(respawnPos.x, respawnPos.y + offsetY, transform.position.z);
 		renderer.enabled = true;
 		rigidbody2D.gravityScale = DEFAULT_GRAVITY_SCALE;
+		/*
 		foreach (Collider2D col in m_colliders) {
 			col.isTrigger = false;
 		}
-		
+		*/
 		anim.SetTrigger("t_init");
 		init ();
-	}
-
-	private void KnockBack(Vector2 val){
-		int dir = rigidbody2D.velocity.x > 0.0f ? 1 : -1;
-		rigidbody2D.velocity = Vector2.zero;
-		rigidbody2D.AddForce (new Vector2( val.x * dir, val.y));
-
 	}
 	
 }

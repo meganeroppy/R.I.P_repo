@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Rumple : Flyer {
 
-	//private const float MAX_FLYING_SPEED = 1.5f;
-	//private const float MIN_FLYING_SPEED = 0.3f;
+	protected float m_alpha = 1.0f;
+	protected const float ALPHA_WAITING = 0.1f;
 
 	enum ACTION_PETTERN{
 		A,
@@ -48,75 +48,85 @@ public class Rumple : Flyer {
 	}
 
 	protected override void Update(){
-
-		if (GameManager.GameOver() || current_health <= 0) {
-			return;		
-		}
 		
-		if(!GameManager.CheckCurrentPlayerIsGhost()){
-			if(m_visible){
-				if(cur_action_pettern == ACTION_PETTERN.B){
-					m_visible = false;
-					spriteRenderer.enabled = false;
-					effect.enabled = false;
+		
+		
+		if(m_awaking){
+			if (GameManager.GameOver() || current_health <= 0) {
+				m_awaking = false;
+				effect.enabled = false;
+			}
+			
+			if(GameManager.CheckCurrentPlayerIsGhost()){
+				m_awaking = false;		
+				effect.enabled = false;
+				
+				}
+			/*
+			if(!GameManager.CheckCurrentPlayerIsGhost()){
+				if(m_visible){
+					if(cur_action_pettern == ACTION_PETTERN.B){
+						m_visible = false;
+						spriteRenderer.enabled = false;
+						effect.enabled = false;
+					}
+				}
+			}else{
+				if(!m_visible){
+					GameObject obj = Instantiate( effect_transformation ) as GameObject;
+					obj.transform.position = transform.position + new Vector3(0,0,-1);
+					obj.transform.localScale = new Vector3(1.5f, 1.5f, 1.0f);
+				m_visible = true;
+					spriteRenderer.enabled = true;
+					effect.enabled = true;			
+					
 				}
 			}
-		}else{
-			if(!m_visible){
-				GameObject obj = Instantiate( effect_transformation ) as GameObject;
-				obj.transform.position = transform.position + new Vector3(0,0,-1);
-				obj.transform.localScale = new Vector3(1.5f, 1.5f, 1.0f);
-				m_visible = true;
-				spriteRenderer.enabled = true;
-				effect.enabled = true;			
+			*/
+			
+			switch (current_status) {
 				
-			}
-		}
-		
-		
-		switch (current_status) {
+			case STATUS.IDLE:
 				
-		case STATUS.IDLE:
-
-			m_timer += Time.deltaTime;
+				m_timer += Time.deltaTime;
 			/*
 			if (CheckPlayerIsGhost()) {
 				current_status = STATUS.ATTACK;
 				break;
 			}
 */
-
-			if(cur_action_pettern == ACTION_PETTERN.A){
-				Vector3 pos = transform.position;
-				Vector3 newPos = new Vector3( pos.x, pos.y  +  ( (Mathf.Sin (180 * (m_timer) * Mathf.Deg2Rad) * 0.01f) ), pos.z);
-				transform.position = newPos;
-			}else if(cur_action_pettern == ACTION_PETTERN.B){
-				float val = (Mathf.Cos((Mathf.PI * 2) * (m_timer * 0.5f)) ) * 10.0f;
-				val *= m_randomNum;
-
-				Vector3 pos = transform.position;
-				transform.position = new Vector3(pos.x + ( val * Time.deltaTime) , pos.y + returning_speed * Time.deltaTime, pos.z);
-
-			}
-
+				
+				if(cur_action_pettern == ACTION_PETTERN.A){
+					Vector3 pos = transform.position;
+					Vector3 newPos = new Vector3( pos.x, pos.y  +  ( (Mathf.Sin (180 * (m_timer) * Mathf.Deg2Rad) * 0.01f) ), pos.z);
+					transform.position = newPos;
+				}else if(cur_action_pettern == ACTION_PETTERN.B){
+					float val = (Mathf.Cos((Mathf.PI * 2) * (m_timer * 0.5f)) ) * 10.0f;
+					val *= m_randomNum;
+					
+					Vector3 pos = transform.position;
+					transform.position = new Vector3(pos.x + ( val * Time.deltaTime) , pos.y + returning_speed * Time.deltaTime, pos.z);
+					
+				}
+				
 			//Look at Player
-			if(!GameManager.GameOver()){
-				if (m_target == null) {
-					m_target = GameObject.FindWithTag("Player").GetComponent<Player>();	
-				}
-				if (transform.position.x > m_target.transform.position.x) {
-					if (transform.localScale.x < 0) {
-						Flip (SIDE.LEFT);
+				if(!GameManager.GameOver()){
+					if (m_target == null) {
+						m_target = GameObject.FindWithTag("Player").GetComponent<Player>();	
 					}
-				} else {
-					if(transform.localScale.x > 0){
-						Flip(SIDE.RIGHT);
-					}		
+					if (transform.position.x > m_target.transform.position.x) {
+						if (transform.localScale.x < 0) {
+							Flip (SIDE.LEFT);
+					}
+					} else {
+						if(transform.localScale.x > 0){
+							Flip(SIDE.RIGHT);
+						}		
+					}
 				}
-			}
-
-			//Flying away
-			/*
+				
+				//Flying away
+				/*
 			if (m_isReturning) {
 				float val = (Mathf.Cos((Mathf.PI * 2) * (m_timer * 0.5f)) ) * 0.15f;
 				val *= m_randomNum;
@@ -136,44 +146,62 @@ public class Rumple : Flyer {
 				}
 			}
 			*/
-
-			break;//End of STATUS.IDLE
-
-		case STATUS.ATTACK:
-			if(GameManager.Miss()){
-				GoToHome();
+				
+				break;//End of STATUS.IDLE
+				
+			case STATUS.ATTACK:
+				if(GameManager.Miss()){
+					GoToHome();
 				return;
-			}
-		
-			Vector2 dir = (m_target.transform.position - transform.position).normalized ;
-			dir = dir * flying_move_speed * Time.deltaTime;
+				}
+				
+				Vector2 dir = (m_target.transform.position - transform.position).normalized ;
+				dir = dir * flying_move_speed * Time.deltaTime;
 			
-			//Debug.Log(dir);
-			
-			/*
+				//Debug.Log(dir);
+				
+				/*
 			while(Mathf.Abs(dir.x) < 0.3f || Mathf.Abs(dir.y) < 0.3f){
 			}
 			*/
-			transform.Translate (new Vector3 (dir.x, dir.y, 0.0f));
+				transform.Translate (new Vector3 (dir.x, dir.y, 0.0f));
+				
+				if(!CheckPlayerIsGhost()){
+					current_status = STATUS.IDLE;
+					GoToHome();
+				}
+				break;//End of STATUS.ATTACK
+				
+			default:
+				if(CheckPlayerIsGhost()){
+					//	current_status = STATUS.ATTACK;
+				}else{
+					current_status = STATUS.IDLE;
+				}
+				break;
+			}
 			
-			if(!CheckPlayerIsGhost()){
-				current_status = STATUS.IDLE;
-				GoToHome();
+			if(m_alpha < 1.0f){
+				m_alpha += Time.deltaTime;
+				SetAlpha(m_alpha);
+			}	
+			
+		}else{//Not Awaking
+			
+			if(!GameManager.CheckCurrentPlayerIsGhost()){
+				m_awaking = true;
+				effect.enabled = true;
+				
 			}
-			break;//End of STATUS.ATTACK
-
-		default:
-			if(CheckPlayerIsGhost()){
-			//	current_status = STATUS.ATTACK;
-			}else{
-				current_status = STATUS.IDLE;
-			}
-			break;
+			if(m_alpha > ALPHA_WAITING){
+					m_alpha -= Time.deltaTime;
+					SetAlpha(m_alpha);
+				}
+				
 		}
-
 	}
 
-	protected override void OnTriggerEnter2D(Collider2D col){
+	protected override void OnCollisionEnter2D(Collision2D col){
 		if(current_status == STATUS.GONE){
 			return;
 		}

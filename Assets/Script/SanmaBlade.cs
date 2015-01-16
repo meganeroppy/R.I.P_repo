@@ -4,6 +4,7 @@ using System.Collections;
 public class SanmaBlade : AttackZone {
 
 	private StageObject master = null;
+	private bool charged = false;
 
 	//GameObjects
 	public GameObject sonicBoom;
@@ -11,14 +12,14 @@ public class SanmaBlade : AttackZone {
 	protected override void Start ()
 	{
 		base.Start ();
-		attack_power = 10.0f;
+		attack_power = 3.0f;
 	}
 
 	protected override void Update(){
 		base.Update ();
 		if (master != null) {
 			Vector3 masterPos = master.transform.position;
-			Vector3 offset = new Vector3(current_side == SIDE.RIGHT ? 1.7f : -1.7f, 1.5f, -1.0f);
+			Vector3 offset = new Vector3(current_side == SIDE.RIGHT ? 1.3f : -1.3f, 1.5f, -1.0f);
 
 			transform.position = masterPos + offset;
 		}
@@ -36,9 +37,16 @@ public class SanmaBlade : AttackZone {
 			Flip(SIDE.LEFT);
 		}
 		
-		
-		//Create a sonicboom
-		GameObject obj = Instantiate (sonicBoom, this.transform.position, this.transform.rotation) as GameObject;
-		obj.SendMessage ("Execute", current_side);
+		if(charged){
+			//Create a sonicboom
+			GameObject obj = Instantiate (sonicBoom, this.transform.position, this.transform.rotation) as GameObject;
+			obj.SendMessage ("Execute", current_side);
+			
+			charged = false;
+		}
+	}
+	
+	protected void SetAsCharged(){
+		charged = true;
 	}
 }

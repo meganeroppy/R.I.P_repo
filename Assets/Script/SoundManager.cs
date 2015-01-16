@@ -9,6 +9,7 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip se_goal;
 	public AudioClip se_jump;
 	public AudioClip se_attack;
+	public AudioClip se_attack2;
 	public AudioClip se_damage;
 	public AudioClip se_getItem;
 	
@@ -50,6 +51,9 @@ public class SoundManager : MonoBehaviour {
 			break;
 		case "Attack":
 			audio.PlayOneShot(se_attack, volume);
+			break;
+		case "Attack2":
+			audio.PlayOneShot(se_attack2, volume);
 			break;
 		case "Damage":
 			audio.PlayOneShot(se_damage, volume);

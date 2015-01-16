@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: cf8110916ab9d4c5b980afcc274af835
+guid: 8577ef914a1bd43958bda43151d441b0
 TextureImporter:
   fileIDToRecycleName:
-    21300000: chara_neco_damage_0
-    21300002: chara_neco_damage_1
-    21300004: chara_neco_damage_2
+    21300000: chara_b_idles_0
+    21300002: chara_b_idles_1
+    21300004: chara_b_idles_2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -46,33 +46,33 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: chara_neco_damage_0
+    - name: chara_b_idles_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 54
-        width: 340
-        height: 280
+        y: 35
+        width: 185
+        height: 275
       alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: chara_neco_damage_1
+    - name: chara_b_idles_1
       rect:
         serializedVersion: 2
-        x: 365
-        y: 54
-        width: 340
-        height: 280
+        x: 185
+        y: 35
+        width: 185
+        height: 275
       alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: chara_neco_damage_2
+    - name: chara_b_idles_2
       rect:
         serializedVersion: 2
-        x: 730
-        y: 54
-        width: 340
-        height: 280
+        x: 370
+        y: 35
+        width: 185
+        height: 275
       alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

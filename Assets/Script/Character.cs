@@ -38,6 +38,7 @@ public class Character : StageObject {
 	[HideInInspector]
 	public bool grounded;
 	protected LayerMask layer_ground;
+	protected LayerMask layer_spikyWire;
 	
 	protected const float MOVE_SPEED_BASE = 8.5f;
 	protected Vector2 move_speed;
@@ -61,6 +62,8 @@ public class Character : StageObject {
 		base.Start ();
 
 		layer_ground =  1 << 8;
+		//layer_ground = LayerMask.NameToLayer("Ground");
+		layer_spikyWire = LayerMask.NameToLayer("SpikyWire");
 		current_side = SIDE.LEFT;
 		current_status = STATUS.IDLE;
 		move_speed.x = 0.0f;
@@ -74,11 +77,15 @@ public class Character : StageObject {
 	protected override void Update () {
 	
 		Vector3 pos = transform.position;
-
-		grounded = Physics2D.Raycast(pos, -Vector2.up, rayRange, layer_ground) 
-			?  true : Physics2D.Raycast(pos + new Vector3(0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_ground)
-				? true : Physics2D.Raycast(pos + new Vector3(-0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_ground);
-
+		/*
+		grounded = Physics2D.Raycast(pos, -Vector2.up, rayRange, layer_ground) || Physics2D.Raycast(pos, -Vector2.up, rayRange, layer_spikyWire) 
+			?  true : Physics2D.Raycast(pos + new Vector3(0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_ground) || Physics2D.Raycast(pos + new Vector3(0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_spikyWire)
+				? true : Physics2D.Raycast(pos + new Vector3(-0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_ground) || Physics2D.Raycast(pos + new Vector3(-0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_spikyWire);
+		*/
+		grounded = Physics2D.Raycast(pos, -Vector2.up, rayRange, layer_ground)  
+			?  true : Physics2D.Raycast(pos + new Vector3(0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_ground) 
+				? true : Physics2D.Raycast(pos + new Vector3(-0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_ground) ;
+		
 		if(!invincible){
 			if(renderer.material.color != Color.white){
 				renderer.material.color = Color.white;

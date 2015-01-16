@@ -1,38 +1,9 @@
 fileFormatVersion: 2
-guid: 73f57023d00f6481cbdf575a0c67056c
+guid: 1ce4bd0a279044039b15d484901dbc23
 TextureImporter:
   fileIDToRecycleName:
-    21300000: wraith_0
-    21300002: wraith_1
-    21300004: wraith_2
-    21300006: wraith_3
-    21300008: wraith_4
-    21300010: wraith_5
-    21300012: wraith_6
-    21300014: wraith_7
-    21300016: wraith_8
-    21300018: wraith_9
-    21300020: wraith_10
-    21300022: wraith_11
-    21300024: wraith_12
-    21300026: wraith_13
-    21300028: wraith_14
-    21300030: wraith_15
-    21300032: wraith_16
-    21300034: wraith_17
-    21300036: wraith_18
-    21300038: wraith_19
-    21300040: wraith_20
-    21300042: wraith_21
-    21300044: wraith_22
-    21300046: wraith_23
-    21300048: wraith_24
-    21300050: wraith_25
-    21300052: wraith_26
-    21300054: wraith_27
-    21300056: wraith_28
-    21300058: wraith_29
-    21300060: wraith_30
+    21300000: chara_b_jumps_now2_0
+    21300002: chara_b_jumps_now2_1
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -55,7 +26,7 @@ TextureImporter:
   textureFormat: -1
   maxTextureSize: 1024
   textureSettings:
-    filterMode: 1
+    filterMode: -1
     aniso: 16
     mipBias: -1
     wrapMode: 1
@@ -74,25 +45,25 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: wraith_0
+    - name: chara_b_jumps_now2_0
       rect:
         serializedVersion: 2
-        x: 37
-        y: 97
-        width: 633
-        height: 620
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        x: 0
+        y: 21
+        width: 242
+        height: 282
+      alignment: 7
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: wraith_1
+    - name: chara_b_jumps_now2_1
       rect:
         serializedVersion: 2
-        x: 909
-        y: 72
-        width: 634
-        height: 688
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        x: 242
+        y: 21
+        width: 242
+        height: 282
+      alignment: 7
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

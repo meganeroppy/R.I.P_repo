@@ -1,12 +1,11 @@
 fileFormatVersion: 2
-guid: 790c11fcaad104435b1f961c1a26e137
+guid: 212c8221144df47d4a9505ed3185509a
 TextureImporter:
   fileIDToRecycleName:
-    21300000: chara_neco_attacks2_0
-    21300002: chara_neco_attacks2_1
-    21300004: chara_neco_attacks2_2
-    21300006: chara_neco_attacks2_3
-    21300008: chara_neco_attacks2_4
+    21300000: wraith_wakeup_0
+    21300002: wraith_wakeup_1
+    21300004: wraith_wakeup_2
+    21300006: wraith_wakeup_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -27,7 +26,7 @@ TextureImporter:
   generateCubemap: 0
   seamlessCubemap: 0
   textureFormat: -1
-  maxTextureSize: 2048
+  maxTextureSize: 1024
   textureSettings:
     filterMode: -1
     aniso: 16
@@ -48,55 +47,45 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: chara_neco_attacks2_0
+    - name: wraith_wakeup_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 53
-        width: 387
-        height: 327
-      alignment: 9
-      pivot: {x: .579999983, y: 0}
+        y: 72
+        width: 480
+        height: 660
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: chara_neco_attacks2_1
+    - name: wraith_wakeup_1
       rect:
         serializedVersion: 2
-        x: 387
-        y: 53
-        width: 387
-        height: 327
-      alignment: 9
-      pivot: {x: .579999983, y: 0}
+        x: 480
+        y: 72
+        width: 480
+        height: 660
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: chara_neco_attacks2_2
+    - name: wraith_wakeup_2
       rect:
         serializedVersion: 2
-        x: 774
-        y: 53
-        width: 387
-        height: 327
-      alignment: 9
-      pivot: {x: .579999983, y: 0}
+        x: 960
+        y: 72
+        width: 480
+        height: 660
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: chara_neco_attacks2_3
+    - name: wraith_wakeup_3
       rect:
         serializedVersion: 2
-        x: 1161
-        y: 53
-        width: 387
-        height: 327
-      alignment: 9
-      pivot: {x: .579999983, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: chara_neco_attacks2_4
-      rect:
-        serializedVersion: 2
-        x: 1548
-        y: 53
-        width: 387
-        height: 327
-      alignment: 9
-      pivot: {x: .579999983, y: 0}
+        x: 1440
+        y: 72
+        width: 480
+        height: 660
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

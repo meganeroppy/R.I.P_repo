@@ -3,12 +3,13 @@ using System.Collections;
 
 public class Enemy : Character {
 
-	protected Player m_target; 
-	protected CircleCollider2D[] m_targetCols;
+	protected Player m_target = null; 
+	protected CircleCollider2D[] m_targetCols = null;
 	protected bool m_awaking = false;
 	protected float AWAKE_RANGE = 10.24f;
 	protected const float WARMINGUP = 1.0f;
 	protected Vector2 blow_impact =  new Vector2(200.0f, 100.0f);
+	protected float rigorTimer = 0.0f;
 	
 	protected override void Start ()
 	{
@@ -18,9 +19,12 @@ public class Enemy : Character {
 	
 	protected override void Update ()
 	{
-		if (!GameManager.GameOver() && m_target == null){
+		if (!GameManager.GameOver()){
+			if(m_target == null){
 			m_target = GameObject.FindWithTag ("Player").GetComponent<Player> ();
-			m_targetCols = m_target.GetComponents<CircleCollider2D>(); 
+			}else if(m_targetCols == null){
+				m_targetCols = m_target.GetComponents<CircleCollider2D>(); 
+			}
 		}
 		
 		base.Update ();
@@ -59,7 +63,7 @@ public class Enemy : Character {
 		
 		STATUS status = (m_target.GetStatus());
 		
-		if(status == STATUS.GONE || status == STATUS.DYING){
+		if(status == STATUS.GONE || status == STATUS.DYING || status == STATUS.GHOST_IDLE || status == STATUS.GHOST_DAMAGE){
 			return;
 		}
 		

@@ -1,9 +1,10 @@
 fileFormatVersion: 2
-guid: dbb1d8a132a86428db01c690e4871f5b
+guid: c88a1d07f1f174a3b868525a663f3e08
 TextureImporter:
   fileIDToRecycleName:
-    21300000: chara_neco_jumps_now2_0
-    21300002: chara_neco_jumps_now2_1
+    21300000: chara_b_damage_death_0
+    21300002: chara_b_damage_death_1
+    21300004: chara_b_damage_death_2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -45,25 +46,35 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: chara_neco_jumps_now2_0
+    - name: chara_b_damage_death_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 21
-        width: 241
-        height: 282
+        x: 73
+        y: 75
+        width: 214
+        height: 237
       alignment: 7
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: chara_neco_jumps_now2_1
+    - name: chara_b_damage_death_1
       rect:
         serializedVersion: 2
-        x: 241
-        y: 21
-        width: 241
-        height: 282
+        x: 432
+        y: 72
+        width: 217
+        height: 243
       alignment: 7
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: chara_b_damage_death_2
+      rect:
+        serializedVersion: 2
+        x: 731
+        y: 62
+        width: 339
+        height: 140
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

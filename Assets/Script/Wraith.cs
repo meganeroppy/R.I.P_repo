@@ -4,11 +4,13 @@ using System.Collections;
 public class Wraith : Flyer {	
 
 
-	protected float m_alpha = 0.0f;
+	protected float m_alpha = 1.0f;
 	protected const float ALPHA_WAITING = 0.1f;
-	private Vector3 m_homePos;
-	private bool atHome = true;
-	
+	protected Vector3 m_homePos;
+	protected bool atHome = true;
+	protected bool m_attacking = false;
+	protected bool readyToAct = false;
+	protected float m_timer = 0.0f;
 	
 	protected override void Start ()
 	{
@@ -17,16 +19,18 @@ public class Wraith : Flyer {
 		attack_power = 37.0f;
 		current_health = 3;
 		m_awaking = false;
-		flying_move_speed = 4.5f;
+		flying_move_speed = 3.0f;
 		
-		AWAKE_RANGE = 15.0f;
+		AWAKE_RANGE = 10.28f;
 		
-		Color clr = spriteRenderer.color; 
-		Color newColor = new Color (clr.r, clr.g, clr.b, ALPHA_WAITING);
-		spriteRenderer.color = newColor;
+		//Color clr = spriteRenderer.color; 
+		//Color newColor = new Color (clr.r, clr.g, clr.b, ALPHA_WAITING);
+		//spriteRenderer.color = newColor;
 		
 		m_homePos = transform.position;
-
+		rigorTimer = WARMINGUP;
+		
+		m_timer = Random.Range(0, 360);
 		}
 
 	
@@ -35,7 +39,8 @@ public class Wraith : Flyer {
 		base.Update ();
 
 		anim.SetBool("b_awake", m_awaking || !atHome ? true : false);
-						
+		anim.SetBool("b_attack", m_attacking ? true : false);
+		
 		if(!GameManager.GameOver()){
 			if (m_target == null) {
 				m_target = GameObject.FindWithTag("Player").GetComponent<Player>();	
@@ -45,14 +50,14 @@ public class Wraith : Flyer {
 			
 				if(!GameManager.CheckCurrentPlayerIsGhost()){
 					m_awaking = false;
+					readyToAct = false;
+					rigorTimer = WARMINGUP;
 				}
 			
 				if(current_status !=  STATUS.GONE && !GameManager.Miss()){
 				
 					if(PlayerIsInRange()){
-						
-						atHome = false;
-						
+												
 						//Look at Player
 						if (transform.position.x > m_target.transform.position.x) {
 							if (transform.localScale.x < 0) {
@@ -63,54 +68,49 @@ public class Wraith : Flyer {
 								Flip(SIDE.RIGHT);
 							}		
 						}	
-					
-						//Chasing Player
-						Vector2 dir = (m_target.transform.position - transform.position).normalized ;
-						dir = dir * flying_move_speed * Time.deltaTime;
-						transform.Translate (new Vector3 (dir.x, dir.y, 0.0f));		
 					}
+					if(!readyToAct){
+						if(rigorTimer <= 0.0f ){
+							 readyToAct = true;
+						}else{
+							rigorTimer -= Time.deltaTime;
+						}
+					}
+					
 				}
-				
+				/*
 				if(m_alpha < 1.0f){
 					m_alpha += Time.deltaTime;
 					SetAlpha(m_alpha);
 				}	
-				
-			}else{
-				if( GameManager.CheckCurrentPlayerIsGhost()){
-					m_awaking = true;
+				*/
+			}else{//Sleeping
+			
+			
+				if(GameManager.CheckCurrentPlayerIsGhost()){
+					if(PlayerIsInRange()){
+						m_awaking = true;
+						rigorTimer = WARMINGUP;					
+					}
 				}
-				
+				/*
 				if(m_alpha > ALPHA_WAITING){
 					m_alpha -= Time.deltaTime;
 					SetAlpha(m_alpha);
 				}
+				*/
+				Vector3 pos = transform.position;
+				Vector3 newPos = new Vector3( pos.x, pos.y  +  ( (Mathf.Sin (180 * (m_timer) * Mathf.Deg2Rad) * 0.01f) ), pos.z);
+				transform.position = newPos;
+				m_timer += Time.deltaTime;
 				
-				//Back To Home Pos
-				if(Mathf.Abs(m_homePos.x - transform.position.x) < 0.1f && Mathf.Abs(m_homePos.y - transform.position.y) < 0.1f){
-					atHome = true;
-				}else{
-				
-					Vector2 dir = (m_homePos - transform.position).normalized ;
-					dir = dir * flying_move_speed * Time.deltaTime;
-					transform.Translate (new Vector3 (dir.x, dir.y, 0.0f));
-					
-					if (transform.position.x > m_homePos.x) {
-						if (transform.localScale.x < 0) {
-							Flip (SIDE.LEFT);
-						}
-					} else {
-						if(transform.localScale.x > 0){
-							Flip(SIDE.RIGHT);
-						}		
-					}	
-				}
 			}
-			
+			/*
 			if(m_alpha < ALPHA_WAITING){
 				m_alpha += Time.deltaTime;
 				SetAlpha(m_alpha);
 			}
+			*/
 		}
 	}
 
@@ -128,20 +128,23 @@ public class Wraith : Flyer {
 		return m_awaking;
 	}
 	
-	/*
-	protected override void SetAlpha (float val)
-	{
-		if(spriteRenderer == null){
-			spriteRenderer = GetComponent<SpriteRenderer>();
-		}
-		
-		if(!m_awaking){
-			if(spriteRenderer.color.a <= ALPHA_WAITING){
-				base.SetAlpha(val);
-			}
+	protected override bool PlayerIsInRange(){
+		if(Mathf.Abs( m_homePos.x - m_target.transform.position.x) < AWAKE_RANGE
+		   && Mathf.Abs( m_homePos.y - m_target.transform.position.y) < AWAKE_RANGE
+		   ){
+			return true;
 		}else{
-			base.SetAlpha (val);
+			return false;
 		}
 	}
-	*/
+	
+	protected virtual bool IAmInRange(){
+		if(Mathf.Abs( m_homePos.x - transform.position.x) < AWAKE_RANGE
+		   && Mathf.Abs( m_homePos.y - transform.position.y) < AWAKE_RANGE
+		   ){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

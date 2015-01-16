@@ -10,9 +10,6 @@ public class SonicBoom : AttackZone {
 	private float LIFE_TIME = 0.7f;
 	private float m_pasted_time_from_born;
 
-	public GameObject effect_slush;
-
-
 	// Use this for initialization
 	protected override void Start () {
 	

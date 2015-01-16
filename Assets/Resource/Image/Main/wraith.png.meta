@@ -1,10 +1,11 @@
 fileFormatVersion: 2
-guid: 422bfea2760cc45808d1cd689b85267a
+guid: 1751f185d3027438cb66300000f64ce0
 TextureImporter:
   fileIDToRecycleName:
-    21300000: chara_neco_jumps_up_0
-    21300002: chara_neco_jumps_up_1
-    21300004: chara_neco_jumps_up_2
+    21300000: wraith_0
+    21300002: wraith_1
+    21300004: wraith_2
+    21300006: wraith_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -46,34 +47,44 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: chara_neco_jumps_up_0
+    - name: wraith_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 26
-        width: 242
-        height: 282
-      alignment: 7
+        y: 76
+        width: 740
+        height: 740
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: chara_neco_jumps_up_1
+    - name: wraith_1
       rect:
         serializedVersion: 2
-        x: 242
-        y: 26
-        width: 242
-        height: 282
-      alignment: 7
+        x: 740
+        y: 76
+        width: 740
+        height: 740
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: chara_neco_jumps_up_2
+    - name: wraith_2
       rect:
         serializedVersion: 2
-        x: 484
-        y: 26
-        width: 242
-        height: 282
-      alignment: 7
+        x: 1480
+        y: 76
+        width: 740
+        height: 740
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: wraith_3
+      rect:
+        serializedVersion: 2
+        x: 2220
+        y: 76
+        width: 740
+        height: 740
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 

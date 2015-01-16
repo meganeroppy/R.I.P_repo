@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3b4590ed7465e46b9ad66f70197192d9
+guid: 2d3772bcf0732400ab12ce1e06569607
 TextureImporter:
   fileIDToRecycleName:
     21300000: chara_neco_runs03_0
@@ -27,7 +27,7 @@ TextureImporter:
   generateCubemap: 0
   seamlessCubemap: 0
   textureFormat: -1
-  maxTextureSize: 2048
+  maxTextureSize: 1024
   textureSettings:
     filterMode: -1
     aniso: 16
@@ -39,7 +39,7 @@ TextureImporter:
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
+  alignment: 7
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
@@ -52,9 +52,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 47
+        y: 39
         width: 242
-        height: 284
+        height: 292
       alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -62,9 +62,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 242
-        y: 47
+        y: 39
         width: 242
-        height: 284
+        height: 292
       alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -72,9 +72,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 484
-        y: 47
+        y: 39
         width: 242
-        height: 284
+        height: 292
       alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -82,9 +82,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 726
-        y: 47
+        y: 39
         width: 242
-        height: 284
+        height: 292
       alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -92,9 +92,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 968
-        y: 47
+        y: 39
         width: 242
-        height: 284
+        height: 292
       alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

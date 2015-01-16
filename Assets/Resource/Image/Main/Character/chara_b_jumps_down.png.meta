@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: 51e5e8b3a0bf94f20bbc3485c5a1c0ed
+guid: 175b196469f524b678fab60248256055
 TextureImporter:
   fileIDToRecycleName:
-    21300000: chara_neco_jumps_down_0
-    21300002: chara_neco_jumps_down_1
+    21300000: chara_b_jumps_down_0
+    21300002: chara_b_jumps_down_1
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -26,7 +26,7 @@ TextureImporter:
   textureFormat: -1
   maxTextureSize: 1024
   textureSettings:
-    filterMode: 2
+    filterMode: -1
     aniso: 16
     mipBias: -1
     wrapMode: 1
@@ -45,7 +45,7 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: chara_neco_jumps_down_0
+    - name: chara_b_jumps_down_0
       rect:
         serializedVersion: 2
         x: 0
@@ -53,9 +53,9 @@ TextureImporter:
         width: 241
         height: 282
       alignment: 7
-      pivot: {x: .5, y: 0}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: chara_neco_jumps_down_1
+    - name: chara_b_jumps_down_1
       rect:
         serializedVersion: 2
         x: 241
@@ -63,7 +63,7 @@ TextureImporter:
         width: 241
         height: 282
       alignment: 7
-      pivot: {x: .5, y: 0}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
