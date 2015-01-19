@@ -10,11 +10,15 @@ public class Enemy : Character {
 	protected const float WARMINGUP = 1.0f;
 	protected Vector2 blow_impact =  new Vector2(200.0f, 100.0f);
 	protected float rigorTimer = 0.0f;
+	protected Collider2D[] m_colliders;
+
 	
 	protected override void Start ()
 	{
 		base.Start ();
 		attack_power = 5.0f;
+		m_colliders = GetComponents<Collider2D> ();
+
 	}
 	
 	protected override void Update ()
@@ -42,10 +46,14 @@ public class Enemy : Character {
 			}else{
 				Instantiate (effectPoint_destroy, transform.position, transform.rotation);
 				if(rigidbody2D)
-					rigidbody2D.Sleep();
+					rigidbody2D.gravityScale = 0;
 				current_status = STATUS.GONE;
 				StartCoroutine(WaitAndExecute(0.9f, true));
-				m_collider.isTrigger = true;
+				//m_collider.isTrigger = true;
+				for (int i = 0 ; i < m_colliders.Length ; i++) {
+					//col.isTrigger = false;
+					m_colliders[i].enabled = false;
+				}	
 			}
 		} else {
 			StartCoroutine(WaitAndExecute(0.7f, false));

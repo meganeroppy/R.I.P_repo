@@ -117,7 +117,8 @@ public class EventManager : MonoBehaviour
 	private void EndEvent ()
 	{
 		ended = true;
-		
+
+		iTween.ValueTo (gameObject, iTween.Hash ("from", 0.5f, "to", 0, "time", 3.0f, "onupdate", "UpdateSoundVolume"));
 		iTween.ValueTo (gameObject, iTween.Hash ("from", blackScreen.alpha, "to", 1, "time", fadeOutSpeed, "onupdate", "UpdateBlackScreenAlpha", "oncomplete", "LoadNextLevel"));	
 	}
 	

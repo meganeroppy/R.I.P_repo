@@ -13,7 +13,7 @@ public class Bullet : StageObject {
 	
 	protected override void Start ()
 	{
-//		base.Start();
+		base.Start();
 	}
 	
 	protected override void Update(){

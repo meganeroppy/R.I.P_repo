@@ -31,6 +31,7 @@ public class Bubble : Bullet {
 
 	
 	protected override void ApplyHealthDamage(int value){
+		m_collider.enabled = false;
 		Die();
 	}
 	

@@ -8,13 +8,14 @@ public class Garbage : Enemy {
 	private const float THROW_INTERVAL = 0.6f;
 	private int throwCount = 0;
 	protected const float DAMAGED_RIGOR = 0.1f;
-	
+
 	protected override void Start ()
 	{
 		base.Start ();
 		current_health = 3;
 		attack_power = 19.0f;
 		invincible = true;
+
 	}
 
 	protected override void Update (){
