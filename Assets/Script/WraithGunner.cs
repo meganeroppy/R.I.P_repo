@@ -61,13 +61,13 @@ public class WraithGunner : Wraith {
 		float radian = Mathf.Atan2(baseDir.y, baseDir.x);
 		float baseAngle = radian * Mathf.Rad2Deg;
 		current_shootAngle = current_shootAngle == MAX_SHOOT_INTERVAL ? -MAX_SHOOT_INTERVAL : current_shootAngle + (MAX_SHOOT_INTERVAL * 2 * 0.25f); 
-		//float offsetAngle = Random.Range(-MAX_SHOOT_INTERVAL, MAX_SHOOT_INTERVAL);
-		float offsetAngle = current_shootAngle;
+		float offsetAngle = Random.Range(-MAX_SHOOT_INTERVAL, MAX_SHOOT_INTERVAL);
+		//float offsetAngle = current_shootAngle;
 		float fixedAngle = baseAngle + offsetAngle;
 		
 		Vector3 fixedDir = new Vector3(Mathf.Cos(Mathf.PI / 180 * fixedAngle), Mathf.Sin(Mathf.PI / 180 * fixedAngle), 0.0f).normalized; 
 		
-		obj.SendMessage("SetAttackPower", attack_power);
+		obj.SendMessage("SetAttackPower", attack_power * 0.5f);
 		obj.SendMessage("SetDirectionAndExecute", fixedDir);
 		
 		//Rotation

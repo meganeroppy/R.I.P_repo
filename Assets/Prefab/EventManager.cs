@@ -19,50 +19,42 @@ START ボタン	KeyCode.JoystickButton7 / Enter
 public class EventManager : MonoBehaviour
 {
 	private float counter = 0.0f;
-		private int cur_phase = 0;
-		private const int numOfPhase = 8;
-		private bool ended = false;
-		public GameObject peace;
-		public GameObject boss;
-		public GameObject[] cats;
-		private float waiting = 0.0f;
-		private int[] wait = {1,1,2,1,2,2,5};
-		private UILabel label_pressButton;
-		private UISprite blackScreen;
-		private AudioSource m_audio;
-		private float fadeOutSpeed = 4.5f;
+	private int cur_phase = 0;
+	private const int numOfPhase = 13;
+	private bool ended = false;
 
+	private float waiting = 0.0f;
+	private int[] wait = {1,1,1,1,1,1,1,1,1,1,1,1,1};
+	private UILabel label_pressButton;
+	private UISprite blackScreen;
+	private AudioSource m_audio;
+	private float fadeOutSpeed = 4.5f;
+	
+
+	//private bool isScrolling = false ;
+	
+	private EventCamera m_camera;
+	
 	private void Awake(){
 		Application.targetFrameRate = 30;
 	}
-
-		private void Start (){
+	
+	private void Start (){
 		
 		m_audio = GetComponent<AudioSource>();
 		
-		GameObject obj;
-		Vector3 pos = transform.position;
-		obj = Instantiate (peace, new Vector3 (pos.x + -5.0f, pos.y + -2.0f, pos.z), transform.rotation) as GameObject;
-		obj.transform.parent = transform;
+		m_camera = GameObject.FindWithTag("MainCamera").GetComponent<EventCamera>();
+			
+		cur_phase = 0;
+
 		
-		Vector3 peacePos = obj.transform.position;
-		
-		obj = Instantiate (boss, new Vector3 (pos.x + 6.0f, pos.y + 2.0f, pos.z), transform.rotation) as GameObject;
-		obj.transform.localScale = new Vector2 (1.2f, 1.2f);
-		obj.transform.parent = transform;
-		
-		
-		for (int i = 0; i < cats.Length; i++) {
-			obj = Instantiate (cats [i], new Vector3 (peacePos.x + Random.Range (-4.0f, 4.0f), peacePos.y + Random.Range (-2.5f, 2.5f), peacePos.z), transform.rotation) as GameObject;
-			obj.transform.localScale = new Vector2 (0.7f, 0.7f);
-			obj.transform.parent = transform;
-		}
+		//m_camera.SendMessage("MoveToStartPos");
 		
 		//About UI
 		label_pressButton = GameObject.FindWithTag ("UI").GetComponent<UILabel> ();
 		blackScreen = GameObject.FindWithTag ("BlackScreen").GetComponent<UISprite> ();
 		blackScreen.enabled = true;
-
+		
 		StartEvent();
 	}
 	
@@ -71,7 +63,7 @@ public class EventManager : MonoBehaviour
 		if (Input.GetKeyDown (KeyCode.S) || Input.GetKeyDown(KeyCode.JoystickButton6)) {
 			SkipEvent ();	
 		}
-
+		
 		if ( ended ) {
 			label_pressButton.alpha = 0.0f;
 		}else if (waiting > 0.0f) {
@@ -93,7 +85,7 @@ public class EventManager : MonoBehaviour
 			AdvanceEvent ();
 		}
 	}
-		
+	
 	private void AdvanceEvent ()
 	{
 		cur_phase++;
@@ -102,15 +94,12 @@ public class EventManager : MonoBehaviour
 		}
 		
 		
-		for (int i = 0; i < this.transform.childCount; i++) {
-			GameObject obj = transform.GetChild (i).gameObject;
-			obj.SendMessage ("AdvancePhase", cur_phase);
-		}
-		
+		m_camera.SendMessage ("AdvancePhase", cur_phase);
+		/*
 		if(cur_phase == 4){
 			iTween.ValueTo (gameObject, iTween.Hash ("from", 0.5f, "to", 0, "time", 3.0f, "onupdate", "UpdateSoundVolume"));
 		}
-		
+		*/
 		waiting = wait [cur_phase - 1];
 	}
 	
@@ -124,7 +113,7 @@ public class EventManager : MonoBehaviour
 	{
 		iTween.ValueTo (gameObject, iTween.Hash ("from", 1, "to", 0, "time", 3.5f, "onupdate", "UpdateBlackScreenAlpha", "oncomplete", "EnableInput"));
 	}
-		
+	
 	private void EndEvent ()
 	{
 		ended = true;
@@ -133,7 +122,7 @@ public class EventManager : MonoBehaviour
 	}
 	
 	private void LoadNextLevel (){
-	
+		
 		GameObject.FindWithTag("Loading").SendMessage("Activate");
 		Application.LoadLevel ("Tutorial");
 	}

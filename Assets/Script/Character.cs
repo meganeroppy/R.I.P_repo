@@ -33,7 +33,7 @@ public class Character : StageObject {
 	protected const float DYING_DELAY = 1.0f;
 	protected const float DISAPPEARING_DELAY = 2.0f;
 
-	protected float rayRange = 0.01f;
+	protected float rayRange = 0.009f;
 
 	[HideInInspector]
 	public bool grounded;
@@ -189,7 +189,8 @@ public class Character : StageObject {
 			if(rigidbody2D.velocity != Vector2.zero){
 				rigidbody2D.velocity = Vector2.zero;
 			}
-			transform.position += new Vector3(move_speed.x * MOVE_SPEED_BASE * Time.deltaTime * 0.5f, move_speed.y * MOVE_SPEED_BASE * Time.deltaTime * 0.5f, 0.0f);
+			//Ghost move
+			transform.position += new Vector3(move_speed.x * MOVE_SPEED_BASE * Time.deltaTime * 0.7f, move_speed.y * MOVE_SPEED_BASE * Time.deltaTime * 0.7f, 0.0f);
 			break;
 		case STATUS.GONE:
 		

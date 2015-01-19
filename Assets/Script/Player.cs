@@ -4,7 +4,7 @@ using System.Collections;
 public class Player : Walker {
 
 	private float losing_rate = 15.0f;
-	private float gaining_rate = 1.0f;
+	private float gaining_rate = 0.5f;
 	private float gainingFlug = 0.0f;
 	private float losingFlug = 0.0f;
 
@@ -16,8 +16,12 @@ public class Player : Walker {
 	public GameObject attackZone;
 	public GameObject sonicBoom;
 	public GameObject exorcised_soul;
+	public GameObject deadPeace;
 	private float m_attackTimer = 0.0f;
 	private const float ATTACK_INTERVAL = 0.3f;
+	private float m_savedSpiritVal = 0.0f;
+	private Vector2[] colPos_liveing = new Vector2[2];
+	private float m_nonGhostTimer = 0.0f;
 	
 	//Script
 	GameManager gameManager;
@@ -30,7 +34,13 @@ public class Player : Walker {
 	}
 	
 	protected override void Start(){
-	
+		m_savedSpiritVal = current_spirit;
+		colPos_liveing[0] = new Vector2(-0.2f, 1.5f);
+		colPos_liveing[1] = new Vector2(-0.2f, 0.5f);
+		for (int i = 0 ; i < m_colliders.Length ; i++) {
+			//col.isTrigger = false;
+			(m_colliders[i] as CircleCollider2D).center = colPos_liveing[i];
+		}
 	}
 	
 	protected override bool init(GameObject caller){
@@ -77,6 +87,8 @@ public class Player : Walker {
 	}
 
 	protected override void Update(){
+		
+	//print(m_savedSpiritVal);
 		base.Update ();
 		if (current_status == STATUS.GHOST_IDLE || current_status == STATUS.GHOST_DAMAGE) {
 			if(current_status == STATUS.GHOST_DAMAGE){
@@ -85,6 +97,7 @@ public class Player : Walker {
 					current_status = STATUS.GHOST_IDLE;
 				}
 			}
+			
 			UpdateSpirit(-(losing_rate * Time.deltaTime));
 			Color color = new Color(1.0f, 1.0f, 1.0f, current_spirit / MAX_SPIRIT );
 			renderer.material.color = color;
@@ -111,6 +124,12 @@ public class Player : Walker {
 		if(m_attackTimer > 0.0f){
 			m_attackTimer -= Time.deltaTime;
 		}
+		
+		if(m_nonGhostTimer > 0.0f){
+			m_nonGhostTimer -= Time.deltaTime;
+		}
+		
+		
 	}
 
 	protected override void OnTriggerEnter2D(Collider2D col){
@@ -121,7 +140,7 @@ public class Player : Walker {
 				DieAndBecomeGhost ();
 				break;
 			case "REVIVAL":
-				UpdateSpirit(12.5f);
+				//UpdateSpirit(12.5f);
 				if(current_status == STATUS.GHOST_IDLE){
 					Revive ();
 				}
@@ -152,9 +171,10 @@ public class Player : Walker {
 		if(current_spirit <= 0.0f){
 			GetExorcised();
 		}else{
-			if(current_status != STATUS.GHOST_IDLE){
+			if(current_status != STATUS.GHOST_IDLE && m_nonGhostTimer <= 0.0f ){
 				DieAndBecomeGhost ();
 			}
+			
 		}
 	}
 	
@@ -162,11 +182,10 @@ public class Player : Walker {
 		if(current_spirit <= 0.0f){
 			return;
 		}
-	
+		
 		if(current_health <= 0 && current_status != STATUS.GHOST_IDLE && current_status != STATUS.GHOST_DAMAGE){
 			DieAndBecomeGhost ();
 		}
-	
 	}
 	
 	protected override void Flip (SIDE side)
@@ -213,13 +232,21 @@ public class Player : Walker {
 		living = false;
 		rigidbody2D.gravityScale = 0.0f;
 		rigidbody2D.velocity = Vector2.zero;
-		/*
-		foreach (Collider2D col in m_colliders) {
-			col.isTrigger = true;
+		
+		m_nonGhostTimer = DISAPPEARING_DELAY;	
+		
+		foreach (CircleCollider2D col in m_colliders) {
+			//col.isTrigger = true;
+			
+			col.center = new Vector2(col.center.x, 1.0f);
 		}
-		*/
+		
 		current_status = STATUS.GHOST_IDLE;
-		Instantiate (effect_transformation, transform.position, transform.rotation);
+		Instantiate (effect_transformation, transform.position - new Vector3(0,0,-1), transform.rotation);
+		GameObject obj = Instantiate (deadPeace, transform.position, transform.rotation) as GameObject;
+		obj.SendMessage("Flip", current_side);
+		
+		m_savedSpiritVal = current_spirit;
 		
 		gameObject.layer = LayerMask.NameToLayer("Ghost");
 		
@@ -247,19 +274,18 @@ public class Player : Walker {
 		}
 	}
 	
-
-
 	protected void Revive(){
 		living = true;
 		rigidbody2D.gravityScale = DEFAULT_GRAVITY_SCALE;
-		/*
-		foreach (Collider2D col in m_colliders) {
-			col.isTrigger = false;
+		for (int i = 0 ; i < m_colliders.Length ; i++) {
+			//col.isTrigger = false;
+			(m_colliders[i] as CircleCollider2D).center = colPos_liveing[i];
 		}
-		*/
 		//renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
 		current_status = STATUS.IDLE;
 		gameObject.layer = LayerMask.NameToLayer("Player");
+		
+		
 		
 		timer_invincible = INVINCIBLE_DURATION;
 		invincible = true;
@@ -267,6 +293,7 @@ public class Player : Walker {
 		Instantiate (effect_transformation, transform.position, transform.rotation);
 
 		current_health = MAX_HEALTH;
+		current_spirit = m_savedSpiritVal;
 		
 		GameManager.InformBecomeGhost(false);
 	}
@@ -295,6 +322,9 @@ public class Player : Walker {
 				val *= 0.5f;
 			}
 			base.GainSpirit(val);
+			if(m_savedSpiritVal < current_spirit){
+				m_savedSpiritVal = current_spirit;
+			}
 		}
 		gainingFlug = 0.1f;
 	}
@@ -317,6 +347,11 @@ public class Player : Walker {
 		move_speed = Vector2.zero;
 		rigidbody2D.velocity = Vector2.zero;
 		rigidbody2D.Sleep();
+		
+		foreach (Collider2D col in m_colliders) {
+			col.enabled = false;
+		}
+		
 		current_health = 0;
 		current_spirit = 0.0f;
 		
@@ -329,11 +364,12 @@ public class Player : Walker {
 		transform.position = new Vector3(respawnPos.x, respawnPos.y + offsetY, transform.position.z);
 		renderer.enabled = true;
 		rigidbody2D.gravityScale = DEFAULT_GRAVITY_SCALE;
-		/*
-		foreach (Collider2D col in m_colliders) {
-			col.isTrigger = false;
+		for (int i = 0 ; i < m_colliders.Length ; i++) {
+			//col.isTrigger = false;
+			(m_colliders[i] as CircleCollider2D).center = colPos_liveing[i];
+			m_colliders[i].enabled = true;
+			
 		}
-		*/
 		anim.SetTrigger("t_init");
 		init ();
 	}

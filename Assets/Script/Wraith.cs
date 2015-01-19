@@ -16,7 +16,7 @@ public class Wraith : Flyer {
 	{
 		base.Start ();
 		
-		attack_power = 37.0f;
+		attack_power = 25.0f;
 		current_health = 3;
 		m_awaking = false;
 		flying_move_speed = 3.0f;
@@ -86,11 +86,11 @@ public class Wraith : Flyer {
 				*/
 			}else{//Sleeping
 			
-			
 				if(GameManager.CheckCurrentPlayerIsGhost()){
 					if(PlayerIsInRange()){
 						m_awaking = true;
-						rigorTimer = WARMINGUP;					
+						rigorTimer = WARMINGUP;
+						Invoke("Hawl", 0.65f);
 					}
 				}
 				/*
@@ -112,6 +112,10 @@ public class Wraith : Flyer {
 			}
 			*/
 		}
+	}
+	
+	protected void Hawl(){
+		sound.PlaySE("Wraith_wakeup");		
 	}
 
 

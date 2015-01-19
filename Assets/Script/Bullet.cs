@@ -61,7 +61,7 @@ public class Bullet : StageObject {
 		Destroy(this.gameObject);
 	}
 	
-	protected void Crash(GameObject other){
+	protected virtual void Crash(GameObject other){
 		
 		//Debug.Log("HIT" + Time.realtimeSinceStartup.ToString());
 		

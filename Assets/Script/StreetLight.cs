@@ -19,7 +19,7 @@ public class StreetLight : Monument {
 
 		
 		if(Random.Range(0.0f, 100.0f) < 1.0f && timeToTurnOn < 0.0f){
-			GetComponent<SpriteRenderer>().sprite = lamp_turnOff;
+				GetComponent<SpriteRenderer>().sprite = lamp_turnOff;
 			timeToTurnOn = Random.Range(0.05f, 0.3f);
 		}
 		

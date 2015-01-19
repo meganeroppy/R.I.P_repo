@@ -6,9 +6,9 @@ public class MainCamera : MonoBehaviour {
 	private static GameObject m_target;
 	float posY_origin;
 	float v_bottom;
-	Vector3 m_playerPos;
-	private float[] ends = new float[4]{0.0f, 9999.0f, 9999.0f, 0.0f};
-	private float offset = 15.0f;
+	//Vector3 m_playerPos;
+	//private float[] ends = new float[4]{0.0f, 9999.0f, 9999.0f, 0.0f};
+	//private float offset = 15.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -27,7 +27,7 @@ public class MainCamera : MonoBehaviour {
 				return;
 			}
 			m_target = GameObject.FindWithTag ("Player");
-			m_playerPos = m_target.transform.position;
+		//	m_playerPos = m_target.transform.position;
 			//v_bottom = posY_origin - 25.0f;
 		}
 		
@@ -62,6 +62,6 @@ public class MainCamera : MonoBehaviour {
 	}
 	
 	private void SetEndsOfStage(float[] ends){
-		this.ends = ends;
+	//	this.ends = ends;
 	}
 }

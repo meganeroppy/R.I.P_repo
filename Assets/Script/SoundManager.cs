@@ -2,17 +2,21 @@
 using System.Collections;
 
 public class SoundManager : MonoBehaviour {
-	public AudioClip bgm_asa;
-	public AudioClip bgm_hiru;
-	public AudioClip bgm_yoru;
+	public AudioClip bgm_op;
+	public AudioClip bgm_tutorial;
+	public AudioClip bgm_ed;
+	public AudioClip bgm_stage;
+	
 	
 	public AudioClip se_goal;
 	public AudioClip se_jump;
 	public AudioClip se_attack;
 	public AudioClip se_attack2;
 	public AudioClip se_damage;
+	public AudioClip se_damage_electro;
 	public AudioClip se_getItem;
 	
+	public AudioClip se_raith_wakeup;
 	public AudioClip se_bubble_throw;
 	public AudioClip se_bubble_die;	
 	
@@ -21,18 +25,23 @@ public class SoundManager : MonoBehaviour {
 		switch(Application.loadedLevelName){
 		case "Main":
 		case "Tutorial":
+			audio.clip = bgm_tutorial;
+			break;
 		case "Stage01":
 		case "Stage02":
+			audio.clip = bgm_stage;
 			
-				SetBGM(System.DateTime.Now.Hour);
-				audio.loop = true;
-				audio.Play();
+				//SetBGM(System.DateTime.Now.Hour);
+
 			break;
 			case "Title":
-			break;
+			return;
+			
 			default:
 			break;
 		}
+		audio.loop = true;
+		audio.Play();
 	}
 	
 	// Update is called once per frame
@@ -58,8 +67,14 @@ public class SoundManager : MonoBehaviour {
 		case "Damage":
 			audio.PlayOneShot(se_damage, volume);
 			break;
+		case "Damage_electro":
+			audio.PlayOneShot(se_damage_electro, volume);
+			break;
 		case "GetItem" :
 			audio.PlayOneShot(se_getItem, volume);
+			break;
+		case "Wraith_wakeup" :
+			audio.PlayOneShot(se_raith_wakeup, volume);
 			break;
 		case "Bubble_throw" :
 			audio.PlayOneShot(se_bubble_throw, volume);
@@ -82,7 +97,7 @@ public class SoundManager : MonoBehaviour {
 		case 15:
 		case 18:
 		case 21:
-			audio.clip = bgm_asa;
+			audio.clip = bgm_op;
 			break;
 		case 1:
 		case 4:
@@ -92,7 +107,7 @@ public class SoundManager : MonoBehaviour {
 		case 16:
 		case 19:
 		case 22:
-			audio.clip = bgm_hiru;
+			audio.clip = bgm_tutorial;
 			break;
 		case 2:
 		case 5:
@@ -102,7 +117,7 @@ public class SoundManager : MonoBehaviour {
 		case 17:
 		case 20:
 		case 23:
-			audio.clip = bgm_yoru;
+			audio.clip = bgm_ed;
 			break;
 		}
 	} 

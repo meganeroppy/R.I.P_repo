@@ -1,27 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Goal : MonoBehaviour {
+public class Goal : Monument {
 
 	private GameManager gameManager;
 
 	// Use this for initialization
-	void Start () {
+	protected override void Start () {
 		gameManager = GameObject.Find ("GameManager").GetComponent<GameManager> ();
+		base.Start();
+		m_offset.y -= 0.2f;
+		transform.FindChild("Gate_R").transform.Translate(0,0,-7);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-	void OnTriggerEnter2D(Collider2D col){
+	protected override void OnTriggerEnter2D(Collider2D col){
 		if (col.gameObject.tag == "Player") {
 			gameManager.GameClear(true);		
 		}
 	}
 
-	void OnCollisionEnter2D(Collision2D col){
+	protected override void OnCollisionEnter2D(Collision2D col){
 		if (col.gameObject.tag == "Player") {
 			gameManager.GameClear(true);		
 		}

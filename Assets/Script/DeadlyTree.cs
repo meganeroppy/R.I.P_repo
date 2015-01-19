@@ -11,7 +11,7 @@ public class DeadlyTree : Monument {
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
-		offset = new Vector3 (2.0f, 2.0f);
+		m_offset = new Vector3 (2.0f, 2.0f);
 
 		current_health = 5;
 	

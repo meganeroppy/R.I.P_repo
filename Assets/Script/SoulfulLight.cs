@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class SoulfulLight : StreetLight {
-	public float donate_rate = 24.0f;
+	public float donate_rate = 36.0f;
 
 	public GameObject effect_good;
 	private GameObject target;

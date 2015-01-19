@@ -4,7 +4,7 @@ using System.Collections;
 public class Monument : StageObject {
 	
 	public GameObject effectPoint_destroy;
-	protected Vector3 offset;
+	protected Vector3 m_offset;
 	protected bool builtOnGround = true;
 	LayerMask layerMask;
 	
@@ -25,7 +25,7 @@ public class Monument : StageObject {
 		}
 		
 		if(transform.parent != null){
-			offset = transform.position - transform.parent.transform.position;
+			m_offset = transform.position - transform.parent.transform.position;
 		}
 	}
 
@@ -47,7 +47,7 @@ public class Monument : StageObject {
 
 	base.Update();
 		if(transform.parent != null){
-			transform.position = transform.parent.transform.position + offset;
+			transform.position = transform.parent.transform.position + m_offset;
 		}
 	}
 
