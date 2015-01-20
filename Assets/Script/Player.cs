@@ -17,6 +17,7 @@ public class Player : Walker {
 	public GameObject sonicBoom;
 	public GameObject exorcised_soul;
 	public GameObject deadPeace;
+	public GameObject chargingEffect;
 	private float m_attackTimer = 0.0f;
 	private const float ATTACK_INTERVAL = 0.3f;
 	private float m_savedSpiritVal = 0.0f;
@@ -41,6 +42,8 @@ public class Player : Walker {
 			//col.isTrigger = false;
 			(m_colliders[i] as CircleCollider2D).center = colPos_liveing[i];
 		}
+		GameObject obj = Instantiate(chargingEffect, transform.position + new Vector3(0,0,1), transform.rotation) as GameObject;
+		obj.transform.parent = transform;
 	}
 	
 	protected override bool init(GameObject caller){

@@ -20,7 +20,7 @@ START ボタン	KeyCode.JoystickButton7 / Enter
 public class InputManager : MonoBehaviour {
 	
 	private Player m_player;
-	private float charging = 0.0f;
+	public static float charging = 0.0f;
 
 	// Use this for initialization
 	void Start () {

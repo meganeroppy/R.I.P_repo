@@ -21,7 +21,7 @@ public class Wraith : Flyer {
 		m_awaking = false;
 		flying_move_speed = 3.0f;
 		
-		AWAKE_RANGE = 10.28f;
+		AWAKE_RANGE = 20.48f;
 		
 		//Color clr = spriteRenderer.color; 
 		//Color newColor = new Color (clr.r, clr.g, clr.b, ALPHA_WAITING);

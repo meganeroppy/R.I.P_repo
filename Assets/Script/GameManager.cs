@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour {
 	static bool IsGhost = false;
 	
 	public static int player_life;
-	private const int DEFAULT_LIFE = 3;
+	private const int DEFAULT_LIFE = 9;
 	public static int player_health;
 	private bool playerIsBorn = false;
 	private bool StageMakingHasBeenExecuted = false;
