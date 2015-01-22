@@ -3,18 +3,22 @@ using System.Collections;
 
 public class Item : StageObject {
 
+	protected EffectPoint_Flash effect;
+	public GameObject effect_pop;
+
 	protected enum ITEM_TYPE{
-		GAIN_HEALTH,
 		GAIN_SPIRIT,
 		REVIVAL,
 		DYING,
-		CLEAR
+		TREASURE
 	}
 	protected ITEM_TYPE item_type;
 
 	// Use this for initialization
 	protected override void Start () {
+		base.Start();
 		sound = GameObject.Find ("GameManager").GetComponent<SoundManager> ();
+		effect = GetComponent<EffectPoint_Flash>();
 	}
 	
 	// Update is called once per frame
@@ -23,7 +27,6 @@ public class Item : StageObject {
 	}
 
 	protected virtual void Remove(){
-		sound.PlaySE ("GetItem", 1.0f);
 		Destroy (this.gameObject);
 	}
 
@@ -32,14 +35,12 @@ public class Item : StageObject {
 			return "REVIVAL";
 		}else if(item_type == ITEM_TYPE.DYING){
 			return "DYING";
-		}else if(item_type == ITEM_TYPE.GAIN_HEALTH){
-			return "GAIN_HEALTH";
 		}else if(item_type == ITEM_TYPE.GAIN_SPIRIT){
 			return "GAIN_SPIRIT";
-		}else if(item_type == ITEM_TYPE.CLEAR){
-			return "CLEAR";
+		}else if(item_type == ITEM_TYPE.TREASURE){
+			return "TREASURE";
 		} else{
-			return "ERROR";
+			return "It's ITEM_TYPE has not been defined!";
 		}
 	}
 }

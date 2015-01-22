@@ -27,7 +27,7 @@ public class WraithShot : Bullet {
 			counter += Time.deltaTime;
 		}
 		
-		if(!GameManager.CheckCurrentPlayerIsGhost()){
+		if(!GameManager.CheckCurrentPlayerIsGhost() || GameManager.CheckCurrentPlayerIsHidden()){
 			Die();
 		}
 	}

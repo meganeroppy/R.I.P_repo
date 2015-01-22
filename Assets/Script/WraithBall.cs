@@ -10,6 +10,7 @@ public class WraithBall : Bullet {
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		lifeTime = 4.0f;
 		transform.localScale = new Vector3(0.7f,0.7f,0.7f);
+		m_alpha = 1;
 	}
 	
 	protected override void Update ()
@@ -17,8 +18,17 @@ public class WraithBall : Bullet {
 		transform.Rotate(0, 0, 200.0f * Time.deltaTime);
 		base.Update ();
 		
-		if(!GameManager.CheckCurrentPlayerIsGhost()){
+		if(!GameManager.CheckCurrentPlayerIsGhost() || GameManager.CheckCurrentPlayerIsHidden()){
 			Die();
+		}
+		
+		if(dying){
+			if(m_alpha <= 0.0f){
+				Destroy(this.gameObject);
+			}else{
+				m_alpha -= Time.deltaTime;
+				SetAlpha(m_alpha);
+			}
 		}
 	
 	}
@@ -59,7 +69,7 @@ public class WraithBall : Bullet {
 		dying = true;
 		
 		rigidbody2D.velocity = Vector2.zero;
-		Destroy(this.gameObject, 0.25f);
+		m_collider.enabled = false;
 	}
 	
 	protected override void Crash(GameObject other){

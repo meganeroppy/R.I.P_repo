@@ -5,7 +5,7 @@ public class Wraith : Flyer {
 
 
 	protected float m_alpha = 1.0f;
-	protected const float ALPHA_WAITING = 0.1f;
+	protected const float ALPHA_WAITING = 0.5f;
 	protected Vector3 m_homePos;
 	protected bool atHome = true;
 	protected bool m_attacking = false;
@@ -48,7 +48,7 @@ public class Wraith : Flyer {
 			
 			if(m_awaking){
 			
-				if(!GameManager.CheckCurrentPlayerIsGhost()){
+				if(!GameManager.CheckCurrentPlayerIsGhost() || GameManager.CheckCurrentPlayerIsHidden() || GameManager.Miss()){
 					m_awaking = false;
 					readyToAct = false;
 					rigorTimer = WARMINGUP;
@@ -78,39 +78,39 @@ public class Wraith : Flyer {
 					}
 					
 				}
-				/*
+				
 				if(m_alpha < 1.0f){
 					m_alpha += Time.deltaTime;
 					SetAlpha(m_alpha);
 				}	
-				*/
+				
 			}else{//Sleeping
 			
-				if(GameManager.CheckCurrentPlayerIsGhost()){
+				if(GameManager.CheckCurrentPlayerIsGhost() && !GameManager.CheckCurrentPlayerIsHidden() && !GameManager.Miss()){
 					if(PlayerIsInRange()){
 						m_awaking = true;
 						rigorTimer = WARMINGUP;
 						Invoke("Hawl", 0.65f);
 					}
 				}
-				/*
+				
 				if(m_alpha > ALPHA_WAITING){
 					m_alpha -= Time.deltaTime;
 					SetAlpha(m_alpha);
 				}
-				*/
+				
 				Vector3 pos = transform.position;
 				Vector3 newPos = new Vector3( pos.x, pos.y  +  ( (Mathf.Sin (180 * (m_timer) * Mathf.Deg2Rad) * 0.01f) ), pos.z);
 				transform.position = newPos;
 				m_timer += Time.deltaTime;
 				
 			}
-			/*
+			
 			if(m_alpha < ALPHA_WAITING){
 				m_alpha += Time.deltaTime;
 				SetAlpha(m_alpha);
 			}
-			*/
+			
 		}
 	}
 	

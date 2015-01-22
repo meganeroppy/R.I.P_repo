@@ -5,7 +5,7 @@ public class Player : Walker {
 
 	private float losing_rate = 15.0f;
 	private float gaining_rate = 0.5f;
-	private float gainingFlug = 0.0f;
+	private float gainingFlug = 0.0f;//Check if is in the range of a soulful object
 	private float losingFlug = 0.0f;
 
 	private float default_spirit;
@@ -118,7 +118,17 @@ public class Player : Walker {
 
 		if(gainingFlug > 0.0f){
 			gainingFlug -= Time.deltaTime;
-		}
+			
+			//Inform is's hidden
+			if(!GameManager.CheckCurrentPlayerIsHidden()){
+				GameManager.InformBecomeHidden(true);
+			}
+		}else{
+			//Inform is's NOT hidden
+			if(GameManager.CheckCurrentPlayerIsHidden()){
+				GameManager.InformBecomeHidden(false);
+			}	
+		}		
 		
 		if(losingFlug > 0.0f){
 			losingFlug -= Time.deltaTime;
@@ -135,24 +145,38 @@ public class Player : Walker {
 		
 	}
 
-	protected override void OnTriggerEnter2D(Collider2D col){
-		if (col.gameObject.tag == "Item") {
-			Item item = col.gameObject.GetComponent<Item> ();
+	protected void OnEnter2D(GameObject col){
+		if (col.tag == "Item") {
+			Item item = col.GetComponent<Item> ();
 			switch (item.GetItemType ()) {
 			case "DYING":
 				DieAndBecomeGhost ();
 				break;
 			case "REVIVAL":
 				//UpdateSpirit(12.5f);
-				if(current_status == STATUS.GHOST_IDLE){
+				if(!living){
 					Revive ();
 				}
+				break;
+			case "GAIN_SPIRIT":
+				UpdateSpirit(12.5f);
+				break;
+			case "TREASURE":
 				break;
 			default:
 				break;
 			}
-			col.gameObject.SendMessage("Remove");
+			sound.PlaySE ("GetItem", 1.0f);
+			col.SendMessage("Remove");
 		}
+	}
+	
+	protected override void OnCollisionEnter2D(Collision2D col){
+		OnEnter2D(col.gameObject);
+	}
+		
+	protected override void OnTriggerEnter2D(Collider2D col){
+		OnEnter2D(col.gameObject);
 	}
 
 	protected void Jump(){
@@ -245,7 +269,7 @@ public class Player : Walker {
 		}
 		
 		current_status = STATUS.GHOST_IDLE;
-		Instantiate (effect_transformation, transform.position - new Vector3(0,0,-1), transform.rotation);
+		Instantiate (effect_transformation, transform.position - new Vector3(0,0,1), transform.rotation);
 		GameObject obj = Instantiate (deadPeace, transform.position, transform.rotation) as GameObject;
 		obj.SendMessage("Flip", current_side);
 		
@@ -318,7 +342,7 @@ public class Player : Walker {
 	}
 	
 
-
+	//From soulful object
 	protected override void GainSpirit(float val){
 		if(current_status != STATUS.DYING && current_status != STATUS.DAMAGE){
 			if(living){

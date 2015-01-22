@@ -33,7 +33,7 @@ public class Character : StageObject {
 	protected const float DYING_DELAY = 1.0f;
 	protected const float DISAPPEARING_DELAY = 2.0f;
 
-	protected float rayRange = 0.009f;
+	protected float rayRange = 0.01f;
 
 	[HideInInspector]
 	public bool grounded;

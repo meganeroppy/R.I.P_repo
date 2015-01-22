@@ -56,7 +56,8 @@ public class GameManager : MonoBehaviour {
 	public static float PIECE_SCALE = 3.20f;
 	
 	
-	static bool IsGhost = false;
+	public static bool IsGhost = false;
+	public static bool IsHidden = false;
 	
 	public static int player_life;
 	private const int DEFAULT_LIFE = 9;
@@ -389,6 +390,9 @@ public class GameManager : MonoBehaviour {
 		if(!cleared){
 			cleared = true;
 			StartCoroutine (WaitAndExecute (4.0f, "GoToNext"));
+			//Turn of BGM
+			soundManager.SendMessage("FadeoutBGM");
+			
 		}
 	}
 	
@@ -425,5 +429,12 @@ public class GameManager : MonoBehaviour {
 	}
 	public static void InformBecomeGhost(bool ghost){
 		IsGhost = ghost;
+	}
+	
+	public static bool CheckCurrentPlayerIsHidden(){
+		return IsHidden;
+	}
+	public static void InformBecomeHidden(bool hidden){
+		IsHidden = hidden;
 	}
 }

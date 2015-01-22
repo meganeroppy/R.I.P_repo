@@ -10,6 +10,7 @@ public class Bullet : StageObject {
 	protected float lifeTime = 2.0f;
 	protected bool executed = false;
 	protected bool dying = false;
+	protected float m_alpha;
 	
 	protected override void Start ()
 	{

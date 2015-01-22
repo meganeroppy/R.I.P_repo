@@ -8,7 +8,6 @@ public class Monument : StageObject {
 	protected bool builtOnGround = true;
 	LayerMask layerMask;
 	
-
 	protected override void Start(){
 	layerMask = 1 << 8;
 		base.Start();

@@ -15,6 +15,8 @@ public class SonicBoom : AttackZone {
 	
 		base.Start ();
 		m_pasted_time_from_born = 0.0f;
+		attack_power = 2.0f;
+		
 	}
 
 	private void Execute(SIDE dir){

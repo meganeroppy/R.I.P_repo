@@ -7,6 +7,7 @@ public class SoulFulLightW : SoulfulLight {
 	protected override void Start () {
 		builtOnGround = false;
 		base.Start();
+		m_healRangeCenterOffset = Vector3.zero;
 	}
 	
 

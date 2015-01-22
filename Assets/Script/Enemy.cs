@@ -11,6 +11,9 @@ public class Enemy : Character {
 	protected Vector2 blow_impact =  new Vector2(200.0f, 100.0f);
 	protected float rigorTimer = 0.0f;
 	protected Collider2D[] m_colliders;
+	
+	public GameObject m_dropItem;
+	protected float drop_Rate = 0.2f;
 
 	
 	protected override void Start ()
@@ -120,6 +123,9 @@ public class Enemy : Character {
 		invincible = false;
 		if (dying) {
 			Destroy (this.gameObject);
+			if(Random.Range(0.0f, 1.0f) < drop_Rate){
+				Instantiate(m_dropItem, transform.position + new Vector3(0,0,1), transform.rotation);
+			}
 		}
 	}
 }

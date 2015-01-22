@@ -120,5 +120,13 @@ public class SoundManager : MonoBehaviour {
 			audio.clip = bgm_ed;
 			break;
 		}
-	} 
+	}
+	
+	protected void FadeoutBGM(){
+		iTween.ValueTo (gameObject, iTween.Hash ("from", 0.5f, "to", 0, "time", 3.0f, "onupdate", "UpdateSoundVolume"));
+	}
+	
+	private void UpdateSoundVolume(float val){
+		audio.volume = val;
+	}
 }
