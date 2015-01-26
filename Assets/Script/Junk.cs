@@ -36,8 +36,13 @@ public class Junk : Enemy {
 		
 		if(m_awaking && current_status != STATUS.GONE){
 		
-			if(!PlayerIsInRange() || GameManager.CheckCurrentPlayerIsGhost()){
+			if(!PlayerIsInRange() ){
 				m_awaking = false;
+				current_status = STATUS.IDLE;
+			}
+			
+			if(GameManager.CheckCurrentPlayerIsGhost()){
+				current_status = STATUS.IDLE;
 			}
 			
 			if(move_speed.x > 0.0f && current_side == SIDE.LEFT){
@@ -88,10 +93,16 @@ public class Junk : Enemy {
 			}
 			
 		}else{
-			if(PlayerIsInRange()){
+			if(!GameManager.CheckCurrentPlayerIsGhost() && PlayerIsInRange()){
 				m_awaking = true;
 				rigidbody2D.isKinematic = false;
 			}
+		}
+		
+		if(current_status == STATUS.IDLE && grounded && !rigidbody2D.isKinematic){
+			rigidbody2D.isKinematic = true;
+		}else if(current_status == STATUS.WALK && rigidbody2D.isKinematic){
+			rigidbody2D.isKinematic = false;
 		}
 	}
 	

@@ -7,8 +7,9 @@ public class MainCamera : MonoBehaviour {
 	float posY_origin;
 	float v_bottom;
 	//Vector3 m_playerPos;
-	//private float[] ends = new float[4]{0.0f, 9999.0f, 9999.0f, 0.0f};
-	//private float offset = 15.0f;
+	private float LimitY;
+	private bool SetLimit = false;
+	private float offset = 5.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -18,9 +19,16 @@ public class MainCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+	
 		if(GameManager.Miss()){
 			return;
 		}
+		
+		if(GameManager.playerIsBorn && !SetLimit){
+			LimitY = GameObject.FindWithTag("DeadZone").transform.position.y;
+			SetLimit = true;
+		}
+		
 		
 		if(m_target == null){
 			if(GameManager.GameOver()){
@@ -38,20 +46,18 @@ public class MainCamera : MonoBehaviour {
 		}else{
 			return;
 		}
-		/*
-		print(ends[0].ToString() + ends[2].ToString());
-		Vector3 pos = transform.position;
-		if(playerPos.x - offset < ends[3] || playerPos.x + offset > ends[1]){
-			transform.position = new Vector3(pos.x, playerPos.y + 3.0f, playerPos.z - 5.0f);
-		}else if(playerPos.y < ends[0] || playerPos.y  > ends[2]){
-			transform.position = new Vector3(playerPos.x, pos.y, playerPos.z - 5.0f);
+		
+		
+		if(transform.transform.position.y - offset < LimitY && GameManager.Miss()){
+			transform.position = new Vector3(playerPos.x, transform.position.y, playerPos.z - 5.0f);
 		}else{
-		*/
 			transform.position = new Vector3(playerPos.x, playerPos.y + 3.0f, playerPos.z - 5.0f);
-		//}
+		}
+		
 	}
 	
-	public static void  SetTarget(GameObject target){
+	public void  SetTarget(GameObject target){
+		transform.position = new Vector3(20.0f, 20.0f);
 		m_target = target;
 	}
 	

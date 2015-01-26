@@ -44,9 +44,12 @@ public class GhostKiller2 : Monument {
 				//}
 			}
 			return;
-		}else{
+			
+		}else{//Player is Ghost
 			if(!m_awake){
 				m_awake = true;
+				m_collider.enabled = false;
+				m_collider.enabled = true;
 				spriteRenderer.sprite = m_pic[0];
 				//foreach(Collider2D child in m_colliders){
 				//	child.isTrigger = false;

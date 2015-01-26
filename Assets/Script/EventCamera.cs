@@ -7,7 +7,7 @@ public class EventCamera : MonoBehaviour {
 	private Vector3 previousCameraPos;
 	private Vector3 currentCameraPos;
 	private const float DEFAULT_ZPOS = -10.0f;
-	private float moveingTime = 2.0f;
+	private float moveingTime = 2.5f;
 
 	// Use this for initialization
 	void Start () {
@@ -31,12 +31,11 @@ public class EventCamera : MonoBehaviour {
 	} 
 	
 	protected void AdvancePhase(int nextPhase){
-		
-		if(nextPhase > focusPos.Length){
+		if(nextPhase >= focusPos.Length){
 			return;
 		}
 		
-		float time = nextPhase == 1 ? moveingTime * 2.0f : moveingTime;
+		float time = nextPhase == 1 ? moveingTime * 3.0f : moveingTime;
 		
 		iTween.MoveTo(gameObject, focusPos[nextPhase], time);
 	

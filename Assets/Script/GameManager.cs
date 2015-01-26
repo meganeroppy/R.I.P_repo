@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour {
 	public static int player_life;
 	private const int DEFAULT_LIFE = 9;
 	public static int player_health;
-	private bool playerIsBorn = false;
+	public static bool playerIsBorn = false;
 	private bool StageMakingHasBeenExecuted = false;
 	private int m_sceneIdx = 0;
 	
@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour {
 		cleared = false;
 		gameover = false;
 		inMissingDirection = false;
+		playerIsBorn = false;
 		openingDirectionIsCompleted = false;
 		
 		switch(Application.loadedLevelName.ToString()){
@@ -132,11 +133,13 @@ public class GameManager : MonoBehaviour {
 				SetLoadingSkin(false);
 			}
 		
-			if(!playerIsBorn && player == null){
+			if(!playerIsBorn && player == null && StageMakingHasBeenExecuted){
 				if(GameObject.FindWithTag("Player")){
 					player = GameObject.FindWithTag("Player").GetComponent<Player>();
 					player.SendMessage("init", this.gameObject);
 					playerIsBorn = true;
+					GameObject.FindWithTag("MainCamera").GetComponent<MainCamera>().enabled = true;
+					
 				}
 			}
 		}
@@ -370,6 +373,8 @@ public class GameManager : MonoBehaviour {
 		ReassignScripts();
 		mainCamera.SendMessage("ReleaseTarget");
 		inMissingDirection = true;
+		
+		//player.SendMessage("GetExorcised");
 		
 		GetComponent<InputManager> ().enabled = false;
 		

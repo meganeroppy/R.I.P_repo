@@ -12,7 +12,7 @@ public class Garbage : Enemy {
 	protected override void Start ()
 	{
 		base.Start ();
-		current_health = 3;
+		current_health = 2;
 		attack_power = 19.0f;
 		invincible = true;
 

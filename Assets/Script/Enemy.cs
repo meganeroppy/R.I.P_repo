@@ -124,7 +124,9 @@ public class Enemy : Character {
 		if (dying) {
 			Destroy (this.gameObject);
 			if(Random.Range(0.0f, 1.0f) < drop_Rate){
-				Instantiate(m_dropItem, transform.position + new Vector3(0,0,1), transform.rotation);
+				Vector3 pos = transform.position;
+				Vector3 myColsCenter = new Vector3( pos.x + m_cols[0].center.x , pos.y + m_cols[0].center.y, transform.position.z);
+				Instantiate(m_dropItem, myColsCenter, transform.rotation);
 			}
 		}
 	}

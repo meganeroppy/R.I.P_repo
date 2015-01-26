@@ -9,15 +9,17 @@ public class BG_near : MonoBehaviour {
 	private Vector3 distanceFromOrigin;
 	private GameObject target;
 	private float OffsetY = 5.0f;
+	//private float OffsetY = 0.0f;
 	
 	void Start(){
 		target = GameObject.FindWithTag("Player");
+		//target = GameObject.FindWithTag("MainCamera");
 		bornPos = target.transform.position; 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(target == null){
+		if(target == null || GameManager.Miss()){
 			return;
 		}
 		

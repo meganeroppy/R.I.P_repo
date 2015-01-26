@@ -21,7 +21,7 @@ public class Player : Walker {
 	private float m_attackTimer = 0.0f;
 	private const float ATTACK_INTERVAL = 0.3f;
 	private float m_savedSpiritVal = 0.0f;
-	private Vector2[] colPos_liveing = new Vector2[2];
+	private Vector2[] colPos_living = new Vector2[2];
 	private float m_nonGhostTimer = 0.0f;
 	
 	//Script
@@ -36,12 +36,7 @@ public class Player : Walker {
 	
 	protected override void Start(){
 		m_savedSpiritVal = current_spirit;
-		colPos_liveing[0] = new Vector2(-0.2f, 1.5f);
-		colPos_liveing[1] = new Vector2(-0.2f, 0.5f);
-		for (int i = 0 ; i < m_colliders.Length ; i++) {
-			//col.isTrigger = false;
-			(m_colliders[i] as CircleCollider2D).center = colPos_liveing[i];
-		}
+
 		GameObject obj = Instantiate(chargingEffect, transform.position + new Vector3(0,0,1), transform.rotation) as GameObject;
 		obj.transform.parent = transform;
 	}
@@ -78,8 +73,14 @@ public class Player : Walker {
 		living = true;
 		m_colliders = GetComponents<Collider2D> ();
 		
+		colPos_living[0] = new Vector2(-0.2f, 1.5f);
+		colPos_living[1] = new Vector2(-0.2f, 0.5f);
+		for (int i = 0 ; i < m_colliders.Length ; i++) {
+			//col.isTrigger = false;
+			(m_colliders[i] as CircleCollider2D).center = colPos_living[i];
+		}
+		
 		manager.SendMessage("EnableUI");
-		GameObject.FindWithTag("MainCamera").GetComponent<MainCamera>().enabled = true;
 		
 		manager.SendMessage("ApplyRespawnPoint", transform.position + new Vector3(0.0f, -3.0f, 0.0f));
 	
@@ -141,8 +142,6 @@ public class Player : Walker {
 		if(m_nonGhostTimer > 0.0f){
 			m_nonGhostTimer -= Time.deltaTime;
 		}
-		
-		
 	}
 
 	protected void OnEnter2D(GameObject col){
@@ -306,7 +305,7 @@ public class Player : Walker {
 		rigidbody2D.gravityScale = DEFAULT_GRAVITY_SCALE;
 		for (int i = 0 ; i < m_colliders.Length ; i++) {
 			//col.isTrigger = false;
-			(m_colliders[i] as CircleCollider2D).center = colPos_liveing[i];
+			(m_colliders[i] as CircleCollider2D).center = colPos_living[i];
 		}
 		//renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
 		current_status = STATUS.IDLE;
@@ -362,7 +361,7 @@ public class Player : Walker {
 	
 	private void GetExorcised(){
 		
-		if(GameManager.Miss()){
+		if(current_status == STATUS.GONE){
 			return;
 		}
 		
@@ -393,12 +392,22 @@ public class Player : Walker {
 		rigidbody2D.gravityScale = DEFAULT_GRAVITY_SCALE;
 		for (int i = 0 ; i < m_colliders.Length ; i++) {
 			//col.isTrigger = false;
-			(m_colliders[i] as CircleCollider2D).center = colPos_liveing[i];
+			(m_colliders[i] as CircleCollider2D).center = colPos_living[i];
 			m_colliders[i].enabled = true;
 			
 		}
 		anim.SetTrigger("t_init");
 		init ();
 	}
+	
+	/*
+	protected void OnCollisionStay2D(Collision2D col){
+		if(col.gameObject.tag.Equals("Ground")){
+			//Vector2 vel = rigidbody2D.velocity;
+			//rigidbody2D.AddForce(new Vector2(-vel.x * 100, 0.0f));
+			
+		}
+	}
+	*/
 	
 }

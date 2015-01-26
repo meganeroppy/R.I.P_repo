@@ -29,7 +29,7 @@ public class Wraith : Flyer {
 		
 		m_homePos = transform.position;
 		rigorTimer = WARMINGUP;
-		
+		m_collider.enabled = false;
 		m_timer = Random.Range(0, 360);
 		}
 
@@ -51,6 +51,7 @@ public class Wraith : Flyer {
 				if(!GameManager.CheckCurrentPlayerIsGhost() || GameManager.CheckCurrentPlayerIsHidden() || GameManager.Miss()){
 					m_awaking = false;
 					readyToAct = false;
+					m_collider.enabled = false;
 					rigorTimer = WARMINGUP;
 				}
 			
@@ -72,6 +73,7 @@ public class Wraith : Flyer {
 					if(!readyToAct){
 						if(rigorTimer <= 0.0f ){
 							 readyToAct = true;
+							m_collider.enabled = true;
 						}else{
 							rigorTimer -= Time.deltaTime;
 						}

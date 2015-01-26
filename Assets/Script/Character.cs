@@ -26,6 +26,9 @@ public class Character : StageObject {
 	protected Vector2 JUMP_FORCE_BASE = new Vector2 (0.0f, 600.0f);
 	protected Vector2 jump_force;
 	protected const float WALK_SPEED_BASE = 8.5f;
+//	protected const float WALK_SPEED_BASE = 2500.0f;
+//	protected const float WALK_SPEED_MAX = 10.0f;
+	
 	protected float attack_power;
 	protected const float ATTACK_DURATION = 0.4f;
 	protected const float DAMAGE_DURATION = 1.0f;
@@ -41,6 +44,8 @@ public class Character : StageObject {
 	protected LayerMask layer_spikyWire;
 	
 	protected const float MOVE_SPEED_BASE = 8.5f;
+//	protected const float MOVE_SPEED_BASE = 500.0f;
+//	protected const float MOVE_SPEED_MAX = 30.0f;
 	protected Vector2 move_speed;
 
 	//Animator
@@ -149,7 +154,6 @@ public class Character : StageObject {
 				current_status = STATUS.IDLE;
 			}else{
 				if(!grounded){
-					//transform.parent = null;
 					current_status = rigidbody2D.velocity.y <= 0.0f ? STATUS.JUMP_DOWN : STATUS.JUMP_UP;
 
 				}
@@ -161,9 +165,11 @@ public class Character : StageObject {
 			if(rigorState <= 0){
 				current_status = STATUS.IDLE;
 			}
+			
 			if(!grounded){
 			transform.position += new Vector3(move_speed.x * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
 			}
+			
 			break;
 		case STATUS.DAMAGE:
 			rigorState -= 1.0f * Time.deltaTime;
@@ -186,15 +192,18 @@ public class Character : StageObject {
 		case STATUS.DYING:
 			break;
 		case STATUS.GHOST_IDLE:
+		
 			if(rigidbody2D.velocity != Vector2.zero){
 				rigidbody2D.velocity = Vector2.zero;
 			}
 			//Ghost move
 			transform.position += new Vector3(move_speed.x * MOVE_SPEED_BASE * Time.deltaTime * 0.7f, move_speed.y * MOVE_SPEED_BASE * Time.deltaTime * 0.7f, 0.0f);
 			break;
+			
 		case STATUS.GONE:
 		
 			move_speed = Vector2.zero;
+			
 			if(rigidbody2D)
 				rigidbody2D.velocity = Vector2.zero;
 			
@@ -203,6 +212,56 @@ public class Character : StageObject {
 			break;	
 		}
 	}
+/*
+	protected virtual void FixedUpdate(){
+		float velocityY = rigidbody2D.velocity.y;
+		
+			
+		switch (current_status) {
+		case STATUS.IDLE:
+			break;
+		case STATUS.JUMP_UP:
+		case STATUS.JUMP_DOWN:
+		case STATUS.WALK:
+			if(Mathf.Abs( rigidbody2D.velocity.x) < WALK_SPEED_MAX ){
+				rigidbody2D.AddForce(new Vector2(move_speed.x * WALK_SPEED_BASE * Time.deltaTime , velocityY));
+			}
+//			transform.position += new Vector3(move_speed.x * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
+			break;
+		case STATUS.ATTACK:
+			
+			if(!grounded){
+				if(Mathf.Abs( rigidbody2D.velocity.x) < WALK_SPEED_MAX ){
+					rigidbody2D.AddForce(new Vector2(move_speed.x * WALK_SPEED_BASE * Time.deltaTime , velocityY));
+				}				//transform.position += new Vector3(move_speed.x * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
+			}
+			break;
+		case STATUS.DAMAGE:
+
+			break;
+			
+		case STATUS.DYING:
+			break;
+		case STATUS.GHOST_IDLE:
+			if(rigidbody2D.velocity != Vector2.zero){
+				rigidbody2D.velocity = Vector2.zero;
+			}
+			//Ghost move
+			rigidbody2D.velocity = new Vector2(move_speed.x * MOVE_SPEED_BASE * Time.deltaTime * 0.7f, move_speed.y * MOVE_SPEED_BASE * Time.deltaTime * 0.7f);
+			
+			//transform.position += new Vector3(move_speed.x * MOVE_SPEED_BASE * Time.deltaTime * 0.7f, move_speed.y * MOVE_SPEED_BASE * Time.deltaTime * 0.7f, 0.0f);
+			break;
+		case STATUS.GONE:
+			
+			if(rigidbody2D){
+				rigidbody2D.velocity = Vector2.zero;
+			}
+			break;
+		default:
+			break;	
+		}
+	}
+*/
 
 	protected bool CheckIsJumpable(){
 		if (current_status == STATUS.IDLE || current_status == STATUS.WALK) {

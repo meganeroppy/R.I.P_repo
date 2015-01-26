@@ -92,6 +92,9 @@ public class StageObject : MonoBehaviour {
 	}
 
 	protected virtual void ApplyHealthDamage(int value){
+		if(invincible){
+			return;
+		}
 		if(m_visible){
 			sound.PlaySE ("Damage", 1.0f);
 		}

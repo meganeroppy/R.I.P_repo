@@ -24,7 +24,7 @@ public class EventManager : MonoBehaviour
 	private bool ended = false;
 
 	private float waiting = 0.0f;
-	private int[] wait = {1,1,1,1,1,1,1,1,1,1,1,1,1};
+	private int[] wait = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 	private UILabel label_pressButton;
 	private UISprite blackScreen;
 	private AudioSource m_audio;
@@ -86,8 +86,12 @@ public class EventManager : MonoBehaviour
 		}
 	}
 	
-	private void AdvanceEvent ()
-	{
+	private void AdvanceEvent (){
+	
+		if(ended){
+			return;
+		}
+	
 		cur_phase++;
 		if (cur_phase == numOfPhase-1) {
 			EndEvent ();
