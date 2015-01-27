@@ -59,8 +59,6 @@ public class StageMaker : MonoBehaviour {
 			for(int wIdx = 0; wIdx < stage_size.x ;wIdx++){
 				string p_code = pieces[wIdx, hIdx];	
 				
-				
-				
 				CreateStagePiece(p_code, new Vector3(wIdx * GameManager.PIECE_SCALE, stage_size.y - (hIdx * GameManager.PIECE_SCALE), 0.0f));
 				//Analyze code
 				

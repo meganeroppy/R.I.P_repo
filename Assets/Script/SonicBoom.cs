@@ -9,6 +9,12 @@ public class SonicBoom : AttackZone {
 
 	private float LIFE_TIME = 0.7f;
 	private float m_pasted_time_from_born;
+	
+	
+	public Sprite[] pic = new Sprite[2];
+	private int cur_frame = 0; 
+	public float animInterval = 1.0f;
+	private float m_timer;
 
 	// Use this for initialization
 	protected override void Start () {
@@ -16,6 +22,9 @@ public class SonicBoom : AttackZone {
 		base.Start ();
 		m_pasted_time_from_born = 0.0f;
 		attack_power = 2.0f;
+		cur_frame = 0;
+		spriteRenderer.sprite = pic[cur_frame];
+		m_timer = 0.0f;
 		
 	}
 
@@ -39,9 +48,20 @@ public class SonicBoom : AttackZone {
 			int dir = current_side == SIDE.RIGHT ? 1 : -1;
 			transform.Translate (new Vector3 (m_base_speed * dir * Time.deltaTime, 0.0f, 0.0f));
 			m_pasted_time_from_born += 1.0f * Time.deltaTime;
+			
+			//About Animaion
+			if(m_timer > animInterval){
+				m_timer = 0.0f;
+				cur_frame = cur_frame == 1 ? 0 : cur_frame + 1;
+				spriteRenderer.sprite = pic[cur_frame];
+				
+			}else{
+				m_timer += Time.deltaTime;
+			}
+			
 			if (m_pasted_time_from_born >= LIFE_TIME) {
-					Destroy (this.gameObject);		
-				}
+				Destroy (this.gameObject);		
+			}
 		}
 	}
 
