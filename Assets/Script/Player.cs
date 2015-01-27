@@ -269,8 +269,10 @@ public class Player : Walker {
 		
 		current_status = STATUS.GHOST_IDLE;
 		Instantiate (effect_transformation, transform.position - new Vector3(0,0,1), transform.rotation);
-		GameObject obj = Instantiate (deadPeace, transform.position, transform.rotation) as GameObject;
-		obj.SendMessage("Flip", current_side);
+		StartCoroutine (ReattachColliders ());
+		
+		GameObject obj = Instantiate (deadPeace) as GameObject;
+		obj.transform.position = transform.position + new Vector3 (0, 0, 0.5f);		obj.SendMessage("Flip", current_side);
 		
 		m_savedSpiritVal = current_spirit;
 		
@@ -282,6 +284,18 @@ public class Player : Walker {
 		
 		GameManager.InformBecomeGhost(true);
 	}
+	
+	
+	protected IEnumerator ReattachColliders(){
+		foreach (CircleCollider2D col in m_colliders) {
+			col.enabled = false;
+		}
+		yield return new WaitForSeconds(0.1f);
+		foreach (CircleCollider2D col in m_colliders) {
+			col.enabled = true;
+		}
+	}
+	/// <param name="value">Value.</param>
 
 	protected override void ApplyHealthDamage(int value){
 		if(invincible){

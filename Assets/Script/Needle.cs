@@ -66,9 +66,8 @@ public class Needle : Monument {
 					m_target.SendMessage ("ApplyHealthDamage", attack_power);
 				}
 			}
-		}else{//For Enemies
-			m_target.SendMessage ("ApplyHealthDamage", attack_power);
-			
+		}else if(other.tag.Equals("Enemy")){//For Enemies
+			other.SendMessage ("ApplyHealthDamage", attack_power);
 		}
 	}
 

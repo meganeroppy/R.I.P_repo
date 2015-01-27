@@ -10,6 +10,7 @@ public class Junk : Enemy {
 	
 	public GameObject bubble;
 	protected float eulerZ_bubbleTexture = -90.0f;
+	protected float def_gravityScale;
 	
 	
 	protected override void Start ()
@@ -24,6 +25,7 @@ public class Junk : Enemy {
 		AWAKE_RANGE = 15.36f;
 		m_awaking = false;
 		rigidbody2D.isKinematic = true;
+		def_gravityScale = rigidbody2D.gravityScale;
 		
 	}
 
@@ -99,10 +101,10 @@ public class Junk : Enemy {
 			}
 		}
 		
-		if(current_status == STATUS.IDLE && grounded && !rigidbody2D.isKinematic){
-			rigidbody2D.isKinematic = true;
-		}else if(current_status == STATUS.WALK && rigidbody2D.isKinematic){
-			rigidbody2D.isKinematic = false;
+		if(current_status == STATUS.IDLE && grounded && rigidbody2D.gravityScale != 0){
+			 rigidbody2D.gravityScale = 0.0f;
+		}else if(current_status == STATUS.WALK && rigidbody2D.gravityScale != def_gravityScale){
+			rigidbody2D.gravityScale = def_gravityScale;
 		}
 	}
 	

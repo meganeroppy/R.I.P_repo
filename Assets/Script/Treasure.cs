@@ -44,6 +44,7 @@ public class Treasure : Item {
 	protected override void Remove ()
 	{
 		base.Remove ();
-		Instantiate(label_treasure, transform.position, transform.rotation);
+		GameObject obj = Instantiate(label_treasure) as GameObject;
+		obj.transform.position = transform.position + new Vector3(0,0,-20);
 	}
 }
