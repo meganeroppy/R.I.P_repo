@@ -45,6 +45,6 @@ public class Treasure : Item {
 	{
 		base.Remove ();
 		GameObject obj = Instantiate(label_treasure) as GameObject;
-		obj.transform.position = transform.position + new Vector3(0,0,-20);
+		obj.transform.position = transform.position + new Vector3(0,0,-6);
 	}
 }
