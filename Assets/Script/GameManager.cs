@@ -4,10 +4,11 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 
-	private string[] scenes = new string[5]{
+	private string[] scenes = new string[6]{
 		"Tutorial",	
 		"Stage01",
 		"Stage02",
+		"StageBoss",
 		"Title",
 		"Event01",
 		
@@ -102,6 +103,8 @@ public class GameManager : MonoBehaviour {
 			goto case "Stage02";
 		case "Stage01":
 		case "Stage02":
+		case "StageBoss":
+			
 			player_life = DEFAULT_LIFE;
 			goto default;
 		case "Tutorial":
@@ -118,7 +121,6 @@ public class GameManager : MonoBehaviour {
 	public void Update(){
 		if( !Application.loadedLevelName.ToString().Contains("Event") ){
 			if( (!Application.loadedLevelName.Contains("old") && !Application.loadedLevelName.Contains("Title")) && !StageMakingHasBeenExecuted ){
-				//int stageIdx = Application.loadedLevelName == "Stage01" ? 0 : 1 ;
 				int stageIdx = 0;
 				while(Application.loadedLevelName != scenes[stageIdx]){
 					stageIdx++;

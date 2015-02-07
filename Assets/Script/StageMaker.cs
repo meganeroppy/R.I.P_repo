@@ -45,7 +45,6 @@ public class StageMaker : MonoBehaviour {
 	
 	protected virtual bool Init(int stageIdx){
 		//Set size of stage pieces;
-		//	CSVReader.DebugOutputGrid( CSVReader.SplitCsvGrid(csv.text) ); 
 		string[,] pieces = CSVReader.SplitCsvGrid(csv[stageIdx].text);
 		
 		Vector2 stage_size = GetStageSize(pieces);
@@ -53,7 +52,7 @@ public class StageMaker : MonoBehaviour {
 		endsOfStage[(int)END.RIGHT] = stage_size.x * GameManager.PIECE_SCALE;
 		endsOfStage[(int)END.BOTTOM] = stage_size.y - (stage_size.y * GameManager.PIECE_SCALE);
 		endsOfStage[(int)END.LEFT] = 0;
-		GameObject.FindWithTag("MainCamera").GetComponent<MainCamera>().SendMessage("SetEndsOfStage", endsOfStage);
+		//.FindWithTag("MainCamera").GetComponent<MainCamera>().SendMessage("SetEndsOfStage", endsOfStage);
 		
 		for(int hIdx = 0; hIdx < stage_size.y ; hIdx++){
 			for(int wIdx = 0; wIdx < stage_size.x ;wIdx++){

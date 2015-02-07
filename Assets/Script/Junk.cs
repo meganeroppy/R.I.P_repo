@@ -31,8 +31,6 @@ public class Junk : Enemy {
 
 	protected override void Update(){
 	
-	
-	
 		anim.SetBool("b_idle", current_status == STATUS.IDLE ? true : false);
 		base.Update();
 		

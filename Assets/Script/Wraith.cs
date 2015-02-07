@@ -41,79 +41,81 @@ public class Wraith : Flyer {
 		anim.SetBool("b_awake", m_awaking || !atHome ? true : false);
 		anim.SetBool("b_attack", m_attacking ? true : false);
 		
-		if(!GameManager.GameOver()){
-			if (m_target == null) {
-				m_target = GameObject.FindWithTag("Player").GetComponent<Player>();	
+		if(GameManager.GameOver() || GameManager.Pause()){
+			return;
+		}
+		if (m_target == null) {
+			m_target = GameObject.FindWithTag("Player").GetComponent<Player>();	
+		}
+		
+		if(m_awaking){
+		
+			if(!GameManager.CheckCurrentPlayerIsGhost() || GameManager.CheckCurrentPlayerIsHidden() || GameManager.Miss()){
+				m_awaking = false;
+				readyToAct = false;
+				m_collider.enabled = false;
+				rigorTimer = WARMINGUP;
 			}
+		
+			if(current_status !=  STATUS.GONE && !GameManager.Miss()){
 			
-			if(m_awaking){
-			
-				if(!GameManager.CheckCurrentPlayerIsGhost() || GameManager.CheckCurrentPlayerIsHidden() || GameManager.Miss()){
-					m_awaking = false;
-					readyToAct = false;
-					m_collider.enabled = false;
-					rigorTimer = WARMINGUP;
-				}
-			
-				if(current_status !=  STATUS.GONE && !GameManager.Miss()){
-				
-					if(PlayerIsInRange()){
-												
-						//Look at Player
-						if (transform.position.x > m_target.transform.position.x) {
-							if (transform.localScale.x < 0) {
-								Flip (SIDE.LEFT);
-							}
-						} else {
-							if(transform.localScale.x > 0){
-								Flip(SIDE.RIGHT);
-							}		
-						}	
-					}
-					if(!readyToAct){
-						if(rigorTimer <= 0.0f ){
-							 readyToAct = true;
-							m_collider.enabled = true;
-						}else{
-							rigorTimer -= Time.deltaTime;
+				if(PlayerIsInRange()){
+											
+					//Look at Player
+					if (transform.position.x > m_target.transform.position.x) {
+						if (transform.localScale.x < 0) {
+							Flip (SIDE.LEFT);
 						}
-					}
-					
+					} else {
+						if(transform.localScale.x > 0){
+							Flip(SIDE.RIGHT);
+						}		
+					}	
 				}
-				
-				if(m_alpha < 1.0f){
-					m_alpha += Time.deltaTime;
-					SetAlpha(m_alpha);
-				}	
-				
-			}else{//Sleeping
-			
-				if(GameManager.CheckCurrentPlayerIsGhost() && !GameManager.CheckCurrentPlayerIsHidden() && !GameManager.Miss()){
-					if(PlayerIsInRange()){
-						m_awaking = true;
-						rigorTimer = WARMINGUP;
-						Invoke("Hawl", 0.65f);
+				if(!readyToAct){
+					if(rigorTimer <= 0.0f ){
+						 readyToAct = true;
+						m_collider.enabled = true;
+					}else{
+						rigorTimer -= Time.deltaTime;
 					}
 				}
-				
-				if(m_alpha > ALPHA_WAITING){
-					m_alpha -= Time.deltaTime;
-					SetAlpha(m_alpha);
-				}
-				
-				Vector3 pos = transform.position;
-				Vector3 newPos = new Vector3( pos.x, pos.y  +  ( (Mathf.Sin (180 * (m_timer) * Mathf.Deg2Rad) * 0.01f) ), pos.z);
-				transform.position = newPos;
-				m_timer += Time.deltaTime;
 				
 			}
 			
-			if(m_alpha < ALPHA_WAITING){
+			if(m_alpha < 1.0f){
 				m_alpha += Time.deltaTime;
+				SetAlpha(m_alpha);
+			}	
+			
+		}else{//Sleeping
+		
+			if(GameManager.CheckCurrentPlayerIsGhost() && !GameManager.CheckCurrentPlayerIsHidden() && !GameManager.Miss()){
+				if(PlayerIsInRange()){
+					m_awaking = true;
+					rigorTimer = WARMINGUP;
+					Invoke("Hawl", 0.65f);
+				}
+			}
+			
+			if(m_alpha > ALPHA_WAITING){
+				m_alpha -= Time.deltaTime;
 				SetAlpha(m_alpha);
 			}
 			
+			Vector3 pos = transform.position;
+			Vector3 newPos = new Vector3( pos.x, pos.y  +  ( (Mathf.Sin (180 * (m_timer) * Mathf.Deg2Rad) * 0.01f) ), pos.z);
+			transform.position = newPos;
+			m_timer += Time.deltaTime;
+			
 		}
+		
+		if(m_alpha < ALPHA_WAITING){
+			m_alpha += Time.deltaTime;
+			SetAlpha(m_alpha);
+		}
+			
+		
 	}
 	
 	protected void Hawl(){

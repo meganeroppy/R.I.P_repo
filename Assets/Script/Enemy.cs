@@ -47,7 +47,7 @@ public class Enemy : Character {
 			if(!m_visible){
 				Destroy(this.gameObject);
 			}else{
-				Instantiate (effectPoint_destroy, transform.position, transform.rotation);
+				Instantiate (Resources.Load("Prefab/EffectPoint_smoke"), transform.position, transform.rotation);
 				if(rigidbody2D)
 					rigidbody2D.gravityScale = 0;
 				current_status = STATUS.GONE;

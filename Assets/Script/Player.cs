@@ -14,10 +14,10 @@ public class Player : Walker {
 	protected float m_colTimer = 0.0f;
 	
 	public GameObject attackZone;
-	public GameObject sonicBoom;
 	public GameObject exorcised_soul;
 	public GameObject deadPeace;
 	public GameObject chargingEffect;
+	
 	private float m_attackTimer = 0.0f;
 	private const float ATTACK_INTERVAL = 0.3f;
 	private float m_savedSpiritVal = 0.0f;

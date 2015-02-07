@@ -38,7 +38,14 @@ public class StageObject : MonoBehaviour {
 	//Script
 	protected SoundManager sound;
 	
+	//Game Object
+	protected GameObject effect_transformation;
+	protected GameObject effectPoint_smoke;
+	
 	protected virtual void Awake(){
+		
+		effect_transformation = Resources.Load("Prefab/Effect_transformation") as GameObject;
+		effectPoint_smoke = Resources.Load("Prefab/EffectPoint_smoke") as GameObject;
 		sound = GameObject.Find ("GameManager").GetComponent<SoundManager>();
 	}
 	

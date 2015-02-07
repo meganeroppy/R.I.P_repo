@@ -40,6 +40,7 @@ public class Character : StageObject {
 
 	[HideInInspector]
 	public bool grounded;
+	
 	protected LayerMask layer_ground;
 	protected LayerMask layer_spikyWire;
 	
@@ -50,11 +51,7 @@ public class Character : StageObject {
 
 	//Animator
 	protected Animator anim;
-	
-	//GameObject
-	public GameObject effect_transformation;
-	public GameObject effectPoint_destroy;
-	
+			
 	protected CircleCollider2D[] m_cols;
 	
 	protected override void Awake(){
@@ -274,16 +271,6 @@ public class Character : StageObject {
 	protected virtual void Attack(){
 		if (/*grounded && */ current_status != STATUS.GHOST_IDLE && current_status != STATUS.DAMAGE && current_health >= 1 ) {
 			current_status = STATUS.ATTACK;
-			/*
-			Vector3 pos = transform.position;
-			Vector3 offset = new Vector3(current_side == SIDE.RIGHT ? 1.7f : -1.7f, 1.5f, -1.0f);
-
-			GameObject attack = Instantiate (attackZone, new Vector3 (pos.x + offset.x, pos.y + offset.y, pos.z + offset.z), transform.rotation) as GameObject;
-			attack.SendMessage("ApplyParentAndExecute", this);
-			sound.PlaySE("Attack", 1.0f);
-			rigorState = ATTACK_DURATION;
-			anim.SetTrigger("t_attack");
-*/
 		}
 	}
 
@@ -339,7 +326,7 @@ public class Character : StageObject {
 		renderer.material.color = Color.white;
 		
 		yield return new  WaitForSeconds(DISAPPEARING_DELAY);
-		Instantiate(effectPoint_destroy, transform.position, transform.rotation);
+		Instantiate(effectPoint_smoke, transform.position, transform.rotation);
 		
 		Disappear ();
 	}

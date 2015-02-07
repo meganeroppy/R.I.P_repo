@@ -7,7 +7,6 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip bgm_ed;
 	public AudioClip bgm_stage;
 	
-	
 	public AudioClip se_goal;
 	public AudioClip se_jump;
 	public AudioClip se_attack;
@@ -29,9 +28,11 @@ public class SoundManager : MonoBehaviour {
 			break;
 		case "Stage01":
 		case "Stage02":
+		case "StageBoss":
+			
 			audio.clip = bgm_stage;
 			
-				//SetBGM(System.DateTime.Now.Hour);
+			//SetBGM(System.DateTime.Now.Hour);
 
 			break;
 			case "Title":
@@ -46,7 +47,6 @@ public class SoundManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
 	}
 	
 	public void PlaySE(string clip){

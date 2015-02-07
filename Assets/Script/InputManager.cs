@@ -72,15 +72,18 @@ public class InputManager : MonoBehaviour {
 			}
 
 			break;//End of case Title
-		case "Main":
-		case "Tutorial":
-		case "Stage01":
-		case "Stage02":
+		case "Event01":
+			
+			break;
+		default:
 		
+		///////////////////////////////////////
+		//Main Game
+		///////////////////////////////////////
 			if(GameManager.GameClear() || !GameManager.CompleteOpneingDirection()){
 				return;
 			}
-		
+			
 			
 			if(!GameManager.Pause()){
 				if (Input.GetKeyDown (KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton7)) {
@@ -89,7 +92,7 @@ public class InputManager : MonoBehaviour {
 				}
 			}else{
 				///In The Pause Menu FROM THIS LINE////////
-			
+				
 				if (Input.GetKeyDown (KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton7)) {
 					GameManager.Pause(false);
 					return;
@@ -127,7 +130,7 @@ public class InputManager : MonoBehaviour {
 			}
 			
 			if (Input.GetKeyDown (KeyCode.Z)
-			|| Input.GetKeyDown (KeyCode.Joystick1Button2) ) {
+			    || Input.GetKeyDown (KeyCode.Joystick1Button2) ) {
 				m_player.SendMessage("Attack", false);		
 			}
 			
@@ -135,7 +138,7 @@ public class InputManager : MonoBehaviour {
 			if(Input.GetKey (KeyCode.Z)
 			   || Input.GetKey (KeyCode.Joystick1Button2) ) {
 				charging += Time.deltaTime;
-			//	print(charging);
+				//	print(charging);
 			}
 			if(Input.GetKeyUp (KeyCode.Z)
 			   || Input.GetKeyUp (KeyCode.Joystick1Button2) ) {
@@ -146,8 +149,8 @@ public class InputManager : MonoBehaviour {
 			}
 			
 			if (Input.GetKeyDown (KeyCode.J) 
-			|| Input.GetKeyDown (KeyCode.X)
-			 || Input.GetKeyDown (KeyCode.Space)
+			    || Input.GetKeyDown (KeyCode.X)
+			    || Input.GetKeyDown (KeyCode.Space)
 			    || Input.GetKeyDown(KeyCode.Joystick1Button0)
 			    || Input.GetKeyDown(KeyCode.Joystick1Button2)
 			    || Input.GetKeyDown(KeyCode.Joystick1Button3)) {
@@ -170,14 +173,11 @@ public class InputManager : MonoBehaviour {
 			
 			float speedX = Input.GetKey( KeyCode.JoystickButton9 ) ? 1.0f : Input.GetKey( KeyCode.JoystickButton11 ) ? -1.0f : analogInputX;
 			float speedY = Input.GetKey( KeyCode.JoystickButton8 ) ? 1.0f : Input.GetKey( KeyCode.JoystickButton10 ) ? -1.0f : analogInputY;
-						
+			
 			Vector2 speed = new Vector2(speedX, speedY);
 			
 			m_player.SendMessage ("UpdateMoveSpeed", speed);
-
-			
-			break;//End of case "Main"
-		default:
+		
 			break;
 		}
 	}
