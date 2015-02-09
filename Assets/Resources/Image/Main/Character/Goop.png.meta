@@ -1,12 +1,16 @@
 fileFormatVersion: 2
-guid: b4c91963e702d40f99896fb5f26a2e54
+guid: 402a7cec51dcf4d3b97ad8a99cbcd85b
 TextureImporter:
   fileIDToRecycleName:
-    21300000: junk_0
-    21300002: junk_1
-    21300004: junk_2
-    21300006: junk_3
-    21300008: junk_4
+    21300000: Goop_0
+    21300002: Goop_1
+    21300004: Goop_2
+    21300006: Goop_3
+    21300008: Goop_5
+    21300010: garbage_7
+    21300012: garbage_10
+    21300014: Goop_4
+    21300016: Goop_6
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -29,7 +33,7 @@ TextureImporter:
   textureFormat: -1
   maxTextureSize: 1024
   textureSettings:
-    filterMode: -1
+    filterMode: 1
     aniso: 16
     mipBias: -1
     wrapMode: 1
@@ -39,7 +43,7 @@ TextureImporter:
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 7
+  alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
@@ -48,55 +52,75 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: junk_0
+    - name: Goop_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 40
-        width: 270
-        height: 260
+        x: 10
+        y: 0
+        width: 198
+        height: 250
       alignment: 7
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: junk_1
+    - name: Goop_1
       rect:
         serializedVersion: 2
-        x: 270
-        y: 40
-        width: 270
-        height: 260
+        x: 302
+        y: 0
+        width: 196
+        height: 294
       alignment: 7
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: junk_2
+    - name: Goop_2
       rect:
         serializedVersion: 2
-        x: 540
-        y: 40
-        width: 270
-        height: 260
-      alignment: 7
-      pivot: {x: 0, y: 0}
+        x: 576
+        y: 0
+        width: 199
+        height: 314
+      alignment: 9
+      pivot: {x: .50999999, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: junk_3
+    - name: Goop_3
       rect:
         serializedVersion: 2
-        x: 810
-        y: 40
-        width: 270
-        height: 260
-      alignment: 7
-      pivot: {x: 0, y: 0}
+        x: 815
+        y: 0
+        width: 199
+        height: 324
+      alignment: 9
+      pivot: {x: .514999986, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: junk_4
+    - name: Goop_4
       rect:
         serializedVersion: 2
-        x: 1080
-        y: 40
-        width: 270
-        height: 260
+        x: 1109
+        y: 0
+        width: 224
+        height: 382
+      alignment: 9
+      pivot: {x: .550000012, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Goop_5
+      rect:
+        serializedVersion: 2
+        x: 1429
+        y: 0
+        width: 222
+        height: 324
+      alignment: 9
+      pivot: {x: .550000012, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Goop_6
+      rect:
+        serializedVersion: 2
+        x: 1708
+        y: 0
+        width: 199
+        height: 311
       alignment: 7
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

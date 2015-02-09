@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Boss : Garbage {
+public class Boss : Goop {
 	
 	protected override void ApplyHealthDamage (int value)
 	{

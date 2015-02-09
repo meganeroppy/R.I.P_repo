@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class JunkGreat : Junk {
+public class StinkyGreat : Stinky {
 
 	protected override void ApplyHealthDamage (int val)
 	{

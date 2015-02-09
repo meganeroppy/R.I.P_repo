@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GarbageSetter : ItemSetter {
-
+public class StinkySetter : ItemSetter {
 	protected override void Start ()
 	{
-		respawnInterval = 15.0f;
+		respawnInterval = 5.0f;
 		base.Start ();
 	}
 }

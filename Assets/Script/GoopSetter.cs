@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class JunkSetter : ItemSetter {
+public class GoopSetter: ItemSetter {
+
 	protected override void Start ()
 	{
-		respawnInterval = 5.0f;
+		respawnInterval = 15.0f;
 		base.Start ();
 	}
 }

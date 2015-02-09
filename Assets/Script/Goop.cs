@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Garbage : Enemy {
+public class Goop : Enemy {
 
 	public GameObject bubble;
 	protected float eulerZ_bubbleTexture = -90.0f;

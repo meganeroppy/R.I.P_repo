@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Junk : Enemy {
+public class Stinky : Enemy {
 
 	private const float DEFALT_SWITCHINGTIME = 3.0f;
 	private float switchingTime = 3.0f;
@@ -100,7 +100,7 @@ public class Junk : Enemy {
 		}
 		
 		if(current_status == STATUS.IDLE && grounded && rigidbody2D.gravityScale != 0){
-			 rigidbody2D.gravityScale = 0.0f;
+			 //rigidbody2D.gravityScale = 0.0f;
 		}else if(current_status == STATUS.WALK && rigidbody2D.gravityScale != def_gravityScale){
 			rigidbody2D.gravityScale = def_gravityScale;
 		}
