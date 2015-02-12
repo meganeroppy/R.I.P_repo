@@ -5,7 +5,7 @@ public class SonicBoom : AttackZone {
 
 	private bool m_isExecuted = false;
 
-	public float m_base_speed;
+	protected float m_base_speed = 20.0f;
 
 	private float LIFE_TIME = 0.7f;
 	private float m_pasted_time_from_born;
@@ -28,7 +28,7 @@ public class SonicBoom : AttackZone {
 		
 	}
 
-	private void Execute(SIDE dir){
+	protected void Execute(SIDE dir){
 		current_side = dir;
 		Flip (dir);		
 		//this.transform.localScale.x = dir == 1 ? -1 : 1; 

@@ -72,7 +72,8 @@ public class Stinky : Enemy {
 					GameObject obj = Instantiate(effect_transformation, transform.position, transform.rotation) as GameObject;
 					obj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 					obj.renderer.material.color = new Color(1,1,1,0.5f);
-					obj.transform.parent = transform.parent.transform;
+					//obj.transform.parent = transform.parent.transform;
+					obj.transform.parent = transform;
 				}else{
 					m_effectTimer += Time.deltaTime;
 				}
@@ -103,6 +104,11 @@ public class Stinky : Enemy {
 			 //rigidbody2D.gravityScale = 0.0f;
 		}else if(current_status == STATUS.WALK && rigidbody2D.gravityScale != def_gravityScale){
 			rigidbody2D.gravityScale = def_gravityScale;
+		}
+		
+		if(isOrphan && current_health > 0 && m_alpha < 1.0f){
+			m_alpha += Time.deltaTime;
+			SetAlpha(m_alpha);
 		}
 	}
 	

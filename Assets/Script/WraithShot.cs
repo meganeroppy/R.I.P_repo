@@ -4,9 +4,9 @@ using System.Collections;
 public class WraithShot : Bullet {
 
 	protected float offsetEularZ = -90.0f;
-	public Sprite[] bubble_pic;
+	public Sprite[] pics;
 	protected int current_frame = 0;
-	protected float counter = 0.0f;
+	protected float m_timer = 0.0f;
 	protected float animInterval = 0.075f;
 	
 	protected override void Start ()
@@ -23,12 +23,12 @@ public class WraithShot : Bullet {
 	{
 		base.Update ();
 		
-		if(counter > animInterval && !dying){
-			counter = 0.0f;
+		if(m_timer > animInterval && !dying){
+			m_timer = 0.0f;
 			current_frame = current_frame == 2 ? 0 : current_frame+1;
-			spriteRenderer.sprite = bubble_pic[current_frame];
+			spriteRenderer.sprite = pics[current_frame];
 		}else{
-			counter += Time.deltaTime;
+			m_timer += Time.deltaTime;
 		}
 		
 		if(dying){
@@ -46,20 +46,7 @@ public class WraithShot : Bullet {
 	}
 	
 	protected override void OnTriggerEnter2D(Collider2D col){
-	return;
-	
-	/*
-		if(dying){
-			return;
-		}
-		
-		if (col.gameObject.tag == "Player") {
-			Crash(col.gameObject);
-		}else if(col.gameObject.tag == "Ground"){
-			Die();
-		}
-		
-		*/
+		return;
 	}
 	
 	protected override void OnCollisionEnter2D(Collision2D col){
@@ -81,7 +68,7 @@ public class WraithShot : Bullet {
 		dying = true;
 		
 		rigidbody2D.velocity = Vector2.zero;
-		spriteRenderer.sprite = bubble_pic[3];
+		spriteRenderer.sprite = pics[3];
 		m_collider.enabled = false;
 	}
 	

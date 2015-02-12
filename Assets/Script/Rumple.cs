@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Rumple : Flyer {
 
-	protected float m_alpha = 0.0f;
 	protected const float ALPHA_WAITING = 0.1f;
 
 	enum ACTION_PETTERN{
@@ -43,6 +42,8 @@ public class Rumple : Flyer {
 		while (Mathf.Abs( m_randomNum) <= 0.2f) {
 			m_randomNum = Random.Range (-1.0f, 1.0f);
 		}
+		
+		m_alpha = 0.0f;
 		
 		SetAlpha(m_alpha);
 		

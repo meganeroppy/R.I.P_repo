@@ -23,6 +23,8 @@ public class ItemSetter : Monument {
 
 	//Property
 	protected bool SetonAwake = true;
+	protected bool oneShot = false;
+	protected bool summoned = false;
 
 	//Game Object
 	public GameObject[] item = new GameObject[3];
@@ -36,12 +38,13 @@ public class ItemSetter : Monument {
 		SpriteRenderer sRenderer = GetComponent<SpriteRenderer>();
 		sRenderer.enabled = false;
 		
-		if(SetonAwake){
+		
+		if(SetonAwake && !summoned){
 			CreateItem();
+			isReadyToRespawn = false;
+			respawnTimer = respawnInterval;
 		}
-				
-		isReadyToRespawn = false;
-		respawnTimer = respawnInterval;
+
 	}
 
 	protected override void Update(){
@@ -59,7 +62,20 @@ public class ItemSetter : Monument {
 
 		if(isReadyToRespawn){
 			CreateItem();
-			isReadyToRespawn = false;
+			if(oneShot){
+				child.SendMessage("SetAsOrphan", true);
+				
+				for(int i = 0 ; i < transform.childCount ; i++){
+					GameObject obj = transform.GetChild(i).gameObject;
+					if(obj.tag.Equals("Enemy")){
+						obj.transform.parent = transform.parent.transform;
+					}
+				}
+				transform.DetachChildren();
+				Destroy(gameObject);
+			}else{
+				isReadyToRespawn = false;
+			}
 		}else{
 			if(isChildRemoved){
 				respawnTimer -= Time.deltaTime;
@@ -122,6 +138,12 @@ public class ItemSetter : Monument {
 			child.SendMessage("SetAlpha", m_childAlpha);
 		}
 	}
-
+	
+	protected void SetAsOneShot(GameObject caller){
+		transform.parent = caller.transform;
+		oneShot = true;
+		summoned = true;
+		respawnTimer = NOTICE;
+	}
 }
 

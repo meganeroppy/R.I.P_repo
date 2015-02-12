@@ -3,8 +3,6 @@ using System.Collections;
 
 public class Wraith : Flyer {	
 
-
-	protected float m_alpha = 1.0f;
 	protected const float ALPHA_WAITING = 0.5f;
 	protected Vector3 m_homePos;
 	protected bool atHome = true;
@@ -20,6 +18,7 @@ public class Wraith : Flyer {
 		current_health = 3;
 		m_awaking = false;
 		flying_move_speed = 3.0f;
+		m_alpha = 1.0f;
 		
 		AWAKE_RANGE = 20.48f;
 		

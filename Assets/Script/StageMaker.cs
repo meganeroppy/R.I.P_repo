@@ -101,7 +101,7 @@ public class StageMaker : MonoBehaviour {
 			if(v_key > stagePiece.Length){
 				stg = Instantiate(new GameObject("Empty")) as GameObject;
 				Debug.Log("Selected Stage Piece doesn't exist. idx:(" +  pos.x.ToString() + ", " + pos.y.ToString() + ") code:" + p_code.ToString());
-				
+
 			}else{
 				stg = Instantiate(stagePiece[v_key-1]) as GameObject;
 			}
@@ -113,7 +113,7 @@ public class StageMaker : MonoBehaviour {
 		stg.transform.parent = this.transform;
 		
 		float scale = GameManager.PIECE_SCALE / GameManager.DEFAULT_PIECE_SCALE;
-		stg.transform.localScale = new Vector3(stg.transform.localScale.x * scale, stg.transform.localScale.x * scale, scale);
+		stg.transform.localScale = new Vector3(stg.transform.localScale.x * scale, stg.transform.localScale.y * scale, scale);
 		
 		if(v_rotKey != 0){
 			RotateItem(stg, v_rotKey);

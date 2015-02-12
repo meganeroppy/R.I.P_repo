@@ -360,6 +360,8 @@ public class Character : StageObject {
 	public virtual bool CheckIsLiving(){
 		return living;
 	}
+	
+	
 
 	public STATUS GetStatus(){
 		return current_status;

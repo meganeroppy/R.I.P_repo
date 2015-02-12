@@ -12,12 +12,10 @@ public class Effect : StageObject {
 	public bool finished = false;//This variable is handled by the Animation
 
 	protected Vector3 offset;
-	protected Animator animator;
 	
 	// Use this for initialization
 	
 	protected override void Start () {
-		animator = GetComponent<Animator>();
 		if(TRACKING){
 			float posZ = transform.position.z;
 			offset = transform.position - transform.parent.transform.position;

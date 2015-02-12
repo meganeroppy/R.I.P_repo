@@ -49,7 +49,7 @@ public class Goop : Enemy {
 			}
 		
 		
-		}else{//Waiting
+		}else{//Not Awaking
 			if(GameManager.CheckCurrentPlayerIsGhost()){
 				return;
 			}
@@ -58,13 +58,13 @@ public class Goop : Enemy {
 				m_awaking = true;
 				rigorTimer = WARMINGUP;
 				anim.SetTrigger("t_showup");
-				
 			}
 		}
-		//anim.SetBool("b_awaking", m_awaking ? true : false);
 		
-		//anim.SetBool("b_idle", current_status == STATUS.IDLE ? true : false);
-		//anim.SetBool("b_damaged", current_status == STATUS.DAMAGE ? true : false);
+		if(isOrphan && current_health > 0 && m_alpha < 1.0f){
+			m_alpha += Time.deltaTime;
+			SetAlpha(m_alpha);
+		}
 	}
 	
 	private void Hide(){
@@ -79,6 +79,13 @@ public class Goop : Enemy {
 			return;
 		}
 		base.ApplyHealthDamage (value);
+		anim.SetTrigger("t_damage");
+	}
+	
+	protected override void InstantDeath ()
+	{
+		m_awaking = true;
+		base.InstantDeath ();
 		anim.SetTrigger("t_damage");
 	}
 

@@ -6,7 +6,6 @@ public class DeadZone : StageObject {
 	public GameObject skull;
 	protected float m_scale = 1.0f;
 	protected float m_defaultScale;
-	protected float m_alpha = 1.0f;
 	protected float m_colorVal_r = 0.0f;
 	protected float m_colorVal_g = 0.0f;
 	protected float m_colorVal_b = 0.0f;
@@ -29,6 +28,7 @@ public class DeadZone : StageObject {
 		spriteRenderer.color = new Color(m_colorVal_r, m_colorVal_g, m_colorVal_b, 1);
 		
 		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+		m_alpha = 1.0f;
 		
 	}
 	

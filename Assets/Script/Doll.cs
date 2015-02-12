@@ -4,7 +4,6 @@ using System.Collections;
 public class Doll : Item {
 
 	private bool m_awake;
-	private float m_alpha = 0.0f;
 
 	// Use this for initialization
 	protected override void Start () {
@@ -13,7 +12,7 @@ public class Doll : Item {
 		m_awake = false;
 		m_collider.enabled = false;
 		effect.enabled = false;
-		
+		m_alpha = 0.0f;
 	}
 	
 	// Update is called once per frame

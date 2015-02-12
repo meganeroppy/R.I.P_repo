@@ -14,6 +14,7 @@ public class Enemy : Character {
 	
 	public GameObject m_dropItem;
 	protected float drop_Rate = 0.2f;
+	protected bool isOrphan = false;
 
 	
 	protected override void Start ()
@@ -108,14 +109,16 @@ public class Enemy : Character {
 	
 	protected virtual bool PlayerIsInRange(){
 		if(Mathf.Abs( transform.position.x - m_target.transform.position.x) < AWAKE_RANGE
-		   && Mathf.Abs( transform.position.y - m_target.transform.position.y) < AWAKE_RANGE
-		){
+		   && Mathf.Abs( transform.position.y - m_target.transform.position.y) < AWAKE_RANGE){
 			return true;
 		}else{
 			return false;
 		}
 	}
 	
+	protected virtual void InstantDeath(){
+		ApplyHealthDamage(current_health);
+	}
 	
 	protected virtual IEnumerator WaitAndExecute(float delay, bool dying){
 		yield return new WaitForSeconds (delay);
@@ -129,5 +132,9 @@ public class Enemy : Character {
 				Instantiate(m_dropItem, myColsCenter, transform.rotation);
 			}
 		}
+	}
+	
+	protected void SetAsOrphan(bool key){
+		isOrphan = key;
 	}
 }

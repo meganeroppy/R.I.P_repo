@@ -5,14 +5,13 @@ public class Sanma : Item {
 
 	private const float LIFETIME = 5.0f;
 	private float m_timer = 0.0f;
-	private float m_alpha = 1.0f;
 	private bool dying = false;
 	
 
 	protected override void Start () {
 		base.Start();
 		item_type = ITEM_TYPE.GAIN_SPIRIT;
-		
+		m_alpha = 1.0f;
 	}
 	
 	protected override void Update () {

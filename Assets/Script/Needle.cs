@@ -67,7 +67,7 @@ public class Needle : Monument {
 				}
 			}
 		}else if(other.tag.Equals("Enemy")){//For Enemies
-			other.SendMessage ("ApplyHealthDamage", attack_power);
+			other.SendMessage ("InstantDeath");
 		}
 	}
 

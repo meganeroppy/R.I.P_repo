@@ -2,8 +2,6 @@
 using System.Collections;
 
 public class Label_CheckPoint : Monument {
-
-	private float m_alpha;
 	
 	// Use this for initialization
 	protected override void Start () {

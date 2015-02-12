@@ -3,11 +3,12 @@ using System.Collections;
 
 public class DeadPeace : StageObject {
 	
-	private float m_alpha = 1.0f;
 	private bool grounded = false;
 	protected override void Start ()
 	{
 		base.Start ();
+		m_alpha = 1.0f;
+		
 	}
 
 	protected override void Update ()
