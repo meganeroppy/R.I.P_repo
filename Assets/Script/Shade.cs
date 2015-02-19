@@ -313,9 +313,9 @@ public class  Shade : Enemy {
 				//wraithHead
 				GameObject obj = Instantiate (wraithHead) as GameObject;
 				obj.transform.position = new Vector3(targetColsCenter.x + offsetX , targetBlockPos.y + ( (i * interval) - offsetToCenter ) + offsetY, pos.z);
-				obj.transform.SetParent(transform.parent.transform);
+				obj.transform.parent = transform.parent.transform;
 				effect.transform.position = obj.transform.position + new Vector3(0,0,-1);
-				effect.transform.SetParent(obj.transform.parent.transform);
+				effect.transform.parent = obj.transform.parent.transform;
 				
 				float delay = delayBase + (timeInterval * (reverse ? (row - i) : i) ) + ( (timeInterval * row) * j );
 				obj.SendMessage("Wait",  delay);
@@ -380,7 +380,7 @@ public class  Shade : Enemy {
 			Vector3 summonPos = m_target.transform.position + new Vector3(offsetX, offsetY, 0);
 			
 			GameObject obj = Instantiate (pets[petKey], summonPos, this.transform.rotation) as GameObject;
-			obj.transform.SetParent(transform.parent.transform);
+			obj.transform.parent = transform.parent.transform;
 			obj.SendMessage("SetAsOneShot", gameObject);
 		}
 		
@@ -393,10 +393,10 @@ public class  Shade : Enemy {
 			
 			GameObject obj = transform.parent.transform.GetChild(idx).gameObject;
 			if(obj.tag.Equals("Enemy") && obj.gameObject != this.gameObject){
-				obj.transform.SetParent(null);
+				obj.transform.parent = null;
 				obj.SendMessage("InstantDeath");
 			}else if(obj.name.Contains("Setter") || obj.name.Contains("wraithHead")){
-				obj.transform.SetParent(null);
+				obj.transform.parent = null;
 				Destroy(obj);
 			}
 			idx--;
