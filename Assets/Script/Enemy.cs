@@ -22,14 +22,12 @@ public class Enemy : Character {
 		base.Start ();
 		attack_power = 5.0f;
 		m_colliders = GetComponents<Collider2D> ();
-
 	}
 	
-	protected override void Update ()
-	{
+	protected override void Update (){
 		if (!GameManager.GameOver()){
 			if(m_target == null){
-			m_target = GameObject.FindWithTag ("Player").GetComponent<Player> ();
+				m_target = GameObject.FindWithTag ("Player").GetComponent<Player> ();
 			}else if(m_targetCols == null){
 				m_targetCols = m_target.GetComponents<CircleCollider2D>(); 
 			}
@@ -117,6 +115,7 @@ public class Enemy : Character {
 	}
 	
 	protected virtual void InstantDeath(){
+		
 		ApplyHealthDamage(current_health);
 	}
 	

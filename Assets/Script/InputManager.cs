@@ -21,9 +21,11 @@ public class InputManager : MonoBehaviour {
 	
 	private Player m_player;
 	public static float charging = 0.0f;
+	private bool invalid = false;
 
 	// Use this for initialization
 	void Start () {
+		invalid = false;
 		switch(Application.loadedLevelName.ToString()){
 		case "Title":
 			break;//End of case Title
@@ -38,6 +40,10 @@ public class InputManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+	
+		if(invalid){
+			return;
+		}
 
 		switch(Application.loadedLevelName.ToString()){
 		case "Title":
@@ -180,6 +186,11 @@ public class InputManager : MonoBehaviour {
 		
 			break;
 		}
+	}
+	
+	private void Invalidate (){
+		m_player.SendMessage ("UpdateMoveSpeed", Vector2.zero);
+		invalid = true;
 	}
 }
 

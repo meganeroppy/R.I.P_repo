@@ -3,7 +3,6 @@ using System.Collections;
 
 public class SanmaBlade : AttackZone {
 
-	private StageObject master = null;
 	private bool charged = false;
 
 	//GameObjects

@@ -8,14 +8,15 @@ public abstract class AttackZone : StageObject {
 		LEFT = -1,
 		RIGHT = 1
 	};
-
+	
 	//System
 	protected float t_time;
-
+	protected StageObject master = null;
+	
 	//Status
 	public bool IS_INVISIBLE = false;
 	protected const float DELAY = 0.1f;
-	protected const float DURATION = 0.4f;
+	protected float DURATION = 0.4f;
 	protected bool hittable = false;
 
 	protected float attack_power = 1.0f;
@@ -46,7 +47,6 @@ public abstract class AttackZone : StageObject {
 	}
    
 	protected override void OnTriggerEnter2D(Collider2D col){
-	
 		if (col.gameObject.tag != "Player" && col.gameObject.tag != "AttackZone") {
 			if(col.gameObject.tag == "Enemy"){
 				
@@ -66,6 +66,8 @@ public abstract class AttackZone : StageObject {
 				
 				Crash(col.gameObject);
 			//	Destroy(this.gameObject);
+			}else if(col.gameObject.tag == "Bullet"){
+				col.gameObject.SendMessage("Die");
 			}
 			/*
 			if(col.gameObject.tag != "Ground"){

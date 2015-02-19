@@ -304,6 +304,11 @@ public class Player : Walker {
 		base.ApplyHealthDamage (value);
 	}
 	
+	protected void HitNeedle(int value){
+		invincible = false;
+		ApplyHealthDamage(value);
+	}
+	
 	protected override void ApplySpiritDamage(float val){
 		if(invincible){
 			return;

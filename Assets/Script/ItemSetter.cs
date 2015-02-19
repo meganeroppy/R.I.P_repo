@@ -28,7 +28,7 @@ public class ItemSetter : Monument {
 
 	//Game Object
 	public GameObject[] item = new GameObject[3];
-	public GameObject notifyingEffect;
+	protected GameObject notifyingEffect;
 	protected GameObject child;
 
 	protected override void Start(){
@@ -38,6 +38,7 @@ public class ItemSetter : Monument {
 		SpriteRenderer sRenderer = GetComponent<SpriteRenderer>();
 		sRenderer.enabled = false;
 		
+		notifyingEffect = SetEffect() as GameObject;
 		
 		if(SetonAwake && !summoned){
 			CreateItem();
@@ -45,6 +46,10 @@ public class ItemSetter : Monument {
 			respawnTimer = respawnInterval;
 		}
 
+	}
+	
+	protected virtual Object SetEffect(){
+		return Resources.Load("Prefab/EvilSpirit");
 	}
 
 	protected override void Update(){
@@ -140,7 +145,6 @@ public class ItemSetter : Monument {
 	}
 	
 	protected void SetAsOneShot(GameObject caller){
-		transform.parent = caller.transform;
 		oneShot = true;
 		summoned = true;
 		respawnTimer = NOTICE;

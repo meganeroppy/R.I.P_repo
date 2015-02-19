@@ -63,7 +63,7 @@ public class Needle : Monument {
 				m_timer = DELAY;
 				
 				if(m_target.GetStatus() != STATUS.DYING){
-					m_target.SendMessage ("ApplyHealthDamage", attack_power);
+					m_target.SendMessage ("HitNeedle", attack_power);
 				}
 			}
 		}else if(other.tag.Equals("Enemy")){//For Enemies

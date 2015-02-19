@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Bullet : StageObject {
 	
-	protected float speed = 15.0f;
+	protected float speed = 7.0f;
 	protected Vector3 m_direction = Vector3.zero;
 	protected Vector2 blow_impact =  new Vector2(100.0f, 50.0f);
 	protected float attack_power = 5.0f;
@@ -22,14 +22,23 @@ public class Bullet : StageObject {
 			return;
 		}
 		
-		if(!dying){
+		if(dying){
+			if(m_alpha <= 0.0f){
+				Destroy(this.gameObject);
+			}else{
+				m_alpha -= Time.deltaTime;
+				SetAlpha(m_alpha);
+			}
+		}else{
 			Vector3 pos = transform.position;
 			transform.position = new Vector3(pos.x + m_direction.x * speed * Time.deltaTime, pos.y + m_direction.y * speed * Time.deltaTime, pos.z);
 		}
+		
 		lifeTime -= Time.deltaTime;
 		if(lifeTime < 0.0f){
 			Die ();
 		}
+		
 	}
 	
 	protected virtual void SetDirectionAndExecute(Vector3 dir){
@@ -58,8 +67,14 @@ public class Bullet : StageObject {
 	}
 	
 	protected virtual void Die(){
-		Destroy(this.gameObject);
-	}
+		if(dying){
+			return;
+		}
+		
+		dying = true;
+		
+		rigidbody2D.velocity = Vector2.zero;
+		m_collider.enabled = false;	}
 	
 	protected virtual void Crash(GameObject other){
 		

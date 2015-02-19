@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class GameManager : MonoBehaviour {
+ public class GameManager : MonoBehaviour {
 
 	private string[] scenes = new string[6]{
 		"Tutorial",	
@@ -393,12 +393,22 @@ public class GameManager : MonoBehaviour {
 		return cleared;
 	}
 	
-	public void GameClear(bool key){
+	IEnumerator WaitAndShowLogo(float delay){
+		yield return new WaitForSeconds (delay);
 		if(!cleared){
 			cleared = true;
-			StartCoroutine (WaitAndExecute (4.0f, "GoToNext"));
-			//Turn of BGM
+			StartCoroutine( WaitAndExecute(4.0f, "GoToNext") );
+			
+		}
+	}
+	
+	public void GameClear(float delay){
+	
+		inputManager.SendMessage("Invalidate");
+		if(!cleared){
+			//Turn off BGM
 			soundManager.SendMessage("FadeoutBGM");
+			StartCoroutine (WaitAndShowLogo (delay));
 			
 		}
 	}

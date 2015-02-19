@@ -21,7 +21,7 @@ public class GameClearUI : UI {
 				uiSprite.enabled = false;
 				//uiSprite.alpha = 1.0f;
 			}
-		}else{//GameOver 
+		}else{//GameClear
 			if(!displaying){
 				displaying = true;
 				uiSprite.enabled = true;

@@ -34,6 +34,7 @@ public class Goop : Enemy {
 				Hide();
 			}
 			
+			//Look at peace
 			if(transform.position.x < m_target.transform.position.x){
 				Flip(SIDE.RIGHT);//Means Left
 			}else{
@@ -88,9 +89,12 @@ public class Goop : Enemy {
 		base.InstantDeath ();
 		anim.SetTrigger("t_damage");
 	}
-
 	
 	private void ThrowGarbage(){
+		if(m_target == null){
+			m_target = GameObject.FindWithTag ("Player").GetComponent<Player> ();
+		}
+		
 		anim.SetTrigger("t_attack");
 		
 		Vector3 pos = transform.position;

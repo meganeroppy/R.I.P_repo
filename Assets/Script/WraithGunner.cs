@@ -33,7 +33,7 @@ public class WraithGunner : Wraith {
 		
 		if(readyToAct){
 			if(m_shotTimer <= 0.0f){
-				ShotToTarget();
+				ShootToTarget();
 				shotCount++;
 				//m_shotTimer = shotCount % 9 == 0 ? SHOT_INTERVAL * 6.0f : shotCount % 3 == 0 ? SHOT_INTERVAL * 3.0f : SHOT_INTERVAL;
 				m_shotTimer = SHOT_INTERVAL;				
@@ -43,7 +43,7 @@ public class WraithGunner : Wraith {
 		}
 	}
 	
-	private void ShotToTarget(){
+	private void ShootToTarget(){
 		//anim.SetTrigger("t_attack");
 		
 		Vector3 pos = transform.position;

@@ -15,13 +15,13 @@ public class Goal : Monument {
 	
 	protected override void OnTriggerEnter2D(Collider2D col){
 		if (col.gameObject.tag == "Player") {
-			gameManager.GameClear(true);		
+			gameManager.GameClear(1.0f);		
 		}
 	}
 
 	protected override void OnCollisionEnter2D(Collision2D col){
 		if (col.gameObject.tag == "Player") {
-			gameManager.GameClear(true);		
+			gameManager.GameClear(1.0f);		
 		}
 	}
 
