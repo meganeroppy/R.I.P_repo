@@ -108,7 +108,6 @@ public class  Shade : Enemy {
 		Debug.Log (current_health);
 		//Switching Attaack mode
 		if(m_awaking){
-			
 			if(m_attackTimer <= 0.0f && cur_mode == MODE.NONE){
 			
 				//Choose attack skill
