@@ -99,11 +99,13 @@ public class  Shade : Enemy {
 		if(current_health <= 0){
 		CancelInvoke();
 		}
-		
-		invincible = m_moving > 0.0f ? true : false;
-		
+		if (m_moving > 0.0f) {
+			invincible = true;
+		}
+
 		m_circleCollider.enabled = m_awaking;
-		
+
+		Debug.Log (current_health);
 		//Switching Attaack mode
 		if(m_awaking){
 			
