@@ -120,7 +120,7 @@ public class  Shade : Enemy {
 		
 		//Switching Attaack mode
 		if(m_awaking){
-			Debug.Log(cur_mode);
+//			Debug.Log(cur_mode);
 			switch(cur_mode){
 			case MODE.NONE :
 				if(m_attackTimer <= 0.0f){
@@ -218,7 +218,7 @@ public class  Shade : Enemy {
 			
 		}else{//Not Awaking
 			if(PlayerIsInRange() && m_moving <= 0.0f){
-				Debug.Log("Awake");
+//				Debug.Log("Awake");
 				m_awaking = true;
 			}
 		}
@@ -271,6 +271,7 @@ public class  Shade : Enemy {
 	//Swing a Sythe
 	private void SwingSythe(){
 		if(cur_mode != MODE.PREP_SYTHE || !anim.GetBool("b_chargeSwing")){
+			cur_mode = MODE.NONE;
 			return;
 		}
 		cur_mode = MODE.SYTHE;
@@ -293,6 +294,7 @@ public class  Shade : Enemy {
 	//Create Cutters
 	private void CutterRain(){
 		if(cur_mode != MODE.PREP_CUTTER || !anim.GetBool("b_chargeMagic")){
+			cur_mode = MODE.NONE;
 			return;
 		}
 		cur_mode = MODE.CUTTER;
@@ -372,6 +374,7 @@ public class  Shade : Enemy {
 	//Create some pets
 	private void SummonPets(){
 		if(cur_mode != MODE.PREP_SUMMON || !anim.GetBool("b_chargeMagic")){
+			cur_mode = MODE.NONE;
 			return;
 		}
 		cur_mode = MODE.SUMMON;
@@ -381,7 +384,7 @@ public class  Shade : Enemy {
 		int num = cur_phase > 2 ? 4 : 2;
 		
 		for(int i = 0 ; i < num ; i++){
-			int petKey = 3;Random.Range(0, cur_phase > 2 ? pets.Length : pets.Length-1);
+			int petKey = Random.Range(0, cur_phase > 2 ? pets.Length : pets.Length-1);
 			
 			float offsetY = 3.0f;
 			float offsetX = i % 2 == 0 ? -6.0f : 6.0f;
@@ -501,6 +504,7 @@ public class  Shade : Enemy {
 	
 	private void SwitchToShootMode(){
 		if(cur_mode != MODE.PREP_SHOOT || !anim.GetBool("b_chargeMagic")){
+			cur_mode = MODE.NONE;
 			return;
 		}
 		anim.SetBool("b_chargeMagic", false);

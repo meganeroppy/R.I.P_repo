@@ -30,7 +30,7 @@ public class DeadPeace : StageObject {
 	{
 		if(!grounded){
 			grounded = true;
-			//m_collider.isTrigger = true;
+				//m_collider.isTrigger = true;
 			//rigidbody2D.gravityScale = 0;
 		}	
 	}
