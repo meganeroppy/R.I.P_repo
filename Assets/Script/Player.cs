@@ -313,6 +313,7 @@ public class Player : Walker {
 		if(invincible){
 			return;
 		}
+		
 		base.ApplySpiritDamage(val);
 		if(current_spirit <= 0.0f){
 			current_health = 0;
@@ -375,7 +376,7 @@ public class Player : Walker {
 	}
 	
 	private void UpdateSpirit(float val){
-		current_spirit += val;
+		current_spirit = current_spirit + val < MAX_SPIRIT ? current_spirit + val : MAX_SPIRIT;
 	}
 	
 	private void GetExorcised(){

@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: a9a409fbc20f94519b3f08f986a324a9
+guid: 51c372651765842c08b977e02fb9a2b2
 TextureImporter:
   fileIDToRecycleName:
-    21300000: shade_charge2_1_0
-    21300002: shade_charge2_1_1
-    21300004: shade_charge2_1_2
-    21300006: shade_charge2_1_3
-    21300008: shade_charge2_1_4
+    21300000: junk2_0
+    21300002: junk2_1
+    21300004: junk2_2
+    21300006: junk2_3
+    21300008: junk2_4
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -48,53 +48,53 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: shade_charge2_1_0
+    - name: junk2_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 113
-        width: 660
-        height: 800
+        y: 40
+        width: 270
+        height: 260
       alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: shade_charge2_1_1
+    - name: junk2_1
       rect:
         serializedVersion: 2
-        x: 660
-        y: 113
-        width: 660
-        height: 800
+        x: 270
+        y: 40
+        width: 270
+        height: 260
       alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: shade_charge2_1_2
+    - name: junk2_2
       rect:
         serializedVersion: 2
-        x: 1320
-        y: 113
-        width: 660
-        height: 800
+        x: 540
+        y: 40
+        width: 270
+        height: 260
       alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: shade_charge2_1_3
+    - name: junk2_3
       rect:
         serializedVersion: 2
-        x: 1980
-        y: 113
-        width: 660
-        height: 800
+        x: 810
+        y: 40
+        width: 270
+        height: 260
       alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: shade_charge2_1_4
+    - name: junk2_4
       rect:
         serializedVersion: 2
-        x: 2640
-        y: 113
-        width: 660
-        height: 800
+        x: 1080
+        y: 40
+        width: 270
+        height: 260
       alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

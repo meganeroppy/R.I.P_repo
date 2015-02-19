@@ -48,15 +48,14 @@ public class StageObject : MonoBehaviour {
 		effect_transformation = Resources.Load("Prefab/Effect_transformation") as GameObject;
 		effectPoint_smoke = Resources.Load("Prefab/EffectPoint_smoke") as GameObject;
 		sound = GameObject.Find ("GameManager").GetComponent<SoundManager>();
+		m_collider = GetComponent<Collider2D> ();
+		spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 	
 	// Use this for initialization
-	protected virtual void Start () {
-	
+	protected virtual void Start () {	
 		invincible = false;
-		m_collider = GetComponent<Collider2D> ();
-		spriteRenderer = GetComponent<SpriteRenderer>();
-		
+
 	}
 	
 	protected virtual bool init(GameObject caller){

@@ -10,7 +10,7 @@ public class Effect_aura : Effect {
 		opacity = 0.9f;
 		transform.Rotate(0.0f, 0.0f, 180.0f);
 		TRACKING = true;
-		if(TRACKING){
+		if(TRACKING && transform.parent != null){
 			offset = transform.parent.transform.position - transform.position ;
 			offset.z = 1.0f;
 			transform.position = transform.parent.transform.position + offset;	
@@ -25,7 +25,7 @@ public class Effect_aura : Effect {
 		}
 		transform.Rotate (0.0f, 0.0f, 4.0f);
 		
-		if(TRACKING){
+		if(TRACKING && transform.parent != null){
 			//offset = transform.parent.transform.position - transform.position ;
 			transform.position = transform.parent.transform.position + offset;	
 		}

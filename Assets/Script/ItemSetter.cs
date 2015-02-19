@@ -30,6 +30,7 @@ public class ItemSetter : Monument {
 	public GameObject[] item = new GameObject[3];
 	protected GameObject notifyingEffect;
 	protected GameObject child;
+	protected bool m_awake = true;
 
 	protected override void Start(){
 		builtOnGround = false;
@@ -53,6 +54,11 @@ public class ItemSetter : Monument {
 	}
 
 	protected override void Update(){
+	
+		if(!m_awake){
+			return;
+		}
+		
 		base.Update();
 		
 		isChildRemoved = true;
@@ -77,7 +83,8 @@ public class ItemSetter : Monument {
 					}
 				}
 				transform.DetachChildren();
-				Destroy(gameObject);
+				m_awake = false;
+				
 			}else{
 				isReadyToRespawn = false;
 			}
@@ -148,6 +155,15 @@ public class ItemSetter : Monument {
 		oneShot = true;
 		summoned = true;
 		respawnTimer = NOTICE;
+	}
+	
+	protected virtual void ResetItem(){
+		if(child != null){
+			Destroy(child);
+		}
+		
+		CreateItem();
+			
 	}
 }
 

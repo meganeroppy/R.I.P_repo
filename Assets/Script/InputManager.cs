@@ -56,7 +56,7 @@ public class InputManager : MonoBehaviour {
 			case  GameManager.SELECTION_TITLE.EVENT1:
 			case  GameManager.SELECTION_TITLE.STAGE1:
 			case  GameManager.SELECTION_TITLE.STAGE2:
-			case  GameManager.SELECTION_TITLE.OPTION:
+			case  GameManager.SELECTION_TITLE.BOSS:
 				if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton9)){
 					GameManager.AcceptInput("Title", GameManager.BUTTON.RIGHT);
 				}

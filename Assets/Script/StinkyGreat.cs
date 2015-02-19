@@ -11,7 +11,7 @@ public class StinkyGreat : Stinky {
 	
 		base.ApplyHealthDamage (val);
 		if(current_health <= 0.0f){
-			Explode();
+			Invoke("Explode", 0.4f);
 		}		
 		
 	}

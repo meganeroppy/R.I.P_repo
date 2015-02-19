@@ -15,6 +15,8 @@ public class Enemy : Character {
 	public GameObject m_dropItem;
 	protected float drop_Rate = 0.2f;
 	protected bool isOrphan = false;
+	protected float dyingDuration = 0.9f;
+	protected float damagingDuration = 0.7f;
 
 	
 	protected override void Start ()
@@ -50,7 +52,7 @@ public class Enemy : Character {
 				if(rigidbody2D)
 					rigidbody2D.gravityScale = 0;
 				current_status = STATUS.GONE;
-				StartCoroutine(WaitAndExecute(0.9f, true));
+				StartCoroutine(WaitAndExecute(dyingDuration, true));
 				//m_collider.isTrigger = true;
 				for (int i = 0 ; i < m_colliders.Length ; i++) {
 					//col.isTrigger = false;
@@ -58,7 +60,7 @@ public class Enemy : Character {
 				}	
 			}
 		} else {
-			StartCoroutine(WaitAndExecute(0.7f, false));
+			StartCoroutine(WaitAndExecute(damagingDuration, false));
 		}
 	}
 	

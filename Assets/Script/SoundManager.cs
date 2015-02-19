@@ -6,6 +6,7 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip bgm_tutorial;
 	public AudioClip bgm_ed;
 	public AudioClip bgm_stage;
+	public AudioClip bgm_boss;
 	
 	public AudioClip se_goal;
 	public AudioClip se_jump;
@@ -28,12 +29,15 @@ public class SoundManager : MonoBehaviour {
 			break;
 		case "Stage01":
 		case "Stage02":
-		case "StageBoss":
 			
 			audio.clip = bgm_stage;
 			
 			//SetBGM(System.DateTime.Now.Hour);
 
+			break;
+		case "StageBoss":
+			audio.clip = bgm_boss;
+			
 			break;
 			case "Title":
 			return;

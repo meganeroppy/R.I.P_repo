@@ -32,7 +32,7 @@ using System.Collections.Generic;
 		EVENT1,
 		STAGE1,
 		STAGE2,
-		OPTION,
+		BOSS,
 		QUIT
 	}
 	[HideInInspector]
@@ -199,6 +199,13 @@ using System.Collections.Generic;
 	}
 	
 	private void Restart(){
+	
+		GameObject[] setters = GameObject.FindGameObjectsWithTag("Setter");
+		for(int i = 0 ; i < setters.Length ; i ++){
+			setters[i].SendMessage("ResetItem");
+		}
+	
+	
 		GameObject obj = GameObject.FindWithTag("Player");
 		obj.GetComponent<Player>().enabled = true;
 		obj.SendMessage("Restart", m_respawnPos);
@@ -233,8 +240,8 @@ using System.Collections.Generic;
 			return "STAGE1";
 		case SELECTION_TITLE.STAGE2:
 			return "STAGE2";
-		case SELECTION_TITLE.OPTION:
-			return "OPTION";
+		case SELECTION_TITLE.BOSS:
+			return "BOSS";
 		default:
 			return "ETC";
 		}
@@ -242,18 +249,7 @@ using System.Collections.Generic;
 	
 	public static int GetPauseStatus(){
 		return (int)current_selection_pause;
-	/*
-		switch(current_selection_pause){
-		case SELECTION_PAUSE.RESUME:
-			return "RESUME";
-		case SELECTION_PAUSE.RESTART:
-			return "RESTART";
-		case SELECTION_PAUSE.QUIT:
-			return "QUIT";
-		default:
-			return "ETC";
-		}
-		*/
+
 	}
 	
 	public static void AcceptInput(string situation, BUTTON btn){
@@ -292,8 +288,8 @@ using System.Collections.Generic;
 			case SELECTION_TITLE.STAGE2:
 				GameStart("Stage02");
 				return;
-			case SELECTION_TITLE.OPTION:
-				//GameStart("PSM Input");
+			case SELECTION_TITLE.BOSS:
+				GameStart("StageBoss");
 				return;
 			default:
 				return;
@@ -323,15 +319,15 @@ using System.Collections.Generic;
 				current_selection_title = SELECTION_TITLE.EVENT1;			
 				return;
 			case SELECTION_TITLE.EVENT1:
-				current_selection_title = dir ? SELECTION_TITLE.STAGE1 : SELECTION_TITLE.OPTION;			
+				current_selection_title = dir ? SELECTION_TITLE.STAGE1 : SELECTION_TITLE.BOSS;			
 				return;
 			case SELECTION_TITLE.STAGE1:
 				current_selection_title = dir ? SELECTION_TITLE.STAGE2 : SELECTION_TITLE.EVENT1;			
 				return;
 			case SELECTION_TITLE.STAGE2:
-				current_selection_title = dir ? SELECTION_TITLE.OPTION : SELECTION_TITLE.STAGE1;			
+				current_selection_title = dir ? SELECTION_TITLE.BOSS : SELECTION_TITLE.STAGE1;			
 					return;
-			case SELECTION_TITLE.OPTION:
+			case SELECTION_TITLE.BOSS:
 				current_selection_title = dir ? SELECTION_TITLE.EVENT1 : SELECTION_TITLE.STAGE2;			
 				return;
 			default:

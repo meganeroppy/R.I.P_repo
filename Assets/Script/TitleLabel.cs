@@ -4,7 +4,7 @@ using System.Collections;
 public class TitleLabel : UI {
 
 	protected UILabel[] uiLabel = new UILabel[5];
-	string[] label = new string[5]{"PressAnyKeyToGetStarted", "Story", "Stage1", "Stage2", "Option"};
+	string[] label = new string[5]{"PressAnyKeyToGetStarted", "Story", "Stage1", "Stage2", "Boss"};
 	//public Transform panel;
 	//public Transform uiLabelPrefab;
 	//private const int NUMOFSELECTION = 4;
@@ -51,7 +51,7 @@ public class TitleLabel : UI {
 				uiLabel[i].alpha = i == 0 ? 0.0f :  i == 3 ? 1.0f : 0.5f;
 			}
 			break;
-			case "OPTION":
+			case "BOSS":
 			for(int i = 0 ; i < uiLabel.Length ; i++){
 				uiLabel[i].alpha = i == 0 ? 0.0f :  i == 4 ? 1.0f : 0.5f;
 			}

@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: 50e91797ed3e54de5bebf4a3033db51f
+guid: 7d742d8558ca5400fa6bb65426dcee5c
 TextureImporter:
   fileIDToRecycleName:
-    21300000: shade_charge2_2_1_0
-    21300002: shade_charge2_2_1_1
-    21300004: shade_charge2_2_1_2
-    21300006: shade_charge2_2_1_3
+    21300000: sakana 1_0
+    21300002: sakana 1_1
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -41,51 +39,31 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 320
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: shade_charge2_2_1_0
+    - name: sakana 1_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 114
-        width: 1000
-        height: 930
-      alignment: 9
-      pivot: {x: .25, y: 0}
+        y: 5
+        width: 1408
+        height: 1318
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: shade_charge2_2_1_1
+    - name: sakana 1_1
       rect:
         serializedVersion: 2
-        x: 1000
-        y: 114
-        width: 1000
-        height: 930
-      alignment: 9
-      pivot: {x: .25, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: shade_charge2_2_1_2
-      rect:
-        serializedVersion: 2
-        x: 2000
-        y: 114
-        width: 1000
-        height: 930
-      alignment: 9
-      pivot: {x: .25, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: shade_charge2_2_1_3
-      rect:
-        serializedVersion: 2
-        x: 3000
-        y: 114
-        width: 1000
-        height: 930
-      alignment: 9
-      pivot: {x: .25, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+        x: 1408
+        y: 97
+        width: 1682
+        height: 1151
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 8, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
