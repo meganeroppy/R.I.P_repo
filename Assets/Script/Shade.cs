@@ -243,6 +243,8 @@ public class  Shade : Enemy {
 	
 	private void GoToNextPhase(){
 		anim.SetTrigger("t_idle");
+		cur_mode = MODE.NONE;
+		
 		///CancelInvoke();
 		
 	/*
@@ -272,6 +274,10 @@ public class  Shade : Enemy {
 		KillPets();
 		
 		cur_phase++;
+		if (cur_phase == 3) {
+			preparationTime *= 0.5f;
+		
+		}
 	}
 	
 	//Swing a Sythe
@@ -282,7 +288,7 @@ public class  Shade : Enemy {
 		}
 		cur_mode = MODE.SYTHE;
 		//anim.ResetTrigger("t_chargeSwing");
-		
+				
 		//anim.SetTrigger("t_swing");
 				
 		Vector3 pos = transform.position;
@@ -329,9 +335,9 @@ public class  Shade : Enemy {
 				//wraithHead
 				GameObject obj = Instantiate (wraithHead) as GameObject;
 				obj.transform.position = new Vector3(targetColsCenter.x + offsetX , targetBlockPos.y + ( (i * interval) - offsetToCenter ) + offsetY, pos.z);
-				//obj.transform.parent = transform.parent.transform;
+				obj.transform.parent = transform.parent.transform;
 				effect.transform.position = obj.transform.position + new Vector3(0,0,-1);
-				//effect.transform.parent = obj.transform.parent.transform;
+				effect.transform.parent = obj.transform.parent.transform;
 				
 				float delay = delayBase + (timeInterval * (reverse ? (row - i) : i) ) + ( (timeInterval * row) * j );
 				obj.SendMessage("Wait",  delay);
