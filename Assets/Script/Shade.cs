@@ -126,7 +126,7 @@ public class  Shade : Enemy {
 				if(m_attackTimer <= 0.0f){
 				
 					//Choose attack skill
-					int choice = cur_phase < 2 ? Random.Range(0,3) : Random.Range(0,4);
+					int choice = 1;//cur_phase < 2 ? Random.Range(0,3) : Random.Range(0,4);
 					if(choice == 0){
 					
 						int petCount = 0;
