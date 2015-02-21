@@ -145,7 +145,7 @@ public class Player : Walker {
 	}
 
 	protected void OnEnter2D(GameObject col){
-		if (col.tag == "Item") {
+		if (col.tag == "Item" || col.tag == "Treasure") {
 			Item item = col.GetComponent<Item> ();
 			switch (item.GetItemType ()) {
 			case "DYING":

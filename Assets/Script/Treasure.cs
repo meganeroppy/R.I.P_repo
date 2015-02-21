@@ -8,8 +8,8 @@ public class Treasure : Item {
 	public Sprite[] pic;
 	public GameObject label_treasure;
 	LayerMask layerMask;
+	private int index = -1;
 	
-
 	protected override void Start ()
 	{
 		base.Start ();
@@ -46,5 +46,10 @@ public class Treasure : Item {
 		base.Remove ();
 		GameObject obj = Instantiate(label_treasure) as GameObject;
 		obj.transform.position = transform.position + new Vector3(0,0,-6);
+		GameObject.Find("GameManager").GetComponent<GameManager>().SendMessage("UpdateTreasureInfo", index);
 	}
+	
+	 protected void SetIndex(int val){
+		index = val;
+	 }
 }
