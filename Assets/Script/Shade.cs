@@ -13,6 +13,8 @@ public class  Shade : Enemy {
 		SYTHE,
 		PREP_SHOOT,
 		SHOOT,
+		WARP_START,
+		WARP_END
 	};
 	private MODE cur_mode = MODE.NONE;
 
@@ -23,7 +25,7 @@ public class  Shade : Enemy {
 	private float moveDuration = 5.0f;
 	private float m_moving = 0.0f;
 	private float[] switchVal = new float[3];
-	private float preparationTime = 2.0f;
+	private float preparationTime = 1.0f;
 	private float prepareTime_sythe = 2.5f;
 	
 	private float m_attackTimer;
@@ -43,7 +45,7 @@ public class  Shade : Enemy {
 	public GameObject sythe;
 	
 	private bool m_escaping = false;
-	private bool m_warping = false;
+	private float warpDur = 0;
 	
 	protected override void Start ()
 	{
@@ -103,7 +105,11 @@ public class  Shade : Enemy {
 			GoToNextPhase();
 		}
 	}
-	
+	/*
+	private void OnGUI(){
+		GUI.Box(new Rect(50, 50, 100, 100), cur_mode.ToString());
+	}
+	*/
 	protected override void Update ()
 	{
 		
@@ -118,15 +124,18 @@ public class  Shade : Enemy {
 		
 		m_circleCollider.enabled = m_awaking;
 		
+		
 		//Switching Attaack mode
 		if(m_awaking){
 //			Debug.Log(cur_mode);
+
+			AnimUpdate();
+			
 			switch(cur_mode){
 			case MODE.NONE :
 				if(m_attackTimer <= 0.0f){
-				
 					//Choose attack skill
-					int choice = 1;//cur_phase < 2 ? Random.Range(0,3) : Random.Range(0,4);
+					int choice = cur_phase < 2 ? Random.Range(0,3) : Random.Range(0,4);
 					if(choice == 0){
 					
 						int petCount = 0;
@@ -141,7 +150,6 @@ public class  Shade : Enemy {
 						if(petCount < 8){
 							cur_mode = MODE.PREP_SUMMON;
 							
-							anim.SetBool("b_chargeMagic", true);
 							m_attackTimer += 4.0f;
 							
 							Invoke("SummonPets", preparationTime);
@@ -151,7 +159,6 @@ public class  Shade : Enemy {
 						
 					}else if(choice == 1){
 						cur_mode = MODE.PREP_CUTTER;
-						anim.SetBool("b_chargeMagic", true);
 						
 						int row = 5;
 						int line = cur_phase >= 2 ? 2 : 1;
@@ -162,14 +169,13 @@ public class  Shade : Enemy {
 						Invoke("CutterRain", preparationTime);
 					}else if(choice == 2){					
 						m_attackTimer += 1.0f;
-						anim.SetBool("b_chargeMagic", true);
 						
-						m_escaping = true;
-						Warp();
+						//m_escaping = true;
+						//Warp("SHOOT");
 						cur_mode = MODE.PREP_SHOOT;
 						Invoke("SwitchToShootMode", preparationTime);
+
 					}else if(choice == 3){
-						anim.SetBool("b_chargeSwing", true);
 						m_attackTimer += 4.0f;
 						cur_mode = MODE.PREP_SYTHE;
 						Invoke("SwingSythe", prepareTime_sythe);
@@ -193,7 +199,7 @@ public class  Shade : Enemy {
 					ShootToTarget();
 					
 					if(bulletCount >= maxBullet){
-						m_attackTimer += 3.0f;
+						m_attackTimer += 1.0f;
 						cur_mode = MODE.NONE;
 					}
 					
@@ -208,7 +214,13 @@ public class  Shade : Enemy {
 			case MODE.SYTHE:
 				cur_mode = MODE.NONE;
 				break;
-				
+			case MODE.WARP_START:
+				warpDur += Time.deltaTime;
+					if(warpDur > 4.0f){
+						warpDur = 0;
+						ShowUp();
+					}
+				break;
 			default:
 				break;
 			}
@@ -231,12 +243,6 @@ public class  Shade : Enemy {
 	
 	private void GoToNextPhase(){
 		anim.SetTrigger("t_idle");
-		anim.SetBool("b_chargeMagic", false);
-		anim.ResetTrigger("t_magic");
-		anim.SetBool("b_chargeSwing", false);
-		anim.ResetTrigger("t_swing");
-		anim.SetBool("b_warpStart", false);
-		anim.ResetTrigger("t_warpEnd");
 		///CancelInvoke();
 		
 	/*
@@ -275,10 +281,9 @@ public class  Shade : Enemy {
 			return;
 		}
 		cur_mode = MODE.SYTHE;
-		anim.SetBool("b_chargeSwing", false);
-		anim.ResetTrigger("t_chargeSwing");
+		//anim.ResetTrigger("t_chargeSwing");
 		
-		anim.SetTrigger("t_swing");
+		//anim.SetTrigger("t_swing");
 				
 		Vector3 pos = transform.position;
 		Vector3 offset = new Vector3(current_side == SIDE.RIGHT ? 7.0f : -7.0f, 0.0f, -1.0f);
@@ -298,8 +303,7 @@ public class  Shade : Enemy {
 			return;
 		}
 		cur_mode = MODE.CUTTER;
-		anim.SetBool("b_chargeMagic", false);
-		anim.SetTrigger("t_magic");
+		//anim.SetTrigger("t_magic");
 		
 		float interval = INTERVAL_BLOCKS;
 		float timeInterval = 0.5f;
@@ -307,7 +311,7 @@ public class  Shade : Enemy {
 		int line = cur_phase >= 2 ? 2 : 1;
 		float offsetToCenter = ( interval * ((row-1) * 0.5f) );
 		float offsetX = 10.24f  * (cur_phase >= 2 ? (Random.Range(0,2) == 1 ? -1 : 1) : 1);
-		float offsetY = -0.5f;
+		float offsetY = 1.24f;
 		float delayBase = 0.5f;
 		bool reverse = Random.Range(0, 2) == 0 ? true : false;
 		
@@ -325,9 +329,9 @@ public class  Shade : Enemy {
 				//wraithHead
 				GameObject obj = Instantiate (wraithHead) as GameObject;
 				obj.transform.position = new Vector3(targetColsCenter.x + offsetX , targetBlockPos.y + ( (i * interval) - offsetToCenter ) + offsetY, pos.z);
-				obj.transform.parent = transform.parent.transform;
+				//obj.transform.parent = transform.parent.transform;
 				effect.transform.position = obj.transform.position + new Vector3(0,0,-1);
-				effect.transform.parent = obj.transform.parent.transform;
+				//effect.transform.parent = obj.transform.parent.transform;
 				
 				float delay = delayBase + (timeInterval * (reverse ? (row - i) : i) ) + ( (timeInterval * row) * j );
 				obj.SendMessage("Wait",  delay);
@@ -378,13 +382,12 @@ public class  Shade : Enemy {
 			return;
 		}
 		cur_mode = MODE.SUMMON;
-		anim.SetBool("b_chargeMagic", false);
 		anim.SetTrigger("t_magic");
 		
-		int num = cur_phase > 2 ? 4 : 2;
+		int num = cur_phase >= 2 ? 4 : 2;
 		
 		for(int i = 0 ; i < num ; i++){
-			int petKey = Random.Range(0, cur_phase > 2 ? pets.Length : pets.Length-1);
+			int petKey = Random.Range(cur_phase > 2 ? 2 : 0, cur_phase >= 2 ? pets.Length : pets.Length-1);
 			
 			float offsetY = 3.0f;
 			float offsetX = i % 2 == 0 ? -6.0f : 6.0f;
@@ -427,41 +430,56 @@ public class  Shade : Enemy {
 	}
 	
 	private Vector3 AnalizeBlockPos(Vector3 colPos){
-		float val = Mathf.Floor(colPos.x / INTERVAL_BLOCKS);
-		float blockPosX = ( val * INTERVAL_BLOCKS ) + INTERVAL_BLOCKS;
-		val = Mathf.Floor((colPos.y / INTERVAL_BLOCKS));
-		float blockPosY = ( val * INTERVAL_BLOCKS ) + INTERVAL_BLOCKS;
-		
+		float blockPosX = 0;
+		int dir = colPos.x > 0 ? 1 : -1;
+		while(Mathf.Abs( blockPosX ) < Mathf.Abs( colPos.y )){
+			blockPosX += INTERVAL_BLOCKS * dir;
+		}
+		float blockPosY = 0;
+		dir = colPos.y > 0 ? 1 : -1;
+		while(Mathf.Abs( blockPosY ) < Mathf.Abs( colPos.y )){
+			blockPosY += INTERVAL_BLOCKS * dir;
+		}
+				
 		return new Vector3(blockPosX, blockPosY, colPos.z);
 	}
 	
-	private void Warp(){
+	private void Warp(string cmd){
 	
-		if(m_warping){
-			m_warping = false;
+		if(cur_mode == MODE.WARP_START){
 			return;
 		}else{
-			m_warping = true;
+			cur_mode = MODE.WARP_START;
 		}
 		
-		m_warpTimer = 3.0f;		
+		m_warpTimer = 4.0f;		
 		
 		m_circleCollider.enabled = false;
-		anim.SetBool("b_warpStart",true);
-		Invoke("ShowUp", 0.5f * Random.Range(1, 3));
+		float dur = 0.5f * Random.Range(1, 3);
+		Invoke("ShowUp", dur);
+		if(cmd == "SHOOT"){
+			Invoke("ShootAfterWarp", dur + 0.5f);
+		}
 	}
 	
+	private void ShootAfterWarp(){
+		cur_mode = MODE.PREP_SHOOT;
+		Invoke("SwitchToShootMode", preparationTime);
+	}
+	
+	private void Warp(){
+		Warp("NONE");
+	}
+		
 	private void ShowUp(){
-	if (!m_warping ||!anim.GetBool ("b_warpStart")) {
+	if (cur_mode != MODE.WARP_START  ||!anim.GetBool ("b_warpStart")) {
 			return;
 		}
-
-		m_warping = false;
 		
+		cur_mode = MODE.WARP_END;		
 		m_circleCollider.enabled = true;
-		anim.SetBool("b_warpStart", false);
 		
-		anim.SetTrigger("t_warpEnd");
+		//anim.SetTrigger("t_warpEnd");
 		
 		Vector3 newPos;
 		int row = 5;
@@ -501,6 +519,23 @@ public class  Shade : Enemy {
 		}
 		
 		m_escaping = false;
+		Invoke("ToDefault", 0.5f);
+	}
+	
+	private void ToDefault(){
+		cur_mode = MODE.NONE;
+	}
+	
+	private void AnimUpdate(){
+		anim.SetBool("b_warpStart", cur_mode == MODE.WARP_START ? true : false);
+		anim.SetBool("b_warpEnd",cur_mode == MODE.WARP_END ? true : false);
+		if(cur_mode == MODE.WARP_START || cur_mode == MODE.WARP_END){
+			return;
+		}
+		anim.SetBool("b_chargeMagic", cur_mode == MODE.PREP_CUTTER || cur_mode == MODE.PREP_SHOOT || cur_mode == MODE.PREP_SUMMON ? true : false);
+		anim.SetBool("b_chargeSwing", cur_mode == MODE.PREP_SYTHE ? true : false);
+		anim.SetBool("b_magic",cur_mode == MODE.CUTTER || cur_mode == MODE.SHOOT || cur_mode == MODE.SUMMON ? true : false);
+		anim.SetBool("b_swing",cur_mode == MODE.SYTHE ? true : false);
 		
 	}
 	
@@ -511,8 +546,7 @@ public class  Shade : Enemy {
 			cur_mode = MODE.NONE;
 			return;
 		}
-		anim.SetBool("b_chargeMagic", false);
-		anim.SetTrigger("t_magic");
+		//anim.SetTrigger("t_magic");
 		
 		bulletCount = 0;
 		maxBullet = 4 + (2 * cur_phase);
