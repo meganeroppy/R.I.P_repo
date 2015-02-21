@@ -28,7 +28,7 @@ public class Label_CheckPoint : Monument {
 		if(m_alpha <= 0.0f){
 			Destroy(this.gameObject);
 		}else{
-			m_alpha -= Time.deltaTime * 0.25f;
+			m_alpha -= Time.deltaTime * 0.125f;
 			Color clr = new Color(1,1,1,m_alpha);
 			renderer.material.color = clr;
 		}

@@ -62,10 +62,12 @@ using System.Collections.Generic;
 	
 	public static int player_life;
 	private const int DEFAULT_LIFE = 9;
-	public static int player_health;
+	//public static int player_health;
 	public static bool playerIsBorn = false;
 	private bool StageMakingHasBeenExecuted = false;
 	private int m_sceneIdx = 0;
+	private int numOfTreasure = 0;
+	private bool[] treasureIsObtained = new bool[5];
 	
 	//Scripts
 	private static SoundManager soundManager;
@@ -130,6 +132,8 @@ using System.Collections.Generic;
 				
 				GameObject.FindWithTag("StageMaker").GetComponent<StageMaker>().SendMessage("Init", stageIdx);
 				GameObject.FindWithTag("Opening").GetComponent<OpeningSet>().SendMessage("Activate");
+				
+				CountTresure();
 				
 				StageMakingHasBeenExecuted = true;
 				SetLoadingSkin(false);
@@ -442,6 +446,47 @@ using System.Collections.Generic;
 	}
 	public static void InformBecomeGhost(bool ghost){
 		IsGhost = ghost;
+	}
+	
+	private void CountTresure(){
+		GameObject[] objs = GameObject.FindGameObjectsWithTag("Treasure");
+		numOfTreasure = objs.Length;
+		
+		for(int i = 0 ; i < numOfTreasure ; i ++){
+			for(int j = i ; j < numOfTreasure ; j++){
+				if(i == j){
+					continue;
+				}
+				if(objs[i].transform.position.x > objs[j].transform.position.x){
+				GameObject obj = objs[i];
+				objs[i] = objs[j];
+				objs[j] = obj;
+				
+				}
+			}
+		}
+		
+		for (int i = 0 ; i < numOfTreasure ; i++){
+			objs[i].SendMessage("SetIndex", i);
+		}
+
+	}
+	
+	private void UpdateTreasureInfo(int idx){
+		if(idx == -1){
+			Debug.Log("This treasure has Not been applied .");
+			return;
+		}
+		
+		treasureIsObtained[idx] = true;
+	}
+	
+	public bool[] GetTreasureInfo(){
+		bool[] treInfo = new bool[numOfTreasure];
+		for(int i = 0 ; i < treInfo.Length ; i++){
+			treInfo[i] = treasureIsObtained[i];
+		}
+		return treInfo;	
 	}
 	
 	public static bool CheckCurrentPlayerIsHidden(){
