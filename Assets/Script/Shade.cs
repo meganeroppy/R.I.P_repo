@@ -415,10 +415,10 @@ public class  Shade : Enemy {
 			
 			GameObject obj = transform.parent.transform.GetChild(idx).gameObject;
 			if(obj.tag.Equals("Enemy") && obj.gameObject != this.gameObject){
-				obj.transform.SetParent(null);
+				obj.transform.parent = null;
 				obj.SendMessage("InstantDeath");
 			}else if(obj.name.Contains("Setter") || obj.name.Contains("Wraith")){
-				obj.transform.SetParent(null);
+				obj.transform.parent = null;
 				Destroy(obj);
 			}
 			idx--;
@@ -438,6 +438,7 @@ public class  Shade : Enemy {
 	private void Warp(){
 	
 		if(m_warping){
+			m_warping = false;
 			return;
 		}else{
 			m_warping = true;
@@ -451,7 +452,10 @@ public class  Shade : Enemy {
 	}
 	
 	private void ShowUp(){
-	
+	if (!m_warping ||!anim.GetBool ("b_warpStart")) {
+			return;
+		}
+
 		m_warping = false;
 		
 		m_circleCollider.enabled = true;
