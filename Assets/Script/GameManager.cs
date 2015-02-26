@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
  public class GameManager : MonoBehaviour {
 
-	private string[] scenes = new string[6]{
+	private string[] scenes = new string[]{
 		"Tutorial",	
 		"Stage01",
 		"Stage02",
 		"StageBoss",
+		"Event02",
 		"Title",
-		"Event01",
-		
+		"Event01",	
 	};
 
 	//Key Assign
