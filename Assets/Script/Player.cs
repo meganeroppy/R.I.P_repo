@@ -161,6 +161,9 @@ public class Player : Walker {
 				UpdateSpirit(12.5f);
 				break;
 			case "TREASURE":
+				if(!living){
+					return;
+				}
 				break;
 			default:
 				break;

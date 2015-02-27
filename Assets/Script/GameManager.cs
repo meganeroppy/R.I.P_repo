@@ -55,8 +55,7 @@ using System.Collections.Generic;
 	private static bool openingDirectionIsCompleted; 
 	public static float DEFAULT_PIECE_SCALE = 5.12f;
 	public static float PIECE_SCALE = 3.20f;
-	
-	
+		
 	public static bool IsGhost = false;
 	public static bool IsHidden = false;
 	
@@ -68,16 +67,19 @@ using System.Collections.Generic;
 	private int m_sceneIdx = 0;
 	private int numOfTreasure = 0;
 	private bool[] treasureIsObtained = new bool[5];
+	private Player player;
 	
+	private static Vector3	m_respawnPos;
+
+	//System
 	//Scripts
 	private static SoundManager soundManager;
 	private static InputManager inputManager;
 	private static GUIManager guiManager;
 	private static MainCamera mainCamera;
-	
-	private Player player;
-	
-	private static Vector3	m_respawnPos;
+	private float saveTimer = 0;
+	private const float SAVE_INTERVAL = 5f;
+
 	
 	void Awake(){
 		Application.targetFrameRate = 30;
@@ -134,7 +136,7 @@ using System.Collections.Generic;
 				GameObject.FindWithTag("Opening").GetComponent<OpeningSet>().SendMessage("Activate");
 				
 				CountTresure();
-				
+
 				StageMakingHasBeenExecuted = true;
 				SetLoadingSkin(false);
 			}
@@ -149,6 +151,13 @@ using System.Collections.Generic;
 				}
 			}
 		}
+		if(saveTimer > SAVE_INTERVAL){
+			saveTimer = 0;
+			PlayerPrefs.Save();
+		}else{
+			saveTimer += Time.deltaTime;
+		}
+
 	}
 	
 	private static void SetLoadingSkin(bool set){
@@ -398,7 +407,7 @@ using System.Collections.Generic;
 		if(!cleared){
 			cleared = true;
 			StartCoroutine( WaitAndExecute(4.0f, "GoToNext") );
-			
+			SaveGame();
 		}
 	}
 	
@@ -409,10 +418,32 @@ using System.Collections.Generic;
 			//Turn off BGM
 			soundManager.SendMessage("FadeoutBGM");
 			StartCoroutine (WaitAndShowLogo (delay));
-			
+
 		}
 	}
-	
+
+	private void SaveGame(){
+		if(Application.loadedLevelName.Contains("Stage")){
+			string stageIndexName;
+
+			for(int i = 0 ; i < numOfTreasure ; i++){
+				stageIndexName = "Treasure_stg" + m_sceneIdx.ToString() + "_idx" + i.ToString();
+				PlayerPrefs.SetInt(stageIndexName, treasureIsObtained[i] ? 1 : 0);
+			}
+		}
+	}
+
+	private void LoadTreauseStatus(){
+		if(Application.loadedLevelName.Contains("Stage")){
+			string stageIndexName;
+
+			for(int i = 0 ; i < numOfTreasure ; i++){
+				stageIndexName = "Treasure_stg" + m_sceneIdx.ToString() + "_idx" + i.ToString();
+				treasureIsObtained[i] = PlayerPrefs.GetInt(stageIndexName, 0) == 1 ? true : false;
+			}
+		}
+	}
+
 	private void ReassignScripts(){
 
 		if(soundManager == null){
@@ -465,9 +496,14 @@ using System.Collections.Generic;
 				}
 			}
 		}
+
+		LoadTreauseStatus();
 		
 		for (int i = 0 ; i < numOfTreasure ; i++){
 			objs[i].SendMessage("SetIndex", i);
+			if(treasureIsObtained[i] == true){
+				objs[i].SendMessage("SetAlpha", 0.25f);
+			}
 		}
 
 	}
