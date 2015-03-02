@@ -35,6 +35,8 @@ using System.Collections.Generic;
 		BOSS,
 		QUIT
 	}
+	
+	
 	[HideInInspector]
 	public static SELECTION_TITLE current_selection_title;
 
@@ -44,6 +46,7 @@ using System.Collections.Generic;
 		RESTART,
 		QUIT
 	}
+	
 	[HideInInspector]
 	public static SELECTION_PAUSE current_selection_pause;
 
@@ -61,7 +64,7 @@ using System.Collections.Generic;
 	
 	public static int player_life;
 	private const int DEFAULT_LIFE = 9;
-	//public static int player_health;
+
 	public static bool playerIsBorn = false;
 	private bool StageMakingHasBeenExecuted = false;
 	private int m_sceneIdx = 0;
@@ -79,7 +82,6 @@ using System.Collections.Generic;
 	private static MainCamera mainCamera;
 	private float saveTimer = 0;
 	private const float SAVE_INTERVAL = 5f;
-
 	
 	void Awake(){
 		Application.targetFrameRate = 30;
@@ -238,7 +240,11 @@ using System.Collections.Generic;
 
 		GameObject[] obj = GameObject.FindGameObjectsWithTag("UI");
 		foreach(GameObject child in obj){
-			child.SendMessage("Activate");
+			if(child.name.Contains("stage")){
+				child.SendMessage("Activate", 12);
+			}else{
+				child.SendMessage("Activate");
+			}
 		}
 	
 	}

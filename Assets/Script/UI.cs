@@ -3,7 +3,7 @@ using System.Collections;
 
 public class UI : MonoBehaviour {
 
-	protected bool displaying;
+	protected bool displaying = false;
 	protected UISprite uiSprite;
 	protected bool activated = false;
 	
