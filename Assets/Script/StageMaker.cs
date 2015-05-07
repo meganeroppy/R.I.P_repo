@@ -43,7 +43,7 @@ public class StageMaker : MonoBehaviour {
 	}
 	*/
 	
-	protected virtual bool Init(int stageIdx){
+	public virtual bool Init(int stageIdx){
 		//Set size of stage pieces;
 		string[,] pieces = CSVReader.SplitCsvGrid(csv[stageIdx].text);
 		

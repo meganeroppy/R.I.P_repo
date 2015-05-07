@@ -134,8 +134,8 @@ using System.Collections.Generic;
 				
 				m_sceneIdx = stageIdx;
 				
-				GameObject.FindWithTag("StageMaker").GetComponent<StageMaker>().SendMessage("Init", stageIdx);
-				GameObject.FindWithTag("Opening").GetComponent<OpeningSet>().SendMessage("Activate");
+				GameObject.FindWithTag("StageMaker").GetComponent<StageMaker>().Init(stageIdx);// SendMessage("Init", stageIdx);
+				GameObject.FindWithTag("Opening").GetComponent<OpeningSet>().Activate();// SendMessage("Activate");
 				
 				CountTresure();
 

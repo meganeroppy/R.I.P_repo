@@ -49,7 +49,7 @@ public class OpeningSet : UI {
 		
 	}
 	
-	protected override void Activate(){
+	public override void Activate(){
 		uiSprite.enabled = true;
 		uiLabel.enabled = true;
 		uiSprite.alpha = 1.0f;

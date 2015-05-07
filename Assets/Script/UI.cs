@@ -19,7 +19,7 @@ public class UI : MonoBehaviour {
 		}
 	}
 
-	protected virtual void Activate(){
+	public virtual void Activate(){
 		activated = true;
 	}
 		
