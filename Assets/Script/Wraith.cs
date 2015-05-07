@@ -49,7 +49,7 @@ public class Wraith : Flyer {
 		
 		if(m_awaking){
 		
-			if(!GameManager.CheckCurrentPlayerIsGhost() || GameManager.CheckCurrentPlayerIsHidden() || GameManager.Miss()){
+			if(!GameManager.GetPlayerIsGhost() || GameManager.CheckCurrentPlayerIsHidden() || GameManager.Miss()){
 				m_awaking = false;
 				readyToAct = false;
 				m_collider.enabled = false;
@@ -89,7 +89,7 @@ public class Wraith : Flyer {
 			
 		}else{//Sleeping
 		
-			if(GameManager.CheckCurrentPlayerIsGhost() && !GameManager.CheckCurrentPlayerIsHidden() && !GameManager.Miss()){
+			if(GameManager.GetPlayerIsGhost() && !GameManager.CheckCurrentPlayerIsHidden() && !GameManager.Miss()){
 				if(PlayerIsInRange()){
 					m_awaking = true;
 					rigorTimer = WARMINGUP;
@@ -124,14 +124,14 @@ public class Wraith : Flyer {
 
 	protected override void OnEnter (GameObject target)
 	{
-		if(target.GetComponent<Player>().CheckIsLiving()){
+		if(target.GetComponent<Player>().GetIsLiving()){
 			return;
 		}else{
 			base.OnEnter (target);
 		}
 	}
 	
-	public override bool CheckIsLiving(){
+	public override bool GetIsLiving(){
 		return m_awaking;
 	}
 	

@@ -134,8 +134,8 @@ using System.Collections.Generic;
 				
 				m_sceneIdx = stageIdx;
 				
-				GameObject.FindWithTag("StageMaker").GetComponent<StageMaker>().Init(stageIdx);// SendMessage("Init", stageIdx);
-				GameObject.FindWithTag("Opening").GetComponent<OpeningSet>().Activate();// SendMessage("Activate");
+				GameObject.FindWithTag("StageMaker").GetComponent<StageMaker>().Init(stageIdx);
+				GameObject.FindWithTag("Opening").GetComponent<OpeningSet>().Activate();
 				
 				CountTresure();
 
@@ -146,7 +146,7 @@ using System.Collections.Generic;
 			if(!playerIsBorn && player == null && StageMakingHasBeenExecuted){
 				if(GameObject.FindWithTag("Player")){
 					player = GameObject.FindWithTag("Player").GetComponent<Player>();
-					player.SendMessage("init", this.gameObject);
+					player.init(this.gameObject);
 					playerIsBorn = true;
 					GameObject.FindWithTag("MainCamera").GetComponent<MainCamera>().enabled = true;
 					
@@ -167,12 +167,12 @@ using System.Collections.Generic;
 		
 		if(set){
 			foreach(GameObject child in obj){
-				child.SendMessage("Activate");
+				child.GetComponent<LoadingSet>().Activate();
 			}
 			
 		}else{
 			foreach(GameObject child in obj){
-				child.SendMessage("Deactivate");
+				child.GetComponent<LoadingSet>().Deactivate();
 			}
 		}
 	}
@@ -221,9 +221,9 @@ using System.Collections.Generic;
 		}
 	
 	
-		GameObject obj = GameObject.FindWithTag("Player");
-		obj.GetComponent<Player>().enabled = true;
-		obj.SendMessage("Restart", m_respawnPos);
+		Player obj = GameObject.FindWithTag("Player").GetComponent<Player>();
+		obj.enabled = true;
+		obj.Restart(m_respawnPos);
 		inMissingDirection = false;
 		Pause(false);
 	}
@@ -388,7 +388,7 @@ using System.Collections.Generic;
 
 	public void Miss(bool key){
 		ReassignScripts();
-		mainCamera.SendMessage("ReleaseTarget");
+		mainCamera.ReleaseTarget();
 		inMissingDirection = true;
 		
 		//player.SendMessage("GetExorcised");
@@ -419,10 +419,10 @@ using System.Collections.Generic;
 	
 	public void GameClear(float delay){
 	
-		inputManager.SendMessage("Invalidate");
+		inputManager.Invalidate();
 		if(!cleared){
 			//Turn off BGM
-			soundManager.SendMessage("FadeoutBGM");
+			soundManager.FadeoutBGM();
 			StartCoroutine (WaitAndShowLogo (delay));
 
 		}
@@ -469,7 +469,7 @@ using System.Collections.Generic;
 		}
 	}
 	
-	private void ApplyRespawnPoint(Vector3 newPos){
+	public void SetRespawnPoint(Vector3 newPos){
 		m_respawnPos = newPos;
 //		Debug.Log("ApplyNewRespawnPos : " + m_respawnPos.ToString());
 	}
@@ -478,7 +478,7 @@ using System.Collections.Generic;
 		return m_respawnPos;
 	}
 	
-	public static bool CheckCurrentPlayerIsGhost(){
+	public static bool GetPlayerIsGhost(){
 		return IsGhost;
 	}
 	public static void InformBecomeGhost(bool ghost){
@@ -506,15 +506,16 @@ using System.Collections.Generic;
 		LoadTreauseStatus();
 		
 		for (int i = 0 ; i < numOfTreasure ; i++){
-			objs[i].SendMessage("SetIndex", i);
+		Treasure tre = objs[i].GetComponent<Treasure>();
+		tre.SetIndex(i);
 			if(treasureIsObtained[i] == true){
-				objs[i].SendMessage("SetAlpha", 0.25f);
+				tre.SetAlpha(0.25f);
 			}
 		}
 
 	}
 	
-	private void UpdateTreasureInfo(int idx){
+	public void SetTreasureInfo(int idx){
 		if(idx == -1){
 			Debug.Log("This treasure has Not been applied .");
 			return;

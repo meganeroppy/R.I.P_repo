@@ -9,11 +9,6 @@ public class DebugView : UI {
 	protected Player player;
 	protected bool grounded;
 	STATUS status;
-	//public Transform panel;
-	//public Transform uiLabelPrefab;
-	//private const int NUMOFSELECTION = 4;
-	//private GameObject[] label = new GameObject[NUMOFSELECTION];
-	//private UILabel[] uiLabel_selection = new UILabel[NUMOFSELECTION];
 	
 	protected override void Start ()
 	{
@@ -36,7 +31,7 @@ public class DebugView : UI {
 		uiLabel.text = "R Stick Vec: " + new Vector2( Input.GetAxis("Right Stick Horizontal"), Input.GetAxis("Right Stick Vertical") ).ToString() + "\nground : " + grounded.ToString() + "\nstatus : " + status.ToString() + "\nfps : " + fps.ToString() ;
 	}
 	
-	protected override void Activate (){
+	public override void Activate (){
 	
 	
 	if(player == null){

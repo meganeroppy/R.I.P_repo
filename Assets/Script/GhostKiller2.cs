@@ -34,7 +34,7 @@ public class GhostKiller2 : Monument {
 			m_timer -= Time.deltaTime;
 		}
 	
-		if(!GameManager.CheckCurrentPlayerIsGhost()){
+		if(!GameManager.GetPlayerIsGhost()){
 			if(m_awake){
 				m_awake = false;
 				spriteRenderer.sprite = m_pic[3];

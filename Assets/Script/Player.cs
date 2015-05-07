@@ -41,12 +41,12 @@ public class Player : Walker {
 		obj.transform.parent = transform;
 	}
 	
-	protected override bool init(GameObject caller){
+	public override bool init(GameObject caller){
 		gameManager = caller.GetComponent<GameManager>();
 		return init();
 	}
 	
-	protected override bool init(){
+	public override bool init(){
 		layer_ground = 1 << 8;
 		
 		if(transform.parent != null){
@@ -68,8 +68,10 @@ public class Player : Walker {
 		}
 		rigidbody2D.velocity = Vector2.zero;
 		
-		GameObject manager = GameObject.Find ("GameManager");
-		sound = manager.GetComponent<SoundManager>();
+		if(gameManager == null){
+			gameManager = GameObject.Find ("GameManager").GetComponent<GameManager>();
+		}
+		sound = gameManager.GetComponent<SoundManager>();
 		living = true;
 		m_colliders = GetComponents<Collider2D> ();
 		
@@ -80,9 +82,9 @@ public class Player : Walker {
 			(m_colliders[i] as CircleCollider2D).center = colPos_living[i];
 		}
 		
-		manager.SendMessage("EnableUI");
+		gameManager.EnableUI();
 		
-		manager.SendMessage("ApplyRespawnPoint", transform.position + new Vector3(0.0f, -3.0f, 0.0f));
+		gameManager.SetRespawnPoint(transform.position + new Vector3(0.0f, -3.0f, 0.0f));
 	
 		GameManager.InformBecomeGhost(false);
 		invincible = false;
@@ -169,7 +171,7 @@ public class Player : Walker {
 				break;
 			}
 			sound.PlaySE ("GetItem", 1.0f);
-			col.SendMessage("Remove");
+			item.Remove();
 		}
 	}
 	
@@ -181,7 +183,7 @@ public class Player : Walker {
 		OnEnter2D(col.gameObject);
 	}
 
-	protected void Jump(){
+	public void Jump(){
 		if ( grounded && (current_status == STATUS.WALK || current_status == STATUS.IDLE )) {
 			rigidbody2D.AddForce (JUMP_FORCE_BASE);
 			anim.SetTrigger("t_jump_start");
@@ -207,7 +209,7 @@ public class Player : Walker {
 		}
 	}
 	
-	protected void CancelMotion(){
+	public void CancelMotion(){
 		if(current_spirit <= 0.0f){
 			return;
 		}
@@ -225,7 +227,7 @@ public class Player : Walker {
 		base.Flip (side);
 	}
 
-	private void Attack(bool chargedAttack){
+	public void Attack(bool chargedAttack){
 		if(m_attackTimer > 0.0f){
 			return;
 		}
@@ -235,17 +237,15 @@ public class Player : Walker {
 			
 			Vector3 pos = transform.position;
 			Vector3 offset = new Vector3(current_side == SIDE.RIGHT ? 1.3f : -1.3f, 1.5f, -1.0f);
-			
-			GameObject obj;
-			
-			obj = Instantiate (attackZone, new Vector3 (pos.x + offset.x, pos.y + offset.y, pos.z + offset.z), transform.rotation) as GameObject;
+						
+			GameObject obj = Instantiate (attackZone, new Vector3 (pos.x + offset.x, pos.y + offset.y, pos.z + offset.z), transform.rotation) as GameObject;
 			if(chargedAttack){
-				obj.SendMessage("SetAsCharged");
+				obj.GetComponent<SanmaBlade>().SetAsCharged();
 				sound.PlaySE("Attack2", 1.0f);
 			}else{
 				sound.PlaySE("Attack", 1.0f);
 			}
-			obj.SendMessage("ApplyParentAndExecute", this);
+			obj.GetComponent<SanmaBlade>().SetParentAndExecute(this);
 			
 			rigorState = ATTACK_DURATION;
 			anim.SetTrigger("t_attack");
@@ -391,7 +391,7 @@ public class Player : Walker {
 		current_status = STATUS.GONE;
 	
 		renderer.enabled = false;
-		gameManager.SendMessage("Miss", true);
+		gameManager.Miss(true);
 		
 		move_speed = Vector2.zero;
 		rigidbody2D.velocity = Vector2.zero;

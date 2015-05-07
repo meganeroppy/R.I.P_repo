@@ -58,12 +58,12 @@ public class StageObject : MonoBehaviour {
 
 	}
 	
-	protected virtual bool init(GameObject caller){
+	public virtual bool init(GameObject caller){
 		transform.parent = caller.transform;
 		return init();
 	}
 	
-	protected virtual bool init(){
+	public virtual bool init(){
 		return true;
 	}
 
@@ -137,7 +137,7 @@ public class StageObject : MonoBehaviour {
 	protected virtual void OnCollisionEnter2D(Collision2D col){
 	}
 	
-	protected virtual void SetAlpha(float val){
+	public virtual void SetAlpha(float val){
 		if(spriteRenderer == null){
 			spriteRenderer = GetComponent<SpriteRenderer>();
 		}

@@ -51,15 +51,15 @@ public abstract class AttackZone : StageObject {
 			if(col.gameObject.tag == "Enemy"){
 				
 				if(col.gameObject.name.Contains("WraithGunner")){
-					if(!col.gameObject.GetComponent<WraithGunner>().CheckIsLiving()){
+					if(!col.gameObject.GetComponent<WraithGunner>().GetIsLiving()){
 						return;
 					}
 				}else if(col.gameObject.name.Contains("WraithChaser")){
-					if(!col.gameObject.GetComponent<WraithChaser>().CheckIsLiving()){
+					if(!col.gameObject.GetComponent<WraithChaser>().GetIsLiving()){
 						return;
 					}
 				}else if (col.gameObject.name.Contains("Wraith")){
-					if(!col.gameObject.GetComponent<Wraith>().CheckIsLiving()){
+					if(!col.gameObject.GetComponent<Wraith>().GetIsLiving()){
 						return;
 						
 					}				}

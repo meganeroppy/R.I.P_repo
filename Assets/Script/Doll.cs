@@ -20,7 +20,7 @@ public class Doll : Item {
 		base.Update();
 		
 		if(m_awake){
-			if(!GameManager.CheckCurrentPlayerIsGhost()){
+			if(!GameManager.GetPlayerIsGhost()){
 				m_awake = false;
 				m_collider.enabled = false;
 				effect.enabled = false;
@@ -32,7 +32,7 @@ public class Doll : Item {
 			}	
 		
 		}else{//Not awake
-			if(GameManager.CheckCurrentPlayerIsGhost()){
+			if(GameManager.GetPlayerIsGhost()){
 				m_awake = true;
 				m_collider.enabled = true;
 				effect.enabled = true;

@@ -59,7 +59,7 @@ public class Flyer : Enemy {
 	}
 	
 	protected virtual void OnTriggerStay2D(Collider2D col){
-		if(col.tag == "Player" && GameManager.CheckCurrentPlayerIsGhost()){
+		if(col.tag == "Player" && GameManager.GetPlayerIsGhost()){
 		
 			if (m_target == null){
 				m_target = col.GetComponent<Player> ();

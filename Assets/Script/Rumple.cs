@@ -61,7 +61,7 @@ public class Rumple : Flyer {
 				effect.enabled = false;
 			}
 			
-			if(GameManager.CheckCurrentPlayerIsGhost()){
+			if(GameManager.GetPlayerIsGhost()){
 				m_awaking = false;		
 				effect.enabled = false;
 				
@@ -192,7 +192,7 @@ public class Rumple : Flyer {
 			
 		}else{//Not Awaking
 			
-			if(!GameManager.CheckCurrentPlayerIsGhost()){
+			if(!GameManager.GetPlayerIsGhost()){
 				m_awaking = true;
 				effect.enabled = true;
 				
@@ -211,7 +211,7 @@ public class Rumple : Flyer {
 		}
 	
 		if (col.gameObject.tag == "Player") {
-			if( cur_action_pettern == ACTION_PETTERN.B && col.gameObject.GetComponent<Player>().CheckIsLiving()){
+			if( cur_action_pettern == ACTION_PETTERN.B && col.gameObject.GetComponent<Player>().GetIsLiving()){
 				return;
 			}
 			OnEnter (col.gameObject);

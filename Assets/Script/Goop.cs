@@ -25,7 +25,7 @@ public class Goop : Enemy {
 	
 		base.Update();
 		if(m_awaking){
-			if(GameManager.CheckCurrentPlayerIsGhost()){
+			if(GameManager.GetPlayerIsGhost()){
 				Hide();
 				return;
 			}
@@ -51,7 +51,7 @@ public class Goop : Enemy {
 		
 		
 		}else{//Not Awaking
-			if(GameManager.CheckCurrentPlayerIsGhost()){
+			if(GameManager.GetPlayerIsGhost()){
 				return;
 			}
 			

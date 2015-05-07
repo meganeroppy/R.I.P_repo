@@ -14,7 +14,7 @@ public class GhostKiller : DeadZone {
 	
 	protected override void Update ()
 	{
-		if(!GameManager.CheckCurrentPlayerIsGhost()){
+		if(!GameManager.GetPlayerIsGhost()){
 			if(m_awake){
 				SetAsDefault();
 				spriteRenderer.color = Color.black;
@@ -62,7 +62,7 @@ public class GhostKiller : DeadZone {
 	protected override void OnCollisionEnter2D (Collision2D col)
 	{
 		if (col.gameObject.tag == "Player" && !GameManager.Miss()) {
-			if(col.gameObject.GetComponent<Player>().CheckIsLiving()){
+			if(col.gameObject.GetComponent<Player>().GetIsLiving()){
 				return;
 			}
 			col.gameObject.SendMessage("Miss");

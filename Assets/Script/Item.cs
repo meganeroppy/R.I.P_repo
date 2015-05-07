@@ -26,7 +26,7 @@ public class Item : StageObject {
 	
 	}
 
-	protected virtual void Remove(){
+	public virtual void Remove(){
 		Destroy (this.gameObject);
 	}
 

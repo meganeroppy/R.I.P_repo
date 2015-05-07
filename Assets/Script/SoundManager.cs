@@ -91,7 +91,7 @@ public class SoundManager : MonoBehaviour {
 		}
 	}
 
-	private void SetBGM(int hour){
+	public void SetBGM(int hour){
 		switch(hour){
 		case 0:
 		case 3:
@@ -126,11 +126,11 @@ public class SoundManager : MonoBehaviour {
 		}
 	}
 	
-	protected void FadeoutBGM(){
-		iTween.ValueTo (gameObject, iTween.Hash ("from", 0.5f, "to", 0, "time", 3.0f, "onupdate", "UpdateSoundVolume"));
+	public void FadeoutBGM(){
+		iTween.ValueTo (gameObject, iTween.Hash ("from", 0.5f, "to", 0, "time", 3.0f, "onupdate", "SetSoundVolume"));
 	}
 	
-	private void UpdateSoundVolume(float val){
+	public void SetSoundVolume(float val){
 		audio.volume = val;
 	}
 }

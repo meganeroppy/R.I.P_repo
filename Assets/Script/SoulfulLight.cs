@@ -34,14 +34,14 @@ public class SoulfulLight : StreetLight {
 		Vector3 targetPos = target.transform.position;		
 		Vector3 distance = targetPos - pos;
 
-		if( Mathf.Abs( distance.x) < HEAL_RANGE && Mathf.Abs( distance.y ) < HEAL_RANGE && GameManager.CheckCurrentPlayerIsGhost()){
+		if( Mathf.Abs( distance.x) < HEAL_RANGE && Mathf.Abs( distance.y ) < HEAL_RANGE && GameManager.GetPlayerIsGhost()){
 			if(target != null){
 				DonateSpirit(target);
 			}
 		}else{ 
-			if(!GameManager.CheckCurrentPlayerIsGhost() && m_awake){
+			if(!GameManager.GetPlayerIsGhost() && m_awake){
 				m_awake = false;
-			}else if(GameManager.CheckCurrentPlayerIsGhost()){
+			}else if(GameManager.GetPlayerIsGhost()){
 				if(!m_awake){
 					m_awake = true;
 					cur_frame = 1;

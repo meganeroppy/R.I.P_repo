@@ -66,7 +66,7 @@ public class TitleLabel : UI {
 		}
 	}
 	
-	protected override void Activate(){
+	public override void Activate(){
 	
 		return;
 

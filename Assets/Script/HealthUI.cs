@@ -45,7 +45,7 @@ public class HealthUI : UI {
 	//	}
 	}
 	
-	protected override void Activate(){
+	public override void Activate(){
 	
 		m_target = GameObject.FindWithTag("Player").GetComponent<Player>();
 		

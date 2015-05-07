@@ -268,14 +268,14 @@ public class Character : StageObject {
 		}
 	}
 
-	protected virtual void Attack(){
+	public virtual void Attack(){
 		if (/*grounded && */ current_status != STATUS.GHOST_IDLE && current_status != STATUS.DAMAGE && current_health >= 1 ) {
 			current_status = STATUS.ATTACK;
 		}
 	}
 
 	//For Ghost
-	public void UpdateMoveSpeed(Vector2 speed){
+	public void SetMoveSpeed(Vector2 speed){
 		move_speed = speed;
 		if (move_speed.x > 0.0f) {
 			Flip (SIDE.RIGHT);
@@ -357,7 +357,7 @@ public class Character : StageObject {
 		base.Flip();
 	}
 
-	public virtual bool CheckIsLiving(){
+	public virtual bool GetIsLiving(){
 		return living;
 	}
 	

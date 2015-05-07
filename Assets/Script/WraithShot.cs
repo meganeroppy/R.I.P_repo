@@ -40,7 +40,7 @@ public class WraithShot : Bullet {
 			}
 		}
 		
-		if(!GameManager.CheckCurrentPlayerIsGhost() || GameManager.CheckCurrentPlayerIsHidden()){
+		if(!GameManager.GetPlayerIsGhost() || GameManager.CheckCurrentPlayerIsHidden()){
 			Die();
 		}
 	}

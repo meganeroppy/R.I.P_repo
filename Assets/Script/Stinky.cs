@@ -41,7 +41,7 @@ public class Stinky : Enemy {
 				current_status = STATUS.IDLE;
 			}
 			
-			if(GameManager.CheckCurrentPlayerIsGhost()){
+			if(GameManager.GetPlayerIsGhost()){
 				current_status = STATUS.IDLE;
 			}
 			
@@ -94,7 +94,7 @@ public class Stinky : Enemy {
 			}
 			
 		}else{
-			if(!GameManager.CheckCurrentPlayerIsGhost() && PlayerIsInRange()){
+			if(!GameManager.GetPlayerIsGhost() && PlayerIsInRange()){
 				m_awaking = true;
 				rigidbody2D.isKinematic = false;
 			}
@@ -123,7 +123,7 @@ public class Stinky : Enemy {
 	
 	protected override void OnEnter(GameObject col){
 		if (col.tag == "Player" && current_status != STATUS.GONE) {
-			if(!col.GetComponent<Player>().CheckIsLiving()){
+			if(!col.GetComponent<Player>().GetIsLiving()){
 				return;
 			}
 			base.OnEnter(col);

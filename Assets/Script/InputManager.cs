@@ -137,7 +137,7 @@ public class InputManager : MonoBehaviour {
 			
 			if (Input.GetKeyDown (KeyCode.Z)
 			    || Input.GetKeyDown (KeyCode.Joystick1Button2) ) {
-				m_player.SendMessage("Attack", false);		
+				m_player.Attack(false);		
 			}
 			
 			//About Charging Input
@@ -149,7 +149,7 @@ public class InputManager : MonoBehaviour {
 			if(Input.GetKeyUp (KeyCode.Z)
 			   || Input.GetKeyUp (KeyCode.Joystick1Button2) ) {
 				if(charging >= 0.8f){
-					m_player.SendMessage("Attack", true);			
+					m_player.Attack(true);		
 				}
 				charging = 0.0f;
 			}
@@ -160,7 +160,7 @@ public class InputManager : MonoBehaviour {
 			    || Input.GetKeyDown(KeyCode.Joystick1Button0)
 			    || Input.GetKeyDown(KeyCode.Joystick1Button2)
 			    || Input.GetKeyDown(KeyCode.Joystick1Button3)) {
-				m_player.SendMessage("Jump");		
+				m_player.Jump();		
 			}
 			
 			if (Input.GetKeyDown (KeyCode.Z)
@@ -171,7 +171,7 @@ public class InputManager : MonoBehaviour {
 			    || Input.GetKeyDown (KeyCode.X)
 			    || Input.GetKeyDown (KeyCode.Space)
 			    || Input.GetKeyDown(KeyCode.Joystick1Button0)) {
-				m_player.SendMessage("CancelMotion");		
+				m_player.CancelMotion();		
 			}
 			
 			float analogInputX = Input.GetAxis ("Left Stick Horizontal") >= Mathf.Abs(0.05f) ? Input.GetAxis ("Left Stick Horizontal") : Input.GetAxis ("Horizontal");
@@ -182,14 +182,14 @@ public class InputManager : MonoBehaviour {
 			
 			Vector2 speed = new Vector2(speedX, speedY);
 			
-			m_player.SendMessage ("UpdateMoveSpeed", speed);
+			m_player.SetMoveSpeed(speed);
 		
 			break;
 		}
 	}
 	
-	private void Invalidate (){
-		m_player.SendMessage ("UpdateMoveSpeed", Vector2.zero);
+	public void Invalidate (){
+		m_player.SetMoveSpeed(Vector2.zero);
 		invalid = true;
 	}
 }

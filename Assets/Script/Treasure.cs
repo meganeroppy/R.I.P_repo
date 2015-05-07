@@ -41,15 +41,15 @@ public class Treasure : Item {
 		}
 	}
 	
-	protected override void Remove ()
+	public override void Remove ()
 	{
 		base.Remove ();
 		GameObject obj = Instantiate(label_treasure) as GameObject;
 		obj.transform.position = transform.position + new Vector3(0,0,-6);
-		GameObject.Find("GameManager").GetComponent<GameManager>().SendMessage("UpdateTreasureInfo", index);
+		GameObject.Find("GameManager").GetComponent<GameManager>().SetTreasureInfo(index);
 	}
 	
-	 protected void SetIndex(int val){
+	 public void SetIndex(int val){
 		index = val;
 	 }
 }

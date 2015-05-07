@@ -47,7 +47,7 @@ public class EndLogo : UI {
 
 	}
 	
-	protected override void Activate(){
+	public override void Activate(){
 		uiSprite.enabled = true;
 		uiLabel.enabled = true;
 		activated = true;

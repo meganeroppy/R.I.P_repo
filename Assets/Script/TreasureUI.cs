@@ -38,7 +38,7 @@ public class TreasureUI : UI {
 		
 	}
 	
-	protected override void Activate(){
+	public override void Activate(){
 				
 		treasureInfo = gameManager.GetTreasureInfo();
 		float interval = 100.0f;

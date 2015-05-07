@@ -24,7 +24,7 @@ public class SanmaBlade : AttackZone {
 		}
 	}
 
-	private void ApplyParentAndExecute(StageObject master){
+	public void SetParentAndExecute(StageObject master){
 		this.master = master;
 		
 		//Flip(master.current_side);
@@ -45,7 +45,7 @@ public class SanmaBlade : AttackZone {
 		}
 	}
 	
-	protected void SetAsCharged(){
+	public void SetAsCharged(){
 		charged = true;
 	}
 }

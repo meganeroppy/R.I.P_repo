@@ -18,7 +18,7 @@ public class WraithBall : Bullet {
 		transform.Rotate(0, 0, 200.0f * Time.deltaTime);
 		base.Update ();
 		
-		if(!GameManager.CheckCurrentPlayerIsGhost() || GameManager.CheckCurrentPlayerIsHidden()){
+		if(!GameManager.GetPlayerIsGhost() || GameManager.CheckCurrentPlayerIsHidden()){
 			Die();
 		}
 		

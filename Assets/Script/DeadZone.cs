@@ -42,7 +42,7 @@ public class DeadZone : StageObject {
 		spriteRenderer_skull.color = new Color(1, 1, 1, m_alpha);
 	
 		if(!m_awake){
-			if(GameManager.CheckCurrentPlayerIsGhost()){
+			if(GameManager.GetPlayerIsGhost()){
 				m_awake = true;
 				spriteRenderer.enabled = true;;
 				spriteRenderer_skull.enabled = true;
@@ -69,7 +69,7 @@ public class DeadZone : StageObject {
 				m_colorVal_r -= Time.deltaTime;
 			}
 			
-			if(!GameManager.CheckCurrentPlayerIsGhost()){
+			if(!GameManager.GetPlayerIsGhost()){
 				m_awake = false;
 				spriteRenderer.enabled = false;;
 				spriteRenderer_skull.enabled = false;
@@ -79,7 +79,7 @@ public class DeadZone : StageObject {
 
 	protected override void OnTriggerEnter2D(Collider2D col){
 		if (col.gameObject.tag == "Player" && !GameManager.Miss()){
-			if(GameManager.CheckCurrentPlayerIsGhost()){
+			if(GameManager.GetPlayerIsGhost()){
 				col.SendMessage("GetExorcised");
 			}else{
 				gameManager.SendMessage("Miss", true);

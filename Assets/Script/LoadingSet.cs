@@ -24,14 +24,14 @@ public class LoadingSet : UI {
 	
 	}
 	
-	protected override void Activate(){
+	public override void Activate(){
 		uiSprite.enabled = true;
 		uiLabel.enabled = true;
 		StartCoroutine(AnimateLoadingLabel());
 		activated = true;
 	}
 	
-	protected  void Deactivate(){
+	public  void Deactivate(){
 		if(!activated){
 			return;
 		}

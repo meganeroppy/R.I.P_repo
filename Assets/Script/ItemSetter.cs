@@ -157,7 +157,7 @@ public class ItemSetter : Monument {
 		respawnTimer = NOTICE;
 	}
 	
-	protected virtual void ResetItem(){
+	public virtual void ResetItem(){
 		if(child != null){
 			Destroy(child);
 		}
