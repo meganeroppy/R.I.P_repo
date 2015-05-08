@@ -54,7 +54,7 @@ public class OpeningSet : UI {
 		uiLabel.enabled = true;
 		uiSprite.alpha = 1.0f;
 		uiLabel.alpha = 0.0f;
-		uiLabel.text = Application.loadedLevelName.Contains("Boss") ? "vs. Shade" : Application.loadedLevelName;
+		uiLabel.text = SceneManager.currentLevelName.Contains("Boss") ? "vs. Shade" : SceneManager.currentLevelName;
 		activated = true;
 	}
 	

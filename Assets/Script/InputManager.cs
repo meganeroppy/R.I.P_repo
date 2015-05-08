@@ -26,7 +26,7 @@ public class InputManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		invalid = false;
-		switch(Application.loadedLevelName.ToString()){
+		switch(SceneManager.currentLevelName){
 		case "Title":
 			break;//End of case Title
 		case "Main":
@@ -45,7 +45,7 @@ public class InputManager : MonoBehaviour {
 			return;
 		}
 
-		switch(Application.loadedLevelName.ToString()){
+		switch(SceneManager.currentLevelName){
 		case "Title":
 			switch(GameManager.current_selection_title){
 				case  GameManager.SELECTION_TITLE.WAITFORKEY:

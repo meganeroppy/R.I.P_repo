@@ -35,8 +35,8 @@ public class CheckPoint : Monument {
 			GameObject obj = Instantiate(label_checkPoint, transform.position + new Vector3(col_center.x, col_center.y + 0.5f, -0.5f), transform.rotation) as GameObject;
 			obj.transform.parent = this.transform;
 			GameObject manager = GameObject.Find("GameManager") as GameObject;
-			manager.GetComponent<GameManager>().SendMessage("ApplyRespawnPoint", this.transform.position);
-			manager.GetComponent<SoundManager>().SendMessage("PlaySE", "GetItem");
+			manager.GetComponent<GameManager>().SetRespawnPoint(this.transform.position);
+			manager.GetComponent<SoundManager>().PlaySE("GetItem");
 		}
 	}
 		

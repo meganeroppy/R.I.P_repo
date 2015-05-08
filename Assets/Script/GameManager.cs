@@ -76,16 +76,18 @@ using System.Collections.Generic;
 
 	//System
 	//Scripts
-	private static SoundManager soundManager;
-	private static InputManager inputManager;
-	private static GUIManager guiManager;
+	private static SoundManager sound;
+	private static InputManager input;
+	private static GUIManager gui;
 	private static MainCamera mainCamera;
+	//private static SceneManager scene;
 	private float saveTimer = 0;
 	private const float SAVE_INTERVAL = 5f;
 	
 	void Awake(){
 		Application.targetFrameRate = 30;
-//		if (SystemInfo.operatingSystem.Contains ("Vita")){}; 
+		//scene = GameObject.Find("SceneManager").GetComponent<SceneManager>();
+		//		if (SystemInfo.operatingSystem.Contains ("Vita")){}; 
 	}
 	
 	// Use this for initialization
@@ -99,7 +101,7 @@ using System.Collections.Generic;
 		playerIsBorn = false;
 		openingDirectionIsCompleted = false;
 		
-		switch(Application.loadedLevelName.ToString()){
+		switch(SceneManager.currentLevelName.ToString()){
 		case "Title":
 			EnableUI();
 			current_selection_title = SELECTION_TITLE.WAITFORKEY;
@@ -125,10 +127,10 @@ using System.Collections.Generic;
 	}
 	
 	public void Update(){
-		if( !Application.loadedLevelName.ToString().Contains("Event") ){
-			if( (!Application.loadedLevelName.Contains("old") && !Application.loadedLevelName.Contains("Title")) && !StageMakingHasBeenExecuted ){
+		if( !SceneManager.currentLevelName.Contains("Event") ){
+			if( (!SceneManager.currentLevelName.Contains("old") && !SceneManager.currentLevelName.Contains("Title")) && !StageMakingHasBeenExecuted ){
 				int stageIdx = 0;
-				while(Application.loadedLevelName != scenes[stageIdx]){
+				while(SceneManager.currentLevelName != scenes[stageIdx]){
 					stageIdx++;
 				}
 				
@@ -148,8 +150,7 @@ using System.Collections.Generic;
 					player = GameObject.FindWithTag("Player").GetComponent<Player>();
 					player.init(this.gameObject);
 					playerIsBorn = true;
-					GameObject.FindWithTag("MainCamera").GetComponent<MainCamera>().enabled = true;
-					
+					GameObject.FindWithTag("MainCamera").GetComponent<MainCamera>().enabled = true;					
 				}
 			}
 		}
@@ -206,10 +207,12 @@ using System.Collections.Generic;
 		if(cmd == "Restart"){	
 			Restart();
 		}else if(cmd == "GoToTitle"){
-			Application.LoadLevel("Title");
+			SceneManager.LoadLevelAdditive("Title");
+//			Application.LoadLevel("Title");
 		}else if(cmd == "GoToNext"){
 			m_sceneIdx++;
-			Application.LoadLevel(scenes[m_sceneIdx]);
+			SceneManager.LoadLevelAdditive(scenes[m_sceneIdx]);
+			//Application.LoadLevel(scenes[m_sceneIdx]);//////////////////
 		}
 	}
 	
@@ -230,13 +233,14 @@ using System.Collections.Generic;
 	
 	public static void GameStart(string levelName){
 		SetLoadingSkin(true);
-		Application.LoadLevel(levelName);
+		SceneManager.LoadLevelAdditive(levelName);
+//		Application.LoadLevel(levelName);//////////////
 	}
 	
 	public void EnableUI(){
 		ReassignScripts();
-		soundManager.enabled = true;
-		inputManager.enabled = true;
+		sound.enabled = true;
+		input.enabled = true;
 
 		GameObject[] obj = GameObject.FindGameObjectsWithTag("UI");
 		foreach(GameObject child in obj){
@@ -320,7 +324,7 @@ using System.Collections.Generic;
 				return;
 			case SELECTION_PAUSE.RESTART :
 				Pause(false);
-				GameStart(Application.loadedLevelName);
+				GameStart(SceneManager.currentLevelName);///////////////
 				return;
 			case SELECTION_PAUSE.QUIT:
 				GameStart("Title");
@@ -419,17 +423,17 @@ using System.Collections.Generic;
 	
 	public void GameClear(float delay){
 	
-		inputManager.Invalidate();
+		input.Invalidate();
 		if(!cleared){
 			//Turn off BGM
-			soundManager.FadeoutBGM();
+			sound.FadeoutBGM();
 			StartCoroutine (WaitAndShowLogo (delay));
 
 		}
 	}
 
 	private void SaveGame(){
-		if(Application.loadedLevelName.Contains("Stage")){
+		if(SceneManager.currentLevelName.Contains("Stage")){
 			string stageIndexName;
 
 			for(int i = 0 ; i < numOfTreasure ; i++){
@@ -440,7 +444,7 @@ using System.Collections.Generic;
 	}
 
 	private void LoadTreauseStatus(){
-		if(Application.loadedLevelName.Contains("Stage")){
+		if(SceneManager.currentLevelName.Contains("Stage")){
 			string stageIndexName;
 
 			for(int i = 0 ; i < numOfTreasure ; i++){
@@ -452,17 +456,17 @@ using System.Collections.Generic;
 
 	private void ReassignScripts(){
 
-		if(soundManager == null){
-			soundManager = GetComponent<SoundManager>();
+		if(sound == null){
+			sound = GetComponent<SoundManager>();
 		}
-		if(inputManager == null){
-			inputManager = GetComponent<InputManager>();
+		if(input == null){
+			input = GetComponent<InputManager>();
 		}
-		if(guiManager == null){
-			guiManager = GetComponent<GUIManager>();
+		if(gui == null){
+			gui = GetComponent<GUIManager>();
 		}
-		if(guiManager == null){
-			guiManager = GetComponent<GUIManager>();
+		if(gui == null){
+			gui = GetComponent<GUIManager>();
 		}
 		if( mainCamera == null){
 			mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<MainCamera>();

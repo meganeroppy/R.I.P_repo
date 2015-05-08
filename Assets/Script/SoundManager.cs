@@ -20,9 +20,8 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip se_bubble_throw;
 	public AudioClip se_bubble_die;	
 	
-	// Use this for initialization
-	void Start () {
-		switch(Application.loadedLevelName){
+	void Start(){	
+		switch(SceneManager.currentLevelName){
 		case "Main":
 		case "Tutorial":
 			audio.clip = bgm_tutorial;
