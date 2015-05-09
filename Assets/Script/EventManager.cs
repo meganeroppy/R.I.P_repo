@@ -18,6 +18,11 @@ START ボタン	KeyCode.JoystickButton7 / Enter
 
 public class EventManager : MonoBehaviour
 {
+private enum TYPE{
+		OPENING,
+		ENDING,
+};
+	private TYPE myType;
 	private float counter = 0.0f;
 	private int cur_phase = 0;
 	private const int numOfPhase = 13;
@@ -55,7 +60,12 @@ public class EventManager : MonoBehaviour
 		blackScreen = GameObject.FindWithTag ("BlackScreen").GetComponent<UISprite> ();
 		blackScreen.enabled = true;
 		
-		StartEvent();
+		if(SceneManager.currentLevelName.Contains("1")){ // opening
+			myType = TYPE.OPENING;
+			StartEvent();
+		}else{// ending
+			myType = TYPE.ENDING;
+		}
 	}
 	
 	private void Update ()

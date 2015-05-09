@@ -36,15 +36,13 @@ public class EndLogo : UI {
 			}
 		}else if (pressed){
 			if(uiSprite.alpha >= 1.0f){
-				Application.LoadLevel("Title");
+				SceneManager.LoadLevelAdditive("Title");
 			}else{
 				uiSprite.alpha += Time.deltaTime * 0.2f;
 			}
 		}else if (Input.anyKeyDown){
 			pressed = true;
 		}
-
-
 	}
 	
 	public override void Activate(){
