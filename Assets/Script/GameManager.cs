@@ -9,7 +9,7 @@ using System.Collections.Generic;
 		"Stage01",
 		"Stage02",
 		"StageBoss",
-		"Event02",
+		//"Event02",
 		"Title",
 		"Event01",	
 	};
