@@ -6,14 +6,25 @@ using System;
 public class SceneManager : MonoBehaviour {
 
 	public static string currentLevelName = "";
-
+	private static bool initialized = false;
+	
 	// Use this for initialization
-	void Start () {
-		currentLevelName = "Title";
-		LoadLevelAdditive(currentLevelName);		
+	void Awake () {
+		Init("Title");
+	}
+	
+	public void Init(string sceneName){
+		if(initialized){
+			return;
+		}
+		currentLevelName = sceneName;
+		if(!GameObject.Find("GameManager")){
+			LoadLevelAdditive(currentLevelName);
+		}	
 	}
 
 	public static void LoadLevelAdditive(string levelName){
+		initialized = true;
 		RemoveAll();
 		currentLevelName = levelName;
 		Application.LoadLevelAdditive(currentLevelName);		

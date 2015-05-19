@@ -86,12 +86,17 @@ using System.Collections.Generic;
 	
 	void Awake(){
 		Application.targetFrameRate = 30;
-		//scene = GameObject.Find("SceneManager").GetComponent<SceneManager>();
 		//		if (SystemInfo.operatingSystem.Contains ("Vita")){}; 
+		
+		if(!GameObject.Find("SceneManager")){
+			Application.LoadLevel("BaseScene");
+		}
 	}
 	
 	// Use this for initialization
 	void Start () {
+
+	
 		ReassignScripts();
 		
 		Pause(false);
