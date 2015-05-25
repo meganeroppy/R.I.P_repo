@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MenuContent : MonoBehaviour {
+public class MenuLabel : MonoBehaviour {
 
 	private UILabel myLabel;
 	

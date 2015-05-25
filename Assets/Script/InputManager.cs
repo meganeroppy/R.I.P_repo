@@ -22,6 +22,11 @@ public class InputManager : MonoBehaviour {
 	private Player m_player;
 	public static float charging = 0.0f;
 	private bool invalid = false;
+	private GameManager gameManager;
+	
+	void Awake(){
+		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -46,22 +51,45 @@ public class InputManager : MonoBehaviour {
 		}
 
 		switch(SceneManager.currentLevelName){
+		
 		case "Title":
-			switch(GameManager.current_selection_title){
-				case  GameManager.SELECTION_TITLE.WAITFORKEY:
+			if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton9)){
+				gameManager.AcceptInput("Title", GameManager.BUTTON.RIGHT);
+			}
+			if(Input.GetKeyDown(KeyCode.LeftArrow) ||Input.GetKeyDown(KeyCode.JoystickButton11)){
+				gameManager.AcceptInput("Title", GameManager.BUTTON.LEFT);
+			}
+			if(Input.GetKeyDown(KeyCode.UpArrow) ||Input.GetKeyDown(KeyCode.JoystickButton8)){
+				gameManager.AcceptInput("Title", GameManager.BUTTON.UP);
+			}
+			if(Input.GetKeyDown(KeyCode.DownArrow) ||Input.GetKeyDown(KeyCode.JoystickButton10)){
+				gameManager.AcceptInput("Title", GameManager.BUTTON.DOWN);
+			}
+						
+			if(Input.GetKeyDown(KeyCode.KeypadEnter) 
+			   || Input.GetKeyDown(KeyCode.Return) 
+			   || Input.GetKeyDown(KeyCode.JoystickButton1)
+			   || Input.GetKeyDown(KeyCode.JoystickButton2)
+			   || Input.GetKeyDown(KeyCode.JoystickButton3)
+			   ||Input.GetKeyDown(KeyCode.JoystickButton7)){
+				gameManager.AcceptInput("Title", GameManager.BUTTON.DECIDE);
+			}	
+		/*
+			switch(gameManager.current_selection_title){
+				case  gameManager.SELECTION_TITLE.WAITFORKEY:
 					if(Input.anyKeyDown){
-						GameManager.AcceptInput("Title", GameManager.BUTTON.DECIDE);
+						gameManager.AcceptInput("Title", GameManager.BUTTON.DECIDE);
 					}
 					break;
-			case  GameManager.SELECTION_TITLE.EVENT1:
-			case  GameManager.SELECTION_TITLE.STAGE1:
-			case  GameManager.SELECTION_TITLE.STAGE2:
-			case  GameManager.SELECTION_TITLE.BOSS:
+			case  gameManager.SELECTION_TITLE.EVENT1:
+			case  gameManager.SELECTION_TITLE.STAGE1:
+			case  gameManager.SELECTION_TITLE.STAGE2:
+			case  gameManager.SELECTION_TITLE.BOSS:
 				if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton9)){
-					GameManager.AcceptInput("Title", GameManager.BUTTON.RIGHT);
+					gameManager.AcceptInput("Title", GameManager.BUTTON.RIGHT);
 				}
 				if(Input.GetKeyDown(KeyCode.LeftArrow) ||Input.GetKeyDown(KeyCode.JoystickButton11)){
-					GameManager.AcceptInput("Title", GameManager.BUTTON.LEFT);
+					gameManager.AcceptInput("Title", GameManager.BUTTON.LEFT);
 				}
 				
 				if(Input.GetKeyDown(KeyCode.KeypadEnter) 
@@ -70,14 +98,15 @@ public class InputManager : MonoBehaviour {
 				|| Input.GetKeyDown(KeyCode.JoystickButton2)
 				|| Input.GetKeyDown(KeyCode.JoystickButton3)
 				||Input.GetKeyDown(KeyCode.JoystickButton7)){
-					GameManager.AcceptInput("Title", GameManager.BUTTON.DECIDE);
+					gameManager.AcceptInput("Title", GameManager.BUTTON.DECIDE);
 				}	
 			break;
 				default:
 					break;
 			}
-
+*/
 			break;//End of case Title
+			
 		case "Event01":
 			
 			break;
@@ -105,10 +134,10 @@ public class InputManager : MonoBehaviour {
 				}
 				
 				if(Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton10)){
-					GameManager.AcceptInput("Pause", GameManager.BUTTON.DOWN);
+					gameManager.AcceptInput("Pause", GameManager.BUTTON.DOWN);
 				}
 				if(Input.GetKeyDown(KeyCode.UpArrow) ||Input.GetKeyDown(KeyCode.JoystickButton8)){
-					GameManager.AcceptInput("Pause", GameManager.BUTTON.UP);
+					gameManager.AcceptInput("Pause", GameManager.BUTTON.UP);
 				}
 				
 				if(Input.GetKeyDown(KeyCode.KeypadEnter) //DECIDE
@@ -117,10 +146,10 @@ public class InputManager : MonoBehaviour {
 				   || Input.GetKeyDown(KeyCode.JoystickButton2)
 				   || Input.GetKeyDown(KeyCode.JoystickButton3)
 				   ||Input.GetKeyDown(KeyCode.JoystickButton7)){
-					GameManager.AcceptInput("Pause", GameManager.BUTTON.DECIDE);
+					gameManager.AcceptInput("Pause", GameManager.BUTTON.DECIDE);
 				}	
 				if(Input.GetKeyDown(KeyCode.JoystickButton0)){
-					GameManager.AcceptInput("Pause", GameManager.BUTTON.CANCEL);
+					gameManager.AcceptInput("Pause", GameManager.BUTTON.CANCEL);
 				}
 				return;
 				///In The Pause Menu TO THIS LINE////////

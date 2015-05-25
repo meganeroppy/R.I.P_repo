@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
  public class GameManager : MonoBehaviour {
 
-	private string[] scenes = new string[]{
+	private string[] levels = new string[]{
 		"Tutorial",	
 		"Stage01",
 		"Stage02",
@@ -83,6 +83,7 @@ using System.Collections.Generic;
 	//private static SceneManager scene;
 	private float saveTimer = 0;
 	private const float SAVE_INTERVAL = 5f;
+	private MenuSelection menuSelection;
 	
 	void Awake(){
 		Application.targetFrameRate = 30;
@@ -95,7 +96,6 @@ using System.Collections.Generic;
 	
 	// Use this for initialization
 	void Start () {
-
 	
 		ReassignScripts();
 		
@@ -110,6 +110,7 @@ using System.Collections.Generic;
 		case "Title":
 			EnableUI();
 			current_selection_title = SELECTION_TITLE.WAITFORKEY;
+			menuSelection = GameObject.Find("MenuSelection").GetComponent<MenuSelection>();
 			break;//End of case Title
 		case "Main":
 			StageMakingHasBeenExecuted = true;
@@ -135,7 +136,7 @@ using System.Collections.Generic;
 		if( !SceneManager.currentLevelName.Contains("Event") ){
 			if( (!SceneManager.currentLevelName.Contains("old") && !SceneManager.currentLevelName.Contains("Title")) && !StageMakingHasBeenExecuted ){
 				int stageIdx = 0;
-				while(SceneManager.currentLevelName != scenes[stageIdx]){
+				while(SceneManager.currentLevelName != levels[stageIdx]){
 					stageIdx++;
 				}
 				
@@ -216,8 +217,8 @@ using System.Collections.Generic;
 //			Application.LoadLevel("Title");
 		}else if(cmd == "GoToNext"){
 			m_sceneIdx++;
-			SceneManager.LoadLevelAdditive(scenes[m_sceneIdx]);
-			//Application.LoadLevel(scenes[m_sceneIdx]);//////////////////
+			SceneManager.LoadLevelAdditive(levels[m_sceneIdx]);
+			//Application.LoadLevel(levels[m_sceneIdx]);//////////////////
 		}
 	}
 	
@@ -228,7 +229,6 @@ using System.Collections.Generic;
 			setters[i].SendMessage("ResetItem");
 		}
 	
-	
 		Player obj = GameObject.FindWithTag("Player").GetComponent<Player>();
 		obj.enabled = true;
 		obj.Restart(m_respawnPos);
@@ -236,10 +236,14 @@ using System.Collections.Generic;
 		Pause(false);
 	}
 	
-	public static void GameStart(string levelName){
+	public void GameStart(string levelName){
 		SetLoadingSkin(true);
 		SceneManager.LoadLevelAdditive(levelName);
-//		Application.LoadLevel(levelName);//////////////
+	}
+	
+	public void GameStart(int levelKey){
+		SetLoadingSkin(true);
+		SceneManager.LoadLevelAdditive(levels[levelKey]);
 	}
 	
 	public void EnableUI(){
@@ -280,8 +284,10 @@ using System.Collections.Generic;
 
 	}
 	
-	public static void AcceptInput(string situation, BUTTON btn){
+	public void AcceptInput(string situation, BUTTON btn){
 		if(situation == "Title"){
+			menuSelection.AcceptInput(btn);
+		/*
 			if(btn == BUTTON.DECIDE){
 				PressDecisionKey(situation);
 			}else if(btn == BUTTON.RIGHT){
@@ -289,6 +295,7 @@ using System.Collections.Generic;
 			}else if(btn == BUTTON.LEFT){
 				PressSelectKey(situation, false);
 			}
+			*/
 		}else if(situation == "Pause"){
 			if(btn == BUTTON.DECIDE){
 				PressDecisionKey(situation);
@@ -300,7 +307,7 @@ using System.Collections.Generic;
 		}
 	}
 	
-	public static void PressDecisionKey(string situation){
+	public void PressDecisionKey(string situation){
 	
 		if(situation == "Title"){
 		 switch(current_selection_title){
@@ -376,6 +383,23 @@ using System.Collections.Generic;
 			default:
 				return;
 			}
+		}
+	}
+	
+	public void InformAcception(string labelText){
+		switch(labelText){
+		case "New Game":
+			GameStart("Event01");
+			break;
+		case "Stage01":
+		case "Stage02":
+			GameStart(labelText);
+			break;
+		case "Boss":
+			GameStart("StageBoss");
+			
+			break;
+			
 		}
 	}
 	
