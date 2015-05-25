@@ -10,11 +10,14 @@ public enum STATUS{
 	JUMP_DOWN,
 	DAMAGE,
 	DYING,
-	GHOST,
+	GHOST_IDLE,
+	GHOST_DAMAGE,
 	GONE
 }
 
 public class Character : StageObject {
+	
+	protected bool living = true;
 	
 	protected STATUS current_status;
 
@@ -23,7 +26,9 @@ public class Character : StageObject {
 	protected Vector2 JUMP_FORCE_BASE = new Vector2 (0.0f, 600.0f);
 	protected Vector2 jump_force;
 	protected const float WALK_SPEED_BASE = 8.5f;
-	protected float horizontal_move_speed;
+//	protected const float WALK_SPEED_BASE = 2500.0f;
+//	protected const float WALK_SPEED_MAX = 10.0f;
+	
 	protected float attack_power;
 	protected const float ATTACK_DURATION = 0.4f;
 	protected const float DAMAGE_DURATION = 1.0f;
@@ -31,25 +36,26 @@ public class Character : StageObject {
 	protected const float DYING_DELAY = 1.0f;
 	protected const float DISAPPEARING_DELAY = 2.0f;
 
-	protected Player m_target; 
+	protected float rayRange = 0.01f;
 
 	[HideInInspector]
 	public bool grounded;
-
-	public int layer_ground;
-
+	
+	protected LayerMask layer_ground;
+	protected LayerMask layer_spikyWire;
+	
 	protected const float MOVE_SPEED_BASE = 8.5f;
-	Vector2 move_speed;
+//	protected const float MOVE_SPEED_BASE = 500.0f;
+//	protected const float MOVE_SPEED_MAX = 30.0f;
+	protected Vector2 move_speed;
 
 	//Animator
 	protected Animator anim;
+			
+	protected CircleCollider2D[] m_cols;
 	
-	//GameObject
-	public GameObject attackZone;
-	public GameObject effect_transformation;
-	public GameObject effectPoint_destroy;
-	
-	void Awake(){
+	protected override void Awake(){
+		base.Awake();
 		anim = GetComponent<Animator> ();
 	}
 
@@ -57,65 +63,63 @@ public class Character : StageObject {
 	protected override void Start () {
 		base.Start ();
 
-		layer_ground =  1 << LayerMask.NameToLayer ("Ground");
+		layer_ground =  1 << 8;
+		//layer_ground = LayerMask.NameToLayer("Ground");
+		layer_spikyWire = LayerMask.NameToLayer("SpikyWire");
 		current_side = SIDE.LEFT;
 		current_status = STATUS.IDLE;
-		//jump_force = JUMP_FORCE_BASE;
-		horizontal_move_speed = 0.0f;
+		move_speed.x = 0.0f;
 		move_speed = new Vector2 (0.0f, 0.0f);
-		if (!GameManager.GameOver()){
-			m_target = GameObject.FindWithTag ("Player").GetComponent<Player> ();
-		}
+		
+		m_cols = GetComponents<CircleCollider2D>();
+
 	}
 
 	// Update is called once per frame
 	protected override void Update () {
+	
 		Vector3 pos = transform.position;
-		//grounded = Physics2D.Linecast (transform.position + transform.up * 1, transform.position - transform.up * 0.1f);
-
-		//
-		grounded = Physics2D.Linecast(pos, new Vector3(pos.x, pos.y - 0.01f, pos.z));
-		//
+		/*
+		grounded = Physics2D.Raycast(pos, -Vector2.up, rayRange, layer_ground) || Physics2D.Raycast(pos, -Vector2.up, rayRange, layer_spikyWire) 
+			?  true : Physics2D.Raycast(pos + new Vector3(0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_ground) || Physics2D.Raycast(pos + new Vector3(0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_spikyWire)
+				? true : Physics2D.Raycast(pos + new Vector3(-0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_ground) || Physics2D.Raycast(pos + new Vector3(-0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_spikyWire);
+		*/
+		grounded = Physics2D.Raycast(pos, -Vector2.up, rayRange, layer_ground)  
+			?  true : Physics2D.Raycast(pos + new Vector3(0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_ground) 
+				? true : Physics2D.Raycast(pos + new Vector3(-0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_ground) ;
 		
-		if(gameObject.tag == "Player"){
-			//Debug.Log(grounded);
+		if(!invincible){
+			if(renderer.material.color != Color.white){
+				renderer.material.color = Color.white;
+			}
+		}else{
+			if(current_status != STATUS.DAMAGE){
+				timer_invincible -= Time.deltaTime;
+				if(timer_invincible <= 0.0f ){
+					invincible = false;
+				}
+			}
 		}
-
-		//RaycastHit2D hit = Physics2D.Raycast (new Vector2 (pos.x, pos.y), -Vector2.up, 0.01f);
-		// if(hit.collider != null){
-		//grounded =  hit.transform.gameObject.layer == 8 ;
-		//grounded = hit.transform.gameObject.tag.Equals ("Ground") ? true : false;
-		//}
-		//Debug.Log (hit.transform.gameObject.layer);
-		anim.SetBool("b_jump_down", current_status == STATUS.JUMP_DOWN ? true : false);
- 		anim.SetBool("b_jump_up", current_status == STATUS.JUMP_UP ? true : false);
-		anim.SetBool("b_run", current_status == STATUS.WALK ? true : false);
-		anim.SetBool("b_idle", current_status == STATUS.IDLE ? true : false);
-		anim.SetBool("b_ghost", current_status == STATUS.GHOST ? true : false);
-		anim.SetBool("b_damaged", current_status == STATUS.DAMAGE ? true : false);
-		anim.SetBool("b_dying", current_status == STATUS.DYING ? true : false);
-		anim.SetBool("b_grounded", grounded);
-		anim.SetBool("b_input", Input.GetAxis("Horizontal") != 0);
-
-		//Debug.Log ("cur_st = " + current_status.ToString() + " / speed = " + horizontal_move_speed.ToString());
-		//Debug.Log ("grounded = " + grounded.ToString());
+		
+		if(GameManager.GameClear()){
+			move_speed = Vector2.zero;
+		}
 
 		switch (current_status) {
 		case STATUS.IDLE:
-			renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
-			if(Mathf.Abs(horizontal_move_speed) > 0.05f){
+			if(Mathf.Abs(move_speed.x) > 0.05f){
 				current_status = STATUS.WALK;
 			}else{
 				if(!grounded){
-					transform.parent = null;
+					//transform.parent = null;
 					current_status = rigidbody2D.velocity.y <= 0.0f ? STATUS.JUMP_DOWN : STATUS.JUMP_UP;
 				}
 			}
 			break;
 		case STATUS.JUMP_UP:
 			if(grounded){
-				if(Mathf.Abs( horizontal_move_speed ) < 0.05f){
-					horizontal_move_speed = 0.0f;
+				if(Mathf.Abs( move_speed.x ) < 0.05f){
+					move_speed.x = 0.0f;
 					current_status = STATUS.IDLE;
 				}else{
 					current_status = STATUS.WALK;
@@ -123,33 +127,34 @@ public class Character : StageObject {
 			}else if(rigidbody2D.velocity.y <= 0.0f){
 				current_status = STATUS.JUMP_DOWN;
 			}
-			transform.position += new Vector3(horizontal_move_speed * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
+			transform.position += new Vector3(move_speed.x * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
 			
 			break;
 		case STATUS.JUMP_DOWN:
 			if(grounded){
-				if(Mathf.Abs( horizontal_move_speed ) < 0.05f){
-					horizontal_move_speed = 0.0f;
+				if(Mathf.Abs( move_speed.x ) < 0.05f){
+					move_speed.x = 0.0f;
 					current_status = STATUS.IDLE;
 				}else{
 					current_status = STATUS.WALK;
 				}
+			}else if(rigidbody2D.velocity.y > 0.0f){
+				current_status = STATUS.JUMP_UP;
 			}
 			
-			transform.position += new Vector3(horizontal_move_speed * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
+			transform.position += new Vector3(move_speed.x * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
 			
 			break;
 		case STATUS.WALK:
-			if(Mathf.Abs( horizontal_move_speed ) < 0.05f){
-				horizontal_move_speed = 0.0f;
+			if(Mathf.Abs( move_speed.x ) < 0.05f){
+				move_speed.x = 0.0f;
 				current_status = STATUS.IDLE;
 			}else{
 				if(!grounded){
-					transform.parent = null;
 					current_status = rigidbody2D.velocity.y <= 0.0f ? STATUS.JUMP_DOWN : STATUS.JUMP_UP;
 
 				}
-				transform.position += new Vector3(horizontal_move_speed * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
+				transform.position += new Vector3(move_speed.x * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
 			}
 			break;
 		case STATUS.ATTACK:
@@ -157,14 +162,16 @@ public class Character : StageObject {
 			if(rigorState <= 0){
 				current_status = STATUS.IDLE;
 			}
+			
 			if(!grounded){
-			transform.position += new Vector3(horizontal_move_speed * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
+			transform.position += new Vector3(move_speed.x * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
 			}
+			
 			break;
 		case STATUS.DAMAGE:
 			rigorState -= 1.0f * Time.deltaTime;
 			if(rigorState <= 0.0f){
-				if(current_health <= 0){
+				if(current_health <= 0 || current_spirit <= 0.0f){
 					if(grounded){
 						anim.SetTrigger("t_die");
 					}
@@ -173,41 +180,86 @@ public class Character : StageObject {
 					
 				}else{
 					current_status = STATUS.IDLE;
+					//invincible = true;
+					//timer_invincible = INVINCIBLE_DURATION;
 				}
 			}
-		break;	
+		break;
+
 		case STATUS.DYING:
-			/*
-			rigorState -= 1.0f * Time.deltaTime;
-			if(rigorState <= 0.0f && grounded){
-				StartCoroutine (Die ());
+			break;
+		case STATUS.GHOST_IDLE:
+		
+			if(rigidbody2D.velocity != Vector2.zero){
+				rigidbody2D.velocity = Vector2.zero;
 			}
-			*/
+			//Ghost move
+			transform.position += new Vector3(move_speed.x * MOVE_SPEED_BASE * Time.deltaTime * 0.7f, move_speed.y * MOVE_SPEED_BASE * Time.deltaTime * 0.7f, 0.0f);
 			break;
-		case STATUS.GHOST:
-			transform.position += new Vector3(move_speed.x * MOVE_SPEED_BASE * Time.deltaTime * 0.5f, move_speed.y * MOVE_SPEED_BASE * Time.deltaTime * 0.5f, 0.0f);
-			break;
+			
 		case STATUS.GONE:
+		
+			move_speed = Vector2.zero;
+			
+			if(rigidbody2D)
+				rigidbody2D.velocity = Vector2.zero;
+			
 			break;
 		default:
 			break;	
 		}
 	}
-	
-	//Added 20141101
-	/*
-	bool isGrounded = false;
-	LayerMask layer;
-	
-	protected override void LateUpdate(){
-		Vector2 pos = transform.position;
-		Vector2 groundCheck = new Vector2(pos.x, pos.y - 1.5f);
-		Vector2 groundArea = new Vector2(0.5f, 0.5f);
+/*
+	protected virtual void FixedUpdate(){
+		float velocityY = rigidbody2D.velocity.y;
 		
-		isGrounded = Physics2D.OverlapArea(groundCheck - groundArea, groundCheck + groundArea);// OverLapAerea(Start Pos, End Pos);
-	
-	} 
+			
+		switch (current_status) {
+		case STATUS.IDLE:
+			break;
+		case STATUS.JUMP_UP:
+		case STATUS.JUMP_DOWN:
+		case STATUS.WALK:
+			if(Mathf.Abs( rigidbody2D.velocity.x) < WALK_SPEED_MAX ){
+				rigidbody2D.AddForce(new Vector2(move_speed.x * WALK_SPEED_BASE * Time.deltaTime , velocityY));
+			}
+//			transform.position += new Vector3(move_speed.x * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
+			break;
+		case STATUS.ATTACK:
+			
+			if(!grounded){
+				if(Mathf.Abs( rigidbody2D.velocity.x) < WALK_SPEED_MAX ){
+					rigidbody2D.AddForce(new Vector2(move_speed.x * WALK_SPEED_BASE * Time.deltaTime , velocityY));
+				}				//transform.position += new Vector3(move_speed.x * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
+			}
+			break;
+		case STATUS.DAMAGE:
+
+			break;
+			
+		case STATUS.DYING:
+			break;
+		case STATUS.GHOST_IDLE:
+			if(rigidbody2D.velocity != Vector2.zero){
+				rigidbody2D.velocity = Vector2.zero;
+			}
+			//Ghost move
+			rigidbody2D.velocity = new Vector2(move_speed.x * MOVE_SPEED_BASE * Time.deltaTime * 0.7f, move_speed.y * MOVE_SPEED_BASE * Time.deltaTime * 0.7f);
+			
+			//transform.position += new Vector3(move_speed.x * MOVE_SPEED_BASE * Time.deltaTime * 0.7f, move_speed.y * MOVE_SPEED_BASE * Time.deltaTime * 0.7f, 0.0f);
+			break;
+		case STATUS.GONE:
+			
+			if(rigidbody2D){
+				rigidbody2D.velocity = Vector2.zero;
+			}
+			break;
+		default:
+			break;	
+		}
+	}
 */
+
 	protected bool CheckIsJumpable(){
 		if (current_status == STATUS.IDLE || current_status == STATUS.WALK) {
 			return true;
@@ -216,33 +268,14 @@ public class Character : StageObject {
 		}
 	}
 
-	protected void Attack(){
-		if (/*grounded && */ current_status != STATUS.GHOST && current_status != STATUS.DAMAGE && current_health >= 1 ) {
+	public virtual void Attack(){
+		if (/*grounded && */ current_status != STATUS.GHOST_IDLE && current_status != STATUS.DAMAGE && current_health >= 1 ) {
 			current_status = STATUS.ATTACK;
-			Vector3 pos = transform.position;
-			Vector3 offset = new Vector3(current_side == SIDE.RIGHT ? 1.7f : -1.7f, 1.5f, -1.0f);
-
-			GameObject attack = Instantiate (attackZone, new Vector3 (pos.x + offset.x, pos.y + offset.y, pos.z + offset.z), transform.rotation) as GameObject;
-			attack.SendMessage("ApplyParentAndExecute", this);
-			sound.PlaySE("Attack", 1.0f);
-			rigorState = ATTACK_DURATION;
-			anim.SetTrigger("t_attack");
 		}
 	}
-	/*
-	protected void OnCollisionEnter2D(Collision2D col){
-		if (current_status == STATUS.JUMP) {
-			if(Mathf.Abs(horizontal_move_speed) < 0.5f){
-				current_status = STATUS.IDLE;
-			}else{
-				current_status = STATUS.WALK;
-			}
-		}
-	}
-*/
 
 	//For Ghost
-	public void UpdateMoveSpeed(Vector2 speed){
+	public void SetMoveSpeed(Vector2 speed){
 		move_speed = speed;
 		if (move_speed.x > 0.0f) {
 			Flip (SIDE.RIGHT);
@@ -250,25 +283,6 @@ public class Character : StageObject {
 		} else if (move_speed.x < 0.0f) {
 			Flip(SIDE.LEFT);
 			current_side = SIDE.LEFT;
-		}
-	}
-
-	protected void OnCollisionStay2D(Collision2D col){
-		if (col.gameObject.tag == "MovingFloor") {
-			transform.parent = col.transform;
-			} else {
-			transform.parent = null;		
-		}
-	}
-	protected void OnCollisionExit2D(Collision2D col){
-		if (col.gameObject.tag == "MovingFloor") {
-			transform.parent = null;		
-		} 
-	}
-
-	protected virtual void Hit(int value){
-		if (current_status != STATUS.DAMAGE && current_status != STATUS.DYING  && current_status != STATUS.GHOST) {
-			ApplyHealthDamage(value);		
 		}
 	}
 
@@ -283,12 +297,36 @@ public class Character : StageObject {
 		}
 	}
 
+	protected override void ApplySpiritDamage(float value){
+		if (current_status == STATUS.DAMAGE || current_status == STATUS.DYING ) {
+			return;
+		}
+		
+		base.ApplySpiritDamage (value);
+		if (current_spirit <= 0) {
+			if(current_status == STATUS.GHOST_IDLE){
+				current_status = STATUS.GHOST_DAMAGE;
+			}else{
+				current_status = STATUS.DAMAGE;
+			}
+			rigorState = DYING_DELAY;
+		} else {
+			if(current_status == STATUS.GHOST_IDLE){
+				current_status = STATUS.GHOST_DAMAGE;
+			}else{
+				current_status = STATUS.DAMAGE;
+			}
+			rigorState = DAMAGE_DURATION;
+		}
+	}
+
 	protected virtual IEnumerator Die(){
 		current_status = STATUS.GONE;
-		renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
-
+		//renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
+		renderer.material.color = Color.white;
+		
 		yield return new  WaitForSeconds(DISAPPEARING_DELAY);
-		Instantiate(effectPoint_destroy, transform.position, transform.rotation);
+		Instantiate(effectPoint_smoke, transform.position, transform.rotation);
 		
 		Disappear ();
 	}
@@ -316,15 +354,14 @@ public class Character : StageObject {
 			return;
 		}
 		
-		SIDE side = this.current_side;
-		if (side == SIDE.RIGHT) {
-			transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
-			current_side = SIDE.LEFT;
-		} else {
-			transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-			current_side = SIDE.RIGHT;
-		}
+		base.Flip();
 	}
+
+	public virtual bool GetIsLiving(){
+		return living;
+	}
+	
+	
 
 	public STATUS GetStatus(){
 		return current_status;

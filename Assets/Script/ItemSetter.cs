@@ -5,79 +5,165 @@ public class ItemSetter : Monument {
 	
 	//Act Type
 	public enum ACT_TYPE{
-		GOOD_ITEM,
-		BAD_ITEM,
+		CONSTANT,
+		SEQUENTIAL,
 		RANDOM,
 	};
-	public ACT_TYPE actType;
+	protected ACT_TYPE actType;
+	protected int choice = 0;
 	
 	//Status
-	private bool isReadyToRespawn;
-	private bool isChildRemoved;
-	private const float RESPAWN_DELAY = 5.0f; 
-	private float respawnTimer;
+	protected bool isReadyToRespawn;
+	protected bool isChildRemoved;
+	protected float respawnInterval = 5.0f; 
+	protected const float NOTICE = 2.0f;
+	protected float respawnTimer;
+	protected float m_timer = 0;
+	protected float m_childAlpha = 0.0f;
 
 	//Property
-	public bool SetonAwake = true;
+	protected bool SetonAwake = true;
+	protected bool oneShot = false;
+	protected bool summoned = false;
 
 	//Game Object
-	public GameObject goodItem;
-	public GameObject badItem;	
+	public GameObject[] item = new GameObject[3];
+	protected GameObject notifyingEffect;
+	protected GameObject child;
+	protected bool m_awake = true;
 
 	protected override void Start(){
+		builtOnGround = false;
 		base.Start();
 
 		SpriteRenderer sRenderer = GetComponent<SpriteRenderer>();
 		sRenderer.enabled = false;
 		
-		if(SetonAwake){
+		notifyingEffect = SetEffect() as GameObject;
+		
+		if(SetonAwake && !summoned){
 			CreateItem();
+			isReadyToRespawn = false;
+			respawnTimer = respawnInterval;
 		}
-		isReadyToRespawn = false;
-		respawnTimer = RESPAWN_DELAY;
+
+	}
+	
+	protected virtual Object SetEffect(){
+		return Resources.Load("Prefab/EvilSpirit");
 	}
 
 	protected override void Update(){
+	
+		if(!m_awake){
+			return;
+		}
+		
 		base.Update();
-
-		isChildRemoved = transform.childCount == 0;
+		
+		isChildRemoved = true;
+		
+		for(int i = 0 ; i < transform.childCount ; i++){
+			if(transform.GetChild(i).name.Contains(notifyingEffect.name) ){
+				continue;
+			}else{
+				isChildRemoved = false;
+			}
+		}
 
 		if(isReadyToRespawn){
 			CreateItem();
-			isReadyToRespawn = false;
+			if(oneShot){
+				child.SendMessage("SetAsOrphan", true);
+				
+				for(int i = 0 ; i < transform.childCount ; i++){
+					GameObject obj = transform.GetChild(i).gameObject;
+					if(obj.tag.Equals("Enemy")){
+						obj.transform.parent = transform.parent.transform;
+					}
+				}
+				transform.DetachChildren();
+				m_awake = false;
+				
+			}else{
+				isReadyToRespawn = false;
+			}
 		}else{
 			if(isChildRemoved){
 				respawnTimer -= Time.deltaTime;
 				if(respawnTimer <= 0.0f){
 					isReadyToRespawn = true;
-					respawnTimer = RESPAWN_DELAY;
+					respawnTimer = respawnInterval;
+				}else if(respawnTimer <= NOTICE){
+				
+					if (m_timer > 0.1f) {
+						m_timer = 0.0f;
+						Vector3 pos = transform.position;
+						Quaternion rot = transform.rotation;
+						
+						Vector3 offset = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), 0.0f );
+						
+						GameObject obj = Instantiate (notifyingEffect, pos + offset, rot) as GameObject;
+						Vector3 scale = obj.transform.localScale;
+						obj.transform.localScale = new Vector3(scale.x * 0.7f, scale.y * 0.7f, scale.z);
+						obj.transform.parent = transform;
+					}else{
+						m_timer += Time.deltaTime;
+					}
 				}
+			}else{
+				UpdateChildrenAlpha();
 			}
 		}
+		
 	}
 	
 	protected virtual void CreateItem(){
 		GameObject selectedItem;
 		switch(actType){
-		case ACT_TYPE.GOOD_ITEM:
-			selectedItem = goodItem;
+		case ACT_TYPE.CONSTANT:
+			selectedItem = item[choice];
 			break;
-		case ACT_TYPE.BAD_ITEM:
-			selectedItem = badItem;
+		case ACT_TYPE.SEQUENTIAL:
+			selectedItem = item[choice++];
 			break;
 		case ACT_TYPE.RANDOM:
-			selectedItem = Random.Range(0, 1) > 0.5f ? goodItem : badItem;
+			selectedItem = item[ Random.Range(0, item.Length) ];
 			break;
 		default:
-			selectedItem = goodItem;
+			selectedItem = item[choice];
 			break;
 			
 		}
 
-		GameObject item = Instantiate(selectedItem, this.transform.position, this.transform.rotation) as GameObject;
-		item.transform.parent = transform;			
+		child = Instantiate(selectedItem) as GameObject;
+		child.transform.transform.position = transform.position + new Vector3(0.0f, 0.0f, -1.0f);
+		child.transform.parent = transform;
+		m_childAlpha = 0.0f;
+		child.SendMessage("SetAlpha", m_childAlpha);
 		
 	}
 
+	protected virtual void UpdateChildrenAlpha(){
+		if(m_childAlpha < 1.0f && child != null){
+			m_childAlpha += Time.deltaTime;
+			child.SendMessage("SetAlpha", m_childAlpha);
+		}
+	}
+	
+	protected void SetAsOneShot(GameObject caller){
+		oneShot = true;
+		summoned = true;
+		respawnTimer = NOTICE;
+	}
+	
+	public virtual void ResetItem(){
+		if(child != null){
+			Destroy(child);
+		}
+		
+		CreateItem();
+			
+	}
 }
 

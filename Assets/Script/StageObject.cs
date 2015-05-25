@@ -8,16 +8,19 @@ public class StageObject : MonoBehaviour {
 		SPIRIT,
 	};
 
+	protected float INVINCIBLE_DURATION = 1.5f;
+	protected float timer_invincible = 0.0f;
 	protected bool invincible;
-	protected bool m_isMadeByGenerator = false;
-
+	protected bool m_visible = true;
+	
 	protected Collider2D m_collider;
 	
-	protected int current_health;
-	protected float current_spirit;
+	protected int current_health = 1;
+	protected float current_spirit = 1.0f;
 	protected int MAX_HEALTH = 3;
 	protected float MAX_SPIRIT = 100.0f;
-	
+	protected SpriteRenderer spriteRenderer;
+	protected float m_alpha;
 	
 	[HideInInspector]
 	public enum TYPE{
@@ -31,39 +34,49 @@ public class StageObject : MonoBehaviour {
 		RIGHT,
 		LEFT
 	}
-	[HideInInspector]
-	public SIDE current_side;
+	protected SIDE current_side;
 
 	//Script
 	protected SoundManager sound;
 	
-	// Use this for initialization
-	protected virtual void Start () {
-		current_health = 1;
+	//Game Object
+	protected GameObject effect_transformation;
+	protected GameObject effectPoint_smoke;
 	
-		invincible = false;
+	protected virtual void Awake(){
+		
+		effect_transformation = Resources.Load("Prefab/Effect_transformation") as GameObject;
+		effectPoint_smoke = Resources.Load("Prefab/EffectPoint_smoke") as GameObject;
 		sound = GameObject.Find ("GameManager").GetComponent<SoundManager>();
 		m_collider = GetComponent<Collider2D> ();
-		
+		spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 	
-	protected virtual bool init(GameObject caller){
+	// Use this for initialization
+	protected virtual void Start () {	
+		invincible = false;
+
+	}
+	
+	public virtual bool init(GameObject caller){
 		transform.parent = caller.transform;
 		return init();
 	}
 	
-	protected virtual bool init(){
+	public virtual bool init(){
 		return true;
 	}
 
 	protected virtual void Update(){}
 
 	protected virtual void Flip(SIDE side){
+		Vector3 scale = transform.localScale;
+		
 		if (side == SIDE.RIGHT) {
-			transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+			transform.localScale = new Vector3( -Mathf.Abs(scale.x), scale.y, scale.z);
 			current_side = SIDE.RIGHT;
 		} else {
-			transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+			transform.localScale = new Vector3( Mathf.Abs(scale.x), scale.y, scale.z);
 			current_side = SIDE.LEFT;
 		}
 	}
@@ -74,26 +87,37 @@ public class StageObject : MonoBehaviour {
 	//Face to the oppsite side
 	protected virtual void Flip(){
 		SIDE side = this.current_side;
+		Vector3 scale = transform.localScale;
+		
 		if (side == SIDE.RIGHT) {
-			transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+			transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
 			current_side = SIDE.LEFT;
 		} else {
-			transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+			transform.localScale = new Vector3(scale.x, scale.y, scale.z);
 			current_side = SIDE.RIGHT;
 		}
 	}
 
 	protected virtual void ApplyHealthDamage(int value){
-		sound.PlaySE ("Damage", 1.0f);
-		current_health -= value;	
+		if(invincible){
+			return;
+		}
+		if(m_visible){
+			sound.PlaySE ("Damage", 1.0f);
+		}
+		current_health -= value;
 		invincible = true;
+		timer_invincible = INVINCIBLE_DURATION;
 		renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
 	}
 	
 	protected virtual void ApplySpiritDamage(float value){
-		sound.PlaySE ("Damage", 1.0f);
+		if(m_visible){
+			sound.PlaySE ("Damage", 1.0f);
+		}
 		current_spirit = value >= current_spirit ? 0.0f : current_spirit -= value;
 		invincible = true;
+		timer_invincible = INVINCIBLE_DURATION;	
 		renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
 	}
 	
@@ -108,8 +132,25 @@ public class StageObject : MonoBehaviour {
 	}
 	
 	protected virtual void OnTriggerEnter2D(Collider2D col){
-		if(col.tag == "Ground")
-			Destroy(this.gameObject);
+	}
+	
+	protected virtual void OnCollisionEnter2D(Collision2D col){
+	}
+	
+	public virtual void SetAlpha(float val){
+		if(spriteRenderer == null){
+			spriteRenderer = GetComponent<SpriteRenderer>();
+		}
+	
+		Color clr = spriteRenderer.color; 
+		Color newColor = new Color (clr.r, clr.g, clr.b, val);
+		spriteRenderer.color = newColor;
+	}
+	
+	protected virtual void ApplyForce(Vector2 force){
+		if(rigidbody2D){
+			rigidbody2D.AddForce(force);
+		}
 	}
 	
 }

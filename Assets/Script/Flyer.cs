@@ -1,18 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Flyer : Character {
+public class Flyer : Enemy {
 	
-	protected int attack_Power = 1;
-	private Vector2 blow_impact =  new Vector2(200.0f, 100.0f);
-	
-	// Use this for initialization
-	protected override void Start () {
-		base.Start ();
-		if (!GameManager.GameOver()){
-			m_target = GameObject.FindWithTag ("Player").GetComponent<Player> ();
-		}
-	}
+	protected float flying_move_speed = 2.5f;
 	
 	// Update is called once per frame
 	protected override void Update () {
@@ -25,7 +16,7 @@ public class Flyer : Character {
 						if (rigorState <= 0) {
 								current_status = STATUS.IDLE;
 						}
-						transform.position += new Vector3 (horizontal_move_speed * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
+						transform.position += new Vector3 (move_speed.x * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
 						break;
 				case STATUS.DAMAGE:
 						rigorState -= 1.0f * Time.deltaTime;
@@ -47,38 +38,47 @@ public class Flyer : Character {
 						break;	
 				}
 		}
-
-	protected override void OnTriggerEnter2D(Collider2D col){
-		if (col.gameObject.tag == "Player") {
-			Crash(col.gameObject);
-		}
-	}
-
-	protected override void ApplyHealthDamage(int value){
-		base.ApplyHealthDamage(value);
-		if (current_health <= 0) {
-			Instantiate (effectPoint_destroy, transform.position, transform.rotation);
-			current_status = STATUS.GONE;
-		}
-	}
-	
-	protected void Crash(GameObject target){
+	protected override void OnEnter(GameObject target){
 		
-		//Debug.Log("HIT" + Time.realtimeSinceStartup.ToString());
-
 		if (m_target == null){
 			m_target = target.GetComponent<Player> ();
 		}
-
-		if (m_target.GetStatus() != STATUS.DYING) {
-			m_target.SendMessage ("Hit", attack_Power);
-			
-			float dir =  target.transform.position.x > transform.position.x ? 1.0f : -1.0f;
-			//float dir = m_target.current_side == SIDE.LEFT ? -1.0f : 1.0f;
-
-			if (m_target.GetStatus() != STATUS.GHOST) {
-			m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
+		
+		STATUS status = (m_target.GetStatus());
+		
+		if(status == STATUS.GONE || status == STATUS.DYING){
+			return;
+		}
+		
+		m_target.SendMessage ("ApplySpiritDamage", attack_power);
+		
+		float dir =  target.transform.position.x > transform.position.x ? 1.0f : -1.0f;
+		
+		m_target.rigidbody2D.velocity = Vector2.zero;
+		m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
+	}
+	
+	protected virtual void OnTriggerStay2D(Collider2D col){
+		if(col.tag == "Player" && GameManager.GetPlayerIsGhost()){
+		
+			if (m_target == null){
+				m_target = col.GetComponent<Player> ();
 			}
+			
+			STATUS status = (m_target.GetStatus());
+			
+			if(status == STATUS.GONE || status == STATUS.DYING){
+				return;
+			}
+			
+			m_target.SendMessage ("ApplySpiritDamage", attack_power);
+			
+			float dir =  col.transform.position.x > transform.position.x ? 1.0f : -1.0f;
+			
+			m_target.rigidbody2D.velocity = Vector2.zero;
+			m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
+			
 		}
 	}
+	
 }

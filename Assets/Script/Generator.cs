@@ -11,6 +11,7 @@ public class Generator : Monument {
 	protected float offset_range = 2.0f;
 
 	protected override void Start(){
+		builtOnGround = false;
 		base.Start ();
 		m_isWorking = true;
 	}
@@ -23,12 +24,10 @@ public class Generator : Monument {
 				Generate();
 				generate_timer = 0.0f;
 			}
-			if(GameManager.GameOver()){
-
+			if(GameManager.GameOver() || GameManager.Pause()){
 				m_isWorking = false;
 			}
 		}
-
 	}
 
 	protected override void ApplyHealthDamage (int value)

@@ -6,35 +6,68 @@ public class Needle : Monument {
 	private Player m_target;
 	private float attack_power;
 
-	private Vector2 blow_impact =  new Vector2(200.0f, 100.0f);
+	private Vector2 blow_impact =  new Vector2(10.0f, 10.0f);
+	private float m_timer = 0.0f;
+	private const float DELAY = 0.2f;
 	
 	protected override void Start(){
+		builtOnGround = false;
 		base.Start();
 		attack_power = 10.0f;
 	}
-
-	protected override void OnTriggerEnter2D(Collider2D col){
-		if (col.gameObject.tag == "Player") {
+	
+	protected override void OnCollisionEnter2D(Collision2D col){
+		if (col.gameObject.tag == "Player" || col.gameObject.tag == "Enemy") {
 			Crash(col.gameObject);
 		}
 	}
+	
+	protected override void OnTriggerEnter2D(Collider2D col){
+		if (col.gameObject.tag == "Player" || col.gameObject.tag == "Enemy") {
+			Crash(col.gameObject);
+		}
+	}
+	
 
+	protected override void Update ()
+	{
+		base.Update ();
+		if(m_timer > 0.0f){
+			m_timer -= Time.deltaTime;
+		}
+	}
 
 	protected void Crash(GameObject other){
-		
-		//Debug.Log("HIT" + Time.realtimeSinceStartup.ToString());
-		
-		if (m_target == null){
-			m_target = other.GetComponent<Player> ();
+	
+		if(m_timer > 0.0f){
+			return;
 		}
-		
-		if (m_target.GetStatus() != STATUS.DYING && m_target.GetStatus() != STATUS.GHOST) {
-			m_target.SendMessage ("Hit", attack_power);
-			float dir = 1.0f;
-			if (this.gameObject.transform.position.x > m_target.transform.position.x) {
-				dir *= -1.0f;
+	
+		if (other.tag == "Player"){
+			
+			if (m_target == null){
+				m_target = other.GetComponent<Player> ();
 			}
-			m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
+			
+			if ( m_target.GetStatus() != STATUS.GHOST_IDLE && m_target.GetStatus() != STATUS.GHOST_DAMAGE){
+				
+				float dir = 1.0f;
+				if (gameObject.transform.position.x > m_target.transform.position.x){
+					dir *= -1.0f;
+				}
+				
+				m_target.rigidbody2D.velocity = Vector2.zero;
+				Vector2 force = new Vector2 (blow_impact.x * dir, blow_impact.y);
+				m_target.SendMessage("ApplyForce", force);
+				
+				m_timer = DELAY;
+				
+				if(m_target.GetStatus() != STATUS.DYING){
+					m_target.SendMessage ("HitNeedle", attack_power);
+				}
+			}
+		}else if(other.tag.Equals("Enemy")){//For Enemies
+			other.SendMessage ("InstantDeath");
 		}
 	}
 

@@ -3,26 +3,93 @@ using System.Collections;
 
 public class Bullet : StageObject {
 	
-	private float speed = 15.0f;
-	private Vector3 m_direction;
+	protected float speed = 7.0f;
+	protected Vector3 m_direction = Vector3.zero;
+	protected Vector2 blow_impact =  new Vector2(100.0f, 50.0f);
+	protected float attack_power = 5.0f;
+	protected float lifeTime = 2.0f;
+	protected bool executed = false;
+	protected bool dying = false;
 	
 	protected override void Start ()
 	{
-//		base.Start();
-	
-		m_direction = Vector3.zero;
+		base.Start();
 	}
 	
 	protected override void Update(){
-		transform.Rotate(0, 0, 200.0f * Time.deltaTime);
+	
+		if(!executed){
+			return;
+		}
 		
-		if(m_direction != Vector3.zero){
+		if(dying){
+			if(m_alpha <= 0.0f){
+				Destroy(this.gameObject);
+			}else{
+				m_alpha -= Time.deltaTime;
+				SetAlpha(m_alpha);
+			}
+		}else{
 			Vector3 pos = transform.position;
 			transform.position = new Vector3(pos.x + m_direction.x * speed * Time.deltaTime, pos.y + m_direction.y * speed * Time.deltaTime, pos.z);
 		}
+		
+		lifeTime -= Time.deltaTime;
+		if(lifeTime < 0.0f){
+			Die ();
+		}
+		
 	}
 	
-	private void SetDirectionAndExecute(Vector3 dir){
+	protected virtual void SetDirectionAndExecute(Vector3 dir){
 		m_direction = dir;
+		executed = true;
+	}
+	
+	protected virtual void SetDirectionAndExecute(Vector2 dir){
+		SetDirectionAndExecute(new Vector3 (dir.x, dir.y, 0.0f));
+	}
+	
+	protected virtual void SetAttackPower(float val){
+		attack_power = val;
+	}
+	
+	protected override void OnTriggerEnter2D(Collider2D col){
+		if(dying){
+			return;
+		}
+	
+		if (col.gameObject.tag == "Player") {
+			Crash(col.gameObject);
+		}else if(col.gameObject.tag == "Ground"){
+			Die();
+		}
+	}
+	
+	protected virtual void Die(){
+		if(dying){
+			return;
+		}
+		
+		dying = true;
+		
+		rigidbody2D.velocity = Vector2.zero;
+		m_collider.enabled = false;	}
+	
+	protected virtual void Crash(GameObject other){
+		
+		//Debug.Log("HIT" + Time.realtimeSinceStartup.ToString());
+		
+		Player  m_target = other.GetComponent<Player> ();
+		
+		if (m_target.GetStatus() != STATUS.DYING && m_target.GetStatus() != STATUS.GHOST_IDLE) {
+			m_target.SendMessage ("ApplySpiritDamage", attack_power);
+			float dir = 1.0f;
+			if (this.gameObject.transform.position.x > m_target.transform.position.x) {
+				dir *= -1.0f;
+			}
+			m_target.rigidbody2D.velocity = Vector2.zero;
+			m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
+		}
 	}
 }

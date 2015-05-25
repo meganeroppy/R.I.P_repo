@@ -45,7 +45,7 @@ public class SpiritBar : MonoBehaviour {
 
 		status = player.GetStatus();
 
-		if(status == STATUS.GHOST){
+		if(status == STATUS.GHOST_IDLE){
 			
 		}
 		float[] spirit = player.GetSpiritInfo ();

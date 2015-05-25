@@ -6,26 +6,36 @@ public class MainCamera : MonoBehaviour {
 	private static GameObject m_target;
 	float posY_origin;
 	float v_bottom;
-	Vector3 m_playerPos;
+	//Vector3 m_playerPos;
+	private float LimitY;
+	private bool SetLimit = false;
+	private float offset = 5.0f;
 
 	// Use this for initialization
 	void Start () {
 		//posY_origin = transform.position.y;
+		transform.position = new Vector3(20.0f, 20.0f);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+	
 		if(GameManager.Miss()){
 			return;
 		}
+		
+		if(GameManager.playerIsBorn && !SetLimit){
+			LimitY = GameObject.FindWithTag("DeadZone").transform.position.y;
+			SetLimit = true;
+		}
+		
 		
 		if(m_target == null){
 			if(GameManager.GameOver()){
 				return;
 			}
 			m_target = GameObject.FindWithTag ("Player");
-			m_playerPos = m_target.transform.position;
-			transform.position = new Vector3(m_playerPos.x, m_playerPos.y + 3.0f, m_playerPos.z - 5.0f);
+		//	m_playerPos = m_target.transform.position;
 			//v_bottom = posY_origin - 25.0f;
 		}
 		
@@ -36,15 +46,18 @@ public class MainCamera : MonoBehaviour {
 		}else{
 			return;
 		}
-
-		//if (pos.y < v_bottom) {
-		//	transform.position = new Vector3 (playerPos.x, pos.y, playerPos.z - 5.0f);
-		//} else {
-			transform.position = new Vector3 (playerPos.x, playerPos.y + 3.0f, playerPos.z - 5.0f);
-		//}
+		
+		
+		if(transform.transform.position.y - offset < LimitY && GameManager.Miss()){
+			transform.position = new Vector3(playerPos.x, transform.position.y, playerPos.z - 5.0f);
+		}else{
+			transform.position = new Vector3(playerPos.x, playerPos.y + 3.0f, playerPos.z - 5.0f);
+		}
+		
 	}
 	
-	public static void  SetTarget(GameObject target){
+	public void  SetTarget(GameObject target){
+		transform.position = new Vector3(20.0f, 20.0f);
 		m_target = target;
 	}
 	
@@ -52,5 +65,9 @@ public class MainCamera : MonoBehaviour {
 		if(m_target != null){
 			m_target = null;
 		}
+	}
+	
+	private void SetEndsOfStage(float[] ends){
+	//	this.ends = ends;
 	}
 }

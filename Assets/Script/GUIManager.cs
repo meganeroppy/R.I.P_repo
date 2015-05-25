@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class GUIManager : MonoBehaviour {
-
+/*
 	//System
 	protected bool grounded;
 	STATUS status;
@@ -11,30 +11,34 @@ public class GUIManager : MonoBehaviour {
 	protected float m_w;
 	protected float m_h;
 
-	//About Life Point
+	//About health Point
+	private Vector2 m_basePos_healthPoint;
+	private float m_scale_healthPoint;
+	private float m_interval_health;
+	public Texture2D[] icon_heart = new Texture2D[2];
+	
+	
+	//About life Point
 	private Vector2 m_basePos_lifePoint;
 	private float m_scale_lifePoint;
 	private float m_interval_life;
-	public Texture2D[] icon_heart = new Texture2D[2];
+	public Texture2D icon_life;
+	public Texture2D[] number_life = new Texture2D[10];
 	
-/*
-	//About spiritBar
-	public Texture2D spiritBar_frame;
-	public Texture2D spiritBar;
-	private Vector2 m_basePos_spiritBar;
-	private Vector2 m_scale_spiritBarFrame;
-*/		
-
+	//About Annnounce
+	public Texture2D tex_Gameover;
+	public Texture2D tex_pause;
+	
 	//Player 
 	private Player player;
 
 	public bool DEBUG_MODE = true;
-
+*/
 	// Use this for initialization
 	void Start () {
-
-		m_w = Screen.width;
-		m_h = Screen.height;
+	
+		//m_w = Screen.width;
+		//m_h = Screen.height;
 
 		switch(Application.loadedLevelName.ToString()){
 
@@ -44,18 +48,18 @@ public class GUIManager : MonoBehaviour {
 		case "Main":
 		case "Tutorial":
 		case "Test01":
-			
-			//About LifePoint
-			m_basePos_lifePoint = new Vector2 (m_w * 0.01f, m_h * 0.01f);
+		case "Test02":
+/*
+			//About lifePoint
+			m_basePos_lifePoint = new Vector2 (m_w * 0.01f, m_h * 0.08f);
 			m_scale_lifePoint = m_w * 0.03f;
 			m_interval_life = m_w * 0.03f;
-
-		/*
-		//About spiritBar
-		m_basePos_spiritBar = new Vector2 (m_w * 0.01f, m_h * 0.08f);
-		m_scale_spiritBarFrame.y = m_h * 0.3f;
-		m_scale_spiritBarFrame.x = m_w * 0.3f;
-		*/		
+			
+			//About healthPoint
+			m_basePos_healthPoint = new Vector2 (m_w * 0.01f, m_h * 0.2f);
+			m_scale_healthPoint = m_w * 0.03f;
+			m_interval_health = m_w * 0.03f;
+*/			
 			break;
 			//End of case "Main"/////////////////////////
 			////////////////////////////////////////////
@@ -67,7 +71,7 @@ public class GUIManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+/*
 		switch(Application.loadedLevelName.ToString()){
 			
 		case "Title":			
@@ -76,6 +80,8 @@ public class GUIManager : MonoBehaviour {
 		case "Main":
 		case "Tutorial":
 		case "Test01":
+		case "Test02":
+			
 			if(player == null){
 				player = GameObject.FindWithTag("Player").GetComponent<Player> ();
 			}
@@ -85,18 +91,18 @@ public class GUIManager : MonoBehaviour {
 		default:
 			break;
 		}
-
+*/
 	}
 
 	void OnGUI(){
 
-		GUIStyle style =  new GUIStyle();
+		//GUIStyle style =  new GUIStyle();
 
 		switch(Application.loadedLevelName.ToString()){
 			//Begin of case "Title"/////////////////////////
 			////////////////////////////////////////////
 		case "Title":
-
+/*
 			style.fontSize = 18;
 			style.normal.textColor = Color.gray;
 			style.alignment = TextAnchor.MiddleCenter;
@@ -121,43 +127,45 @@ public class GUIManager : MonoBehaviour {
 				style.normal.textColor = Color.yellow;
 				GUI.Box(new Rect((m_w * 0.2f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Main", style);
 				style.normal.textColor = Color.gray;
-				GUI.Box(new Rect((m_w * 0.4f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Tutorial", style);
-				GUI.Box(new Rect((m_w * 0.6f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage", style);
+				GUI.Box(new Rect((m_w * 0.4f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage1", style);
+				GUI.Box(new Rect((m_w * 0.6f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage2", style);
 				GUI.Box(new Rect((m_w * 0.8f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Option", style);
 				
 				break;
-			case "TUTORIAL":
+			case "TESTSTAGE1":
 				GUI.Box(new Rect((m_w * 0.2f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Main", style);
 				style.normal.textColor = Color.yellow;
-				GUI.Box(new Rect((m_w * 0.4f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Tutorial", style);
+				GUI.Box(new Rect((m_w * 0.4f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage1", style);
 				style.normal.textColor = Color.gray;
-				GUI.Box(new Rect((m_w * 0.6f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage", style);
+				GUI.Box(new Rect((m_w * 0.6f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage2", style);
 				GUI.Box(new Rect((m_w * 0.8f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Option", style);
 				break;
-			case "TESTSTAGE":
+			case "TESTSTAGE2":
 				GUI.Box(new Rect((m_w * 0.2f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Main", style);
-				GUI.Box(new Rect((m_w * 0.4f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Tutorial", style);
+				GUI.Box(new Rect((m_w * 0.4f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage1", style);
 				style.normal.textColor = Color.yellow;
-				GUI.Box(new Rect((m_w * 0.6f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage", style);
+				GUI.Box(new Rect((m_w * 0.6f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage2", style);
 				style.normal.textColor = Color.gray;
 				GUI.Box(new Rect((m_w * 0.8f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Option", style);
 				break;
 			case "OPTION":
 				GUI.Box(new Rect((m_w * 0.2f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Main", style);
-				GUI.Box(new Rect((m_w * 0.4f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Tutorial", style);
-				GUI.Box(new Rect((m_w * 0.6f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage", style);
+				GUI.Box(new Rect((m_w * 0.4f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage1", style);
+				GUI.Box(new Rect((m_w * 0.6f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "TestStage2", style);
 				style.normal.textColor = Color.yellow;
 				GUI.Box(new Rect((m_w * 0.8f) - (text_size.x * 0.5f), m_h * 0.9f, text_size.x, text_size.y), "Option", style);
 				break;
 			}
-			
+			*/
 			break;
+			
 			//End of case "Title"/////////////////////////
 			////////////////////////////////////////////
 		case "Main":
 		case "Tutorial":
 		case "Test01":
-			
+		case "Test02":
+		/*	
 			style.normal.textColor = Color.yellow;
 			
 			//For Debug
@@ -166,6 +174,9 @@ public class GUIManager : MonoBehaviour {
 				
 				GUI.Box (new Rect (base_pos.x, base_pos.y, 20, 20), "GROUND :" + grounded.ToString(), style);
 				GUI.Box (new Rect (base_pos.x, base_pos.y + 20, 20, 20), "status :" + status.ToString(), style);
+				//Display FPS
+				string fps = Application.targetFrameRate.ToString();
+				GUI.Box (new Rect (m_w * 0.9f, m_h * 0.9f, 40.0f, 20.0f), fps, style);
 			}
 			//End of For Debug
 			style.fontSize = 25;
@@ -176,45 +187,35 @@ public class GUIManager : MonoBehaviour {
 			} else if (GameManager.Miss()) {
 				style.normal.textColor = UnityEngine.Color.red;
 				if( GameManager.GameOver()){
-					GUI.Box (new Rect (m_w * 0.05f, m_h * 0.8f, 40.0f, 20.0f), "GAMEOVER!", style);
+//					GUI.Box (new Rect (m_w * 0.05f, m_h * 0.8f, 40.0f, 20.0f), "GAMEOVER!!", style);
+					//GUI.Box (new Rect (m_w * 0.00f, m_h * 0.0f, m_w, m_h), tex_Gameover, GUIStyle.none);
 				}else{
 					GUI.Box (new Rect (m_w * 0.05f, m_h * 0.8f, 40.0f, 20.0f), "MISSED!!", style);
 				}
 			}
-			
-			//Display FPS
-			string fps = Application.targetFrameRate.ToString();
-			GUI.Box (new Rect (m_w * 0.9f, m_h * 0.9f, 40.0f, 20.0f), fps, style);
-			
-			
-			
+		*/	
 			//About HitPoint
-			if(player == null){
-				player = GameObject.FindWithTag("Player").GetComponent<Player> ();
-			}
-			int[] life = player.GetLifeInfo ();
-			for (int i = 0; i < life[0]; i++) {
-				if(i < life[1]){
-					GUI.Box (new Rect (m_basePos_lifePoint.x + (m_interval_life * i), m_basePos_lifePoint.y, m_scale_lifePoint, m_scale_lifePoint), icon_heart [1], GUIStyle.none);
-				}else{
-					GUI.Box (new Rect (m_basePos_lifePoint.x + (m_interval_life * i), m_basePos_lifePoint.y, m_scale_lifePoint, m_scale_lifePoint), icon_heart [0], GUIStyle.none);
-				}
-			}
+			//if(player == null){
+			//	player = GameObject.FindWithTag("Player").GetComponent<Player> ();
+			//}
+			//int[] health = player.GetLifeInfo ();
+			//for (int i = 0; i < health[0]; i++) {
+			//	if(i < health[1]){
+			//		GUI.Box (new Rect (m_basePos_healthPoint.x + (m_interval_health * i), m_basePos_healthPoint.y, m_scale_healthPoint, m_scale_healthPoint), icon_heart [1], GUIStyle.none);
+			//	}else{
+			//		GUI.Box (new Rect (m_basePos_healthPoint.x + (m_interval_health * i), m_basePos_healthPoint.y, m_scale_healthPoint, m_scale_healthPoint), icon_heart [0], GUIStyle.none);
+			//	}
+			//}
 			//End of About HitPoint
 			
-			/*
-					//About spiritBar
-					float[] spirit = player.GetSpiritInfo ();
-					float value_percent = spirit[1] / spirit[0];
-					float scaleX = m_scale_spiritBarFrame.x * value_percent;
+			//About LifePoint
+			//GUI.Box (new Rect (m_basePos_lifePoint.x, m_basePos_lifePoint.y, m_scale_lifePoint, m_scale_lifePoint), icon_life, GUIStyle.none);
 			
-					GUI.Box (new Rect (m_basePos_spiritBar.x, m_basePos_spiritBar.y, m_scale_spiritBarFrame.x, m_scale_spiritBarFrame.y), spiritBar, GUIStyle.none);
+			//int life = GameManager.player_life;
+			//GUI.Box (new Rect (m_basePos_lifePoint.x + (m_interval_life), m_basePos_lifePoint.y, m_scale_lifePoint, m_scale_lifePoint), number_life[life], GUIStyle.none);
 			
-					//spiritBar frame
-					GUI.Box (new Rect (m_basePos_spiritBar.x, m_basePos_spiritBar.y, m_scale_spiritBarFrame.x, m_scale_spiritBarFrame.y), spiritBar_frame, GUIStyle.none);
+			//End of About LifePoint
 			
-					//End of About spiritBar
-			*/
 			break;
 //End of case "Main"/////////////////////////
 ////////////////////////////////////////////

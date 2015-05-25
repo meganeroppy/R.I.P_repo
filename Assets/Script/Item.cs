@@ -1,47 +1,46 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Item : MonoBehaviour {
+public class Item : StageObject {
 
-	private SoundManager sound;
+	protected EffectPoint_Flash effect;
+	public GameObject effect_pop;
 
-	protected enum TYPE{
-		GAIN_HEALTH,
+	protected enum ITEM_TYPE{
 		GAIN_SPIRIT,
 		REVIVAL,
 		DYING,
-		CLEAR
+		TREASURE
 	}
-	protected TYPE item_type;
+	protected ITEM_TYPE item_type;
 
 	// Use this for initialization
-	protected virtual void Start () {
+	protected override void Start () {
+		base.Start();
 		sound = GameObject.Find ("GameManager").GetComponent<SoundManager> ();
+		effect = GetComponent<EffectPoint_Flash>();
 	}
 	
 	// Update is called once per frame
-	protected virtual void Update () {
+	protected override void Update () {
 	
 	}
 
-	protected virtual void Remove(){
-		sound.PlaySE ("GetItem", 1.0f);
+	public virtual void Remove(){
 		Destroy (this.gameObject);
 	}
 
 	public virtual string GetItemType(){
-		if(item_type == TYPE.REVIVAL){
+		if(item_type == ITEM_TYPE.REVIVAL){
 			return "REVIVAL";
-		}else if(item_type == TYPE.DYING){
+		}else if(item_type == ITEM_TYPE.DYING){
 			return "DYING";
-		}else if(item_type == TYPE.GAIN_HEALTH){
-			return "GAIN_HEALTH";
-		}else if(item_type == TYPE.GAIN_SPIRIT){
+		}else if(item_type == ITEM_TYPE.GAIN_SPIRIT){
 			return "GAIN_SPIRIT";
-		}else if(item_type == TYPE.CLEAR){
-			return "CLEAR";
+		}else if(item_type == ITEM_TYPE.TREASURE){
+			return "TREASURE";
 		} else{
-			return "ERROR";
+			return "It's ITEM_TYPE has not been defined!";
 		}
 	}
 }

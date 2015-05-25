@@ -37,7 +37,8 @@ public class Tree : Monument {
 		invincible = false;
 		if (dying) {
 			if (item != null) {
-				Instantiate (item, transform.position, transform.rotation);
+				Vector3 pos = new Vector3(transform.position.x, transform.position.y + 2.5f, transform.position.z);
+				Instantiate (item, pos, transform.rotation);
 			}
 			Destroy (this.gameObject);
 		}
