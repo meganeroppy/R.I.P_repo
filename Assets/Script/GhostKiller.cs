@@ -106,7 +106,7 @@ public class GhostKiller : DeadZone {
 			funcName = "ColorToBlack";
 		}
 		
-		if(!m_awake){
+		if(!m_awake){		
 			iTween.ValueTo(gameObject, iTween.Hash("from", colorFrom, "to", colorTo, "time", 1.0f, "onupdate", funcName));
 		}else{
 			iTween.ValueTo(gameObject, iTween.Hash("from", colorFrom, "to", colorTo, "time", 1.0f, "onupdate", funcName, "oncomplete", "SwitchColor"));
