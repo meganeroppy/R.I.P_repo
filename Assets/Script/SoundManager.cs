@@ -24,18 +24,18 @@ public class SoundManager : MonoBehaviour {
 		switch(SceneManager.currentLevelName){
 		case "Main":
 		case "Tutorial":
-			GetComponent<AudioSource>().clip = bgm_tutorial;
+			audio.clip = bgm_tutorial;
 			break;
 		case "Stage01":
 		case "Stage02":
 			
-			GetComponent<AudioSource>().clip = bgm_stage;
+			audio.clip = bgm_stage;
 			
 			//SetBGM(System.DateTime.Now.Hour);
 
 			break;
 		case "StageBoss":
-			GetComponent<AudioSource>().clip = bgm_boss;
+			audio.clip = bgm_boss;
 			
 			break;
 			case "Title":
@@ -44,8 +44,8 @@ public class SoundManager : MonoBehaviour {
 			default:
 			break;
 		}
-		GetComponent<AudioSource>().loop = true;
-		GetComponent<AudioSource>().Play();
+		audio.loop = true;
+		audio.Play();
 	}
 	
 	// Update is called once per frame
@@ -59,31 +59,31 @@ public class SoundManager : MonoBehaviour {
 	public void PlaySE(string clip, float volume){
 		switch (clip) {
 		case "Jump":
-			GetComponent<AudioSource>().PlayOneShot(se_jump, volume);
+			audio.PlayOneShot(se_jump, volume);
 			break;
 		case "Attack":
-			GetComponent<AudioSource>().PlayOneShot(se_attack, volume);
+			audio.PlayOneShot(se_attack, volume);
 			break;
 		case "Attack2":
-			GetComponent<AudioSource>().PlayOneShot(se_attack2, volume);
+			audio.PlayOneShot(se_attack2, volume);
 			break;
 		case "Damage":
-			GetComponent<AudioSource>().PlayOneShot(se_damage, volume);
+			audio.PlayOneShot(se_damage, volume);
 			break;
 		case "Damage_electro":
-			GetComponent<AudioSource>().PlayOneShot(se_damage_electro, volume);
+			audio.PlayOneShot(se_damage_electro, volume);
 			break;
 		case "GetItem" :
-			GetComponent<AudioSource>().PlayOneShot(se_getItem, volume);
+			audio.PlayOneShot(se_getItem, volume);
 			break;
 		case "Wraith_wakeup" :
-			GetComponent<AudioSource>().PlayOneShot(se_raith_wakeup, volume);
+			audio.PlayOneShot(se_raith_wakeup, volume);
 			break;
 		case "Bubble_throw" :
-			GetComponent<AudioSource>().PlayOneShot(se_bubble_throw, volume);
+			audio.PlayOneShot(se_bubble_throw, volume);
 			break;
 		case "Bubble_die" :
-			GetComponent<AudioSource>().PlayOneShot(se_bubble_die, volume);
+			audio.PlayOneShot(se_bubble_die, volume);
 			break;
 		default:
 			break;
@@ -100,7 +100,7 @@ public class SoundManager : MonoBehaviour {
 		case 15:
 		case 18:
 		case 21:
-			GetComponent<AudioSource>().clip = bgm_op;
+			audio.clip = bgm_op;
 			break;
 		case 1:
 		case 4:
@@ -110,7 +110,7 @@ public class SoundManager : MonoBehaviour {
 		case 16:
 		case 19:
 		case 22:
-			GetComponent<AudioSource>().clip = bgm_tutorial;
+			audio.clip = bgm_tutorial;
 			break;
 		case 2:
 		case 5:
@@ -120,7 +120,7 @@ public class SoundManager : MonoBehaviour {
 		case 17:
 		case 20:
 		case 23:
-			GetComponent<AudioSource>().clip = bgm_ed;
+			audio.clip = bgm_ed;
 			break;
 		}
 	}
@@ -130,6 +130,6 @@ public class SoundManager : MonoBehaviour {
 	}
 	
 	public void SetSoundVolume(float val){
-		GetComponent<AudioSource>().volume = val;
+		audio.volume = val;
 	}
 }

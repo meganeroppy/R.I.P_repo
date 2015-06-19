@@ -31,7 +31,7 @@ public class CheckPoint : Monument {
 		if(col.tag.Equals("Player")){
 			marked = true;
 			spriteRenderer.sprite = pic[1];
-			Vector2 col_center = GetComponent<CircleCollider2D>().offset;
+			Vector2 col_center = GetComponent<CircleCollider2D>().center;
 			GameObject obj = Instantiate(label_checkPoint, transform.position + new Vector3(col_center.x, col_center.y + 0.5f, -0.5f), transform.rotation) as GameObject;
 			obj.transform.parent = this.transform;
 			GameObject manager = GameObject.Find("GameManager") as GameObject;

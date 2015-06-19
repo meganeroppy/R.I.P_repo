@@ -89,8 +89,8 @@ public class Character : StageObject {
 				? true : Physics2D.Raycast(pos + new Vector3(-0.5f,0.0f,0.0f), -Vector2.up, rayRange, layer_ground) ;
 		
 		if(!invincible){
-			if(GetComponent<Renderer>().material.color != Color.white){
-				GetComponent<Renderer>().material.color = Color.white;
+			if(renderer.material.color != Color.white){
+				renderer.material.color = Color.white;
 			}
 		}else{
 			if(current_status != STATUS.DAMAGE){
@@ -112,7 +112,7 @@ public class Character : StageObject {
 			}else{
 				if(!grounded){
 					//transform.parent = null;
-					current_status = GetComponent<Rigidbody2D>().velocity.y <= 0.0f ? STATUS.JUMP_DOWN : STATUS.JUMP_UP;
+					current_status = rigidbody2D.velocity.y <= 0.0f ? STATUS.JUMP_DOWN : STATUS.JUMP_UP;
 				}
 			}
 			break;
@@ -124,7 +124,7 @@ public class Character : StageObject {
 				}else{
 					current_status = STATUS.WALK;
 				}
-			}else if(GetComponent<Rigidbody2D>().velocity.y <= 0.0f){
+			}else if(rigidbody2D.velocity.y <= 0.0f){
 				current_status = STATUS.JUMP_DOWN;
 			}
 			transform.position += new Vector3(move_speed.x * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
@@ -138,7 +138,7 @@ public class Character : StageObject {
 				}else{
 					current_status = STATUS.WALK;
 				}
-			}else if(GetComponent<Rigidbody2D>().velocity.y > 0.0f){
+			}else if(rigidbody2D.velocity.y > 0.0f){
 				current_status = STATUS.JUMP_UP;
 			}
 			
@@ -151,7 +151,7 @@ public class Character : StageObject {
 				current_status = STATUS.IDLE;
 			}else{
 				if(!grounded){
-					current_status = GetComponent<Rigidbody2D>().velocity.y <= 0.0f ? STATUS.JUMP_DOWN : STATUS.JUMP_UP;
+					current_status = rigidbody2D.velocity.y <= 0.0f ? STATUS.JUMP_DOWN : STATUS.JUMP_UP;
 
 				}
 				transform.position += new Vector3(move_speed.x * WALK_SPEED_BASE * Time.deltaTime, 0.0f, 0.0f);
@@ -190,8 +190,8 @@ public class Character : StageObject {
 			break;
 		case STATUS.GHOST_IDLE:
 		
-			if(GetComponent<Rigidbody2D>().velocity != Vector2.zero){
-				GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+			if(rigidbody2D.velocity != Vector2.zero){
+				rigidbody2D.velocity = Vector2.zero;
 			}
 			//Ghost move
 			transform.position += new Vector3(move_speed.x * MOVE_SPEED_BASE * Time.deltaTime * 0.7f, move_speed.y * MOVE_SPEED_BASE * Time.deltaTime * 0.7f, 0.0f);
@@ -201,8 +201,8 @@ public class Character : StageObject {
 		
 			move_speed = Vector2.zero;
 			
-			if(GetComponent<Rigidbody2D>())
-				GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+			if(rigidbody2D)
+				rigidbody2D.velocity = Vector2.zero;
 			
 			break;
 		default:
@@ -323,7 +323,7 @@ public class Character : StageObject {
 	protected virtual IEnumerator Die(){
 		current_status = STATUS.GONE;
 		//renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
-		GetComponent<Renderer>().material.color = Color.white;
+		renderer.material.color = Color.white;
 		
 		yield return new  WaitForSeconds(DISAPPEARING_DELAY);
 		Instantiate(effectPoint_smoke, transform.position, transform.rotation);
@@ -332,7 +332,7 @@ public class Character : StageObject {
 	}
 
 	virtual protected void Disappear(){
-		GetComponent<Renderer>().enabled = false;
+		renderer.enabled = false;
 		Destroy (this.gameObject);
 	}
 

@@ -63,10 +63,10 @@ public class Player : Walker {
 		Flip(SIDE.RIGHT);
 		jump_force = JUMP_FORCE_BASE;
 		move_speed.x = 0.0f;
-		if(GetComponent<Rigidbody2D>().IsSleeping()){
-			GetComponent<Rigidbody2D>().Sleep();
+		if(rigidbody2D.IsSleeping()){
+			rigidbody2D.Sleep();
 		}
-		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+		rigidbody2D.velocity = Vector2.zero;
 		
 		if(gameManager == null){
 			gameManager = GameObject.Find ("GameManager").GetComponent<GameManager>();
@@ -79,7 +79,7 @@ public class Player : Walker {
 		colPos_living[1] = new Vector2(-0.2f, 0.5f);
 		for (int i = 0 ; i < m_colliders.Length ; i++) {
 			//col.isTrigger = false;
-			(m_colliders[i] as CircleCollider2D).offset = colPos_living[i];
+			(m_colliders[i] as CircleCollider2D).center = colPos_living[i];
 		}
 		
 		gameManager.EnableUI();
@@ -106,7 +106,7 @@ public class Player : Walker {
 			
 			UpdateSpirit(-(losing_rate * Time.deltaTime));
 			Color color = new Color(1.0f, 1.0f, 1.0f, current_spirit / MAX_SPIRIT );
-			GetComponent<Renderer>().material.color = color;
+			renderer.material.color = color;
 			
 			losingFlug = 0.1f;
 			
@@ -185,7 +185,7 @@ public class Player : Walker {
 
 	public void Jump(){
 		if ( grounded && (current_status == STATUS.WALK || current_status == STATUS.IDLE )) {
-			GetComponent<Rigidbody2D>().AddForce (JUMP_FORCE_BASE);
+			rigidbody2D.AddForce (JUMP_FORCE_BASE);
 			anim.SetTrigger("t_jump_start");
 			sound.PlaySE("Jump", 0.5f);
 			current_status = STATUS.JUMP_UP;
@@ -196,7 +196,7 @@ public class Player : Walker {
 	protected override IEnumerator Die(){
 		current_status = STATUS.DAMAGE;
 		anim.SetTrigger("t_die");
-		GetComponent<Renderer>().material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
+		renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
 		
 		yield return new  WaitForSeconds(DISAPPEARING_DELAY);
 		if(current_spirit <= 0.0f){
@@ -259,15 +259,15 @@ public class Player : Walker {
 	protected void DieAndBecomeGhost(){
 		
 		living = false;
-		GetComponent<Rigidbody2D>().gravityScale = 0.0f;
-		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+		rigidbody2D.gravityScale = 0.0f;
+		rigidbody2D.velocity = Vector2.zero;
 		
 		m_nonGhostTimer = DISAPPEARING_DELAY;	
 		
 		foreach (CircleCollider2D col in m_colliders) {
 			//col.isTrigger = true;
 			
-			col.offset = new Vector2(col.offset.x, 1.0f);
+			col.center = new Vector2(col.center.x, 1.0f);
 		}
 		
 		current_status = STATUS.GHOST_IDLE;
@@ -325,10 +325,10 @@ public class Player : Walker {
 	
 	protected void Revive(){
 		living = true;
-		GetComponent<Rigidbody2D>().gravityScale = DEFAULT_GRAVITY_SCALE;
+		rigidbody2D.gravityScale = DEFAULT_GRAVITY_SCALE;
 		for (int i = 0 ; i < m_colliders.Length ; i++) {
 			//col.isTrigger = false;
-			(m_colliders[i] as CircleCollider2D).offset = colPos_living[i];
+			(m_colliders[i] as CircleCollider2D).center = colPos_living[i];
 		}
 		//renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
 		current_status = STATUS.IDLE;
@@ -390,12 +390,12 @@ public class Player : Walker {
 		
 		current_status = STATUS.GONE;
 	
-		GetComponent<Renderer>().enabled = false;
+		renderer.enabled = false;
 		gameManager.Miss(true);
 		
 		move_speed = Vector2.zero;
-		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-		GetComponent<Rigidbody2D>().Sleep();
+		rigidbody2D.velocity = Vector2.zero;
+		rigidbody2D.Sleep();
 		
 		foreach (Collider2D col in m_colliders) {
 			col.enabled = false;
@@ -411,11 +411,11 @@ public class Player : Walker {
 	public void Restart(Vector3 respawnPos){
 		float offsetY = 3.0f;
 		transform.position = new Vector3(respawnPos.x, respawnPos.y + offsetY, transform.position.z);
-		GetComponent<Renderer>().enabled = true;
-		GetComponent<Rigidbody2D>().gravityScale = DEFAULT_GRAVITY_SCALE;
+		renderer.enabled = true;
+		rigidbody2D.gravityScale = DEFAULT_GRAVITY_SCALE;
 		for (int i = 0 ; i < m_colliders.Length ; i++) {
 			//col.isTrigger = false;
-			(m_colliders[i] as CircleCollider2D).offset = colPos_living[i];
+			(m_colliders[i] as CircleCollider2D).center = colPos_living[i];
 			m_colliders[i].enabled = true;
 			
 		}

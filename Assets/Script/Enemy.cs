@@ -49,8 +49,8 @@ public class Enemy : Character {
 				Destroy(this.gameObject);
 			}else{
 				Instantiate (Resources.Load("Prefab/EffectPoint_smoke"), transform.position, transform.rotation);
-				if(GetComponent<Rigidbody2D>())
-					GetComponent<Rigidbody2D>().gravityScale = 0;
+				if(rigidbody2D)
+					rigidbody2D.gravityScale = 0;
 				current_status = STATUS.GONE;
 				StartCoroutine(WaitAndExecute(dyingDuration, true));
 				//m_collider.isTrigger = true;
@@ -84,8 +84,8 @@ public class Enemy : Character {
 		float dir =  target.transform.position.x > transform.position.x ? 1.0f : -1.0f;
 		
 		if (status != STATUS.GHOST_IDLE && status != STATUS.GHOST_DAMAGE) {
-			m_target.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-			m_target.GetComponent<Rigidbody2D>().AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
+			m_target.rigidbody2D.velocity = Vector2.zero;
+			m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
 		}
 	}
 	
@@ -123,13 +123,13 @@ public class Enemy : Character {
 	
 	protected virtual IEnumerator WaitAndExecute(float delay, bool dying){
 		yield return new WaitForSeconds (delay);
-		GetComponent<Renderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+		renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		invincible = false;
 		if (dying) {
 			Destroy (this.gameObject);
 			if(Random.Range(0.0f, 1.0f) < drop_Rate){
 				Vector3 pos = transform.position;
-				Vector3 myColsCenter = new Vector3( pos.x + m_cols[0].offset.x , pos.y + m_cols[0].offset.y, transform.position.z);
+				Vector3 myColsCenter = new Vector3( pos.x + m_cols[0].center.x , pos.y + m_cols[0].center.y, transform.position.z);
 				Instantiate(m_dropItem, myColsCenter, transform.rotation);
 			}
 		}

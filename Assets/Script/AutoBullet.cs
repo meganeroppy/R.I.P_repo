@@ -48,7 +48,7 @@ public class AutoBullet : StageObject {
 	
 	protected virtual IEnumerator WaitAndExecute(float delay, bool dying){
 		yield return new WaitForSeconds (delay);
-		GetComponent<Renderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+		renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		invincible = false;
 	}
 }

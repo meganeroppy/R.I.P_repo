@@ -14,7 +14,7 @@ public class Sakara : Flyer {
 	
 	protected override IEnumerator WaitAndExecute(float delay, bool dying){
 		yield return new WaitForSeconds (delay);
-		GetComponent<Renderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+		renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		invincible = false;
 		if (dying) {
 			Destroy (this.gameObject);

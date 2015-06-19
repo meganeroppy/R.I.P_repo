@@ -108,7 +108,7 @@ public class StageObject : MonoBehaviour {
 		current_health -= value;
 		invincible = true;
 		timer_invincible = INVINCIBLE_DURATION;
-		GetComponent<Renderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+		renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
 	}
 	
 	protected virtual void ApplySpiritDamage(float value){
@@ -118,7 +118,7 @@ public class StageObject : MonoBehaviour {
 		current_spirit = value >= current_spirit ? 0.0f : current_spirit -= value;
 		invincible = true;
 		timer_invincible = INVINCIBLE_DURATION;	
-		GetComponent<Renderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+		renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
 	}
 	
 	protected virtual void GainSpirit(float val){
@@ -148,8 +148,8 @@ public class StageObject : MonoBehaviour {
 	}
 	
 	protected virtual void ApplyForce(Vector2 force){
-		if(GetComponent<Rigidbody2D>()){
-			GetComponent<Rigidbody2D>().AddForce(force);
+		if(rigidbody2D){
+			rigidbody2D.AddForce(force);
 		}
 	}
 	

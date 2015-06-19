@@ -27,7 +27,7 @@ public abstract class AttackZone : StageObject {
 		base.Start ();
 		t_time = 0.0f;
 		if(IS_INVISIBLE){
-			transform.GetComponent<Renderer>().enabled = false;
+			transform.renderer.enabled = false;
 		}
 	}
 	
@@ -35,8 +35,8 @@ public abstract class AttackZone : StageObject {
 		t_time += Time.deltaTime;
 		
 		if(t_time >= DELAY && t_time <= DELAY + DURATION){
-			if(transform.GetComponent<Renderer>().enabled == true){
-				this.GetComponent<Renderer>().material.color = new Color(0xFF,0x00,0x00);
+			if(transform.renderer.enabled == true){
+				this.renderer.material.color = new Color(0xFF,0x00,0x00);
 			}
 			if(!hittable){
 				hittable = true;

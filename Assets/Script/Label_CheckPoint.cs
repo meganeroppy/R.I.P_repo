@@ -30,7 +30,7 @@ public class Label_CheckPoint : Monument {
 		}else{
 			m_alpha -= Time.deltaTime * 0.125f;
 			Color clr = new Color(1,1,1,m_alpha);
-			GetComponent<Renderer>().material.color = clr;
+			renderer.material.color = clr;
 		}
 	}
 }

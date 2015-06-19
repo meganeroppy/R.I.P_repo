@@ -56,7 +56,7 @@ public class Needle : Monument {
 					dir *= -1.0f;
 				}
 				
-				m_target.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+				m_target.rigidbody2D.velocity = Vector2.zero;
 				Vector2 force = new Vector2 (blow_impact.x * dir, blow_impact.y);
 				m_target.SendMessage("ApplyForce", force);
 				

@@ -67,7 +67,7 @@ public class WraithShot : Bullet {
 			
 		dying = true;
 		
-		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+		rigidbody2D.velocity = Vector2.zero;
 		spriteRenderer.sprite = pics[3];
 		m_collider.enabled = false;
 	}
@@ -84,8 +84,8 @@ public class WraithShot : Bullet {
 			if (this.gameObject.transform.position.x > m_target.transform.position.x) {
 				dir *= -1.0f;
 			}
-			m_target.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-			m_target.GetComponent<Rigidbody2D>().AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
+			m_target.rigidbody2D.velocity = Vector2.zero;
+			m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
 		}
 	}
 }
