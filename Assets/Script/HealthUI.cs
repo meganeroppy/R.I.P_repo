@@ -4,10 +4,10 @@ using System.Collections;
 public class HealthUI : UI {
 
 	private Player m_target;
-	//public GameObject iconPrefab; 
+	public GameObject iconPrefab; 
+	//public Transform iconPrefab;
 	
 	public Transform panel;
-	public Transform iconPrefab;
 	private const int LIMIT_HEALTH = 10;
 	private GameObject[] icon = new GameObject[LIMIT_HEALTH];
 	private UISprite[] uiSprite_icon = new UISprite[LIMIT_HEALTH];
@@ -63,6 +63,7 @@ public class HealthUI : UI {
 				continue;
 			}
 			
+			//icon[i] = Instantiate( iconPrefab ) as GameObject;
 			icon[i] = Instantiate( iconPrefab ) as GameObject;
 			icon[i].transform.parent = panel.Find("Offset_health");
 			icon[i].transform.localPosition = transform.localPosition + new Vector3(i * interval, 0.0f, 0.0f);

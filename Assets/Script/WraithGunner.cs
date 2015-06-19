@@ -47,9 +47,9 @@ public class WraithGunner : Wraith {
 		//anim.SetTrigger("t_attack");
 		
 		Vector3 pos = transform.position;
-		Vector3 myColsCenter = pos + new Vector3 (m_col.center.x, m_col.center.y, 0.0f);
+		Vector3 myColsCenter = pos + new Vector3 (m_col.offset.x, m_col.offset.y, 0.0f);
 		Vector3 targetPos = m_target.transform.position;
-		Vector3 targetColsCenter = new Vector3( targetPos.x + (m_targetCols[0].center.x + m_targetCols[1].center.x)/2, targetPos.y + (m_targetCols[0].center.y + m_targetCols[1].center.y)/2, m_target.transform.position.z);
+		Vector3 targetColsCenter = new Vector3( targetPos.x + (m_targetCols[0].offset.x + m_targetCols[1].offset.x)/2, targetPos.y + (m_targetCols[0].offset.y + m_targetCols[1].offset.y)/2, m_target.transform.position.z);
 		
 		int dir = current_side == SIDE.RIGHT ? 1 : -1;
 		Vector2 offset = new Vector2 (2.0f * dir, -1.8f);

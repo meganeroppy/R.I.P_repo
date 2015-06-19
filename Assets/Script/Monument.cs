@@ -32,7 +32,7 @@ public class Monument : StageObject {
 		base.ApplyHealthDamage(value);
 		if (current_health <= 0) {
 			Vector3 pos = transform.position;
-			Vector2 colCenter = GetComponent<CircleCollider2D>().center;
+			Vector2 colCenter = GetComponent<CircleCollider2D>().offset;
 			Vector3 CenterPos = new Vector3(pos.x + colCenter.x, pos.y + colCenter.y, pos.z - 1.0f);
 			Instantiate(effectPoint_destroy, CenterPos, transform.rotation);
 			StartCoroutine(WaitAndExecute(0.9f, true));
@@ -52,7 +52,7 @@ public class Monument : StageObject {
 
 	protected virtual IEnumerator WaitAndExecute(float delay, bool dying){
 		yield return new WaitForSeconds (delay);
-		renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+		GetComponent<Renderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		invincible = false;
 		if (dying) {
 			Destroy (this.gameObject);

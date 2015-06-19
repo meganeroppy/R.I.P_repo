@@ -98,9 +98,9 @@ public class Goop : Enemy {
 		anim.SetTrigger("t_attack");
 		
 		Vector3 pos = transform.position;
-		Vector3 myColsCenter = new Vector3( pos.x + (m_cols[0].center.x + m_cols[1].center.x)/2, pos.y + (m_cols[0].center.y + m_cols[1].center.y)/2, transform.position.z);
+		Vector3 myColsCenter = new Vector3( pos.x + (m_cols[0].offset.x + m_cols[1].offset.x)/2, pos.y + (m_cols[0].offset.y + m_cols[1].offset.y)/2, transform.position.z);
 		Vector3 targetPos = m_target.transform.position;
-		Vector3 targetColsCenter = new Vector3( targetPos.x + (m_targetCols[0].center.x + m_targetCols[1].center.x)/2, targetPos.y + (m_targetCols[0].center.y + m_targetCols[1].center.y)/2, m_target.transform.position.z);
+		Vector3 targetColsCenter = new Vector3( targetPos.x + (m_targetCols[0].offset.x + m_targetCols[1].offset.x)/2, targetPos.y + (m_targetCols[0].offset.y + m_targetCols[1].offset.y)/2, m_target.transform.position.z);
 		
 		float offsetY = 1.0f;
 		

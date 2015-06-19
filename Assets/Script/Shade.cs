@@ -323,7 +323,7 @@ public class  Shade : Enemy {
 		
 		Vector3 pos = m_circleCollider.transform.position;
 		Vector3 targetPos = m_target.transform.position;
-		Vector3 targetColsCenter = new Vector3( targetPos.x + (m_targetCols[0].center.x + m_targetCols[1].center.x)/2, targetPos.y + (m_targetCols[0].center.y + m_targetCols[1].center.y)/2, m_target.transform.position.z);
+		Vector3 targetColsCenter = new Vector3( targetPos.x + (m_targetCols[0].offset.x + m_targetCols[1].offset.x)/2, targetPos.y + (m_targetCols[0].offset.y + m_targetCols[1].offset.y)/2, m_target.transform.position.z);
 		
 		Vector3 targetBlockPos = AnalizeBlockPos(targetColsCenter);
 		
@@ -351,9 +351,9 @@ public class  Shade : Enemy {
 		bulletCount++;
 						
 		Vector3 pos = transform.position;
-		Vector3 myColsCenter = pos + new Vector3 (m_circleCollider.center.x, m_circleCollider.center.y, 0.0f);
+		Vector3 myColsCenter = pos + new Vector3 (m_circleCollider.offset.x, m_circleCollider.offset.y, 0.0f);
 		Vector3 targetPos = m_target.transform.position;
-		Vector3 targetColsCenter = new Vector3( targetPos.x + (m_targetCols[0].center.x + m_targetCols[1].center.x)/2, targetPos.y + (m_targetCols[0].center.y + m_targetCols[1].center.y)/2, m_target.transform.position.z);
+		Vector3 targetColsCenter = new Vector3( targetPos.x + (m_targetCols[0].offset.x + m_targetCols[1].offset.x)/2, targetPos.y + (m_targetCols[0].offset.y + m_targetCols[1].offset.y)/2, m_target.transform.position.z);
 		
 		Vector2 offset;
 		offset.x = Random.Range (-1, 1);
