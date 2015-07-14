@@ -7,7 +7,7 @@ public class HealthUI : UI {
 	//public GameObject iconPrefab; 
 	
 	public Transform panel;
-	public Transform iconPrefab;
+	public GameObject iconPrefab;
 	private const int LIMIT_HEALTH = 10;
 	private GameObject[] icon = new GameObject[LIMIT_HEALTH];
 	private UISprite[] uiSprite_icon = new UISprite[LIMIT_HEALTH];

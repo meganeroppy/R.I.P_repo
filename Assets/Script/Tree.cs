@@ -33,7 +33,7 @@ public class Tree : Monument {
 */
 	protected override IEnumerator WaitAndExecute(float delay, bool dying){
 		yield return new WaitForSeconds (delay);
-		renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+		GetComponent<Renderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		invincible = false;
 		if (dying) {
 			if (item != null) {

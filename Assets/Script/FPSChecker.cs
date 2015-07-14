@@ -22,7 +22,7 @@ public class FPSChecker : MonoBehaviour {
 			// この時点でtime秒あたりのframe数が分かる
 			// time秒を1秒あたりに変換したいので、frame数からtimeを割る
 			frameRate = frame / time;
-			guiText.text = frameRate.ToString(); // GUITextとして表示
+			GetComponent<GUIText>().text = frameRate.ToString(); // GUITextとして表示
 			oldTime = Time.realtimeSinceStartup;
 			frame = 0;
 		}

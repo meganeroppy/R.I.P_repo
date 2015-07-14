@@ -102,17 +102,17 @@ public class Goop : Enemy {
 		Vector3 targetPos = m_target.transform.position;
 		Vector3 targetColsCenter = new Vector3( targetPos.x + (m_targetCols[0].center.x + m_targetCols[1].center.x)/2, targetPos.y + (m_targetCols[0].center.y + m_targetCols[1].center.y)/2, m_target.transform.position.z);
 		
-		float offsetY = 1.0f;
+		float centerY = 1.0f;
 		
-		GameObject obj =  Instantiate(bubble, new Vector3(myColsCenter.x, myColsCenter.y + offsetY, myColsCenter.z), transform.rotation) as GameObject;
+		GameObject obj =  Instantiate(bubble, new Vector3(myColsCenter.x, myColsCenter.y + centerY, myColsCenter.z), transform.rotation) as GameObject;
 		
 		//Move Direction
 		//Vector3 baseDir = (m_target.transform.position - obj.transform.position).normalized;
 		Vector3 baseDir = (targetColsCenter - obj.transform.position).normalized;
 		float radian = Mathf.Atan2(baseDir.y, baseDir.x);
 		float baseAngle = radian * Mathf.Rad2Deg;
-		float offsetAngle = Random.Range(-10.0f, 10.0f);
-		float fixedAngle = baseAngle + offsetAngle;
+		float centerAngle = Random.Range(-10.0f, 10.0f);
+		float fixedAngle = baseAngle + centerAngle;
 		
 		Vector3 fixedDir = new Vector3(Mathf.Cos(Mathf.PI / 180 * fixedAngle), Mathf.Sin(Mathf.PI / 180 * fixedAngle), 0.0f).normalized; 
 		

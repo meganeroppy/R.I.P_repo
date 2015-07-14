@@ -89,7 +89,7 @@ public class GhostKiller2 : Monument {
 			float dirX =  m_target.transform.position.x > transform.position.x ? 1.0f : -1.0f;
 			float dirY =  m_target.transform.position.y > transform.position.y ? 1.0f : -1.0f;
 			
-			m_target.rigidbody2D.velocity = Vector2.zero;
+			m_target.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 			
 			Vector2 force = new Vector2 (blow_impact.x * dirX, blow_impact.y * dirY);
 			m_target.SendMessage("ApplyForce", force);		

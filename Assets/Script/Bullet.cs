@@ -73,7 +73,7 @@ public class Bullet : StageObject {
 		
 		dying = true;
 		
-		rigidbody2D.velocity = Vector2.zero;
+		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 		m_collider.enabled = false;	}
 	
 	protected virtual void Crash(GameObject other){
@@ -88,8 +88,8 @@ public class Bullet : StageObject {
 			if (this.gameObject.transform.position.x > m_target.transform.position.x) {
 				dir *= -1.0f;
 			}
-			m_target.rigidbody2D.velocity = Vector2.zero;
-			m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
+			m_target.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+			m_target.GetComponent<Rigidbody2D>().AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
 		}
 	}
 }
