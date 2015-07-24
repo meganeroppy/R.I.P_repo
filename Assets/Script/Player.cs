@@ -63,10 +63,10 @@ public class Player : Walker {
 		Flip(SIDE.RIGHT);
 		jump_force = JUMP_FORCE_BASE;
 		move_speed.x = 0.0f;
-		if(rigidbody2D.IsSleeping()){
-			rigidbody2D.Sleep();
+		if(GetComponent<Rigidbody2D>().IsSleeping()){
+			GetComponent<Rigidbody2D>().Sleep();
 		}
-		rigidbody2D.velocity = Vector2.zero;
+		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 		
 		if(gameManager == null){
 			gameManager = GameObject.Find ("GameManager").GetComponent<GameManager>();
@@ -106,7 +106,7 @@ public class Player : Walker {
 			
 			UpdateSpirit(-(losing_rate * Time.deltaTime));
 			Color color = new Color(1.0f, 1.0f, 1.0f, current_spirit / MAX_SPIRIT );
-			renderer.material.color = color;
+			GetComponent<Renderer>().material.color = color;
 			
 			losingFlug = 0.1f;
 			
@@ -185,7 +185,7 @@ public class Player : Walker {
 
 	public void Jump(){
 		if ( grounded && (current_status == STATUS.WALK || current_status == STATUS.IDLE )) {
-			rigidbody2D.AddForce (JUMP_FORCE_BASE);
+			GetComponent<Rigidbody2D>().AddForce (JUMP_FORCE_BASE);
 			anim.SetTrigger("t_jump_start");
 			sound.PlaySE("Jump", 0.5f);
 			current_status = STATUS.JUMP_UP;
@@ -196,7 +196,7 @@ public class Player : Walker {
 	protected override IEnumerator Die(){
 		current_status = STATUS.DAMAGE;
 		anim.SetTrigger("t_die");
-		renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
+		GetComponent<Renderer>().material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
 		
 		yield return new  WaitForSeconds(DISAPPEARING_DELAY);
 		if(current_spirit <= 0.0f){
@@ -236,9 +236,9 @@ public class Player : Walker {
 			current_status = STATUS.ATTACK;
 			
 			Vector3 pos = transform.position;
-			Vector3 offset = new Vector3(current_side == SIDE.RIGHT ? 1.3f : -1.3f, 1.5f, -1.0f);
+			Vector3 center = new Vector3(current_side == SIDE.RIGHT ? 1.3f : -1.3f, 1.5f, -1.0f);
 						
-			GameObject obj = Instantiate (attackZone, new Vector3 (pos.x + offset.x, pos.y + offset.y, pos.z + offset.z), transform.rotation) as GameObject;
+			GameObject obj = Instantiate (attackZone, new Vector3 (pos.x + center.x, pos.y + center.y, pos.z + center.z), transform.rotation) as GameObject;
 			if(chargedAttack){
 				obj.GetComponent<SanmaBlade>().SetAsCharged();
 				sound.PlaySE("Attack2", 1.0f);
@@ -259,8 +259,8 @@ public class Player : Walker {
 	protected void DieAndBecomeGhost(){
 		
 		living = false;
-		rigidbody2D.gravityScale = 0.0f;
-		rigidbody2D.velocity = Vector2.zero;
+		GetComponent<Rigidbody2D>().gravityScale = 0.0f;
+		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 		
 		m_nonGhostTimer = DISAPPEARING_DELAY;	
 		
@@ -325,7 +325,7 @@ public class Player : Walker {
 	
 	protected void Revive(){
 		living = true;
-		rigidbody2D.gravityScale = DEFAULT_GRAVITY_SCALE;
+		GetComponent<Rigidbody2D>().gravityScale = DEFAULT_GRAVITY_SCALE;
 		for (int i = 0 ; i < m_colliders.Length ; i++) {
 			//col.isTrigger = false;
 			(m_colliders[i] as CircleCollider2D).center = colPos_living[i];
@@ -390,12 +390,12 @@ public class Player : Walker {
 		
 		current_status = STATUS.GONE;
 	
-		renderer.enabled = false;
+		GetComponent<Renderer>().enabled = false;
 		gameManager.Miss(true);
 		
 		move_speed = Vector2.zero;
-		rigidbody2D.velocity = Vector2.zero;
-		rigidbody2D.Sleep();
+		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+		GetComponent<Rigidbody2D>().Sleep();
 		
 		foreach (Collider2D col in m_colliders) {
 			col.enabled = false;
@@ -409,10 +409,10 @@ public class Player : Walker {
 	}
 	
 	public void Restart(Vector3 respawnPos){
-		float offsetY = 3.0f;
-		transform.position = new Vector3(respawnPos.x, respawnPos.y + offsetY, transform.position.z);
-		renderer.enabled = true;
-		rigidbody2D.gravityScale = DEFAULT_GRAVITY_SCALE;
+		float centerY = 3.0f;
+		transform.position = new Vector3(respawnPos.x, respawnPos.y + centerY, transform.position.z);
+		GetComponent<Renderer>().enabled = true;
+		GetComponent<Rigidbody2D>().gravityScale = DEFAULT_GRAVITY_SCALE;
 		for (int i = 0 ; i < m_colliders.Length ; i++) {
 			//col.isTrigger = false;
 			(m_colliders[i] as CircleCollider2D).center = colPos_living[i];

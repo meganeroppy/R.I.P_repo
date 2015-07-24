@@ -292,12 +292,12 @@ public class  Shade : Enemy {
 		//anim.SetTrigger("t_swing");
 				
 		Vector3 pos = transform.position;
-		Vector3 offset = new Vector3(current_side == SIDE.RIGHT ? 7.0f : -7.0f, 0.0f, -1.0f);
+		Vector3 center = new Vector3(current_side == SIDE.RIGHT ? 7.0f : -7.0f, 0.0f, -1.0f);
 		
 		GameObject obj = Instantiate (sythe) as GameObject;
 		obj.SendMessage("ApplyParentAndExecute", this);
 		
-		obj.transform.position = new Vector3 (pos.x + offset.x, pos.y + offset.y, pos.z + offset.z);
+		obj.transform.position = new Vector3 (pos.x + center.x, pos.y + center.y, pos.z + center.z);
 		sound.PlaySE("Attack2", 1.0f);
 		
 	}
@@ -355,23 +355,23 @@ public class  Shade : Enemy {
 		Vector3 targetPos = m_target.transform.position;
 		Vector3 targetColsCenter = new Vector3( targetPos.x + (m_targetCols[0].center.x + m_targetCols[1].center.x)/2, targetPos.y + (m_targetCols[0].center.y + m_targetCols[1].center.y)/2, m_target.transform.position.z);
 		
-		Vector2 offset;
-		offset.x = Random.Range (-1, 1);
-		offset.y = Random.Range (-0.1f, 0.1f);
+		Vector2 center;
+		center.x = Random.Range (-1, 1);
+		center.y = Random.Range (-0.1f, 0.1f);
 		
 		Vector3 dir = (targetColsCenter - myColsCenter).normalized;
 		
 		float rad = Mathf.Atan2(dir.y, dir.x);		
 		float theta = rad * Mathf.Rad2Deg;
 		
-		float offsetTheta =  Random.Range(-20.0f, 20.0f);
+		float centerTheta =  Random.Range(-20.0f, 20.0f);
 		
-		float vx = Mathf.Cos(Mathf.PI / 180 * (theta + offsetTheta ));
-		float vy = Mathf.Sin(Mathf.PI / 180 * (theta + offsetTheta ));
+		float vx = Mathf.Cos(Mathf.PI / 180 * (theta + centerTheta ));
+		float vy = Mathf.Sin(Mathf.PI / 180 * (theta + centerTheta ));
 		
 		GameObject effect = Instantiate(effect_pop2) as GameObject;
 		effect.transform.localScale *= 2.5f;
-		GameObject obj= Instantiate (energyBall, new Vector3(myColsCenter.x + offset.x, myColsCenter.y + offset.y, pos.z), transform.rotation) as GameObject;
+		GameObject obj= Instantiate (energyBall, new Vector3(myColsCenter.x + center.x, myColsCenter.y + center.y, pos.z), transform.rotation) as GameObject;
 		obj.transform.parent = transform.parent.transform;
 		
 		effect.transform.position = obj.transform.position + new Vector3(0,0,-1);

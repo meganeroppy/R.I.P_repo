@@ -59,7 +59,7 @@ public class BG_far: MonoBehaviour {
 		transform.parent = m_camera.transform;
 		
 		fadingOut = false;
-		renderer.enabled = false;
+		GetComponent<Renderer>().enabled = false;
 		/*
 		if(changeMethod == METHOD.BY_DATE){
 			float cur_hour = System.DateTime.Now.Hour;

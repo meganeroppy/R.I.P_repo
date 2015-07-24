@@ -24,8 +24,8 @@ public class Stinky : Enemy {
 		
 		AWAKE_RANGE = 15.36f;
 		m_awaking = false;
-		rigidbody2D.isKinematic = true;
-		def_gravityScale = rigidbody2D.gravityScale;
+		GetComponent<Rigidbody2D>().isKinematic = true;
+		def_gravityScale = GetComponent<Rigidbody2D>().gravityScale;
 		
 	}
 
@@ -71,7 +71,7 @@ public class Stinky : Enemy {
 					m_effectTimer = 0.0f;
 					GameObject obj = Instantiate(effect_transformation, transform.position, transform.rotation) as GameObject;
 					obj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-					obj.renderer.material.color = new Color(1,1,1,0.5f);
+					obj.GetComponent<Renderer>().material.color = new Color(1,1,1,0.5f);
 					//obj.transform.parent = transform.parent.transform;
 					obj.transform.parent = transform;
 				}else{
@@ -96,14 +96,14 @@ public class Stinky : Enemy {
 		}else{
 			if(!GameManager.GetPlayerIsGhost() && PlayerIsInRange()){
 				m_awaking = true;
-				rigidbody2D.isKinematic = false;
+				GetComponent<Rigidbody2D>().isKinematic = false;
 			}
 		}
 		
-		if(current_status == STATUS.IDLE && grounded && rigidbody2D.gravityScale != 0){
+		if(current_status == STATUS.IDLE && grounded && GetComponent<Rigidbody2D>().gravityScale != 0){
 			 //rigidbody2D.gravityScale = 0.0f;
-		}else if(current_status == STATUS.WALK && rigidbody2D.gravityScale != def_gravityScale){
-			rigidbody2D.gravityScale = def_gravityScale;
+		}else if(current_status == STATUS.WALK && GetComponent<Rigidbody2D>().gravityScale != def_gravityScale){
+			GetComponent<Rigidbody2D>().gravityScale = def_gravityScale;
 		}
 		
 		if(isOrphan && current_health > 0 && m_alpha < 1.0f){

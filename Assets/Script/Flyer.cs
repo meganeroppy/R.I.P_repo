@@ -54,8 +54,8 @@ public class Flyer : Enemy {
 		
 		float dir =  target.transform.position.x > transform.position.x ? 1.0f : -1.0f;
 		
-		m_target.rigidbody2D.velocity = Vector2.zero;
-		m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
+		m_target.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+		m_target.GetComponent<Rigidbody2D>().AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
 	}
 	
 	protected virtual void OnTriggerStay2D(Collider2D col){
@@ -75,8 +75,8 @@ public class Flyer : Enemy {
 			
 			float dir =  col.transform.position.x > transform.position.x ? 1.0f : -1.0f;
 			
-			m_target.rigidbody2D.velocity = Vector2.zero;
-			m_target.rigidbody2D.AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
+			m_target.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+			m_target.GetComponent<Rigidbody2D>().AddForce (new Vector2 (blow_impact.x * dir, blow_impact.y));
 			
 		}
 	}
