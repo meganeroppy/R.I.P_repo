@@ -98,7 +98,7 @@ public class StageObject : MonoBehaviour {
 		}
 	}
 
-	protected virtual void ApplyHealthDamage(int value){
+	public virtual void ApplyHealthDamage(int value){
 		if(invincible){
 			return;
 		}
@@ -111,7 +111,7 @@ public class StageObject : MonoBehaviour {
 		GetComponent<Renderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
 	}
 	
-	protected virtual void ApplySpiritDamage(float value){
+	public virtual void ApplySpiritDamage(float value){
 		if(m_visible){
 			sound.PlaySE ("Damage", 1.0f);
 		}

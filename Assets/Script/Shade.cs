@@ -74,7 +74,7 @@ public class  Shade : Enemy {
 		spriteRenderer.color = new Color(1.0f, 0.5f, 0.5f, 1);
 	}
 	
-	protected override void ApplyHealthDamage (int value)
+	public override void ApplyHealthDamage (int value)
 	{
 		if(!m_awaking){
 			return;

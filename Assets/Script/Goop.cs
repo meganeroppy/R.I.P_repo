@@ -74,7 +74,7 @@ public class Goop : Enemy {
 		throwCount = 0;
 	}
 	
-	protected override void ApplyHealthDamage (int value)
+	public override void ApplyHealthDamage (int value)
 	{
 		if(!m_awaking){
 			return;

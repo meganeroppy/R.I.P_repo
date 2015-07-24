@@ -286,7 +286,7 @@ public class Character : StageObject {
 		}
 	}
 
-	protected override void ApplyHealthDamage(int value){
+	public override void ApplyHealthDamage(int value){
 		base.ApplyHealthDamage (value);
 		if (current_health <= 0) {
 			current_status = STATUS.DAMAGE;
@@ -297,7 +297,7 @@ public class Character : StageObject {
 		}
 	}
 
-	protected override void ApplySpiritDamage(float value){
+	public override void ApplySpiritDamage(float value){
 		if (current_status == STATUS.DAMAGE || current_status == STATUS.DYING ) {
 			return;
 		}

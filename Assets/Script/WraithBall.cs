@@ -57,7 +57,7 @@ public class WraithBall : Bullet {
 		}
 	}	
 	
-	protected override void ApplyHealthDamage(int value){
+	public override void ApplyHealthDamage(int value){
 		//	Die();
 	}
 	

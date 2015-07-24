@@ -223,7 +223,7 @@ public class Rumple : Flyer {
 //		m_isReturning = true;
 	}
 
-	protected override void ApplyHealthDamage (int value){
+	public override void ApplyHealthDamage (int value){
 		if (current_status == STATUS.DYING) {
 			return;
 		}

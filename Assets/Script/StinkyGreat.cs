@@ -3,7 +3,7 @@ using System.Collections;
 
 public class StinkyGreat : Stinky {
 
-	protected override void ApplyHealthDamage (int val)
+	public override void ApplyHealthDamage (int val)
 	{
 		if(current_health <= 0.0f){
 			return;

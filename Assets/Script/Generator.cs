@@ -30,7 +30,7 @@ public class Generator : Monument {
 		}
 	}
 
-	protected override void ApplyHealthDamage (int value)
+	public override void ApplyHealthDamage (int value)
 	{
 		base.ApplyHealthDamage (value);
 

@@ -300,7 +300,7 @@ public class Player : Walker {
 	}
 	/// <param name="value">Value.</param>
 
-	protected override void ApplyHealthDamage(int value){
+	public override void ApplyHealthDamage(int value){
 		if(invincible){
 			return;
 		}
@@ -312,7 +312,7 @@ public class Player : Walker {
 		ApplyHealthDamage(value);
 	}
 	
-	protected override void ApplySpiritDamage(float val){
+	public override void ApplySpiritDamage(float val){
 		if(invincible){
 			return;
 		}

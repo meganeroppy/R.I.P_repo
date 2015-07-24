@@ -36,7 +36,7 @@ public class AutoBullet : StageObject {
 	
 	
 
-	protected override void ApplyHealthDamage(int value){
+	public override void ApplyHealthDamage(int value){
 	
 		base.ApplyHealthDamage(value);
 		if (current_health <= 0) {

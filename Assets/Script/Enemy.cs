@@ -38,7 +38,7 @@ public class Enemy : Character {
 		base.Update ();
 	}
 
-	protected override void ApplyHealthDamage(int val){
+	public override void ApplyHealthDamage(int val){
 		if(current_status == STATUS.GONE){
 			return;
 		}

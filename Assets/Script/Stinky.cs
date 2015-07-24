@@ -139,7 +139,7 @@ public class Stinky : Enemy {
 		move_speed = new Vector3(-speed, move_speed.y);
 	}
 	
-	protected override void ApplyHealthDamage(int val){
+	public override void ApplyHealthDamage(int val){
 		if(current_health <= 0){
 			return;
 		}
