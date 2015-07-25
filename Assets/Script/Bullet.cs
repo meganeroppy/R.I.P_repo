@@ -41,16 +41,16 @@ public class Bullet : StageObject {
 		
 	}
 	
-	protected virtual void SetDirectionAndExecute(Vector3 dir){
+	public virtual void SetDirectionAndExecute(Vector3 dir){
 		m_direction = dir;
 		executed = true;
 	}
 	
-	protected virtual void SetDirectionAndExecute(Vector2 dir){
+	public virtual void SetDirectionAndExecute(Vector2 dir){
 		SetDirectionAndExecute(new Vector3 (dir.x, dir.y, 0.0f));
 	}
 	
-	protected virtual void SetAttackPower(float val){
+	public virtual void SetAttackPower(float val){
 		attack_power = val;
 	}
 	
@@ -60,13 +60,13 @@ public class Bullet : StageObject {
 		}
 	
 		if (col.gameObject.tag == "Player") {
-			Crash(col.gameObject);
+			Crash(col.gameObject.GetComponent<Player>());
 		}else if(col.gameObject.tag == "Ground"){
 			Die();
 		}
 	}
 	
-	protected virtual void Die(){
+	public virtual void Die(){
 		if(dying){
 			return;
 		}
@@ -76,14 +76,14 @@ public class Bullet : StageObject {
 		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 		m_collider.enabled = false;	}
 	
-	protected virtual void Crash(GameObject other){
+	protected virtual void Crash(StageObject other){
 		
 		//Debug.Log("HIT" + Time.realtimeSinceStartup.ToString());
 		
 		Player  m_target = other.GetComponent<Player> ();
 		
 		if (m_target.GetStatus() != STATUS.DYING && m_target.GetStatus() != STATUS.GHOST_IDLE) {
-			m_target.SendMessage ("ApplySpiritDamage", attack_power);
+			m_target.ApplySpiritDamage(attack_power);
 			float dir = 1.0f;
 			if (this.gameObject.transform.position.x > m_target.transform.position.x) {
 				dir *= -1.0f;

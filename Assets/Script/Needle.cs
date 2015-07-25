@@ -58,16 +58,16 @@ public class Needle : Monument {
 				
 				m_target.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 				Vector2 force = new Vector2 (blow_impact.x * dir, blow_impact.y);
-				m_target.SendMessage("ApplyForce", force);
+				m_target.ApplyForce(force);
 				
 				m_timer = DELAY;
 				
 				if(m_target.GetStatus() != STATUS.DYING){
-					m_target.SendMessage ("HitNeedle", attack_power);
+					m_target.HitNeedle(attack_power);
 				}
 			}
 		}else if(other.tag.Equals("Enemy")){//For Enemies
-			other.SendMessage ("InstantDeath");
+			other.GetComponent<Enemy>().InstantDeath();
 		}
 	}
 

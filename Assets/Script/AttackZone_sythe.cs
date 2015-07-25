@@ -13,11 +13,11 @@ public class AttackZone_sythe : AttackZone {
 	protected override void OnTriggerEnter2D(Collider2D col){
 		
 		if (col.gameObject.tag == "Player" && col.gameObject.tag != "AttackZone") {
-			Crash(col.gameObject);
+			Crash(col.gameObject.GetComponent<StageObject>());
 		}
 	}
 	
-	private void ApplyParentAndExecute(StageObject master){
+	public void ApplyParentAndExecute(StageObject master){
 		//this.master = master;
 		//transform.SetParent(master.transform);
 		
@@ -31,8 +31,8 @@ public class AttackZone_sythe : AttackZone {
 		}
 	}
 	
-	protected override void Crash(GameObject other){
-		other.gameObject.SendMessage("ApplySpiritDamage", attack_power);
+	protected override void Crash(StageObject other){
+		other.ApplySpiritDamage(attack_power);
 		Vector3 pos = transform.position;
 		Instantiate(effect_slush, new Vector3(pos.x, pos.y, pos.z), transform.rotation);
 		

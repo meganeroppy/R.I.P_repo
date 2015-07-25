@@ -39,7 +39,7 @@ public class BulletShooter : Generator {
 		}
 	}
 	
-	public override void ApplyHealthDamage (int value)
+	public override void ApplyHealthDamage (float value)
 	{
 		base.ApplyHealthDamage (value);
 		
@@ -67,7 +67,7 @@ public class BulletShooter : Generator {
 		
 		Vector3 pos = transform.position;
 		GameObject obj= Instantiate (child, new Vector3(pos.x + offset.x, pos.y + offset.y, pos.z), transform.rotation) as GameObject;
-		obj.SendMessage("SetDirectionAndExecute", new Vector2(vx, vy));
+		obj.GetComponent<Bullet>().SetDirectionAndExecute(new Vector2(vx, vy));
 	} 
 	
 	protected override void OnTriggerEnter2D(Collider2D col){

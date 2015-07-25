@@ -19,18 +19,26 @@ public class Bubble : Bullet {
 	protected override void Update ()
 	{
 		base.Update ();
-		
-		if(counter > 0.2f && !dying){
-			counter = 0.0f;
-			current_frame = current_frame == 0 ? 1 : 0;
-			spriteRenderer.sprite = bubble_pic[current_frame];
-		}else{
-			counter += Time.deltaTime;
+		if(!dying){
+			if(counter > 0.2f){
+				counter = 0.0f;
+				current_frame = current_frame == 0 ? 1 : 0;
+				spriteRenderer.sprite = bubble_pic[current_frame];
+			}else{
+				counter += Time.deltaTime;
+			}
+		}else{// dying
+			if(counter > 0.25f){
+				//spriteRenderer.sprite = bubble_pic[2];
+				Destroy(this.gameObject);
+			}else{
+				counter += Time.deltaTime;
+			}	
 		}
 	}
 
 	
-	public override void ApplyHealthDamage(int value){
+	public override void ApplyHealthDamage(float value){
 	/*	if(m_collider == null){
 			m_collider = GetComponent<Collider2D>();
 		}
@@ -38,12 +46,13 @@ public class Bubble : Bullet {
 		Die();
 	}
 	
-	protected override void Die(){
+	public override void Die(){
 		dying = true;
 		
 		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 		spriteRenderer.sprite = bubble_pic[2];
-		Destroy(this.gameObject, 0.25f);
+		counter = 0;
+		//Destroy(this.gameObject, 0.25f);
 	}
 
 }

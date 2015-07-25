@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Goop : Enemy {
 
-	public GameObject bubble;
+	public Bubble bubble;
 	protected float eulerZ_bubbleTexture = -90.0f;
 	private const float THROW_INTERVAL = 0.6f;
 	private int throwCount = 0;
@@ -74,7 +74,7 @@ public class Goop : Enemy {
 		throwCount = 0;
 	}
 	
-	public override void ApplyHealthDamage (int value)
+	public override void ApplyHealthDamage (float value)
 	{
 		if(!m_awaking){
 			return;
@@ -83,7 +83,7 @@ public class Goop : Enemy {
 		anim.SetTrigger("t_damage");
 	}
 	
-	protected override void InstantDeath ()
+	public override void InstantDeath ()
 	{
 		m_awaking = true;
 		base.InstantDeath ();
@@ -104,7 +104,7 @@ public class Goop : Enemy {
 		
 		float centerY = 1.0f;
 		
-		GameObject obj =  Instantiate(bubble, new Vector3(myColsCenter.x, myColsCenter.y + centerY, myColsCenter.z), transform.rotation) as GameObject;
+		Bubble obj =  Instantiate(bubble, new Vector3(myColsCenter.x, myColsCenter.y + centerY, myColsCenter.z), transform.rotation) as Bubble;
 		
 		//Move Direction
 		//Vector3 baseDir = (m_target.transform.position - obj.transform.position).normalized;
@@ -116,8 +116,8 @@ public class Goop : Enemy {
 		
 		Vector3 fixedDir = new Vector3(Mathf.Cos(Mathf.PI / 180 * fixedAngle), Mathf.Sin(Mathf.PI / 180 * fixedAngle), 0.0f).normalized; 
 		
-		obj.SendMessage("SetAttackPower", attack_power);
-		obj.SendMessage("SetDirectionAndExecute", fixedDir);
+		obj.SetAttackPower(attack_power);
+		obj.SetDirectionAndExecute(fixedDir);
 		//obj.rigidbody2D.AddForce(new Vector2 (baseDir.x * speed, baseDir.y * speed));
 		
 		//Rotation

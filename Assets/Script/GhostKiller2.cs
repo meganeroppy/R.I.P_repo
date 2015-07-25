@@ -92,25 +92,20 @@ public class GhostKiller2 : Monument {
 			m_target.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 			
 			Vector2 force = new Vector2 (blow_impact.x * dirX, blow_impact.y * dirY);
-			m_target.SendMessage("ApplyForce", force);		
+			m_target.ApplyForce(force);		
 			m_timer = DELAY;
 			
 			if(m_target.GetStatus() != STATUS.DYING){
-				m_target.SendMessage("ApplySpiritDamage", attackPower);
+				m_target.ApplySpiritDamage(attackPower);
 			}
 			
 			
 		}else if(col.gameObject.tag == "Enemy" || col.gameObject.tag == "Bullet"){
-			col.SendMessage("ApplyHealthDamage", attackPower);
+			col.GetComponent<StageObject>().ApplyHealthDamage(attackPower);
 		} 
 		
 	}
-	/*
-	protected override void OnCollisionEnter2D (Collision2D col)
-	{
-		Crash(col.gameObject);
-	}
-*/
+
 	protected override void OnTriggerEnter2D(Collider2D col){
 		Crash(col.gameObject);
 	}

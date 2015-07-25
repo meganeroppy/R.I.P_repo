@@ -64,10 +64,10 @@ public abstract class AttackZone : StageObject {
 						
 					}				}
 				
-				Crash(col.gameObject);
+				Crash(col.GetComponent<StageObject>());
 			//	Destroy(this.gameObject);
 			}else if(col.gameObject.tag == "Bullet"){
-				col.gameObject.SendMessage("Die");
+				col.GetComponent<Bullet>().Die();
 			}
 			/*
 			if(col.gameObject.tag != "Ground"){
@@ -79,8 +79,8 @@ public abstract class AttackZone : StageObject {
 		}
 	}
 
-	protected virtual void Crash(GameObject other){
-		other.gameObject.SendMessage("ApplyHealthDamage", attack_power);
+	protected virtual void Crash(StageObject other){
+		other.ApplyHealthDamage(attack_power);
 		Vector3 pos = transform.position;
 		Instantiate(effect_slush, new Vector3(pos.x, pos.y, pos.z), transform.rotation);
 		

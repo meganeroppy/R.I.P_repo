@@ -5,7 +5,7 @@ public class SoulfulLight : StreetLight {
 	public float donate_rate = 36.0f;
 
 	public GameObject effect_good;
-	private GameObject target;
+	private Player m_target;
 	private float HEAL_RANGE = 2.5f;
 	private float counter_self = 0.0f; 
 	private float counter_donate = 0.0f;
@@ -14,7 +14,6 @@ public class SoulfulLight : StreetLight {
 
 	protected override void Start(){
 		base.Start();
-		target = GameObject.FindWithTag("Player");
 		m_healRangeCenterOffset = new Vector3(current_side == SIDE.RIGHT ? 1 : -1, 1, 0);
 	}
 
@@ -26,17 +25,17 @@ public class SoulfulLight : StreetLight {
 		
 		base.Update();
 		
-		if(target == null){
-			target = GameObject.FindWithTag ("Player");
+		if(m_target == null){
+			m_target = GameObject.FindWithTag ("Player").GetComponent<Player>();
 		}
 		
 		Vector3 pos = transform.position + m_healRangeCenterOffset;
-		Vector3 targetPos = target.transform.position;		
+		Vector3 targetPos = m_target.transform.position;		
 		Vector3 distance = targetPos - pos;
 
 		if( Mathf.Abs( distance.x) < HEAL_RANGE && Mathf.Abs( distance.y ) < HEAL_RANGE && GameManager.GetPlayerIsGhost()){
-			if(target != null){
-				DonateSpirit(target);
+			if(m_target != null){
+				DonateSpirit(m_target);
 			}
 		}else{ 
 			if(!GameManager.GetPlayerIsGhost() && m_awake){
@@ -67,8 +66,8 @@ public class SoulfulLight : StreetLight {
 		}
 		
 	}
-	private void DonateSpirit(GameObject target){		
-		target.gameObject.SendMessage("GainSpirit", donate_rate * Time.deltaTime);
+	private void DonateSpirit(Player target){		
+		target.GainSpirit(donate_rate * Time.deltaTime);
 		
 		//Make Effects
 		if(counter_donate > 0.1f){

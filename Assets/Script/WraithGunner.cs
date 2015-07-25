@@ -54,7 +54,7 @@ public class WraithGunner : Wraith {
 		int dir = current_side == SIDE.RIGHT ? 1 : -1;
 		Vector2 offset = new Vector2 (2.0f * dir, -1.8f);
 		
-		GameObject obj =  Instantiate(WraithShot, new Vector3(myColsCenter.x + offset.x, myColsCenter.y + offset.y, myColsCenter.z), transform.rotation) as GameObject;
+		Bullet obj =  Instantiate(WraithShot, new Vector3(myColsCenter.x + offset.x, myColsCenter.y + offset.y, myColsCenter.z), transform.rotation) as Bullet;
 		
 		//Move Direction
 		Vector3 baseDir = (targetColsCenter - obj.transform.position).normalized;
@@ -67,8 +67,8 @@ public class WraithGunner : Wraith {
 		
 		Vector3 fixedDir = new Vector3(Mathf.Cos(Mathf.PI / 180 * fixedAngle), Mathf.Sin(Mathf.PI / 180 * fixedAngle), 0.0f).normalized; 
 		
-		obj.SendMessage("SetAttackPower", attack_power * 0.5f);
-		obj.SendMessage("SetDirectionAndExecute", fixedDir);
+		obj.SetAttackPower(attack_power * 0.5f);
+		obj.SetDirectionAndExecute(fixedDir);
 		
 		//Rotation
 		radian = Mathf.Atan2(fixedDir.x, fixedDir.y);

@@ -37,12 +37,12 @@ public class  Shade : Enemy {
 	private CircleCollider2D m_circleCollider;
 	
 	//Game Objects
-	public GameObject wraithHead;
+	public WraithHead wraithHead;
 	public GameObject[] pets;
 	public GameObject effect_pop;
 	public GameObject effect_pop2;
-	public GameObject energyBall;
-	public GameObject sythe;
+	public BossBullet energyBall;
+	public AttackZone_sythe sythe;
 	
 	private bool m_escaping = false;
 	private float warpDur = 0;
@@ -74,7 +74,7 @@ public class  Shade : Enemy {
 		spriteRenderer.color = new Color(1.0f, 0.5f, 0.5f, 1);
 	}
 	
-	public override void ApplyHealthDamage (int value)
+	public override void ApplyHealthDamage (float value)
 	{
 		if(!m_awaking){
 			return;
@@ -86,7 +86,7 @@ public class  Shade : Enemy {
 			KillPets();
 			anim.SetBool("b_damaged", true);
 			iTween.FadeTo(gameObject, 0, dyingDuration);
-			GameObject.Find("GameManager").SendMessage("GameClear", 2.0f);
+			GameObject.Find("GameManager").GetComponent<GameManager>().GameClear(2.0f);
 		}else{
 			if(cur_mode == MODE.NONE && Random.Range(0,3) > 0){
 				m_escaping = true;
@@ -294,8 +294,8 @@ public class  Shade : Enemy {
 		Vector3 pos = transform.position;
 		Vector3 center = new Vector3(current_side == SIDE.RIGHT ? 7.0f : -7.0f, 0.0f, -1.0f);
 		
-		GameObject obj = Instantiate (sythe) as GameObject;
-		obj.SendMessage("ApplyParentAndExecute", this);
+		AttackZone_sythe obj = Instantiate (sythe) as AttackZone_sythe;
+		obj.ApplyParentAndExecute(this);
 		
 		obj.transform.position = new Vector3 (pos.x + center.x, pos.y + center.y, pos.z + center.z);
 		sound.PlaySE("Attack2", 1.0f);
@@ -333,15 +333,15 @@ public class  Shade : Enemy {
 				//effect
 				GameObject effect = Instantiate(effect_pop) as GameObject;
 				//wraithHead
-				GameObject obj = Instantiate (wraithHead) as GameObject;
+				WraithHead obj = Instantiate (wraithHead) as WraithHead;
 				obj.transform.position = new Vector3(targetColsCenter.x + offsetX , targetBlockPos.y + ( (i * interval) - offsetToCenter ) + offsetY, pos.z);
 				obj.transform.parent = transform.parent.transform;
 				effect.transform.position = obj.transform.position + new Vector3(0,0,-1);
 				effect.transform.parent = obj.transform.parent.transform;
 				
 				float delay = delayBase + (timeInterval * (reverse ? (row - i) : i) ) + ( (timeInterval * row) * j );
-				obj.SendMessage("Wait",  delay);
-				obj.SendMessage ("Execute", offsetX > 0 ? SIDE.LEFT : SIDE.RIGHT);
+				obj.SetWait(delay);
+				obj.Execute(offsetX > 0 ? SIDE.LEFT : SIDE.RIGHT);
 			}
 		}
 		
@@ -371,13 +371,13 @@ public class  Shade : Enemy {
 		
 		GameObject effect = Instantiate(effect_pop2) as GameObject;
 		effect.transform.localScale *= 2.5f;
-		GameObject obj= Instantiate (energyBall, new Vector3(myColsCenter.x + center.x, myColsCenter.y + center.y, pos.z), transform.rotation) as GameObject;
+		BossBullet obj= Instantiate (energyBall, new Vector3(myColsCenter.x + center.x, myColsCenter.y + center.y, pos.z), transform.rotation) as BossBullet;
 		obj.transform.parent = transform.parent.transform;
 		
 		effect.transform.position = obj.transform.position + new Vector3(0,0,-1);
 		effect.transform.parent = obj.transform.parent.transform;
-		obj.SendMessage("SetAttackPower", attack_power * 0.5f);
-		obj.SendMessage("SetDirectionAndExecute", new Vector2(vx, vy));
+		obj.SetAttackPower(attack_power * 0.5f);
+		obj.SetDirectionAndExecute(new Vector2(vx, vy));
 
 	}
 	
@@ -412,7 +412,7 @@ public class  Shade : Enemy {
 			obj.transform.parent = transform.parent.transform;
 			effect.transform.position = obj.transform.position + new Vector3(0,0,-1);
 			effect.transform.parent = obj.transform.parent.transform;
-			//obj.SendMessage("SetAsOneShot", gameObject);
+			//obj.SetAsOneShot(gameObject);
 		}
 		
 	}
@@ -425,7 +425,7 @@ public class  Shade : Enemy {
 			GameObject obj = transform.parent.transform.GetChild(idx).gameObject;
 			if(obj.tag.Equals("Enemy") && obj.gameObject != this.gameObject){
 				obj.transform.parent = null;
-				obj.SendMessage("InstantDeath");
+				obj.GetComponent<Enemy>().InstantDeath();
 			}else if(obj.name.Contains("Setter") || obj.name.Contains("Wraith")){
 				obj.transform.parent = null;
 				Destroy(obj);

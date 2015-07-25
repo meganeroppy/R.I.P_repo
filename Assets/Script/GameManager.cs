@@ -226,7 +226,10 @@ using System.Collections.Generic;
 	
 		GameObject[] setters = GameObject.FindGameObjectsWithTag("Setter");
 		for(int i = 0 ; i < setters.Length ; i ++){
-			setters[i].SendMessage("ResetItem");
+			if(setters[i].GetComponent<ItemSetter>() == null){
+			continue;
+			}
+			setters[i].GetComponent<ItemSetter>().ResetItem();
 		}
 	
 		Player obj = GameObject.FindWithTag("Player").GetComponent<Player>();
@@ -255,8 +258,12 @@ using System.Collections.Generic;
 		foreach(GameObject child in obj){
 			if(child.name.Contains("stage")){
 				child.SendMessage("Activate", 12);
+				//child.GetComponent<UI>().Activate(12);
+				//child.GetComponent<UI>().Activate();
 			}else{
 				child.SendMessage("Activate");
+				
+//				child.GetComponent<UI>().Activate();
 			}
 		}
 	
@@ -423,9 +430,7 @@ using System.Collections.Generic;
 		ReassignScripts();
 		mainCamera.ReleaseTarget();
 		inMissingDirection = true;
-		
-		//player.SendMessage("GetExorcised");
-		
+				
 		GetComponent<InputManager> ().enabled = false;
 		
 		if(player_life > 0){

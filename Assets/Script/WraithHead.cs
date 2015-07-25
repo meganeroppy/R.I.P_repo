@@ -14,7 +14,7 @@ protected override void Start ()
 	protected override void OnTriggerEnter2D(Collider2D col){
 		
 		if (col.gameObject.tag == "Player") {
-				Crash(col.gameObject);
+				Crash(col.gameObject.GetComponent<StageObject>());
 		}
 	}
 	
@@ -46,12 +46,12 @@ protected override void Start ()
 	}
 	
 	
-	protected override void Crash (GameObject other)
+	protected override void Crash (StageObject other)
 	{
-		other.gameObject.SendMessage("ApplySpiritDamage", attack_power);
+		other. ApplySpiritDamage(attack_power);
 	}
 	
-	protected void Wait(float time){
+	public void SetWait(float time){
 		m_delay = time;
 	}
 }

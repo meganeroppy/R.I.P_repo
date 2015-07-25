@@ -62,10 +62,11 @@ public class GhostKiller : DeadZone {
 	protected override void OnCollisionEnter2D (Collision2D col)
 	{
 		if (col.gameObject.tag == "Player" && !GameManager.Miss()) {
-			if(col.gameObject.GetComponent<Player>().GetIsLiving()){
+			Player player = col.gameObject.GetComponent<Player>();
+			if(player.GetIsLiving()){
 				return;
 			}
-			col.gameObject.SendMessage("Miss");
+			player.ApplySpiritDamage(999f);
 		}	
 	}
 	

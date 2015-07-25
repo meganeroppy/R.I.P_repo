@@ -21,7 +21,7 @@ public class Tree : Monument {
 	}
 	*/
 
-	public override void ApplyHealthDamage(int value){
+	public override void ApplyHealthDamage(float value){
 		base.ApplyHealthDamage (value);
 	}
 		/*

@@ -13,9 +13,9 @@ public class Player : Walker {
 	protected Collider2D[] m_colliders;
 	protected float m_colTimer = 0.0f;
 	
-	public GameObject attackZone;
+	public SanmaBlade sanmaBlade;
 	public GameObject exorcised_soul;
-	public GameObject deadPeace;
+	public DeadPeace deadPeace;
 	public GameObject chargingEffect;
 	
 	private float m_attackTimer = 0.0f;
@@ -219,7 +219,7 @@ public class Player : Walker {
 		}
 	}
 	
-	protected override void Flip (SIDE side)
+	public override void Flip (SIDE side)
 	{
 		if(current_status == STATUS.DAMAGE || current_status == STATUS.DYING)
 			return;
@@ -238,14 +238,15 @@ public class Player : Walker {
 			Vector3 pos = transform.position;
 			Vector3 center = new Vector3(current_side == SIDE.RIGHT ? 1.3f : -1.3f, 1.5f, -1.0f);
 						
-			GameObject obj = Instantiate (attackZone, new Vector3 (pos.x + center.x, pos.y + center.y, pos.z + center.z), transform.rotation) as GameObject;
+			SanmaBlade obj = Instantiate (sanmaBlade) as SanmaBlade;
+			obj.transform.position = new Vector3 (pos.x + center.x, pos.y + center.y, pos.z + center.z);
 			if(chargedAttack){
-				obj.GetComponent<SanmaBlade>().SetAsCharged();
+				obj.SetAsCharged();
 				sound.PlaySE("Attack2", 1.0f);
 			}else{
 				sound.PlaySE("Attack", 1.0f);
 			}
-			obj.GetComponent<SanmaBlade>().SetParentAndExecute(this);
+			obj.SetParentAndExecute(this);
 			
 			rigorState = ATTACK_DURATION;
 			anim.SetTrigger("t_attack");
@@ -274,8 +275,8 @@ public class Player : Walker {
 		Instantiate (effect_transformation, transform.position - new Vector3(0,0,1), transform.rotation);
 		StartCoroutine (ReattachColliders ());
 		
-		GameObject obj = Instantiate (deadPeace) as GameObject;
-		obj.transform.position = transform.position + new Vector3 (0, 0, 0.5f);		obj.SendMessage("Flip", current_side);
+		DeadPeace obj = Instantiate (deadPeace) as DeadPeace;
+		obj.transform.position = transform.position + new Vector3 (0, 0, 0.5f);		obj.Flip(current_side);
 		
 		m_savedSpiritVal = current_spirit;
 		
@@ -300,14 +301,14 @@ public class Player : Walker {
 	}
 	/// <param name="value">Value.</param>
 
-	public override void ApplyHealthDamage(int value){
+	public override void ApplyHealthDamage(float value){
 		if(invincible){
 			return;
 		}
 		base.ApplyHealthDamage (value);
 	}
 	
-	protected void HitNeedle(int value){
+	public void HitNeedle(float value){
 		invincible = false;
 		ApplyHealthDamage(value);
 	}
@@ -347,8 +348,8 @@ public class Player : Walker {
 		GameManager.InformBecomeGhost(false);
 	}
 
-	public int[] GetLifeInfo(){
-		int[] life = {0, 0};
+	public float[] GetLifeInfo(){
+		float[] life = {0, 0};
 		life[0] = MAX_HEALTH;
 		life[1] = current_health;
 		return life;
@@ -365,7 +366,7 @@ public class Player : Walker {
 	
 
 	//From soulful object
-	protected override void GainSpirit(float val){
+	public override void GainSpirit(float val){
 		if(current_status != STATUS.DYING && current_status != STATUS.DAMAGE){
 			if(living){
 				val *= 0.5f;

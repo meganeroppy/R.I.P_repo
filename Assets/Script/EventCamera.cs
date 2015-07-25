@@ -30,7 +30,7 @@ public class EventCamera : MonoBehaviour {
 		transform.position = focusPos[0];
 	} 
 	
-	protected void AdvancePhase(int nextPhase){
+	public void AdvancePhase(int nextPhase){
 		if(nextPhase >= focusPos.Length){
 			return;
 		}

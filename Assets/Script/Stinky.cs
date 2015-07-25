@@ -8,7 +8,7 @@ public class Stinky : Enemy {
 	private float m_timer = 0.0f;
 	private float m_effectTimer = 0.0f;
 	
-	public GameObject bubble;
+	public Bubble bubble;
 	protected float eulerZ_bubbleTexture = -90.0f;
 	protected float def_gravityScale;
 	
@@ -139,7 +139,7 @@ public class Stinky : Enemy {
 		move_speed = new Vector3(-speed, move_speed.y);
 	}
 	
-	public override void ApplyHealthDamage(int val){
+	public override void ApplyHealthDamage(float val){
 		if(current_health <= 0){
 			return;
 		}

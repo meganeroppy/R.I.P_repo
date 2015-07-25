@@ -223,7 +223,7 @@ public class Rumple : Flyer {
 //		m_isReturning = true;
 	}
 
-	public override void ApplyHealthDamage (int value){
+	public override void ApplyHealthDamage (float value){
 		if (current_status == STATUS.DYING) {
 			return;
 		}
@@ -256,7 +256,7 @@ public class Rumple : Flyer {
 		}
 	}
 	
-	protected void SetPettern(string cmd){
+	public void SetPettern(string cmd){
 		if (cmd == "A") {
 			cur_action_pettern = ACTION_PETTERN.A;
 		} else if(cmd == "B"){

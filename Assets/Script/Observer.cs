@@ -42,8 +42,8 @@ public class Observer : MonoBehaviour {
 		Debug.Log(transform.eulerAngles);
 
 		if(Input.GetKeyDown(KeyCode.Space)){
-			GameObject obj = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
-			obj.SendMessage("SetDirectionAndExecute", transform.eulerAngles);
+			Bullet obj = Instantiate(bullet, transform.position, transform.rotation) as Bullet;
+			obj.SetDirectionAndExecute(transform.eulerAngles);
 		}
 
 		

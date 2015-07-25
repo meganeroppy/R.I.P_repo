@@ -6,7 +6,7 @@ public class SanmaBlade : AttackZone {
 	private bool charged = false;
 
 	//GameObjects
-	public GameObject sonicBoom;
+	public SonicBoom sonicBoom;
 
 	protected override void Start ()
 	{
@@ -38,8 +38,8 @@ public class SanmaBlade : AttackZone {
 		
 		if(charged){
 			//Create a sonicboom
-			GameObject obj = Instantiate (sonicBoom, this.transform.position, this.transform.rotation) as GameObject;
-			obj.SendMessage ("Execute", current_side);
+			SonicBoom obj = Instantiate (sonicBoom, this.transform.position, this.transform.rotation) as SonicBoom;
+			obj.Execute(current_side);
 			
 			charged = false;
 		}

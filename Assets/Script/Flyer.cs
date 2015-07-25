@@ -50,7 +50,7 @@ public class Flyer : Enemy {
 			return;
 		}
 		
-		m_target.SendMessage ("ApplySpiritDamage", attack_power);
+		m_target.ApplySpiritDamage(attack_power);
 		
 		float dir =  target.transform.position.x > transform.position.x ? 1.0f : -1.0f;
 		
@@ -71,7 +71,7 @@ public class Flyer : Enemy {
 				return;
 			}
 			
-			m_target.SendMessage ("ApplySpiritDamage", attack_power);
+			m_target.ApplySpiritDamage(attack_power);
 			
 			float dir =  col.transform.position.x > transform.position.x ? 1.0f : -1.0f;
 			

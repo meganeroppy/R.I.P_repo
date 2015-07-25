@@ -11,7 +11,7 @@ public class HealthUI : UI {
 	private const int LIMIT_HEALTH = 10;
 	private GameObject[] icon = new GameObject[LIMIT_HEALTH];
 	private UISprite[] uiSprite_icon = new UISprite[LIMIT_HEALTH];
-	private int[] healthInfo;//0 :MAX / 1 : Current
+	private float[] healthInfo;//0 :MAX / 1 : Current
 	
 	protected override void Start(){
 	

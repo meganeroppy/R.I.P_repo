@@ -14,7 +14,6 @@ public class Enemy : Character {
 	
 	public GameObject m_dropItem;
 	protected float drop_Rate = 0.2f;
-	protected bool isOrphan = false;
 	protected float dyingDuration = 0.9f;
 	protected float damagingDuration = 0.7f;
 
@@ -38,7 +37,7 @@ public class Enemy : Character {
 		base.Update ();
 	}
 
-	public override void ApplyHealthDamage(int val){
+	public override void ApplyHealthDamage(float val){
 		if(current_status == STATUS.GONE){
 			return;
 		}
@@ -79,7 +78,7 @@ public class Enemy : Character {
 			return;
 		}
 		
-		m_target.SendMessage ("ApplySpiritDamage", attack_power);
+		m_target.ApplySpiritDamage(attack_power);
 				
 		float dir =  target.transform.position.x > transform.position.x ? 1.0f : -1.0f;
 		
@@ -116,7 +115,7 @@ public class Enemy : Character {
 		}
 	}
 	
-	protected virtual void InstantDeath(){
+	public virtual void InstantDeath(){
 		
 		ApplyHealthDamage(current_health);
 	}
@@ -135,7 +134,5 @@ public class Enemy : Character {
 		}
 	}
 	
-	protected void SetAsOrphan(bool key){
-		isOrphan = key;
-	}
+
 }

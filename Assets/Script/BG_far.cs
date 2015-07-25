@@ -218,53 +218,6 @@ public class BG_far: MonoBehaviour {
 		}
 	}
 
-	/*
-	private void SetBuildings(string distance){
-		if(distance == "near" ){
-			float scale = Random.Range(0.4f, 0.7f);
-			float speed = Random.Range(1.1f, 1.3f);
-			GameObject near = Instantiate(buildings_near, new Vector3(this.transform.position.x + 20.0f, this.transform.position.y - 5.5f, this.transform.position.z - 20.0f), this.transform.rotation)as GameObject;
-			near.transform.parent = this.transform;
-			near.transform.localScale = new Vector3(scale , scale , this.transform.localScale.z);
-		}
-		if(distance == "mid" ){
-			float scale = Random.Range(0.3f, 0.5f);
-			float speed = Random.Range(0.6f, 0.8f);
-			GameObject mid = Instantiate(buildings_mid, new Vector3(this.transform.position.x + 20.0f, this.transform.position.y - 5.5f, this.transform.position.z - 10.0f), this.transform.rotation)as GameObject;
-			mid.transform.parent = this.transform;
-			mid.transform.localScale = new Vector3(scale, scale , this.transform.localScale.z);
-		}
-	}
-	*/
-	
-	/*
-	private void SetForests(string distance){
-		if(distance == "near" ){
-			float scale = Random.Range(0.4f, 0.6f);
-			float speed = Random.Range(1.1f, 1.3f);
-			GameObject near = Instantiate(forest_near, new Vector3(this.transform.position.x + 20.0f, this.transform.position.y - 5.5f, this.transform.position.z - 20.0f), this.transform.rotation)as GameObject;
-			near.transform.parent = this.transform;
-			near.transform.localScale = new Vector3(scale , scale , this.transform.localScale.z);
-			near.SendMessage("SetSpeed", speed);
-		}
-		if(distance == "mid_near" ){
-			float scale = Random.Range(0.3f, 0.5f);
-			float speed = Random.Range(0.6f, 0.8f);
-			GameObject mid = Instantiate(forest_mid_near, new Vector3(this.transform.position.x + 20.0f, this.transform.position.y - 5.5f, this.transform.position.z - 15.0f), this.transform.rotation)as GameObject;
-			mid.transform.parent = this.transform;
-			mid.transform.localScale = new Vector3(scale, scale , this.transform.localScale.z);
-			mid.SendMessage("SetSpeed", speed);
-		}
-		if(distance == "mid_far" ){
-			float scale = Random.Range(0.3f, 0.5f);
-			float speed = Random.Range(0.6f, 0.8f);
-			GameObject mid = Instantiate(forest_mid_far, new Vector3(this.transform.position.x + 20.0f, this.transform.position.y - 5.5f, this.transform.position.z - 10.0f), this.transform.rotation)as GameObject;
-			mid.transform.parent = this.transform;
-			mid.transform.localScale = new Vector3(scale, scale , this.transform.localScale.z);
-			mid.SendMessage("SetSpeed", speed);
-		}
-	}
-	*/
 	
 	private void MakeCloud(){
 		int cloudType = Random.Range(0, cloudPrefab.Length);
@@ -349,59 +302,6 @@ public class BG_far: MonoBehaviour {
 			cloud.transform.parent = this.transform;
 		}
 		
-		/*
-		float scale;
-		float speed;
-		for(int i = 0 ; i < 2 ; i ++){
-			if(cur_bgSet == BG_SET.BUILDINGS){
-			
-				//Preset Buildings
-				scale = Random.Range(0.4f, 0.7f);
-				speed = Random.Range(1.1f, 1.3f);
-				posX = Random.Range(-3.0f + (i * 15.0f), 8.0f + (i * 15.0f));
-				GameObject buildings = Instantiate(buildings_near, new Vector3(this.transform.position.x + posX, this.transform.position.y - 5.5f, this.transform.position.z - 15.0f), this.transform.rotation)as GameObject;
-				buildings.transform.parent = this.transform;
-				buildings.transform.localScale = new Vector3(scale , scale , this.transform.localScale.z);
-				
-				scale = Random.Range(0.3f, 0.5f);
-				speed = Random.Range(0.6f, 0.8f);
-				posX = Random.Range(-3.0f + (i * 15.0f), 8.0f + (i * 15.0f));
-				buildings = Instantiate(buildings_mid, new Vector3(this.transform.position.x + posX, this.transform.position.y - 5.5f, this.transform.position.z - 10.0f), this.transform.rotation)as GameObject;
-				buildings.transform.parent = this.transform;
-				buildings.transform.localScale = new Vector3(scale, scale , this.transform.localScale.z);
-				
-				
-			}else if(cur_bgSet == BG_SET.FORESTS){
-			
-				//Preset Forests
-				scale = Random.Range(0.4f, 0.6f);
-				speed = Random.Range(1.1f, 1.3f);
-				posX = Random.Range(-3.0f + (i * 15.0f), 8.0f + (i * 15.0f));
-				GameObject forests = Instantiate(forest_near, new Vector3(this.transform.position.x + posX, this.transform.position.y - 5.5f, this.transform.position.z - 15.0f), this.transform.rotation)as GameObject;
-				forests.transform.parent = this.transform;
-				forests.transform.localScale = new Vector3(scale , scale , this.transform.localScale.z);
-				forests.SendMessage("SetSpeed", speed);
-				
-				scale = Random.Range(0.3f, 0.5f);
-				speed = Random.Range(0.6f, 0.8f);
-				posX = Random.Range(-3.0f + (i * 15.0f), 8.0f + (i * 15.0f));
-				forests = Instantiate(forest_mid_near, new Vector3(this.transform.position.x + posX, this.transform.position.y - 5.5f, this.transform.position.z - 13.0f), this.transform.rotation)as GameObject;
-				forests.transform.parent = this.transform;
-				forests.transform.localScale = new Vector3(scale, scale , this.transform.localScale.z);
-				forests.SendMessage("SetSpeed", speed);
-				
-				scale = Random.Range(0.3f, 0.5f);
-				speed = Random.Range(0.6f, 0.8f);
-				posX = Random.Range(-3.0f + (i * 15.0f), 8.0f + (i * 15.0f));
-				forests = Instantiate(forest_mid_far, new Vector3(this.transform.position.x + posX, this.transform.position.y - 5.5f, this.transform.position.z - 10.0f), this.transform.rotation)as GameObject;
-				forests.transform.parent = this.transform;
-				forests.transform.localScale = new Vector3(scale, scale , this.transform.localScale.z);
-				forests.SendMessage("SetSpeed", speed);
-			
-			}
-			
-		}
-		*/
 	}
 	
 	public void SwtichBGSet(){

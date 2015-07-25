@@ -12,10 +12,11 @@ public class StageObject : MonoBehaviour {
 	protected float timer_invincible = 0.0f;
 	protected bool invincible;
 	protected bool m_visible = true;
+	protected bool isOrphan = false; // has parent or not
 	
 	protected Collider2D m_collider;
 	
-	protected int current_health = 1;
+	protected float current_health = 1f;
 	protected float current_spirit = 1.0f;
 	protected int MAX_HEALTH = 3;
 	protected float MAX_SPIRIT = 100.0f;
@@ -69,7 +70,7 @@ public class StageObject : MonoBehaviour {
 
 	protected virtual void Update(){}
 
-	protected virtual void Flip(SIDE side){
+	public virtual void Flip(SIDE side){
 		Vector3 scale = transform.localScale;
 		
 		if (side == SIDE.RIGHT) {
@@ -98,7 +99,7 @@ public class StageObject : MonoBehaviour {
 		}
 	}
 
-	public virtual void ApplyHealthDamage(int value){
+	public virtual void ApplyHealthDamage(float value){
 		if(invincible){
 			return;
 		}
@@ -121,7 +122,7 @@ public class StageObject : MonoBehaviour {
 		GetComponent<Renderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
 	}
 	
-	protected virtual void GainSpirit(float val){
+	public virtual void GainSpirit(float val){
 		if(current_spirit < MAX_SPIRIT){
 			if(current_spirit + val > MAX_SPIRIT){
 				current_spirit = MAX_SPIRIT;
@@ -147,10 +148,14 @@ public class StageObject : MonoBehaviour {
 		spriteRenderer.color = newColor;
 	}
 	
-	protected virtual void ApplyForce(Vector2 force){
+	public virtual void ApplyForce(Vector2 force){
 		if(GetComponent<Rigidbody2D>()){
 			GetComponent<Rigidbody2D>().AddForce(force);
 		}
+	}
+	
+	public void SetAsOrphan(bool key){
+		isOrphan = key;
 	}
 	
 }

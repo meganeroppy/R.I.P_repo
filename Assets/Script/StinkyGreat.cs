@@ -3,7 +3,7 @@ using System.Collections;
 
 public class StinkyGreat : Stinky {
 
-	public override void ApplyHealthDamage (int val)
+	public override void ApplyHealthDamage (float val)
 	{
 		if(current_health <= 0.0f){
 			return;
@@ -29,7 +29,7 @@ public class StinkyGreat : Stinky {
 		
 		for(int i = 0 ; i < numOfBullet ; i++){
 			
-			GameObject obj =  Instantiate(bubble, new Vector3(pos.x, pos.y + offsetY, pos.z), transform.rotation) as GameObject;
+			Bubble obj =  Instantiate(bubble, new Vector3(pos.x, pos.y + offsetY, pos.z), transform.rotation) as Bubble;
 			
 			//Move Direction
 			//Vector3 baseDir = (targetColsCenter - obj.transform.position).normalized;
@@ -39,9 +39,9 @@ public class StinkyGreat : Stinky {
 			float fixedAngle = baseAngle + ( (360 / numOfBullet) * i ) + offsetAngle;
 			
 			Vector3 fixedDir = new Vector3(Mathf.Cos(Mathf.PI / 180 * fixedAngle), Mathf.Sin(Mathf.PI / 180 * fixedAngle), 0.0f).normalized; 
-			obj.SendMessage("SetAttackPower", attack_power);
+			obj.SetAttackPower(attack_power);
 			
-			obj.SendMessage("SetDirectionAndExecute", fixedDir);
+			obj.SetDirectionAndExecute(fixedDir);
 			//obj.rigidbody2D.AddForce(new Vector2 (baseDir.x * speed, baseDir.y * speed));
 			
 			//Rotation

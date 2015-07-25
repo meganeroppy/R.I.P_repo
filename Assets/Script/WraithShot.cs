@@ -51,16 +51,16 @@ public class WraithShot : Bullet {
 	
 	protected override void OnCollisionEnter2D(Collision2D col){
 		if(col.gameObject.tag.Equals("Player")){
-			Crash(col.gameObject);
+			Crash(col.gameObject.GetComponent<Player>());
 			Die();
 		}
 	}	
 	
-	public override void ApplyHealthDamage(int value){
+	public override void ApplyHealthDamage(float value){
 	//	Die();
 	}
 	
-	protected override void Die(){
+	public override void Die(){
 		if(dying){
 			return;
 		}
@@ -72,14 +72,14 @@ public class WraithShot : Bullet {
 		m_collider.enabled = false;
 	}
 	
-	protected override void Crash(GameObject other){
+	protected override void Crash(StageObject other){
 		
 		//Debug.Log("HIT" + Time.realtimeSinceStartup.ToString());
 		
 		Player  m_target = other.GetComponent<Player> ();
 		
 		if (m_target.GetStatus() != STATUS.DYING) {
-			m_target.SendMessage ("ApplySpiritDamage", attack_power);
+			m_target.ApplySpiritDamage(attack_power);
 			float dir = 1.0f;
 			if (this.gameObject.transform.position.x > m_target.transform.position.x) {
 				dir *= -1.0f;

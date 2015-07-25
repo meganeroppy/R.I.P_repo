@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Sakara : Flyer {
-	public override void ApplyHealthDamage(int value){
+	public override void ApplyHealthDamage(float value){
 		base.ApplyHealthDamage(value);
 		if (current_health <= 0) {
 			StartCoroutine(WaitAndExecute(0.9f, true));

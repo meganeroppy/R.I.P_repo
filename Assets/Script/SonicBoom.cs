@@ -29,14 +29,14 @@ public class SonicBoom : AttackZone {
 		
 	}
 
-	protected virtual void Execute(SIDE dir){
+	public virtual void Execute(SIDE dir){
 		current_side = dir;
 		Flip (dir);		
 		//this.transform.localScale.x = dir == 1 ? -1 : 1; 
 		m_isExecuted = true;
 	}
 
-	protected override void Crash(GameObject other){
+	protected override void Crash(StageObject other){
 		base.Crash(other);
 		Vector3 pos = transform.position;
 		

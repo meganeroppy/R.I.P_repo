@@ -80,12 +80,12 @@ public class DeadZone : StageObject {
 	protected override void OnTriggerEnter2D(Collider2D col){
 		if (col.gameObject.tag == "Player" && !GameManager.Miss()){
 			if(GameManager.GetPlayerIsGhost()){
-				col.SendMessage("GetExorcised");
+				col.GetComponent<Player>().ApplySpiritDamage(999f);
 			}else{
-				gameManager.SendMessage("Miss", true);
+				gameManager.Miss(true);
 			}
 		}else if(col.gameObject.tag == "Enemy" || col.gameObject.tag == "Bullet"){
-			col.SendMessage("ApplyHealthDamage", 9999.9f);
+			col.GetComponent<StageObject>().ApplyHealthDamage(9999.9f);
 		} 
 	}
 }

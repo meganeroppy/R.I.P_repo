@@ -27,9 +27,9 @@ public class ItemSetter : Monument {
 	protected bool summoned = false;
 
 	//Game Object
-	public GameObject[] item = new GameObject[3];
+	public StageObject[] item = new StageObject[3];
 	protected GameObject notifyingEffect;
-	protected GameObject child;
+	protected StageObject child;
 	protected bool m_awake = true;
 
 	protected override void Start(){
@@ -74,7 +74,7 @@ public class ItemSetter : Monument {
 		if(isReadyToRespawn){
 			CreateItem();
 			if(oneShot){
-				child.SendMessage("SetAsOrphan", true);
+				child.SetAsOrphan(true);
 				
 				for(int i = 0 ; i < transform.childCount ; i++){
 					GameObject obj = transform.GetChild(i).gameObject;
@@ -119,7 +119,7 @@ public class ItemSetter : Monument {
 	}
 	
 	protected virtual void CreateItem(){
-		GameObject selectedItem;
+		StageObject selectedItem;
 		switch(actType){
 		case ACT_TYPE.CONSTANT:
 			selectedItem = item[choice];
@@ -136,18 +136,18 @@ public class ItemSetter : Monument {
 			
 		}
 
-		child = Instantiate(selectedItem) as GameObject;
+		child = Instantiate(selectedItem) as StageObject;
 		child.transform.transform.position = transform.position + new Vector3(0.0f, 0.0f, -1.0f);
 		child.transform.parent = transform;
 		m_childAlpha = 0.0f;
-		child.SendMessage("SetAlpha", m_childAlpha);
+		child.SetAlpha(m_childAlpha);
 		
 	}
 
 	protected virtual void UpdateChildrenAlpha(){
 		if(m_childAlpha < 1.0f && child != null){
 			m_childAlpha += Time.deltaTime;
-			child.SendMessage("SetAlpha", m_childAlpha);
+			child.SetAlpha(m_childAlpha);
 		}
 	}
 	

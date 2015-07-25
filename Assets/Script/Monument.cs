@@ -28,7 +28,7 @@ public class Monument : StageObject {
 		}
 	}
 
-	public override void ApplyHealthDamage(int value){
+	public override void ApplyHealthDamage(float value){
 		base.ApplyHealthDamage(value);
 		if (current_health <= 0) {
 			Vector3 pos = transform.position;

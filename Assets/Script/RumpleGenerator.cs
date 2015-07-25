@@ -16,9 +16,9 @@ public class RumpleGenerator : Generator {
 		offset.y = 0;
 		
 		Vector3 pos = transform.position;
-		GameObject rumple = Instantiate (child, new Vector3 (pos.x + offset.x, pos.y + offset.y, pos.z), transform.rotation) as GameObject;
+		Rumple rumple = Instantiate (child, new Vector3 (pos.x + offset.x, pos.y + offset.y, pos.z), transform.rotation) as Rumple;
 		rumple.transform.parent = transform;
-		rumple.SendMessage("SetPettern", "B");
+		rumple.SetPettern("B");
 	}
 
 }

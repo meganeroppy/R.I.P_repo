@@ -22,7 +22,7 @@ private enum TYPE{
 		OPENING,
 		ENDING,
 };
-	private TYPE myType;
+	//private TYPE myType;
 	private float counter = 0.0f;
 	private int cur_phase = 0;
 	private const int numOfPhase = 13;
@@ -52,19 +52,17 @@ private enum TYPE{
 			
 		cur_phase = 0;
 
-		
-		//m_camera.SendMessage("MoveToStartPos");
-		
+				
 		//About UI
 		label_pressButton = GameObject.FindWithTag ("UI").GetComponent<UILabel> ();
 		blackScreen = GameObject.FindWithTag ("BlackScreen").GetComponent<UISprite> ();
 		blackScreen.enabled = true;
 		
 		if(SceneManager.currentLevelName.Contains("1")){ // opening
-			myType = TYPE.OPENING;
+		//	myType = TYPE.OPENING;
 			StartEvent();
 		}else{// ending
-			myType = TYPE.ENDING;
+		//	myType = TYPE.ENDING;
 		}
 	}
 	
@@ -108,7 +106,7 @@ private enum TYPE{
 		}
 		
 		
-		m_camera.SendMessage ("AdvancePhase", cur_phase);
+		m_camera.AdvancePhase(cur_phase);
 		/*
 		if(cur_phase == 4){
 			iTween.ValueTo (gameObject, iTween.Hash ("from", 0.5f, "to", 0, "time", 3.0f, "onupdate", "UpdateSoundVolume"));
@@ -138,7 +136,7 @@ private enum TYPE{
 	
 	private void LoadNextLevel (){
 		
-		GameObject.FindWithTag("Loading").SendMessage("Activate");
+		GameObject.FindWithTag("Loading").GetComponent<LoadingSet>().Activate();
 		SceneManager.LoadLevelAdditive("Tutorial");
 	}
 	
