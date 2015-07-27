@@ -288,11 +288,10 @@ public class Character : StageObject {
 
 	public override void ApplyHealthDamage(float value){
 		base.ApplyHealthDamage (value);
+		current_status = STATUS.DAMAGE;
 		if (current_health <= 0) {
-			current_status = STATUS.DAMAGE;
 			rigorState = DYING_DELAY;
 		} else {
-			current_status = STATUS.DAMAGE;
 			rigorState = DAMAGE_DURATION;
 		}
 	}

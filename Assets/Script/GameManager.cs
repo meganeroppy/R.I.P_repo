@@ -227,7 +227,7 @@ using System.Collections.Generic;
 		GameObject[] setters = GameObject.FindGameObjectsWithTag("Setter");
 		for(int i = 0 ; i < setters.Length ; i ++){
 			if(setters[i].GetComponent<ItemSetter>() == null){
-			continue;
+				continue;
 			}
 			setters[i].GetComponent<ItemSetter>().ResetItem();
 		}

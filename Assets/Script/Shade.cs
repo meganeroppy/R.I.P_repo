@@ -50,7 +50,7 @@ public class  Shade : Enemy {
 	protected override void Start ()
 	{
 		base.Start ();
-		MAX_HEALTH = 1;//80;
+		MAX_HEALTH = 80;
 		current_health = MAX_HEALTH;
 		
 		cur_mode = MODE.NONE;

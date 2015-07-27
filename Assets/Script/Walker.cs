@@ -3,14 +3,6 @@ using System.Collections;
 
 public class Walker : Character {
 	
-	public override void ApplyHealthDamage(float value){
-		base.ApplyHealthDamage (value);
-		//anim.SetTrigger("t_damage");
-	}
-	
-	public override void ApplySpiritDamage(float value){
-		base.ApplySpiritDamage (value);
-	}
 	
 	protected override void Update (){
 		base.Update();

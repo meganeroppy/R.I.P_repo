@@ -311,6 +311,7 @@ public class Player : Walker {
 	public void HitNeedle(float value){
 		invincible = false;
 		ApplyHealthDamage(value);
+		current_status = STATUS.DYING;
 	}
 	
 	public override void ApplySpiritDamage(float val){
@@ -333,9 +334,7 @@ public class Player : Walker {
 		}
 		//renderer.material.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
 		current_status = STATUS.IDLE;
-		gameObject.layer = LayerMask.NameToLayer("Player");
-		
-		
+		gameObject.layer = LayerMask.NameToLayer("Player");		
 		
 		timer_invincible = INVINCIBLE_DURATION;
 		invincible = true;

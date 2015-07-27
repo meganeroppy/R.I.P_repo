@@ -159,7 +159,7 @@ public class ItemSetter : Monument {
 	
 	public virtual void ResetItem(){
 		if(child != null){
-			Destroy(child);
+			Destroy(child.gameObject);
 		}
 		
 		CreateItem();

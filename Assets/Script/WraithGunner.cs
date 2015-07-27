@@ -3,7 +3,7 @@ using System.Collections;
 
 public class WraithGunner : Wraith {
 
-	public GameObject WraithShot;
+	public WraithShot WraithShot;
 	protected float eulerZ_shotTexture = -90.0f;
 	private const float SHOT_INTERVAL = 0.25f;
 	private float m_shotTimer = 0.0f;
@@ -54,7 +54,7 @@ public class WraithGunner : Wraith {
 		int dir = current_side == SIDE.RIGHT ? 1 : -1;
 		Vector2 offset = new Vector2 (2.0f * dir, -1.8f);
 		
-		Bullet obj =  Instantiate(WraithShot, new Vector3(myColsCenter.x + offset.x, myColsCenter.y + offset.y, myColsCenter.z), transform.rotation) as Bullet;
+		WraithShot obj =  Instantiate(WraithShot, new Vector3(myColsCenter.x + offset.x, myColsCenter.y + offset.y, myColsCenter.z), transform.rotation) as WraithShot;
 		
 		//Move Direction
 		Vector3 baseDir = (targetColsCenter - obj.transform.position).normalized;
