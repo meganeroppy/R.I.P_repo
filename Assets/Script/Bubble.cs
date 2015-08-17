@@ -47,6 +47,7 @@ public class Bubble : Bullet {
 	}
 	
 	public override void Die(){
+	Debug.Log("Bubble::Die()");
 		dying = true;
 		
 		GetComponent<Rigidbody2D>().velocity = Vector2.zero;

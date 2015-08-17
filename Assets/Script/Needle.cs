@@ -66,6 +66,7 @@ public class Needle : Monument {
 					m_target.HitNeedle(attack_power);
 				}
 			}
+			
 		}else if(other.tag.Equals("Enemy")){//For Enemies
 			other.GetComponent<Enemy>().InstantDeath();
 		}

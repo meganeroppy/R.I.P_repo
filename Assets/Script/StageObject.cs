@@ -21,7 +21,7 @@ public class StageObject : MonoBehaviour {
 	protected int MAX_HEALTH = 3;
 	protected float MAX_SPIRIT = 100.0f;
 	protected SpriteRenderer spriteRenderer;
-	protected float m_alpha;
+	protected float m_alpha = 1f;
 	
 	[HideInInspector]
 	public enum TYPE{

@@ -94,7 +94,8 @@ public class Player : Walker {
 
 	protected override void Update(){
 		
-	//print(m_savedSpiritVal);
+		//print(current_status);
+		
 		base.Update ();
 		if (current_status == STATUS.GHOST_IDLE || current_status == STATUS.GHOST_DAMAGE) {
 			if(current_status == STATUS.GHOST_DAMAGE){
@@ -309,9 +310,12 @@ public class Player : Walker {
 	}
 	
 	public void HitNeedle(float value){
+		if(current_health <= 0){
+			return;
+		}
 		invincible = false;
 		ApplyHealthDamage(value);
-		current_status = STATUS.DYING;
+		current_status = STATUS.DAMAGE;		
 	}
 	
 	public override void ApplySpiritDamage(float val){
