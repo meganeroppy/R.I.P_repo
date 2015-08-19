@@ -75,6 +75,8 @@ public class InputManager : MonoBehaviour {
 			   ||Input.GetKeyDown(KeyCode.Z)){
 				gameManager.AcceptInput("Title", GameManager.BUTTON.DECIDE);
 			}	
+
+
 		/*
 			switch(gameManager.current_selection_title){
 				case  gameManager.SELECTION_TITLE.WAITFORKEY:
@@ -119,10 +121,41 @@ public class InputManager : MonoBehaviour {
 			if(GameManager.GameClear() || !GameManager.CompleteOpneingDirection()){
 				return;
 			}
-			
+
+			///// experiment/////
+			if(Input.GetKeyDown(KeyCode.JoystickButton0)){
+				Debug.Log("0");
+			}
+			if(Input.GetKeyDown(KeyCode.JoystickButton1)){
+				Debug.Log("1");
+			}
+			if(Input.GetKeyDown(KeyCode.JoystickButton2)){
+				Debug.Log("2");
+			}
+			if(Input.GetKeyDown(KeyCode.JoystickButton3)){
+				Debug.Log("3");
+			}
+			if(Input.GetKeyDown(KeyCode.JoystickButton4)){
+				Debug.Log("4");
+			}
+			if(Input.GetKeyDown(KeyCode.JoystickButton5)){
+				Debug.Log("5");
+			}
+			if(Input.GetKeyDown(KeyCode.JoystickButton6)){
+				Debug.Log("6");
+			}
+			if(Input.GetKeyDown(KeyCode.JoystickButton7)){
+				Debug.Log("7");
+			}		
+			if(Input.GetKeyDown(KeyCode.JoystickButton8)){
+				Debug.Log("8");
+			}
+
+
+			/// ////
 			
 			if(!GameManager.Pause()){
-				if (Input.GetKeyDown (KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton7)) {
+				if (Input.GetKeyDown (KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton9)/*|| Input.GetKeyDown(KeyCode.JoystickButton7) vita */ ) {
 					GameManager.Pause(true);
 					return;
 				}
@@ -166,18 +199,21 @@ public class InputManager : MonoBehaviour {
 			}
 			
 			if (Input.GetKeyDown (KeyCode.Z)
-			    || Input.GetKeyDown (KeyCode.Joystick1Button2) ) {
+			  //vita  || Input.GetKeyDown (KeyCode.Joystick1Button2)
+			    || Input.GetKeyDown (KeyCode.Joystick1Button3) ) {
 				m_player.Attack(false);		
 			}
 			
 			//About Charging Input
 			if(Input.GetKey (KeyCode.Z)
-			   || Input.GetKey (KeyCode.Joystick1Button2) ) {
+			   //vita  || Input.GetKeyDown (KeyCode.Joystick1Button2)
+			   || Input.GetKeyDown (KeyCode.Joystick1Button3) ) {
 				charging += Time.deltaTime;
 				//	print(charging);
 			}
 			if(Input.GetKeyUp (KeyCode.Z)
-			   || Input.GetKeyUp (KeyCode.Joystick1Button2) ) {
+			   //vita  || Input.GetKeyDown (KeyCode.Joystick1Button2)
+			   || Input.GetKeyDown (KeyCode.Joystick1Button3) ) {
 				if(charging >= 0.8f){
 					m_player.Attack(true);		
 				}
@@ -189,7 +225,7 @@ public class InputManager : MonoBehaviour {
 			    || Input.GetKeyDown (KeyCode.Space)
 			    || Input.GetKeyDown(KeyCode.Joystick1Button0)
 			    || Input.GetKeyDown(KeyCode.Joystick1Button2)
-			    || Input.GetKeyDown(KeyCode.Joystick1Button3)) {
+			    || Input.GetKeyDown(KeyCode.Joystick1Button1)) {
 				m_player.Jump();		
 			}
 			
