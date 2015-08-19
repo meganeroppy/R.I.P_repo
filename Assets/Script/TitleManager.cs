@@ -33,5 +33,9 @@ public class TitleManager : MonoBehaviour {
 		}
 	}
 	
+	private void Update(){
+		
+	}
+	
 	
 }

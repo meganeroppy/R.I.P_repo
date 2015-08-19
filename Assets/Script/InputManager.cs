@@ -71,7 +71,8 @@ public class InputManager : MonoBehaviour {
 			   || Input.GetKeyDown(KeyCode.JoystickButton1)
 			   || Input.GetKeyDown(KeyCode.JoystickButton2)
 			   || Input.GetKeyDown(KeyCode.JoystickButton3)
-			   ||Input.GetKeyDown(KeyCode.JoystickButton7)){
+			   ||Input.GetKeyDown(KeyCode.JoystickButton7)
+			   ||Input.GetKeyDown(KeyCode.Z)){
 				gameManager.AcceptInput("Title", GameManager.BUTTON.DECIDE);
 			}	
 		/*
