@@ -206,14 +206,14 @@ public class InputManager : MonoBehaviour {
 			
 			//About Charging Input
 			if(Input.GetKey (KeyCode.Z)
-			   //vita  || Input.GetKeyDown (KeyCode.Joystick1Button2)
-			   || Input.GetKeyDown (KeyCode.Joystick1Button3) ) {
+			   //vita  || Input.GetKey (KeyCode.Joystick1Button2)
+			   || Input.GetKey (KeyCode.Joystick1Button3) ) {
 				charging += Time.deltaTime;
 				//	print(charging);
 			}
 			if(Input.GetKeyUp (KeyCode.Z)
-			   //vita  || Input.GetKeyDown (KeyCode.Joystick1Button2)
-			   || Input.GetKeyDown (KeyCode.Joystick1Button3) ) {
+			   //vita  || Input.GetKeyUp (KeyCode.Joystick1Button2)
+			   || Input.GetKeyUp (KeyCode.Joystick1Button3) ) {
 				if(charging >= 0.8f){
 					m_player.Attack(true);		
 				}
